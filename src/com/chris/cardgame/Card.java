@@ -1,14 +1,20 @@
 package com.chris.cardgame;
 
 public class Card {
+    enum AdvantageType {
+        A, B, C
+    }
+
     private final String cardName;
     private final String type;
     private int value;
+    private AdvantageType advantageType;
 
-    public Card(String cardName, String type, int value) {
+    public Card(String cardName, String type, int value, AdvantageType advantageType) {
         this.cardName = cardName;
         this.type = type;
         this.value = value;
+        this.advantageType = advantageType;
     }
 
     public void displayCardFields() {
@@ -30,5 +36,10 @@ public class Card {
     public int getValue() {
         System.out.println("Card value: " + value);
         return value;
+    }
+
+    public AdvantageType getAdvantageType() {
+        System.out.println("Advantage Type: " + advantageType);
+        return advantageType;
     }
 }
