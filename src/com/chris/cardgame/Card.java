@@ -78,5 +78,16 @@ public class Card {
         return advantageType;
     }
 
-
+    @Override
+    public String toString() {
+        return "Card{" +
+                "cardName='" + cardName + '\'' +
+                ", type='" + type + '\'' +
+                ", attackVal=" + attackVal +
+                ", defenceVal=" + defenceVal +
+                ", advantageType=" + advantageType +
+                ", level=" + level +
+                ", rarity=" + rarity +
+                '}';
+    }
 }
