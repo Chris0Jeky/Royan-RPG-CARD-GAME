@@ -7,20 +7,25 @@ public class Card {
 
     private final String cardName;
     private final String type;
-    private int value;
+    private int values;
+    private int attackVal;
+    private int defenceVal;
     private AdvantageType advantageType;
+    private int effect;
+    private boolean oneTime;
 
-    public Card(String cardName, String type, int value, AdvantageType advantageType) {
+
+    public Card(String cardName, String type, int values, AdvantageType advantageType) {
         this.cardName = cardName;
         this.type = type;
-        this.value = value;
+        this.values = values;
         this.advantageType = advantageType;
     }
 
     public void displayCardFields() {
         System.out.println("Card Name: " + cardName);
         System.out.println("Card type: " + type);
-        System.out.println("Card value: " + value);
+        System.out.println("Card value: " + values);
     }
 
     public String getCardName() {
@@ -33,13 +38,15 @@ public class Card {
         return type;
     }
 
-    public int getValue() {
-        System.out.println("Card value: " + value);
-        return value;
+    public int getValues() {
+        System.out.println("Card value: " + values);
+        return values;
     }
 
     public AdvantageType getAdvantageType() {
         System.out.println("Advantage Type: " + advantageType);
         return advantageType;
     }
+
+    public updateCardValue()
 }
