@@ -1,6 +1,50 @@
 package com.chris.cardgame;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class Declaration {
+    private List<Card> cards;
+    private List<Player> players;
+
+    public Declaration() {
+        this.cards = new ArrayList<>();
+        this.players = new ArrayList<>();
+        initializeCards();
+        initializePlayers();
+    }
+
+    private void initializeCards() {
+        // Initialize 22 cards
+        cards.add(new Card("Dragon", "Monster", 50, 30, Card.AdvantageType.A, 1, Card.Rarity.B));
+        cards.add(new Card("Knight", "Warrior", 30, 50, Card.AdvantageType.B, 1, Card.Rarity.A));
+        // Add more cards as needed...
+    }
+
+    private void initializePlayers() {
+        // Initialize 2 players
+        Player player1 = new Player("Alice");
+        Player player2 = new Player("Bob");
+
+        // Add cards to players' decks
+        player1.getDeck().addCard(cards.get(0));
+        player1.getDeck().addCard(cards.get(1));
+        player2.getDeck().addCard(cards.get(0));
+        player2.getDeck().addCard(cards.get(1));
+        // Add more cards to players' decks as needed...
+
+        players.add(player1);
+        players.add(player2);
+    }
+
+    public List<Card> getCards() {
+        return cards;
+    }
+
+    public List<Player> getPlayers() {
+        return players;
+    }
+
     Card card1 = new Card("Card1", "Type1", 10, 20, Card.AdvantageType.A, 1, Card.Rarity.A);
     Card card2 = new Card("Card2", "Type2", 15, 25, Card.AdvantageType.B, 2, Card.Rarity.B);
     Card card3 = new Card("Card3", "Type3", 20, 30, Card.AdvantageType.C, 3, Card.Rarity.C);
