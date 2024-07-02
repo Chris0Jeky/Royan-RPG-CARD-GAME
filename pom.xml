@@ -10,3 +10,9 @@
   <packaging>jar</packaging>
 
   <name>Royan RPG Card Game</name>
+  <description>Sky-isles mercenary roguelike deckbuilder: card battles with strong RPG progression.</description>
+
+  <properties>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <maven.compiler.release>17</maven.compiler.release>
+    <junit.version>5.11.3</junit.version>
