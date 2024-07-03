@@ -19,3 +19,8 @@ Sky-isles mercenary Guild Captain. Hub → 3-act branching map → lane combat (
 | M5 | Campaign balance: 8-min/45-min pacing, 3 starter heroes, save/persistence | pending |
 | M6 | Docs + evolved system: README, RULES, DEVLOG, QA, AGENTS.md, `.agents/skills/royan-*` | pending |
 | M7 | History replay: schedule Jul-2024→present ~30/wk on `history-replay`, verify histogram + monotonicity + tests at HEAD + spot mid-history, merge to main, tag v0.1..v1.0 | pending |
+| M8 | Final QA pass + handoff | pending |
+
+## Verify gates (each milestone)
+- `mvn -q test` green; CLI boots and can complete a scripted playthrough (`cli-smoke`).
+- No engine→CLI imports (ArchUnit-style package check or grep gate in CI script).
