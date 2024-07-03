@@ -24,3 +24,8 @@ hs_err_pid*
 replay_pid*
 *.iml
 .idea/uiDesigner.xml
+
+target/
+out/
+.royan-save/
+
