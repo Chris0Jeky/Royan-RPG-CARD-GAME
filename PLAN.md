@@ -30,3 +30,4 @@ Sky-isles mercenary Guild Captain. Hub → 3-act branching map → lane combat (
 
 ## Decision log
 - 2026-09-26: swarm overrode parent static-web sketch → Java 17 + Maven + CLI (continuity, headless QA). Parent accepted after confirming portable JDK download works.
+- 2026-09-26: history = appended backdated commits (no rewrite of existing 18); replay branch + merge + tags.
