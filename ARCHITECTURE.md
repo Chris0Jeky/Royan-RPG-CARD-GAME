@@ -8,3 +8,9 @@
 - UI v1: **console CLI** (no engine/UI deps in engine). Browser UI is a post-v1 option, not planned.
 - History tooling: Python 3.13 scripts in `tools/history/`.
 - Why Java over static-web: preserves the repo's 18-commit continuity and the swarm's converged design; CLI is headlessly QA-able; JDK installs portably.
+
+## Layout (target, Maven)
+```
+pom.xml                       Java 17, JUnit5, AssertJ, Jackson
+src/main/java/com/chris/cardgame/
+  model/        Card, Deck, Hero, Player, Enemy, Relic, CardType, Rarity, Effect
