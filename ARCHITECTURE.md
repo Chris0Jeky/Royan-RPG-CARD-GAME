@@ -32,3 +32,9 @@ src-legacy/     original 7-file prototype (moved at M0, reference only)
 - Deck: start 12, max 30, max 3 copies; draw 4/turn, 3 energy/turn.
 - Hero/Player: `{name, class, hp, maxHp, xp, level(1-10, pick-1-of-3 boons), gold, dust, shards, deck, relics[], quests[], nodeId}`.
 - Enemy: `{id, name, hp, atk, def, behavior, intents[], lootTable, xp}`; lane combat hero+0–2 companions vs 1–3, front/back rows, telegraphed intents.
+- Encounters: hub → 3-act map (rest/shop/event/boss nodes) → combat → loot/XP → deck+tavern → 2-phase boss. ~8-min runs, ~45-min campaign. 20 relics, 24 narrative events.
+- Advantage triangle: Might→Guile→Focus→Might.
+- Save: versioned JSON file under `~/.royan/` (or CWD `.royan-save/` for tests); seeded RNG (SplittableRandom) for reproducible playthroughs.
+
+## Invariants
+- `model/combat/map/loot/ai` have zero CLI imports → pure unit-testable.
