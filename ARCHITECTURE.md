@@ -26,3 +26,9 @@ tools/history/  schedule.py, replay.py, verify.py
 .agents/skills/ royan-design, royan-qa, royan-history (M6)
 src-legacy/     original 7-file prototype (moved at M0, reference only)
 ```
+
+## Data model (v1, from swarm pitch "Royan")
+- Card: `{id, name, cost(0-3), type(Strike|Guard|Trick|Power|Curse), atk, def, effect, rarity, heroClass, flavor}` — 90 cards (30/hero × Knight/Ranger/Runemage).
+- Deck: start 12, max 30, max 3 copies; draw 4/turn, 3 energy/turn.
+- Hero/Player: `{name, class, hp, maxHp, xp, level(1-10, pick-1-of-3 boons), gold, dust, shards, deck, relics[], quests[], nodeId}`.
+- Enemy: `{id, name, hp, atk, def, behavior, intents[], lootTable, xp}`; lane combat hero+0–2 companions vs 1–3, front/back rows, telegraphed intents.
