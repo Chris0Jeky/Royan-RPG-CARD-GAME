@@ -24,3 +24,9 @@ Sky-isles mercenary Guild Captain. Hub → 3-act branching map → lane combat (
 ## Verify gates (each milestone)
 - `mvn -q test` green; CLI boots and can complete a scripted playthrough (`cli-smoke`).
 - No engine→CLI imports (ArchUnit-style package check or grep gate in CI script).
+
+## History verify (M7)
+- `python tools/history/verify.py`: slots from 2024-07-01, ≈4 days/wk, ≈30 commits/wk, strictly increasing, author dates match slots.
+
+## Decision log
+- 2026-09-26: swarm overrode parent static-web sketch → Java 17 + Maven + CLI (continuity, headless QA). Parent accepted after confirming portable JDK download works.
