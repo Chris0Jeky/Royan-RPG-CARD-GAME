@@ -20,3 +20,9 @@ src/main/java/com/chris/cardgame/
   ai/           EnemyAi (aggro/turtle/burst/trickster), BossPhases
   cli/          Main, GameLoop, Render (text), Input, SaveStore
 src/main/resources/data/  cards.json, relics.json, events.json, maps/
+src/test/java/...         engine/combat/loot/ai/cli-smoke suites
+docs/           DESIGN.md, RULES.md, DEVLOG.md, QA.md
+tools/history/  schedule.py, replay.py, verify.py
+.agents/skills/ royan-design, royan-qa, royan-history (M6)
+src-legacy/     original 7-file prototype (moved at M0, reference only)
+```
