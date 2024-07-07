@@ -24,3 +24,8 @@
 - NEVER `push --force`, never rewrite the 18 existing commits. Push only if user asks (default: local).
 
 ## Evolving system (instructions/skills)
+- M6: `AGENTS.md` (build/test/commit runbook) + `.agents/skills/royan-{design,qa,history}/SKILL.md` (balance rules, playthrough gates, replay runbook). Update when rules change.
+- This file + PLAN.md are the compaction bridge.
+
+## Resume checklist
+1. Read PLAN.md, ARCHITECTURE.md, this file.
