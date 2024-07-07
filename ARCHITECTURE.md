@@ -38,3 +38,6 @@ src-legacy/     original 7-file prototype (moved at M0, reference only)
 
 ## Invariants
 - `model/combat/map/loot/ai` have zero CLI imports → pure unit-testable.
+- All content data lives in `src/main/resources/data/*.json`; Java loads via Jackson at boot.
+- Deterministic RNG seed per run; playthrough tests pin seeds.
+- Existing 18 commits (to 2024-06-25) are NEVER rewritten; backdated history is appended with old dates.
