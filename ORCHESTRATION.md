@@ -29,3 +29,6 @@
 
 ## Resume checklist
 1. Read PLAN.md, ARCHITECTURE.md, this file.
+2. `git log --oneline -5; git status --short; git branch -a`
+3. Ensure `$env:TEMP\royan-tools\jdk17\bin\java -version` works; else re-download.
+4. Continue at first non-complete milestone in PLAN.md.
