@@ -18,3 +18,9 @@
 - `.gitignore` must cover `target/`, `out/`, `.tools/` (if ever used in-repo).
 
 ## History strategy (locked)
+- Span: 2024-07-01 → present (~117 weeks → ~3510 slots at 30/wk). Seeded PRNG; 4 distinct days/week (weighted, not always weekends); 6–9 commits/day jitter; times 09:00–23:30, strictly increasing.
+- Replay on branch `history-replay` from `main@0b09260`: order construction into micro-steps (scaffold → model → combat → loop → economy → content → balance → docs → tests interleaved); 1+ commits per slot via `GIT_AUTHOR_DATE`/`GIT_COMMITTER_DATE`.
+- Verify: histogram + monotonicity (`tools/history/verify.py`) + `mvn test` at HEAD + spot-check mid-history builds + tags v0.1..v1.0 per milestone, then merge to main.
+- NEVER `push --force`, never rewrite the 18 existing commits. Push only if user asks (default: local).
+
+## Evolving system (instructions/skills)
