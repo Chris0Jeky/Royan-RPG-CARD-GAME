@@ -12,3 +12,9 @@
 
 ## Toolchain (portable, outside repo — OneDrive-safe)
 - Root: `$env:TEMP\royan-tools` (local disk, survives sessions; re-download if missing).
+- `jdk17/` from `https://api.adoptium.net/v3/binary/latest/17/ga/windows/x64/jdk/hotspot/normal/eclipse`
+- `maven/` from `https://archive.apache.org/dist/maven/maven-3/3.9.9/binaries/apache-maven-3.9.9-bin.zip`
+- Use: `$env:JAVA_HOME="$env:TEMP\royan-tools\jdk17"; $env:Path="$env:JAVA_HOME\bin;$env:TEMP\royan-tools\maven\bin;$env:Path"`
+- `.gitignore` must cover `target/`, `out/`, `.tools/` (if ever used in-repo).
+
+## History strategy (locked)
