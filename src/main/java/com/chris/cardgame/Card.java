@@ -30,3 +30,9 @@ public class Card {
 
     }
 
+    public void displayCardFields() {
+        System.out.println("Card Name: " + cardName);
+        System.out.println("Card type: " + type);
+        System.out.println("Attack value: " + attackVal);
+        System.out.println("Defence value: " + defenceVal);
+    }
