@@ -36,3 +36,9 @@ public class Card {
         System.out.println("Attack value: " + attackVal);
         System.out.println("Defence value: " + defenceVal);
     }
+
+    public String getCardName() {
+        System.out.println("Card Name: " + cardName);
+        return cardName;
+    }
+
