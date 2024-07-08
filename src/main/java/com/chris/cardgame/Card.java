@@ -24,3 +24,9 @@ public class Card {
         this.type = type;
         this.attackVal = attackVal;
         this.defenceVal = defenceVal;
+        this.advantageType = advantageType;
+        this.level = level;
+        this.rarity = rarity;
+
+    }
+
