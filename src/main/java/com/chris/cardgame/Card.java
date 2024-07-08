@@ -18,3 +18,9 @@ public class Card {
     private int level = 1;
     private final Rarity rarity;
 
+
+    public Card(String cardName, String type, int attackVal, int defenceVal, AdvantageType advantageType, int level, Rarity rarity) {
+        this.cardName = cardName;
+        this.type = type;
+        this.attackVal = attackVal;
+        this.defenceVal = defenceVal;
