@@ -12,3 +12,9 @@ public class Card {
     private final String type;
     private int attackVal;
     private int defenceVal;
+    private final AdvantageType advantageType;
+    private int effect = 0;
+    private boolean oneTime = false;
+    private int level = 1;
+    private final Rarity rarity;
+
