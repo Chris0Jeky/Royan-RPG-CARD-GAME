@@ -66,3 +66,9 @@ public class Card {
     }
 
     public void addToDefenceVal(int num) {
+        this.defenceVal = this.defenceVal + num;
+    }
+
+    public void setDefenceVal(int defenceVal) {
+        this.defenceVal = defenceVal;
+    }
