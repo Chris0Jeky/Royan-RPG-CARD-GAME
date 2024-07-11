@@ -48,3 +48,9 @@ public class Card {
     }
 
     public int getAttackVal() {
+        System.out.println("Attack value: " + attackVal);
+        return attackVal;
+    }
+
+    public void setAttackVal(int attackVal) {
+        this.attackVal = attackVal;
