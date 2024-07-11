@@ -72,3 +72,8 @@ public class Card {
     public void setDefenceVal(int defenceVal) {
         this.defenceVal = defenceVal;
     }
+
+    public AdvantageType getAdvantageType() {
+        System.out.println("Advantage Type: " + advantageType);
+        return advantageType;
+    }
