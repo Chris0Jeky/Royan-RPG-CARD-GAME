@@ -54,3 +54,9 @@ public class Card {
 
     public void setAttackVal(int attackVal) {
         this.attackVal = attackVal;
+    }
+
+    public void addToAttackVal(int num) {
+        this.attackVal = this.attackVal + num;
+    }
+
