@@ -77,3 +77,9 @@ public class Card {
         System.out.println("Advantage Type: " + advantageType);
         return advantageType;
     }
+
+    @Override
+    public String toString() {
+        return "Card{" +
+                "cardName='" + cardName + '\'' +
+                ", type='" + type + '\'' +
