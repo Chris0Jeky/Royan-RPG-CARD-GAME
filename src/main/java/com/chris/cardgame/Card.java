@@ -42,3 +42,9 @@ public class Card {
         return cardName;
     }
 
+    public String getType() {
+        System.out.println("Card type: " + type);
+        return type;
+    }
+
+    public int getAttackVal() {
