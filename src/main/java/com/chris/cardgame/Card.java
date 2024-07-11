@@ -60,3 +60,9 @@ public class Card {
         this.attackVal = this.attackVal + num;
     }
 
+    public int getDefenceVal() {
+        System.out.println("Defence value: " + defenceVal);
+        return defenceVal;
+    }
+
+    public void addToDefenceVal(int num) {
