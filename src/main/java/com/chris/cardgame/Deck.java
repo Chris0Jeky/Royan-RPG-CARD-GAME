@@ -14,3 +14,9 @@ public class Deck {
         cards.add(Objects.requireNonNull(card, "card"));
     }
 
+    public List<Card> getCards() {
+        return Collections.unmodifiableList(cards);
+    }
+
+    public int size() {
+        return cards.size();
