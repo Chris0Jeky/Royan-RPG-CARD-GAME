@@ -83,3 +83,9 @@ public class Card {
         return "Card{" +
                 "cardName='" + cardName + '\'' +
                 ", type='" + type + '\'' +
+                ", attackVal=" + attackVal +
+                ", defenceVal=" + defenceVal +
+                ", advantageType=" + advantageType +
+                ", level=" + level +
+                ", rarity=" + rarity +
+                '}';
