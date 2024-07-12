@@ -26,3 +26,9 @@ public class Deck {
         return cards.isEmpty();
     }
 
+    public void shuffle(Random rng) {
+        Collections.shuffle(cards, rng);
+    }
+
+    public Optional<Card> draw() {
+        if (cards.isEmpty()) {
