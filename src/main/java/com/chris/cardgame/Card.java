@@ -89,3 +89,5 @@ public class Card {
                 ", level=" + level +
                 ", rarity=" + rarity +
                 '}';
+    }
+}
