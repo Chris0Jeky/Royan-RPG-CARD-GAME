@@ -20,3 +20,9 @@ public class Deck {
 
     public int size() {
         return cards.size();
+    }
+
+    public boolean isEmpty() {
+        return cards.isEmpty();
+    }
+
