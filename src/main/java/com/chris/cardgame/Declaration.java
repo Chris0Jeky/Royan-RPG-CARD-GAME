@@ -28,3 +28,8 @@ public class Declaration {
         player2.getDeck().addCard(cards.get(0));
         player2.getDeck().addCard(cards.get(1));
 
+        players.add(player1);
+        players.add(player2);
+    }
+
+    public List<Card> getCards() {
