@@ -22,3 +22,9 @@ public class Declaration {
     private void initializePlayers() {
         Player player1 = new Player("Alice");
         Player player2 = new Player("Bob");
+
+        player1.getDeck().addCard(cards.get(0));
+        player1.getDeck().addCard(cards.get(1));
+        player2.getDeck().addCard(cards.get(0));
+        player2.getDeck().addCard(cards.get(1));
+
