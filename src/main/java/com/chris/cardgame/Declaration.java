@@ -33,3 +33,9 @@ public class Declaration {
     }
 
     public List<Card> getCards() {
+        return cards;
+    }
+
+    public List<Player> getPlayers() {
+        return players;
+    }
