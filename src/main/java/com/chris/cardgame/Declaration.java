@@ -39,3 +39,4 @@ public class Declaration {
     public List<Player> getPlayers() {
         return players;
     }
+}
