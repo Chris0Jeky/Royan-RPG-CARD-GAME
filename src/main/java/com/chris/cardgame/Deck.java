@@ -32,3 +32,8 @@ public class Deck {
 
     public Optional<Card> draw() {
         if (cards.isEmpty()) {
+            return Optional.empty();
+        }
+        return Optional.of(cards.remove(0));
+    }
+}
