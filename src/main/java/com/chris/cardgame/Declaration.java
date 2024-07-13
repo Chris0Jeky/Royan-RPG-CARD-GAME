@@ -16,3 +16,9 @@ public class Declaration {
 
     private void initializeCards() {
         cards.add(new Card("Dragon", "Monster", 50, 30, Card.AdvantageType.A, 1, Card.Rarity.B));
+        cards.add(new Card("Knight", "Warrior", 30, 50, Card.AdvantageType.B, 1, Card.Rarity.A));
+    }
+
+    private void initializePlayers() {
+        Player player1 = new Player("Alice");
+        Player player2 = new Player("Bob");
