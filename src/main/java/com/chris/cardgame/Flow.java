@@ -14,3 +14,9 @@ public class Flow {
     public Phase next() {
         switch (current) {
             case DRAW:
+                current = Phase.PLAY;
+                break;
+            case PLAY:
+                current = Phase.COMBAT;
+                break;
+            case COMBAT:
