@@ -26,3 +26,9 @@ public class Flow {
             default:
                 break;
         }
+        return current;
+    }
+
+    public void reset() {
+        current = Phase.DRAW;
+    }
