@@ -32,3 +32,4 @@ public class Flow {
     public void reset() {
         current = Phase.DRAW;
     }
+}
