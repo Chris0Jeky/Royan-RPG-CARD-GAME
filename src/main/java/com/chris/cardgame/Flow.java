@@ -8,3 +8,9 @@ public class Flow {
     private Phase current = Phase.DRAW;
 
     public Phase current() {
+        return current;
+    }
+
+    public Phase next() {
+        switch (current) {
+            case DRAW:
