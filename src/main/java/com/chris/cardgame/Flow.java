@@ -20,3 +20,9 @@ public class Flow {
                 current = Phase.COMBAT;
                 break;
             case COMBAT:
+                current = Phase.END;
+                break;
+            case END:
+            default:
+                break;
+        }
