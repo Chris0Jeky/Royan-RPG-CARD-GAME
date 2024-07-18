@@ -28,3 +28,9 @@ public class Player {
     public int getHealth() {
         return health;
     }
+
+    public void setHealth(int health) {
+        this.health = Math.max(0, health);
+    }
+
+    public Deck getDeck() {
