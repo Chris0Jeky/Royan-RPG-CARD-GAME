@@ -16,3 +16,9 @@ public class Player {
     public Player(String playerName) {
         this("player-" + playerName.toLowerCase(), playerName, 100);
     }
+
+    public String getPlayerID() {
+        return playerID;
+    }
+
+    public String getPlayerName() {
