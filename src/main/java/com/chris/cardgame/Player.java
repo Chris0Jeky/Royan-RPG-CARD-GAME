@@ -11,3 +11,8 @@ public class Player {
         this.playerName = playerName;
         this.health = health;
         this.deck = new Deck();
+    }
+
+    public Player(String playerName) {
+        this("player-" + playerName.toLowerCase(), playerName, 100);
+    }
