@@ -5,3 +5,7 @@ public class Mechanics {
         System.out.println("Game starting...");
         Declaration declaration = new Declaration();
         System.out.println("Players: " + declaration.getPlayers().size()
+                + ", cards: " + declaration.getCards().size());
+        return declaration;
+    }
+}
