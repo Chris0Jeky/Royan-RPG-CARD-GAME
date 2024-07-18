@@ -22,3 +22,9 @@ public class Player {
     }
 
     public String getPlayerName() {
+        return playerName;
+    }
+
+    public int getHealth() {
+        return health;
+    }
