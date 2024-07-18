@@ -5,3 +5,9 @@ public class Player {
     private final String playerName;
     private int health;
     private final Deck deck;
+
+    public Player(String playerID, String playerName, int health) {
+        this.playerID = playerID;
+        this.playerName = playerName;
+        this.health = health;
+        this.deck = new Deck();
