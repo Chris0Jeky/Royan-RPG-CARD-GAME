@@ -40,3 +40,6 @@ public class Player {
     @Override
     public String toString() {
         return "Player{playerID='" + playerID + "', playerName='" + playerName
+                + "', health=" + health + ", deckSize=" + deck.size() + '}';
+    }
+}
