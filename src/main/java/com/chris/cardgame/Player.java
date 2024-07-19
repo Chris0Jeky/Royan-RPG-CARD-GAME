@@ -34,3 +34,9 @@ public class Player {
     }
 
     public Deck getDeck() {
+        return deck;
+    }
+
+    @Override
+    public String toString() {
+        return "Player{playerID='" + playerID + "', playerName='" + playerName
