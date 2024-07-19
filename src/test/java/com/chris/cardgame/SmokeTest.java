@@ -24,3 +24,9 @@ class SmokeTest {
         Card second = new Card("Card2", "Type2", 15, 25, Card.AdvantageType.B, 2, Card.Rarity.B);
         deck.addCard(first);
         deck.addCard(second);
+
+        assertThat(deck.draw()).contains(first);
+        assertThat(deck.size()).isEqualTo(1);
+    }
+
+    @Test
