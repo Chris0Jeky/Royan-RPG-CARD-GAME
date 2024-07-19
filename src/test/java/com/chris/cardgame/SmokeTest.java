@@ -18,3 +18,9 @@ class SmokeTest {
     }
 
     @Test
+    void deckDrawRemovesTopCard() {
+        Deck deck = new Deck();
+        Card first = new Card("Card1", "Type1", 10, 20, Card.AdvantageType.A, 1, Card.Rarity.A);
+        Card second = new Card("Card2", "Type2", 15, 25, Card.AdvantageType.B, 2, Card.Rarity.B);
+        deck.addCard(first);
+        deck.addCard(second);
