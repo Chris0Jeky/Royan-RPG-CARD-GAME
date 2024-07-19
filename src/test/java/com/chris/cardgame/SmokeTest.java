@@ -12,3 +12,9 @@ class SmokeTest {
         Declaration declaration = new Declaration();
 
         assertThat(declaration.getPlayers()).hasSize(2);
+        assertThat(declaration.getCards()).hasSizeGreaterThanOrEqualTo(2);
+        assertThat(declaration.getPlayers())
+                .allSatisfy(player -> assertThat(player.getDeck().size()).isEqualTo(2));
+    }
+
+    @Test
