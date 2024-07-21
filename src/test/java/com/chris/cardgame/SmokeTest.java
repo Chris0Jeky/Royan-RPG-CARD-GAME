@@ -42,3 +42,6 @@ class SmokeTest {
         assertThat(flow.next()).isEqualTo(Flow.Phase.PLAY);
         assertThat(flow.next()).isEqualTo(Flow.Phase.COMBAT);
         assertThat(flow.next()).isEqualTo(Flow.Phase.END);
+        assertThat(flow.next()).isEqualTo(Flow.Phase.END);
+    }
+}
