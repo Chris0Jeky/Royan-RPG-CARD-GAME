@@ -5,3 +5,7 @@ public enum Aspect {
 
     public boolean beats(Aspect other) {
         return (this == MIGHT && other == GUILE)
+                || (this == GUILE && other == FOCUS)
+                || (this == FOCUS && other == MIGHT);
+    }
+}
