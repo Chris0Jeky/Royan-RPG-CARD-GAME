@@ -36,3 +36,9 @@ class SmokeTest {
 
     @Test
     void flowAdvancesThroughPhases() {
+        Flow flow = new Flow();
+
+        assertThat(flow.current()).isEqualTo(Flow.Phase.DRAW);
+        assertThat(flow.next()).isEqualTo(Flow.Phase.PLAY);
+        assertThat(flow.next()).isEqualTo(Flow.Phase.COMBAT);
+        assertThat(flow.next()).isEqualTo(Flow.Phase.END);
