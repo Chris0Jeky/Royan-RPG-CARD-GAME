@@ -30,3 +30,9 @@ class SmokeTest {
     }
 
     @Test
+    void mechanicsStartsGame() {
+        assertDoesNotThrow(Mechanics::start_game);
+    }
+
+    @Test
+    void flowAdvancesThroughPhases() {
