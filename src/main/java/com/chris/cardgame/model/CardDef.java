@@ -23,3 +23,9 @@ public record CardDef(
         String flavor) {
 
     public CardDef {
+        if (cost < 0 || cost > 3) {
+            throw new IllegalArgumentException("cost out of range 0-3: " + id);
+        }
+    }
+
+    public boolean targetsEnemy() {
