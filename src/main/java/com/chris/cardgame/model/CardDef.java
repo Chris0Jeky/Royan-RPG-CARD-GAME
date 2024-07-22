@@ -17,3 +17,9 @@ public record CardDef(
         @JsonProperty(defaultValue = "0") int weak,
         @JsonProperty(defaultValue = "0") int vulnerable,
         @JsonProperty(defaultValue = "0") int strength,
+        HeroClass heroClass,
+        Rarity rarity,
+        @JsonProperty(defaultValue = "false") boolean unplayable,
+        String flavor) {
+
+    public CardDef {
