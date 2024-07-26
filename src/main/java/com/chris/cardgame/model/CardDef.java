@@ -35,3 +35,4 @@ public record CardDef(
     public boolean targetsSelf() {
         return block > 0 || draw > 0 || heal > 0 || strength > 0;
     }
+}
