@@ -26,3 +26,9 @@ public class Combatant {
     public static Combatant enemy(EnemyDef def) {
         return new Combatant(def.name(), def.aspect(), def.row(), def.hp());
     }
+
+    public String name() {
+        return name;
+    }
+
+    public Aspect aspect() {
