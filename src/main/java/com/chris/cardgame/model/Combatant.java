@@ -14,3 +14,9 @@ public class Combatant {
     public Combatant(String name, Aspect aspect, Row row, int maxHp) {
         this.name = name;
         this.aspect = aspect;
+        this.row = row;
+        this.maxHp = maxHp;
+        this.hp = maxHp;
+    }
+
+    public static Combatant hero(String name, HeroClass heroClass, int maxHp) {
