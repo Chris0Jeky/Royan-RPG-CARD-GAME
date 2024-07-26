@@ -29,3 +29,9 @@ public record CardDef(
     }
 
     public boolean targetsEnemy() {
+        return damage > 0 || weak > 0 || vulnerable > 0;
+    }
+
+    public boolean targetsSelf() {
+        return block > 0 || draw > 0 || heal > 0 || strength > 0;
+    }
