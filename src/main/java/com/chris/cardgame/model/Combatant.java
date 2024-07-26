@@ -20,3 +20,9 @@ public class Combatant {
     }
 
     public static Combatant hero(String name, HeroClass heroClass, int maxHp) {
+        return new Combatant(name, heroClass.aspect(), Row.FRONT, maxHp);
+    }
+
+    public static Combatant enemy(EnemyDef def) {
+        return new Combatant(def.name(), def.aspect(), def.row(), def.hp());
+    }
