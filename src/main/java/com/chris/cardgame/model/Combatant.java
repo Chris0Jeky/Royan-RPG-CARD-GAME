@@ -8,3 +8,9 @@ public class Combatant {
     private int hp;
     private int block;
     private int strength;
+    private int weak;
+    private int vulnerable;
+
+    public Combatant(String name, Aspect aspect, Row row, int maxHp) {
+        this.name = name;
+        this.aspect = aspect;
