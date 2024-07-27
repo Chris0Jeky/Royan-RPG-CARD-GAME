@@ -67,3 +67,9 @@ public class Combatant {
         return hp > 0;
     }
 
+    public void gainBlock(int amount) {
+        if (amount > 0) {
+            block += amount;
+        }
+    }
+
