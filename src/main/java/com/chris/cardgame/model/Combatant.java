@@ -61,3 +61,9 @@ public class Combatant {
 
     public int vulnerable() {
         return vulnerable;
+    }
+
+    public boolean alive() {
+        return hp > 0;
+    }
+
