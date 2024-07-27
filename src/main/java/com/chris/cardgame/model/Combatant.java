@@ -49,3 +49,9 @@ public class Combatant {
 
     public int block() {
         return block;
+    }
+
+    public int strength() {
+        return strength;
+    }
+
