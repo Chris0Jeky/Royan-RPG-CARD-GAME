@@ -43,3 +43,9 @@ public class Combatant {
         return hp;
     }
 
+    public int maxHp() {
+        return maxHp;
+    }
+
+    public int block() {
+        return block;
