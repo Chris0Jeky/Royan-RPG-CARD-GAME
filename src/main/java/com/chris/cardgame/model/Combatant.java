@@ -73,3 +73,9 @@ public class Combatant {
         }
     }
 
+    public void clearBlock() {
+        block = 0;
+    }
+
+    public void gainStrength(int amount) {
+        strength += amount;
