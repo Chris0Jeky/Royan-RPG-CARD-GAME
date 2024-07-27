@@ -32,3 +32,9 @@ public class Combatant {
     }
 
     public Aspect aspect() {
+        return aspect;
+    }
+
+    public Row row() {
+        return row;
+    }
