@@ -38,3 +38,8 @@ public class Combatant {
     public Row row() {
         return row;
     }
+
+    public int hp() {
+        return hp;
+    }
+
