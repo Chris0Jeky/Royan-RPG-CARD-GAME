@@ -55,3 +55,9 @@ public class Combatant {
         return strength;
     }
 
+    public int weak() {
+        return weak;
+    }
+
+    public int vulnerable() {
+        return vulnerable;
