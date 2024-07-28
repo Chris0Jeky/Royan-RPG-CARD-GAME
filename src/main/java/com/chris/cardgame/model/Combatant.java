@@ -85,3 +85,9 @@ public class Combatant {
         weak += amount;
     }
 
+    public void applyVulnerable(int amount) {
+        vulnerable += amount;
+    }
+
+    public void tickDebuffs() {
+        if (weak > 0) {
