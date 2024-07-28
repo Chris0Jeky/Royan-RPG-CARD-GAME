@@ -97,3 +97,9 @@ public class Combatant {
             vulnerable--;
         }
     }
+
+    public void heal(int amount) {
+        hp = Math.min(maxHp, hp + Math.max(0, amount));
+    }
+
+    public void takeDamage(int amount) {
