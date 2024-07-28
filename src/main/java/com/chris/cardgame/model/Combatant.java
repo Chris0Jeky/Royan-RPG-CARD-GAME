@@ -103,3 +103,9 @@ public class Combatant {
     }
 
     public void takeDamage(int amount) {
+        int remaining = Math.max(0, amount);
+        if (block > 0 && remaining > 0) {
+            int absorbed = Math.min(block, remaining);
+            block -= absorbed;
+            remaining -= absorbed;
+        }
