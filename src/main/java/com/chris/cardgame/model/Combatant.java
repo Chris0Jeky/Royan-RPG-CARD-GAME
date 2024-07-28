@@ -91,3 +91,9 @@ public class Combatant {
 
     public void tickDebuffs() {
         if (weak > 0) {
+            weak--;
+        }
+        if (vulnerable > 0) {
+            vulnerable--;
+        }
+    }
