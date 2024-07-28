@@ -115,3 +115,5 @@ public class Combatant {
     @Override
     public String toString() {
         return name + " " + hp + "/" + maxHp + " (block " + block + ")";
+    }
+}
