@@ -109,3 +109,9 @@ public class Combatant {
             block -= absorbed;
             remaining -= absorbed;
         }
+        hp = Math.max(0, hp - remaining);
+    }
+
+    @Override
+    public String toString() {
+        return name + " " + hp + "/" + maxHp + " (block " + block + ")";
