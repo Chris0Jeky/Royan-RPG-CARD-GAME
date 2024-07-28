@@ -79,3 +79,9 @@ public class Combatant {
 
     public void gainStrength(int amount) {
         strength += amount;
+    }
+
+    public void applyWeak(int amount) {
+        weak += amount;
+    }
+
