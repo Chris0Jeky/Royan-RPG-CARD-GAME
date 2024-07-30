@@ -13,3 +13,8 @@ public record EnemyDef(
         int xp,
         int goldMin,
         int goldMax,
+        int attackWeight,
+        int defendWeight,
+        int buffWeight,
+        String flavor) {
+}
