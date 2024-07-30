@@ -10,3 +10,6 @@ public enum HeroClass {
     }
 
     public Aspect aspect() {
+        return aspect;
+    }
+}
