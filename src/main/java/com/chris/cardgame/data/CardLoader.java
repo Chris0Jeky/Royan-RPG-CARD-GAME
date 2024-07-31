@@ -18,3 +18,9 @@ public class CardLoader {
 
     public static CardLoader load() {
         try (InputStream in = CardLoader.class.getResourceAsStream("/data/cards.json")) {
+            if (in == null) {
+                throw new IllegalStateException("missing /data/cards.json on classpath");
+            }
+            ObjectMapper mapper = new ObjectMapper();
+            JsonNode root = mapper.readTree(in);
+            CardLoader loader = new CardLoader();
