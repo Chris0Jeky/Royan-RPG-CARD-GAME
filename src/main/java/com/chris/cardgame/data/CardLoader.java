@@ -12,3 +12,9 @@ import com.chris.cardgame.model.HeroClass;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+public class CardLoader {
+    private final Map<String, CardDef> cards = new LinkedHashMap<>();
+    private final Map<HeroClass, List<String>> starters = new LinkedHashMap<>();
+
+    public static CardLoader load() {
+        try (InputStream in = CardLoader.class.getResourceAsStream("/data/cards.json")) {
