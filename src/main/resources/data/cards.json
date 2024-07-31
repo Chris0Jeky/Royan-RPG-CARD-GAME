@@ -17,3 +17,9 @@
     {"id": "neutral-cripple", "name": "Cripple", "cost": 1, "type": "TRICK", "aspect": "GUILE", "damage": 3, "weak": 2, "heroClass": "NEUTRAL", "rarity": "COMMON", "flavor": "Kneecaps are load-bearing."},
     {"id": "curse-doubt", "name": "Doubt", "cost": 0, "type": "CURSE", "aspect": "FOCUS", "unplayable": true, "heroClass": "NEUTRAL", "rarity": "COMMON", "flavor": "Can you really do this?"},
     {"id": "ranger-aimed", "name": "Aimed Shot", "cost": 1, "type": "STRIKE", "aspect": "GUILE", "damage": 7, "heroClass": "RANGER", "rarity": "COMMON", "flavor": "One arrow. One apology."},
+    {"id": "runemage-spark", "name": "Spark", "cost": 1, "type": "STRIKE", "aspect": "FOCUS", "damage": 7, "heroClass": "RUNEMAGE", "rarity": "COMMON", "flavor": "Every storm starts somewhere."}
+  ],
+  "starterDecks": {
+    "KNIGHT": ["knight-strike", "knight-strike", "knight-strike", "knight-strike", "knight-guard", "knight-guard", "knight-guard", "knight-heavy", "knight-heavy", "knight-rally", "knight-quick", "knight-bulwark"]
+  }
+}
