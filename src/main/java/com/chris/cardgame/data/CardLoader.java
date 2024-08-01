@@ -24,3 +24,9 @@ public class CardLoader {
             ObjectMapper mapper = new ObjectMapper();
             JsonNode root = mapper.readTree(in);
             CardLoader loader = new CardLoader();
+            for (JsonNode node : root.get("cards")) {
+                CardDef def = mapper.treeToValue(node, CardDef.class);
+                loader.cards.put(def.id(), def);
+            }
+            JsonNode decks = root.get("starterDecks");
+            decks.fields().forEachRemaining(entry -> {
