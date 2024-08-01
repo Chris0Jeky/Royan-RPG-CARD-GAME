@@ -42,3 +42,9 @@ public class CardLoader {
 
     public CardDef get(String id) {
         CardDef def = cards.get(id);
+        if (def == null) {
+            throw new IllegalArgumentException("unknown card: " + id);
+        }
+        return def;
+    }
+
