@@ -48,3 +48,9 @@ public class CardLoader {
         return def;
     }
 
+    public List<CardDef> all() {
+        return List.copyOf(cards.values());
+    }
+
+    public List<CardDef> starterDeck(HeroClass heroClass) {
+        List<String> ids = starters.get(heroClass);
