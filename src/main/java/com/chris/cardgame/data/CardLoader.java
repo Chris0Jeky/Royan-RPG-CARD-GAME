@@ -54,3 +54,8 @@ public class CardLoader {
 
     public List<CardDef> starterDeck(HeroClass heroClass) {
         List<String> ids = starters.get(heroClass);
+        if (ids == null) {
+            throw new IllegalArgumentException("no starter deck for " + heroClass);
+        }
+        return ids.stream().map(this::get).toList();
+    }
