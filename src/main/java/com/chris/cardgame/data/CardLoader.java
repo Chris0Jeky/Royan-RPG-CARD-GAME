@@ -36,3 +36,9 @@ public class CardLoader {
             });
             return loader;
         } catch (IOException e) {
+            throw new IllegalStateException("failed to load cards.json", e);
+        }
+    }
+
+    public CardDef get(String id) {
+        CardDef def = cards.get(id);
