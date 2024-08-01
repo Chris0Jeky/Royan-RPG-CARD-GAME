@@ -30,3 +30,9 @@ public class CardLoader {
             }
             JsonNode decks = root.get("starterDecks");
             decks.fields().forEachRemaining(entry -> {
+                List<String> ids = new ArrayList<>();
+                entry.getValue().forEach(id -> ids.add(id.asText()));
+                loader.starters.put(HeroClass.valueOf(entry.getKey()), ids);
+            });
+            return loader;
+        } catch (IOException e) {
