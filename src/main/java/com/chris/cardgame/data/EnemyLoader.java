@@ -8,3 +8,9 @@ import java.util.Map;
 
 import com.chris.cardgame.model.EnemyDef;
 import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
+
+public class EnemyLoader {
+    private final Map<String, EnemyDef> enemies = new LinkedHashMap<>();
+
+    public static EnemyLoader load() {
