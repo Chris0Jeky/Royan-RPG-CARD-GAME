@@ -38,3 +38,8 @@ public class EnemyLoader {
         }
         return def;
     }
+
+    public List<EnemyDef> all() {
+        return List.copyOf(enemies.values());
+    }
+}
