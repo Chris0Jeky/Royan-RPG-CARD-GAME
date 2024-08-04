@@ -20,3 +20,9 @@ public class EnemyLoader {
             }
             ObjectMapper mapper = new ObjectMapper();
             JsonNode root = mapper.readTree(in);
+            EnemyLoader loader = new EnemyLoader();
+            for (JsonNode node : root.get("enemies")) {
+                EnemyDef def = mapper.treeToValue(node, EnemyDef.class);
+                loader.enemies.put(def.id(), def);
+            }
+            return loader;
