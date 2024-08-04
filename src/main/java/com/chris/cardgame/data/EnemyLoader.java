@@ -26,3 +26,9 @@ public class EnemyLoader {
                 loader.enemies.put(def.id(), def);
             }
             return loader;
+        } catch (IOException e) {
+            throw new IllegalStateException("failed to load enemies.json", e);
+        }
+    }
+
+    public EnemyDef get(String id) {
