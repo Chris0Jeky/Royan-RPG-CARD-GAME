@@ -32,3 +32,9 @@ public class EnemyLoader {
     }
 
     public EnemyDef get(String id) {
+        EnemyDef def = enemies.get(id);
+        if (def == null) {
+            throw new IllegalArgumentException("unknown enemy: " + id);
+        }
+        return def;
+    }
