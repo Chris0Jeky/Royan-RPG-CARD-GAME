@@ -14,3 +14,9 @@ public class EnemyLoader {
     private final Map<String, EnemyDef> enemies = new LinkedHashMap<>();
 
     public static EnemyLoader load() {
+        try (InputStream in = EnemyLoader.class.getResourceAsStream("/data/enemies.json")) {
+            if (in == null) {
+                throw new IllegalStateException("missing /data/enemies.json on classpath");
+            }
+            ObjectMapper mapper = new ObjectMapper();
+            JsonNode root = mapper.readTree(in);
