@@ -59,3 +59,4 @@ public class CardLoader {
         }
         return ids.stream().map(this::get).toList();
     }
+}
