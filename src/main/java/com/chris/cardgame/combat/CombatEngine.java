@@ -34,3 +34,9 @@ public class CombatEngine {
         state.hero().clearBlock();
         state.companions().forEach(Combatant::clearBlock);
         for (int i = 0; i < DRAW_PER_TURN; i++) {
+            drawOne(state);
+        }
+        rollIntents(state);
+    }
+
+    public void playCard(CombatState state, int handIndex, int targetEnemyIndex) {
