@@ -22,3 +22,9 @@ public class CombatEngine {
         CombatState state = new CombatState(hero, new ArrayList<>(companions),
                 new ArrayList<>(enemies), List.copyOf(enemyDefs), seed);
         List<CardDef> pile = new ArrayList<>(deck);
+        Collections.shuffle(pile, new Random(state.rng().nextLong()));
+        state.drawPile().addAll(pile);
+        startTurn(state);
+        return state;
+    }
+
