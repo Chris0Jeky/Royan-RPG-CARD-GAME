@@ -16,3 +16,9 @@ public class CombatEngine {
     public static final int ENEMY_DEFEND_BLOCK = 6;
     public static final int ENEMY_BUFF_STRENGTH = 2;
 
+    public CombatState newBattle(Combatant hero, List<Combatant> companions, List<CardDef> deck,
+            List<EnemyDef> enemyDefs, long seed) {
+        List<Combatant> enemies = enemyDefs.stream().map(Combatant::enemy).toList();
+        CombatState state = new CombatState(hero, new ArrayList<>(companions),
+                new ArrayList<>(enemies), List.copyOf(enemyDefs), seed);
+        List<CardDef> pile = new ArrayList<>(deck);
