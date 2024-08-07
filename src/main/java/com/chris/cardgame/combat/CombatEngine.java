@@ -28,3 +28,9 @@ public class CombatEngine {
         return state;
     }
 
+    public void startTurn(CombatState state) {
+        state.nextTurn();
+        state.setEnergy(ENERGY_PER_TURN);
+        state.hero().clearBlock();
+        state.companions().forEach(Combatant::clearBlock);
+        for (int i = 0; i < DRAW_PER_TURN; i++) {
