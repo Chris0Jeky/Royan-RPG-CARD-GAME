@@ -63,3 +63,9 @@ public class CombatEngine {
         }
         state.hand().remove(handIndex);
         state.setEnergy(state.energy() - card.cost());
+
+        Combatant hero = state.hero();
+        hero.gainBlock(card.block());
+        hero.heal(card.heal());
+        hero.gainStrength(card.strength());
+        for (int i = 0; i < card.draw(); i++) {
