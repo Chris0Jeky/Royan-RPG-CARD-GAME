@@ -52,3 +52,9 @@ public class CombatEngine {
             throw new IllegalStateException("not enough energy for " + card.name());
         }
         Combatant target = null;
+        if (card.targetsEnemy()) {
+            if (targetEnemyIndex < 0 || targetEnemyIndex >= state.enemies().size()) {
+                throw new IllegalArgumentException("no such enemy: " + targetEnemyIndex);
+            }
+            target = state.enemies().get(targetEnemyIndex);
+            if (!target.alive()) {
