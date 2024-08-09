@@ -58,3 +58,8 @@ public class CombatEngine {
             }
             target = state.enemies().get(targetEnemyIndex);
             if (!target.alive()) {
+                throw new IllegalArgumentException(target.name() + " is already down");
+            }
+        }
+        state.hand().remove(handIndex);
+        state.setEnergy(state.energy() - card.cost());
