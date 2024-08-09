@@ -46,3 +46,9 @@ public class CombatEngine {
         }
         CardDef card = state.hand().get(handIndex);
         if (card.unplayable()) {
+            throw new IllegalStateException("cannot play " + card.name());
+        }
+        if (state.energy() < card.cost()) {
+            throw new IllegalStateException("not enough energy for " + card.name());
+        }
+        Combatant target = null;
