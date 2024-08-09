@@ -81,3 +81,9 @@ public class CombatEngine {
             target.applyVulnerable(card.vulnerable());
         }
         state.discardPile().add(card);
+        checkEnd(state);
+    }
+
+    public void endTurn(CombatState state) {
+        requireLive(state);
+        state.discardPile().addAll(state.hand());
