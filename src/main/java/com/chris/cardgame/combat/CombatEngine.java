@@ -69,3 +69,9 @@ public class CombatEngine {
         hero.heal(card.heal());
         hero.gainStrength(card.strength());
         for (int i = 0; i < card.draw(); i++) {
+            drawOne(state);
+        }
+        if (target != null) {
+            if (card.damage() > 0) {
+                boolean cover = target.row() == Row.BACK && frontAlive(state);
+                int damage = DamageCalc.attackDamage(hero, target, card.damage(), cover);
