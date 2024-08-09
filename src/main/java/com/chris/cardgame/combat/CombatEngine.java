@@ -40,3 +40,9 @@ public class CombatEngine {
     }
 
     public void playCard(CombatState state, int handIndex, int targetEnemyIndex) {
+        requireLive(state);
+        if (handIndex < 0 || handIndex >= state.hand().size()) {
+            throw new IllegalArgumentException("no such card in hand: " + handIndex);
+        }
+        CardDef card = state.hand().get(handIndex);
+        if (card.unplayable()) {
