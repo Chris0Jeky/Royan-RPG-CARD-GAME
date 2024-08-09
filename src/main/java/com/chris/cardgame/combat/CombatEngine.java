@@ -75,3 +75,9 @@ public class CombatEngine {
             if (card.damage() > 0) {
                 boolean cover = target.row() == Row.BACK && frontAlive(state);
                 int damage = DamageCalc.attackDamage(hero, target, card.damage(), cover);
+                target.takeDamage(damage);
+            }
+            target.applyWeak(card.weak());
+            target.applyVulnerable(card.vulnerable());
+        }
+        state.discardPile().add(card);
