@@ -87,3 +87,9 @@ public class CombatEngine {
     public void endTurn(CombatState state) {
         requireLive(state);
         state.discardPile().addAll(state.hand());
+        state.hand().clear();
+        state.enemies().forEach(Combatant::clearBlock);
+        for (int i = 0; i < state.enemies().size(); i++) {
+            Combatant enemy = state.enemies().get(i);
+            if (!enemy.alive()) {
+                continue;
