@@ -93,3 +93,9 @@ public class CombatEngine {
             Combatant enemy = state.enemies().get(i);
             if (!enemy.alive()) {
                 continue;
+            }
+            EnemyDef def = state.enemyDefs().get(i);
+            Intent intent = state.intents().get(i);
+            switch (intent.kind()) {
+                case ATTACK -> {
+                    int damage = DamageCalc.attackDamage(enemy, state.hero(), def.atk(), false);
