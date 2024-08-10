@@ -99,3 +99,9 @@ public class CombatEngine {
             switch (intent.kind()) {
                 case ATTACK -> {
                     int damage = DamageCalc.attackDamage(enemy, state.hero(), def.atk(), false);
+                    state.hero().takeDamage(damage);
+                }
+                case DEFEND -> enemy.gainBlock(ENEMY_DEFEND_BLOCK);
+                case BUFF -> enemy.gainStrength(ENEMY_BUFF_STRENGTH);
+                case DEBUFF -> state.hero().applyWeak(1);
+            }
