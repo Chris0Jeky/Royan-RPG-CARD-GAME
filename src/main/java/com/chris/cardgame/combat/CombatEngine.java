@@ -111,3 +111,9 @@ public class CombatEngine {
         }
         state.hero().tickDebuffs();
         state.enemies().forEach(Combatant::tickDebuffs);
+        checkEnd(state);
+        if (!state.over()) {
+            startTurn(state);
+        }
+    }
+
