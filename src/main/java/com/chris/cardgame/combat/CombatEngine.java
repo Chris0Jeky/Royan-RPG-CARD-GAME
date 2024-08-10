@@ -105,3 +105,9 @@ public class CombatEngine {
                 case BUFF -> enemy.gainStrength(ENEMY_BUFF_STRENGTH);
                 case DEBUFF -> state.hero().applyWeak(1);
             }
+            if (!state.hero().alive()) {
+                break;
+            }
+        }
+        state.hero().tickDebuffs();
+        state.enemies().forEach(Combatant::tickDebuffs);
