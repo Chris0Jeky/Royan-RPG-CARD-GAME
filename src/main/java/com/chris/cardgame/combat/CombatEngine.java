@@ -153,3 +153,9 @@ public class CombatEngine {
                 }
             }
             int preview = switch (kind) {
+                case ATTACK -> DamageCalc.attackDamage(enemy, state.hero(), def.atk(), false);
+                case DEFEND -> ENEMY_DEFEND_BLOCK;
+                case BUFF -> ENEMY_BUFF_STRENGTH;
+                case DEBUFF -> 1;
+            };
+            state.intents().set(i, new Intent(kind, preview));
