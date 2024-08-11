@@ -117,3 +117,9 @@ public class CombatEngine {
         }
     }
 
+    private void drawOne(CombatState state) {
+        if (state.drawPile().isEmpty()) {
+            if (state.discardPile().isEmpty()) {
+                return;
+            }
+            List<CardDef> pile = new ArrayList<>(state.discardPile());
