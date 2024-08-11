@@ -123,3 +123,9 @@ public class CombatEngine {
                 return;
             }
             List<CardDef> pile = new ArrayList<>(state.discardPile());
+            state.discardPile().clear();
+            Collections.shuffle(pile, new Random(state.rng().nextLong()));
+            state.drawPile().addAll(pile);
+        }
+        state.hand().add(state.drawPile().removeFirst());
+    }
