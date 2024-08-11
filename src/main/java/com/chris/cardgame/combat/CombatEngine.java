@@ -171,3 +171,8 @@ public class CombatEngine {
         boolean allDead = state.enemies().stream().noneMatch(Combatant::alive);
         boolean heroDead = !state.hero().alive();
         state.setVictory(allDead && !heroDead);
+        state.setOver(allDead || heroDead);
+    }
+
+    private void requireLive(CombatState state) {
+        if (state.over()) {
