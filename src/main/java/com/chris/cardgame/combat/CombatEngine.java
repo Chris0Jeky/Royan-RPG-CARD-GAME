@@ -147,3 +147,9 @@ public class CombatEngine {
                 if (roll < attack) {
                     kind = IntentKind.ATTACK;
                 } else if (roll < attack + defend) {
+                    kind = IntentKind.DEFEND;
+                } else {
+                    kind = IntentKind.BUFF;
+                }
+            }
+            int preview = switch (kind) {
