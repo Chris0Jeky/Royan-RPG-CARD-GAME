@@ -135,3 +135,9 @@ public class CombatEngine {
             Combatant enemy = state.enemies().get(i);
             if (!enemy.alive()) {
                 continue;
+            }
+            EnemyDef def = state.enemyDefs().get(i);
+            int attack = Math.max(0, def.attackWeight());
+            int defend = Math.max(0, def.defendWeight());
+            int buff = Math.max(0, def.buffWeight());
+            int total = attack + defend + buff;
