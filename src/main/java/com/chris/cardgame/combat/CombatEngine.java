@@ -159,3 +159,9 @@ public class CombatEngine {
                 case DEBUFF -> 1;
             };
             state.intents().set(i, new Intent(kind, preview));
+        }
+    }
+
+    private boolean frontAlive(CombatState state) {
+        return state.enemies().stream()
+                .anyMatch(enemy -> enemy.alive() && enemy.row() == Row.FRONT);
