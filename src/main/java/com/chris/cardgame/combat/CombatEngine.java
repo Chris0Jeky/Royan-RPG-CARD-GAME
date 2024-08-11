@@ -129,3 +129,9 @@ public class CombatEngine {
         }
         state.hand().add(state.drawPile().removeFirst());
     }
+
+    private void rollIntents(CombatState state) {
+        for (int i = 0; i < state.enemies().size(); i++) {
+            Combatant enemy = state.enemies().get(i);
+            if (!enemy.alive()) {
+                continue;
