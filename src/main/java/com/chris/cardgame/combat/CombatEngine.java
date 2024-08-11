@@ -141,3 +141,9 @@ public class CombatEngine {
             int defend = Math.max(0, def.defendWeight());
             int buff = Math.max(0, def.buffWeight());
             int total = attack + defend + buff;
+            IntentKind kind = IntentKind.ATTACK;
+            if (total > 0) {
+                int roll = state.rng().nextInt(total);
+                if (roll < attack) {
+                    kind = IntentKind.ATTACK;
+                } else if (roll < attack + defend) {
