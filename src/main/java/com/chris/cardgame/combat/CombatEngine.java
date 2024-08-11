@@ -165,3 +165,9 @@ public class CombatEngine {
     private boolean frontAlive(CombatState state) {
         return state.enemies().stream()
                 .anyMatch(enemy -> enemy.alive() && enemy.row() == Row.FRONT);
+    }
+
+    private void checkEnd(CombatState state) {
+        boolean allDead = state.enemies().stream().noneMatch(Combatant::alive);
+        boolean heroDead = !state.hero().alive();
+        state.setVictory(allDead && !heroDead);
