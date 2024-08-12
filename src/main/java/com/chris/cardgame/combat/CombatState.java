@@ -23,3 +23,9 @@ public class CombatState {
     private int energy;
     private int turn;
     private boolean over;
+    private boolean victory;
+
+    CombatState(Combatant hero, List<Combatant> companions, List<Combatant> enemies,
+            List<EnemyDef> enemyDefs, long seed) {
+        this.hero = hero;
+        this.companions = companions;
