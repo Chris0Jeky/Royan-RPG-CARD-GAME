@@ -29,3 +29,9 @@ public class CombatState {
             List<EnemyDef> enemyDefs, long seed) {
         this.hero = hero;
         this.companions = companions;
+        this.enemies = enemies;
+        this.enemyDefs = enemyDefs;
+        this.intents = new ArrayList<>();
+        for (int i = 0; i < enemies.size(); i++) {
+            this.intents.add(new Intent(IntentKind.ATTACK, 0));
+        }
