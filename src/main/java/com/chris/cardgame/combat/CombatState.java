@@ -17,3 +17,9 @@ public class CombatState {
     private final List<EnemyDef> enemyDefs;
     private final List<Intent> intents;
     private final Deque<CardDef> drawPile = new ArrayDeque<>();
+    private final List<CardDef> hand = new ArrayList<>();
+    private final List<CardDef> discardPile = new ArrayList<>();
+    private final SplittableRandom rng;
+    private int energy;
+    private int turn;
+    private boolean over;
