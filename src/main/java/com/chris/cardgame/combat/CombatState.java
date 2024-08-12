@@ -11,3 +11,9 @@ import com.chris.cardgame.model.Combatant;
 import com.chris.cardgame.model.EnemyDef;
 
 public class CombatState {
+    private final Combatant hero;
+    private final List<Combatant> companions;
+    private final List<Combatant> enemies;
+    private final List<EnemyDef> enemyDefs;
+    private final List<Intent> intents;
+    private final Deque<CardDef> drawPile = new ArrayDeque<>();
