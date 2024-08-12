@@ -176,3 +176,7 @@ public class CombatEngine {
 
     private void requireLive(CombatState state) {
         if (state.over()) {
+            throw new IllegalStateException("battle is over");
+        }
+    }
+}
