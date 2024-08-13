@@ -65,3 +65,9 @@ public class CombatState {
     public List<CardDef> hand() {
         return hand;
     }
+
+    public List<CardDef> discardPile() {
+        return discardPile;
+    }
+
+    public SplittableRandom rng() {
