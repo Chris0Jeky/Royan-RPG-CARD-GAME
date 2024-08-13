@@ -53,3 +53,9 @@ public class CombatState {
     public List<EnemyDef> enemyDefs() {
         return enemyDefs;
     }
+
+    public List<Intent> intents() {
+        return intents;
+    }
+
+    public Deque<CardDef> drawPile() {
