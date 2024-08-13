@@ -71,3 +71,9 @@ public class CombatState {
     }
 
     public SplittableRandom rng() {
+        return rng;
+    }
+
+    public int energy() {
+        return energy;
+    }
