@@ -35,3 +35,9 @@ public class CombatState {
         for (int i = 0; i < enemies.size(); i++) {
             this.intents.add(new Intent(IntentKind.ATTACK, 0));
         }
+        this.rng = new SplittableRandom(seed);
+    }
+
+    public Combatant hero() {
+        return hero;
+    }
