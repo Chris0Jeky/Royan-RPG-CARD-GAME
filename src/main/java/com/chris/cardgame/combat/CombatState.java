@@ -41,3 +41,9 @@ public class CombatState {
     public Combatant hero() {
         return hero;
     }
+
+    public List<Combatant> companions() {
+        return companions;
+    }
+
+    public List<Combatant> enemies() {
