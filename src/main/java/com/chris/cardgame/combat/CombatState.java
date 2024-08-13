@@ -47,3 +47,9 @@ public class CombatState {
     }
 
     public List<Combatant> enemies() {
+        return enemies;
+    }
+
+    public List<EnemyDef> enemyDefs() {
+        return enemyDefs;
+    }
