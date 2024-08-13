@@ -59,3 +59,9 @@ public class CombatState {
     }
 
     public Deque<CardDef> drawPile() {
+        return drawPile;
+    }
+
+    public List<CardDef> hand() {
+        return hand;
+    }
