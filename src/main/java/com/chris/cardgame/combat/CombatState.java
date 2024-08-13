@@ -77,3 +77,9 @@ public class CombatState {
     public int energy() {
         return energy;
     }
+
+    void setEnergy(int energy) {
+        this.energy = energy;
+    }
+
+    public int turn() {
