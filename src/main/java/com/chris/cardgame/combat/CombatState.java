@@ -95,3 +95,8 @@ public class CombatState {
     }
 
     void setOver(boolean over) {
+        this.over = over;
+    }
+
+    public boolean victory() {
+        return victory;
