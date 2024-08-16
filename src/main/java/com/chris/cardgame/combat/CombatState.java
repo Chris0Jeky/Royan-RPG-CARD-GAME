@@ -83,3 +83,9 @@ public class CombatState {
     }
 
     public int turn() {
+        return turn;
+    }
+
+    void nextTurn() {
+        this.turn++;
+    }
