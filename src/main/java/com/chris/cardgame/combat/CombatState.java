@@ -89,3 +89,9 @@ public class CombatState {
     void nextTurn() {
         this.turn++;
     }
+
+    public boolean over() {
+        return over;
+    }
+
+    void setOver(boolean over) {
