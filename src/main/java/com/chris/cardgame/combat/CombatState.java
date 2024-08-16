@@ -100,3 +100,9 @@ public class CombatState {
 
     public boolean victory() {
         return victory;
+    }
+
+    void setVictory(boolean victory) {
+        this.victory = victory;
+    }
+}
