@@ -3,3 +3,9 @@ package com.chris.cardgame.combat;
 import com.chris.cardgame.model.Combatant;
 import com.chris.cardgame.model.Row;
 
+public final class DamageCalc {
+    public static final double ADVANTAGE = 1.5;
+    public static final double DISADVANTAGE = 0.75;
+    public static final double COVER = 0.75;
+    public static final double WEAK = 0.75;
+    public static final double VULNERABLE = 1.25;
