@@ -21,3 +21,9 @@ public final class DamageCalc {
             mult *= DISADVANTAGE;
         }
         if (coverApplies && target.row() == Row.BACK) {
+            mult *= COVER;
+        }
+        if (attacker.weak() > 0) {
+            mult *= WEAK;
+        }
+        if (target.vulnerable() > 0) {
