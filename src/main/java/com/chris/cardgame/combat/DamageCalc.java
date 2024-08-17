@@ -15,3 +15,9 @@ public final class DamageCalc {
 
     public static int attackDamage(Combatant attacker, Combatant target, int base, boolean coverApplies) {
         double mult = 1.0;
+        if (attacker.aspect().beats(target.aspect())) {
+            mult *= ADVANTAGE;
+        } else if (target.aspect().beats(attacker.aspect())) {
+            mult *= DISADVANTAGE;
+        }
+        if (coverApplies && target.row() == Row.BACK) {
