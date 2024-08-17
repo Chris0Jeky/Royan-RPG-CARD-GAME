@@ -10,3 +10,5 @@ public record Intent(IntentKind kind, int preview) {
             case BUFF -> "grows stronger (+" + preview + " str)";
             case DEBUFF -> "weakens you";
         };
+    }
+}
