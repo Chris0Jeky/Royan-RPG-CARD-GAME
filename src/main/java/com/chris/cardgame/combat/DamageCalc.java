@@ -27,3 +27,8 @@ public final class DamageCalc {
             mult *= WEAK;
         }
         if (target.vulnerable() > 0) {
+            mult *= VULNERABLE;
+        }
+        return Math.max(0, (int) Math.round((base + attacker.strength()) * mult));
+    }
+}
