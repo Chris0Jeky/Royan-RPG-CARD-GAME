@@ -9,3 +9,9 @@ public final class DamageCalc {
     public static final double COVER = 0.75;
     public static final double WEAK = 0.75;
     public static final double VULNERABLE = 1.25;
+
+    private DamageCalc() {
+    }
+
+    public static int attackDamage(Combatant attacker, Combatant target, int base, boolean coverApplies) {
+        double mult = 1.0;
