@@ -19,3 +19,9 @@ public class GameLoop {
     }
 
     public BattleResult runAutoBattle(Combatant hero, List<CardDef> deck, List<EnemyDef> enemies,
+            long seed, int maxTurns, PrintStream out) {
+        CombatState state = engine.newBattle(hero, List.of(), deck, enemies, seed);
+        out.println("=== Battle: " + hero.name() + " vs " + enemies.size() + " foes (seed " + seed + ") ===");
+        while (!state.over() && state.turn() <= maxTurns) {
+            describe(state, out);
+            autoTurn(state, out);
