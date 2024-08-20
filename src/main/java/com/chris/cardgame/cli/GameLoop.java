@@ -13,3 +13,9 @@ import com.chris.cardgame.model.EnemyDef;
 import com.chris.cardgame.model.Row;
 
 public class GameLoop {
+    private final CombatEngine engine = new CombatEngine();
+
+    public record BattleResult(boolean victory, int turns, int heroHp, int enemiesSlain, int totalEnemies) {
+    }
+
+    public BattleResult runAutoBattle(Combatant hero, List<CardDef> deck, List<EnemyDef> enemies,
