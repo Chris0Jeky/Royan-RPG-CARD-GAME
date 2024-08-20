@@ -31,3 +31,9 @@ public class GameLoop {
         }
         int slain = (int) state.enemies().stream().filter(e -> !e.alive()).count();
         BattleResult result = new BattleResult(state.victory(), state.turn(), state.hero().hp(),
+                slain, state.enemies().size());
+        out.println(result.victory() ? ">>> VICTORY in " + result.turns() + " turns"
+                : ">>> DEFEAT after " + result.turns() + " turns");
+        return result;
+    }
+
