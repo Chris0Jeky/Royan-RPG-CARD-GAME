@@ -48,3 +48,9 @@ public class GameLoop {
             engine.playCard(state, pick, target);
             out.println("  plays " + card.name() + " (" + card.cost() + " energy)");
             if (state.over()) {
+                return;
+            }
+        }
+    }
+
+    private int pickCard(CombatState state) {
