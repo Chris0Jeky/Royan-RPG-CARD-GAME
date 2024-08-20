@@ -25,3 +25,9 @@ public class GameLoop {
         while (!state.over() && state.turn() <= maxTurns) {
             describe(state, out);
             autoTurn(state, out);
+            if (!state.over()) {
+                engine.endTurn(state);
+            }
+        }
+        int slain = (int) state.enemies().stream().filter(e -> !e.alive()).count();
+        BattleResult result = new BattleResult(state.victory(), state.turn(), state.hero().hp(),
