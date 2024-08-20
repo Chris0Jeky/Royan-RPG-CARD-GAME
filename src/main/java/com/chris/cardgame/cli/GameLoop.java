@@ -37,3 +37,9 @@ public class GameLoop {
         return result;
     }
 
+    private void autoTurn(CombatState state, PrintStream out) {
+        while (true) {
+            int pick = pickCard(state);
+            if (pick < 0) {
+                return;
+            }
