@@ -43,3 +43,8 @@ public class GameLoop {
             if (pick < 0) {
                 return;
             }
+            CardDef card = state.hand().get(pick);
+            int target = firstAliveTarget(state);
+            engine.playCard(state, pick, target);
+            out.println("  plays " + card.name() + " (" + card.cost() + " energy)");
+            if (state.over()) {
