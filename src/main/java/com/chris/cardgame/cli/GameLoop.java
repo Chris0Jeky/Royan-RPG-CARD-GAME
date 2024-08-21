@@ -90,3 +90,9 @@ public class GameLoop {
             }
         }
         for (int i = 0; i < enemies.size(); i++) {
+            if (enemies.get(i).alive()) {
+                return i;
+            }
+        }
+        return 0;
+    }
