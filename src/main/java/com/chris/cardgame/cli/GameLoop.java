@@ -84,3 +84,9 @@ public class GameLoop {
 
     private int firstAliveTarget(CombatState state) {
         List<Combatant> enemies = state.enemies();
+        for (int i = 0; i < enemies.size(); i++) {
+            if (enemies.get(i).alive() && enemies.get(i).row() == Row.FRONT) {
+                return i;
+            }
+        }
+        for (int i = 0; i < enemies.size(); i++) {
