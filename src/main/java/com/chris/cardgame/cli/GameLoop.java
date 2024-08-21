@@ -66,3 +66,9 @@ public class GameLoop {
             if (score > bestScore) {
                 bestScore = score;
                 best = i;
+            }
+        }
+        return best;
+    }
+
+    private int score(CardDef card, CombatState state) {
