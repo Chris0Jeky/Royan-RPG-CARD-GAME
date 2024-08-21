@@ -60,3 +60,9 @@ public class GameLoop {
         for (int i = 0; i < hand.size(); i++) {
             CardDef card = hand.get(i);
             if (card.unplayable() || card.cost() > state.energy()) {
+                continue;
+            }
+            int score = score(card, state);
+            if (score > bestScore) {
+                bestScore = score;
+                best = i;
