@@ -78,3 +78,9 @@ public class GameLoop {
             case STRIKE -> 60 + card.damage();
             case TRICK -> 50 + card.damage() + card.draw() * 5 + (card.weak() + card.vulnerable()) * 4;
             case POWER -> 40 + card.strength() * 10;
+            case CURSE -> Integer.MIN_VALUE;
+        };
+    }
+
+    private int firstAliveTarget(CombatState state) {
+        List<Combatant> enemies = state.enemies();
