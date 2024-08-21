@@ -54,3 +54,9 @@ public class GameLoop {
     }
 
     private int pickCard(CombatState state) {
+        List<CardDef> hand = state.hand();
+        int best = -1;
+        int bestScore = Integer.MIN_VALUE;
+        for (int i = 0; i < hand.size(); i++) {
+            CardDef card = hand.get(i);
+            if (card.unplayable() || card.cost() > state.energy()) {
