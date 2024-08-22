@@ -102,3 +102,9 @@ public class GameLoop {
                 + " | hero " + state.hero() + " --");
         for (int i = 0; i < state.enemies().size(); i++) {
             Combatant enemy = state.enemies().get(i);
+            String intent = enemy.alive() ? " [" + state.intents().get(i) + "]" : " [DOWN]";
+            out.println("  foe " + i + ": " + enemy + intent);
+        }
+        StringBuilder hand = new StringBuilder("  hand:");
+        for (int i = 0; i < state.hand().size(); i++) {
+            CardDef card = state.hand().get(i);
