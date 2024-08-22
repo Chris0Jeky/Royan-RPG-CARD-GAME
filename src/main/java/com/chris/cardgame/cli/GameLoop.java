@@ -108,3 +108,9 @@ public class GameLoop {
         StringBuilder hand = new StringBuilder("  hand:");
         for (int i = 0; i < state.hand().size(); i++) {
             CardDef card = state.hand().get(i);
+            hand.append(" [").append(i).append("] ").append(card.name())
+                    .append("(").append(card.cost()).append(")");
+        }
+        out.println(hand);
+    }
+}
