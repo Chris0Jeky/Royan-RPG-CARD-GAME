@@ -96,3 +96,9 @@ public class GameLoop {
         }
         return 0;
     }
+
+    private void describe(CombatState state, PrintStream out) {
+        out.println("-- turn " + state.turn() + " | energy " + state.energy()
+                + " | hero " + state.hero() + " --");
+        for (int i = 0; i < state.enemies().size(); i++) {
+            Combatant enemy = state.enemies().get(i);
