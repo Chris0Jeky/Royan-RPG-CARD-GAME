@@ -31,3 +31,9 @@ class BattlePlaythroughTest {
 
         assertThat(result.victory()).isTrue();
         assertThat(result.enemiesSlain()).isEqualTo(2);
+        assertThat(result.turns()).isLessThanOrEqualTo(30);
+    }
+
+    @Test
+    void frailHeroFallsToGolem() {
+        CardLoader cards = CardLoader.load();
