@@ -19,3 +19,9 @@ class BattlePlaythroughTest {
     private final PrintStream silent = new PrintStream(OutputStream.nullOutputStream());
 
     @Test
+    void knightStarterBeatsRatAndImp() {
+        CardLoader cards = CardLoader.load();
+        EnemyLoader enemies = EnemyLoader.load();
+        Combatant hero = Combatant.hero("Captain", HeroClass.KNIGHT, 60);
+        List<CardDef> deck = cards.starterDeck(HeroClass.KNIGHT);
+        List<EnemyDef> foes = List.of(enemies.get("rat"), enemies.get("imp"));
