@@ -14,3 +14,8 @@ import com.chris.cardgame.model.Combatant;
 import com.chris.cardgame.model.EnemyDef;
 import com.chris.cardgame.model.HeroClass;
 import org.junit.jupiter.api.Test;
+
+class BattlePlaythroughTest {
+    private final PrintStream silent = new PrintStream(OutputStream.nullOutputStream());
+
+    @Test
