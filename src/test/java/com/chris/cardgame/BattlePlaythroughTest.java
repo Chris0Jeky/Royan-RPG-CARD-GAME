@@ -25,3 +25,9 @@ class BattlePlaythroughTest {
         Combatant hero = Combatant.hero("Captain", HeroClass.KNIGHT, 60);
         List<CardDef> deck = cards.starterDeck(HeroClass.KNIGHT);
         List<EnemyDef> foes = List.of(enemies.get("rat"), enemies.get("imp"));
+
+        GameLoop.BattleResult result =
+                new GameLoop().runAutoBattle(hero, deck, foes, 7L, 50, silent);
+
+        assertThat(result.victory()).isTrue();
+        assertThat(result.enemiesSlain()).isEqualTo(2);
