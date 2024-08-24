@@ -37,3 +37,9 @@ class BattlePlaythroughTest {
     @Test
     void frailHeroFallsToGolem() {
         CardLoader cards = CardLoader.load();
+        EnemyLoader enemies = EnemyLoader.load();
+        Combatant hero = Combatant.hero("Frail", HeroClass.KNIGHT, 5);
+        List<CardDef> deck = cards.starterDeck(HeroClass.KNIGHT);
+
+        GameLoop.BattleResult result = new GameLoop().runAutoBattle(
+                hero, deck, List.of(enemies.get("golem")), 3L, 50, silent);
