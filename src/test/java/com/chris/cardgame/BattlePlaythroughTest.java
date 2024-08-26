@@ -55,3 +55,8 @@ class BattlePlaythroughTest {
         List<CardDef> deck = cards.starterDeck(HeroClass.KNIGHT);
 
         GameLoop.BattleResult result = new GameLoop().runAutoBattle(
+                hero, deck, List.of(enemies.get("golem")), 5L, 2, silent);
+
+        assertThat(result.turns()).isLessThanOrEqualTo(3);
+    }
+}
