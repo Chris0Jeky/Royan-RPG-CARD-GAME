@@ -16,3 +16,9 @@ import com.chris.cardgame.model.Combatant;
 import com.chris.cardgame.model.EnemyDef;
 import com.chris.cardgame.model.HeroClass;
 import com.chris.cardgame.model.Row;
+import org.junit.jupiter.api.Test;
+
+class CombatEngineTest {
+    private final CombatEngine engine = new CombatEngine();
+    private final CardLoader cards = CardLoader.load();
+    private final EnemyLoader enemies = EnemyLoader.load();
