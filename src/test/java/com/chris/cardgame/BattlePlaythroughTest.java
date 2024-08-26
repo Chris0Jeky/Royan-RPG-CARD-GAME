@@ -43,3 +43,9 @@ class BattlePlaythroughTest {
 
         GameLoop.BattleResult result = new GameLoop().runAutoBattle(
                 hero, deck, List.of(enemies.get("golem")), 3L, 50, silent);
+
+        assertThat(result.victory()).isFalse();
+    }
+
+    @Test
+    void turnCapBoundsBattle() {
