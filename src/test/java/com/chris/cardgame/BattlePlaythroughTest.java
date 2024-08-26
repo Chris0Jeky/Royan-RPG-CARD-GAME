@@ -49,3 +49,9 @@ class BattlePlaythroughTest {
 
     @Test
     void turnCapBoundsBattle() {
+        CardLoader cards = CardLoader.load();
+        EnemyLoader enemies = EnemyLoader.load();
+        Combatant hero = Combatant.hero("Captain", HeroClass.KNIGHT, 200);
+        List<CardDef> deck = cards.starterDeck(HeroClass.KNIGHT);
+
+        GameLoop.BattleResult result = new GameLoop().runAutoBattle(
