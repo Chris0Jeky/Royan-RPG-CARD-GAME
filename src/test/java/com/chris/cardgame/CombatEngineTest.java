@@ -46,3 +46,9 @@ class CombatEngineTest {
     @Test
     void strikeUsesAspectAdvantage() {
         CombatState state = engine.newBattle(hero(), List.of(),
+                deckOf("knight-strike", "knight-strike", "knight-strike", "knight-strike"),
+                List.of(enemies.get("rat")), 1L);
+
+        engine.playCard(state, 0, 0);
+
+        assertThat(state.enemies().get(0).hp()).isEqualTo(9);
