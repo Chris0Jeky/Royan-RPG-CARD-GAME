@@ -22,3 +22,9 @@ class CombatEngineTest {
     private final CombatEngine engine = new CombatEngine();
     private final CardLoader cards = CardLoader.load();
     private final EnemyLoader enemies = EnemyLoader.load();
+
+    private Combatant hero() {
+        return Combatant.hero("Captain", HeroClass.KNIGHT, 60);
+    }
+
+    private List<CardDef> deckOf(String... ids) {
