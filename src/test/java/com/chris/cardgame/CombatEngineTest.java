@@ -28,3 +28,9 @@ class CombatEngineTest {
     }
 
     private List<CardDef> deckOf(String... ids) {
+        return java.util.Arrays.stream(ids).map(cards::get).toList();
+    }
+
+    @Test
+    void newBattleDrawsFourAndRollsIntents() {
+        CombatState state = engine.newBattle(hero(), List.of(),
