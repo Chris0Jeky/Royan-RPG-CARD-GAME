@@ -34,3 +34,9 @@ class CombatEngineTest {
     @Test
     void newBattleDrawsFourAndRollsIntents() {
         CombatState state = engine.newBattle(hero(), List.of(),
+                deckOf("knight-strike", "knight-strike", "knight-guard", "knight-guard"),
+                List.of(enemies.get("rat")), 1L);
+
+        assertThat(state.energy()).isEqualTo(3);
+        assertThat(state.hand()).hasSize(4);
+        assertThat(state.intents()).hasSize(1);
