@@ -40,3 +40,9 @@ class CombatEngineTest {
         assertThat(state.energy()).isEqualTo(3);
         assertThat(state.hand()).hasSize(4);
         assertThat(state.intents()).hasSize(1);
+        assertThat(state.intents().get(0)).isNotNull();
+    }
+
+    @Test
+    void strikeUsesAspectAdvantage() {
+        CombatState state = engine.newBattle(hero(), List.of(),
