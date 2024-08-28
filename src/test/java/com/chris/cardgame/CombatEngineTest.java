@@ -52,3 +52,9 @@ class CombatEngineTest {
         engine.playCard(state, 0, 0);
 
         assertThat(state.enemies().get(0).hp()).isEqualTo(9);
+        engine.playCard(state, 0, 0);
+        assertThat(state.enemies().get(0).alive()).isFalse();
+        assertThat(state.over()).isTrue();
+        assertThat(state.victory()).isTrue();
+    }
+
