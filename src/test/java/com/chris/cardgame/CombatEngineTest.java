@@ -58,3 +58,8 @@ class CombatEngineTest {
         assertThat(state.victory()).isTrue();
     }
 
+    @Test
+    void backRowTakesCoverPenalty() {
+        CombatState state = engine.newBattle(hero(), List.of(),
+                deckOf("knight-strike", "knight-strike", "knight-strike", "knight-strike"),
+                List.of(enemies.get("rat"), enemies.get("imp")), 1L);
