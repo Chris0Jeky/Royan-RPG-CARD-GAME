@@ -69,3 +69,9 @@ class CombatEngineTest {
         assertThat(state.enemies().get(1).hp()).isEqualTo(11);
     }
 
+    @Test
+    void guardBlocksAndClearsNextTurn() {
+        CombatState state = engine.newBattle(hero(), List.of(),
+                deckOf("knight-guard", "knight-guard", "knight-guard", "knight-guard"),
+                List.of(enemies.get("rat")), 1L);
+
