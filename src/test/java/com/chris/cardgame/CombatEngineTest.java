@@ -63,3 +63,9 @@ class CombatEngineTest {
         CombatState state = engine.newBattle(hero(), List.of(),
                 deckOf("knight-strike", "knight-strike", "knight-strike", "knight-strike"),
                 List.of(enemies.get("rat"), enemies.get("imp")), 1L);
+
+        engine.playCard(state, 0, 1);
+
+        assertThat(state.enemies().get(1).hp()).isEqualTo(11);
+    }
+
