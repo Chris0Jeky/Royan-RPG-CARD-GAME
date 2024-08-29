@@ -81,3 +81,9 @@ class CombatEngineTest {
         engine.endTurn(state);
         assertThat(state.hero().hp()).isEqualTo(60);
         assertThat(state.hero().block()).isEqualTo(0);
+    }
+
+    @Test
+    void tricksApplyWeakAndVulnerable() {
+        CombatState state = engine.newBattle(hero(), List.of(),
+                deckOf("neutral-cripple", "neutral-expose", "knight-strike", "knight-strike"),
