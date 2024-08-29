@@ -87,3 +87,9 @@ class CombatEngineTest {
     void tricksApplyWeakAndVulnerable() {
         CombatState state = engine.newBattle(hero(), List.of(),
                 deckOf("neutral-cripple", "neutral-expose", "knight-strike", "knight-strike"),
+                List.of(enemies.get("pirate")), 1L);
+
+        int cripple = indexOf(state, "neutral-cripple");
+        engine.playCard(state, cripple, 0);
+        assertThat(state.enemies().get(0).weak()).isEqualTo(2);
+        int expose = indexOf(state, "neutral-expose");
