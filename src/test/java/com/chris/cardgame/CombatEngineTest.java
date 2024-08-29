@@ -75,3 +75,9 @@ class CombatEngineTest {
                 deckOf("knight-guard", "knight-guard", "knight-guard", "knight-guard"),
                 List.of(enemies.get("rat")), 1L);
 
+        engine.playCard(state, 0, 0);
+
+        assertThat(state.hero().block()).isEqualTo(5);
+        engine.endTurn(state);
+        assertThat(state.hero().hp()).isEqualTo(60);
+        assertThat(state.hero().block()).isEqualTo(0);
