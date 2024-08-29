@@ -93,3 +93,9 @@ class CombatEngineTest {
         engine.playCard(state, cripple, 0);
         assertThat(state.enemies().get(0).weak()).isEqualTo(2);
         int expose = indexOf(state, "neutral-expose");
+        engine.playCard(state, expose, 0);
+        assertThat(state.enemies().get(0).vulnerable()).isEqualTo(2);
+    }
+
+    @Test
+    void damageCalcMultipliers() {
