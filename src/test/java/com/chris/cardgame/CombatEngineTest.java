@@ -105,3 +105,9 @@ class CombatEngineTest {
 
         assertThat(DamageCalc.attackDamage(mighty, guile, 10, false)).isEqualTo(15);
         assertThat(DamageCalc.attackDamage(mighty, focusBack, 10, false)).isEqualTo(8);
+        assertThat(DamageCalc.attackDamage(mighty, mighty, 10, false)).isEqualTo(10);
+        assertThat(DamageCalc.attackDamage(mighty, focusBack, 10, true)).isEqualTo(6);
+
+        mighty.applyWeak(1);
+        assertThat(DamageCalc.attackDamage(mighty, guile, 10, false)).isEqualTo(11);
+        guile.applyVulnerable(1);
