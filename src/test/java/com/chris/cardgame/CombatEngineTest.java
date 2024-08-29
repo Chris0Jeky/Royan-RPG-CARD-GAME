@@ -99,3 +99,9 @@ class CombatEngineTest {
 
     @Test
     void damageCalcMultipliers() {
+        Combatant mighty = new Combatant("a", Aspect.MIGHT, Row.FRONT, 50);
+        Combatant guile = new Combatant("b", Aspect.GUILE, Row.FRONT, 50);
+        Combatant focusBack = new Combatant("c", Aspect.FOCUS, Row.BACK, 50);
+
+        assertThat(DamageCalc.attackDamage(mighty, guile, 10, false)).isEqualTo(15);
+        assertThat(DamageCalc.attackDamage(mighty, focusBack, 10, false)).isEqualTo(8);
