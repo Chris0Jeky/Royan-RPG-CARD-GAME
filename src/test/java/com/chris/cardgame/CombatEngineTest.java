@@ -117,3 +117,9 @@ class CombatEngineTest {
         assertThat(DamageCalc.attackDamage(fresh, new Combatant("e", Aspect.MIGHT, Row.FRONT, 50), 10, false))
                 .isEqualTo(13);
     }
+
+    @Test
+    void unplayableAndEnergyRules() {
+        CombatState state = engine.newBattle(hero(), List.of(),
+                deckOf("curse-doubt", "knight-execute", "knight-execute", "knight-strike"),
+                List.of(enemies.get("golem")), 1L);
