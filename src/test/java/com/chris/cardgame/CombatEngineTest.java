@@ -141,3 +141,9 @@ class CombatEngineTest {
                 List.of(enemies.get("rat")), 1L);
 
         assertThatThrownBy(() -> engine.playCard(state, 0, 5))
+                .isInstanceOf(IllegalArgumentException.class);
+    }
+
+    @Test
+    void defeatEndsBattle() {
+        Combatant frail = Combatant.hero("Frail", HeroClass.KNIGHT, 1);
