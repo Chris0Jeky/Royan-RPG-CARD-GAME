@@ -111,3 +111,9 @@ class CombatEngineTest {
         mighty.applyWeak(1);
         assertThat(DamageCalc.attackDamage(mighty, guile, 10, false)).isEqualTo(11);
         guile.applyVulnerable(1);
+        Combatant fresh = new Combatant("d", Aspect.MIGHT, Row.FRONT, 50);
+        assertThat(DamageCalc.attackDamage(fresh, guile, 10, false)).isEqualTo(19);
+        fresh.gainStrength(3);
+        assertThat(DamageCalc.attackDamage(fresh, new Combatant("e", Aspect.MIGHT, Row.FRONT, 50), 10, false))
+                .isEqualTo(13);
+    }
