@@ -135,3 +135,9 @@ class CombatEngineTest {
     }
 
     @Test
+    void invalidTargetThrows() {
+        CombatState state = engine.newBattle(hero(), List.of(),
+                deckOf("knight-strike", "knight-strike", "knight-strike", "knight-strike"),
+                List.of(enemies.get("rat")), 1L);
+
+        assertThatThrownBy(() -> engine.playCard(state, 0, 5))
