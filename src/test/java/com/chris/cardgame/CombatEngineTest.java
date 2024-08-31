@@ -129,3 +129,9 @@ class CombatEngineTest {
                 .isInstanceOf(IllegalStateException.class);
         int execute = indexOf(state, "knight-execute");
         engine.playCard(state, execute, 0);
+        int second = indexOf(state, "knight-execute");
+        assertThatThrownBy(() -> engine.playCard(state, second, 0))
+                .isInstanceOf(IllegalStateException.class);
+    }
+
+    @Test
