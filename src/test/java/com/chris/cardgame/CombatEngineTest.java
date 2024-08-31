@@ -123,3 +123,9 @@ class CombatEngineTest {
         CombatState state = engine.newBattle(hero(), List.of(),
                 deckOf("curse-doubt", "knight-execute", "knight-execute", "knight-strike"),
                 List.of(enemies.get("golem")), 1L);
+
+        int curse = indexOf(state, "curse-doubt");
+        assertThatThrownBy(() -> engine.playCard(state, curse, 0))
+                .isInstanceOf(IllegalStateException.class);
+        int execute = indexOf(state, "knight-execute");
+        engine.playCard(state, execute, 0);
