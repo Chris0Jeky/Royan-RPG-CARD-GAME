@@ -153,3 +153,9 @@ class CombatEngineTest {
 
         for (int i = 0; i < 10 && !state.over(); i++) {
             engine.endTurn(state);
+        }
+
+        assertThat(state.over()).isTrue();
+        assertThat(state.victory()).isFalse();
+    }
+
