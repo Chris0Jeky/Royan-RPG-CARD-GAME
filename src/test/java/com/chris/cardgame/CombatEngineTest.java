@@ -147,3 +147,9 @@ class CombatEngineTest {
     @Test
     void defeatEndsBattle() {
         Combatant frail = Combatant.hero("Frail", HeroClass.KNIGHT, 1);
+        CombatState state = engine.newBattle(frail, List.of(),
+                deckOf("knight-strike", "knight-strike", "knight-strike", "knight-strike"),
+                List.of(enemies.get("golem")), 1L);
+
+        for (int i = 0; i < 10 && !state.over(); i++) {
+            engine.endTurn(state);
