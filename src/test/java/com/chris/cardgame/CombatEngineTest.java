@@ -159,3 +159,9 @@ class CombatEngineTest {
         assertThat(state.victory()).isFalse();
     }
 
+    @Test
+    void discardReshufflesIntoDraw() {
+        CombatState state = engine.newBattle(hero(), List.of(),
+                deckOf("knight-strike", "knight-strike", "knight-guard", "knight-guard"),
+                List.of(enemies.get("golem")), 9L);
+
