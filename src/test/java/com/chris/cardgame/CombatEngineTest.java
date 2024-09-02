@@ -171,3 +171,8 @@ class CombatEngineTest {
         assertThat(state.hand()).hasSize(4);
     }
 
+    private int indexOf(CombatState state, String id) {
+        for (int i = 0; i < state.hand().size(); i++) {
+            if (state.hand().get(i).id().equals(id)) {
+                return i;
+            }
