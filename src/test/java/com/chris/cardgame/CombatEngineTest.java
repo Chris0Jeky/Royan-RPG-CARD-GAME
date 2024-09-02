@@ -176,3 +176,7 @@ class CombatEngineTest {
             if (state.hand().get(i).id().equals(id)) {
                 return i;
             }
+        }
+        throw new IllegalStateException("card not in hand: " + id);
+    }
+}
