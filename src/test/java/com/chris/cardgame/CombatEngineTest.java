@@ -165,3 +165,9 @@ class CombatEngineTest {
                 deckOf("knight-strike", "knight-strike", "knight-guard", "knight-guard"),
                 List.of(enemies.get("golem")), 9L);
 
+        assertThat(state.drawPile()).isEmpty();
+        engine.endTurn(state);
+
+        assertThat(state.hand()).hasSize(4);
+    }
+
