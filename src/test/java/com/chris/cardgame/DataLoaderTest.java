@@ -11,3 +11,9 @@ import com.chris.cardgame.model.CardDef;
 import com.chris.cardgame.model.HeroClass;
 import org.junit.jupiter.api.Test;
 
+class DataLoaderTest {
+
+    @Test
+    void cardsLoadWithValidCosts() {
+        CardLoader cards = CardLoader.load();
+
