@@ -23,3 +23,9 @@ class DataLoaderTest {
     }
 
     @Test
+    void knightStarterDeckIsTwelveCards() {
+        CardLoader cards = CardLoader.load();
+
+        List<CardDef> starter = cards.starterDeck(HeroClass.KNIGHT);
+
+        assertThat(starter).hasSize(12);
