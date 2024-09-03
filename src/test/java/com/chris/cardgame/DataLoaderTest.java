@@ -41,3 +41,9 @@ class DataLoaderTest {
         assertThatThrownBy(() -> cards.get("nope"))
                 .isInstanceOf(IllegalArgumentException.class);
         assertThatThrownBy(() -> cards.starterDeck(HeroClass.RANGER))
+                .isInstanceOf(IllegalArgumentException.class);
+    }
+
+    @Test
+    void enemiesLoad() {
+        EnemyLoader enemies = EnemyLoader.load();
