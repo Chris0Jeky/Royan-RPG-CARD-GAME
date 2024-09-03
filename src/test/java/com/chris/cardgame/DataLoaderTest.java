@@ -29,3 +29,9 @@ class DataLoaderTest {
         List<CardDef> starter = cards.starterDeck(HeroClass.KNIGHT);
 
         assertThat(starter).hasSize(12);
+        assertThat(starter.stream().filter(c -> c.id().equals("knight-strike")).count()).isEqualTo(4);
+        assertThat(starter.stream().filter(c -> c.id().equals("knight-guard")).count()).isEqualTo(3);
+        assertThat(starter.stream().filter(c -> c.id().equals("knight-heavy")).count()).isEqualTo(2);
+    }
+
+    @Test
