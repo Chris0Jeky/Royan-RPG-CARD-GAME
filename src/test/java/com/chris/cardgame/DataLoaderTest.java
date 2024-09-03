@@ -17,3 +17,9 @@ class DataLoaderTest {
     void cardsLoadWithValidCosts() {
         CardLoader cards = CardLoader.load();
 
+        assertThat(cards.all()).hasSize(18);
+        assertThat(cards.all()).allSatisfy(card ->
+                assertThat(card.cost()).isBetween(0, 3));
+    }
+
+    @Test
