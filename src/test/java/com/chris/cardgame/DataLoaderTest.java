@@ -35,3 +35,9 @@ class DataLoaderTest {
     }
 
     @Test
+    void unknownCardThrows() {
+        CardLoader cards = CardLoader.load();
+
+        assertThatThrownBy(() -> cards.get("nope"))
+                .isInstanceOf(IllegalArgumentException.class);
+        assertThatThrownBy(() -> cards.starterDeck(HeroClass.RANGER))
