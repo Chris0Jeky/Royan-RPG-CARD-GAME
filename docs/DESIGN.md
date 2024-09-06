@@ -14,3 +14,9 @@ boss) → combat → pick-1-of-3 loot + XP → repeat → boss → next act.
 - Turn: gain 3 energy, draw 4 cards, enemy intents telegraphed, play cards, end turn (discard hand).
 - Piles: draw (shuffled) → hand → discard; empty draw reshuffles discard. Seeded RNG per battle.
 - Card types: Strike (damage), Guard (block), Trick (damage + debuff / utility), Power (combat buff),
+  Curse (unplayable, clogs hand).
+- Card fields are data: damage, block, draw, heal, weak, vulnerable, strength; target SELF /
+  ENEMY_ONE / ALL_ENEMIES. Cost 0–3.
+- Aspect triangle: MIGHT → GUILE → FOCUS → MIGHT. Advantage ×1.5, disadvantage ×0.75.
+- Rows: FRONT / BACK. BACK-row targets take ×0.75 while any FRONT ally lives (cover).
+- Weak (attacker): ×0.75 damage. Vulnerable (target): ×1.25 damage taken. Durations tick down
