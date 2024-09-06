@@ -38,3 +38,7 @@ boss) → combat → pick-1-of-3 loot + XP → repeat → boss → next act.
 
 ## Enemy AI (M1: weighted intents; M4: 4 behaviors + 2-phase bosses)
 - Intents: ATTACK / DEFEND / BUFF / DEBUFF, rolled per enemy per turn from behavior weights.
+- M1 behaviors are data (attack/defend/buff weights per enemy).
+
+## Balance log
+- 2024-07-?? (M1): multipliers locked — advantage 1.5, disadvantage/cover/weak 0.75, vulnerable 1.25.
