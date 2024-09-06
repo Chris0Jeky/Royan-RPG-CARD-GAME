@@ -8,3 +8,9 @@ branching map, and kill the Sky-Tyrant's captains (2-phase bosses). Runs ~8 min,
 
 ## Core loop
 Hub (deck + tavern upgrades) → act map (15/18/22 nodes: combat / elite / rest / shop / event /
+boss) → combat → pick-1-of-3 loot + XP → repeat → boss → next act.
+
+## Combat (M1 — implemented)
+- Turn: gain 3 energy, draw 4 cards, enemy intents telegraphed, play cards, end turn (discard hand).
+- Piles: draw (shuffled) → hand → discard; empty draw reshuffles discard. Seeded RNG per battle.
+- Card types: Strike (damage), Guard (block), Trick (damage + debuff / utility), Power (combat buff),
