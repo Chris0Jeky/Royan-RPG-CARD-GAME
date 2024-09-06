@@ -53,3 +53,4 @@ class DataLoaderTest {
         assertThatThrownBy(() -> enemies.get("nope"))
                 .isInstanceOf(IllegalArgumentException.class);
     }
+}
