@@ -26,3 +26,9 @@ boss) → combat → pick-1-of-3 loot + XP → repeat → boss → next act.
 - Victory: all enemies dead. Defeat: hero HP 0. Companions (M4): hero + 0–2 vs 1–3 enemies.
 
 ## Heroes & decks (M1: Knight only; M3/M5: all three)
+- Knight (MIGHT): bruiser, block + heavy hits. Ranger (GUILE): cheap strikes, draw, weak.
+  Runemage (FOCUS): burst, vulnerable, powers.
+- Deck: start 12, max 30, max 3 copies. Starter Knight: 4 Strike, 3 Guard, 2 Heavy Blow,
+  1 Rally, 1 Quick Cut, 1 Bulwark.
+
+## Progression (M2/M3)
