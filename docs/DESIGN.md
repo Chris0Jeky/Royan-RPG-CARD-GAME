@@ -20,3 +20,9 @@ boss) → combat → pick-1-of-3 loot + XP → repeat → boss → next act.
 - Aspect triangle: MIGHT → GUILE → FOCUS → MIGHT. Advantage ×1.5, disadvantage ×0.75.
 - Rows: FRONT / BACK. BACK-row targets take ×0.75 while any FRONT ally lives (cover).
 - Weak (attacker): ×0.75 damage. Vulnerable (target): ×1.25 damage taken. Durations tick down
+  each round.
+- Block absorbs damage, then HP. Block clears at the start of the owner's turn.
+- Hero aspect = class aspect (Knight MIGHT / Ranger GUILE / Runemage FOCUS).
+- Victory: all enemies dead. Defeat: hero HP 0. Companions (M4): hero + 0–2 vs 1–3 enemies.
+
+## Heroes & decks (M1: Knight only; M3/M5: all three)
