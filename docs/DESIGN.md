@@ -32,3 +32,9 @@ boss) → combat → pick-1-of-3 loot + XP → repeat → boss → next act.
   1 Rally, 1 Quick Cut, 1 Bulwark.
 
 ## Progression (M2/M3)
+- Levels 1–10, pick-1-of-3 boons on level-up. XP from combat + events.
+- Economy: gold (shops/shrines), dust (card upgrades, 3:1), shards (relic rerolls). No premium.
+- 20 relics, 24 narrative events, tavern (heal / recruit / upgrade), shrines (card surgery).
+
+## Enemy AI (M1: weighted intents; M4: 4 behaviors + 2-phase bosses)
+- Intents: ATTACK / DEFEND / BUFF / DEBUFF, rolled per enemy per turn from behavior weights.
