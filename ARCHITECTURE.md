@@ -16,6 +16,9 @@ src/main/java/com/chris/cardgame/
   model/        CardDef, EnemyDef, Combatant, CardType, Aspect, Rarity, HeroClass, Row (+ legacy Card/Deck/Player at root)
   data/         CardLoader, EnemyLoader (Jackson JSON from resources/data)
   combat/       CombatEngine, CombatState, DamageCalc, Intent/IntentKind
+  map/          MapGen, ActMap, MapNode, NodeType (layered DAG, 15/18/22 nodes)
+  loot/         EncounterGen, LootGen (pick-1-of-3), XpCurve, Boon
+  run/          RunState, RunEngine, Events, Shop
   map/          MapGen, MapNode, Act (3-act branching: 15/18/22 nodes)
   loot/         LootGen (pick-1-of-3), XpCurve, Economy (gold/dust/shards)
   ai/           EnemyAi (aggro/turtle/burst/trickster), BossPhases
