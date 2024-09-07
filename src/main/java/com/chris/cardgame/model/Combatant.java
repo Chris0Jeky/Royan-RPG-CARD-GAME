@@ -4,9 +4,10 @@ public class Combatant {
     private final String name;
     private final Aspect aspect;
     private final Row row;
-    private final int maxHp;
+    private int maxHp;
     private int hp;
     private int block;
+    private int baseStrength;
     private int strength;
     private int weak;
     private int vulnerable;
@@ -100,6 +101,23 @@ public class Combatant {
 
     public void heal(int amount) {
         hp = Math.min(maxHp, hp + Math.max(0, amount));
+    }
+
+    public void resetForBattle() {
+        block = 0;
+        strength = baseStrength;
+        weak = 0;
+        vulnerable = 0;
+    }
+
+    public void gainBaseStrength(int amount) {
+        baseStrength += amount;
+        strength += amount;
+    }
+
+    public void raiseMaxHp(int amount) {
+        maxHp += amount;
+        heal(amount);
     }
 
     public void takeDamage(int amount) {
