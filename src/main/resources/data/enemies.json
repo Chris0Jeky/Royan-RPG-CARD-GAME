@@ -1,8 +1,8 @@
 {
   "enemies": [
-    {"id": "rat", "name": "Gutter Rat", "hp": 18, "atk": 5, "aspect": "GUILE", "row": "FRONT", "xp": 8, "goldMin": 3, "goldMax": 6, "attackWeight": 8, "defendWeight": 2, "buffWeight": 0, "flavor": "It pays the cheese toll."},
-    {"id": "imp", "name": "Cinder Imp", "hp": 14, "atk": 6, "aspect": "FOCUS", "row": "BACK", "xp": 10, "goldMin": 4, "goldMax": 8, "attackWeight": 8, "defendWeight": 1, "buffWeight": 1, "flavor": "Small. Rude. Flammable."},
-    {"id": "pirate", "name": "Sky Pirate", "hp": 30, "atk": 8, "aspect": "MIGHT", "row": "FRONT", "xp": 15, "goldMin": 8, "goldMax": 14, "attackWeight": 7, "defendWeight": 2, "buffWeight": 1, "flavor": "Your cargo is now their cargo."},
-    {"id": "golem", "name": "Rust Golem", "hp": 48, "atk": 11, "aspect": "FOCUS", "row": "FRONT", "xp": 25, "goldMin": 12, "goldMax": 20, "attackWeight": 7, "defendWeight": 3, "buffWeight": 0, "flavor": "Decommissioned. Disagreeable."}
+    {"id": "rat", "name": "Gutter Rat", "hp": 14, "atk": 5, "aspect": "GUILE", "row": "FRONT", "xp": 8, "goldMin": 3, "goldMax": 6, "attackWeight": 8, "defendWeight": 2, "buffWeight": 0, "flavor": "It pays the cheese toll."},
+    {"id": "imp", "name": "Cinder Imp", "hp": 12, "atk": 6, "aspect": "FOCUS", "row": "BACK", "xp": 10, "goldMin": 4, "goldMax": 8, "attackWeight": 8, "defendWeight": 1, "buffWeight": 1, "flavor": "Small. Rude. Flammable."},
+    {"id": "pirate", "name": "Sky Pirate", "hp": 24, "atk": 7, "aspect": "MIGHT", "row": "FRONT", "xp": 15, "goldMin": 8, "goldMax": 14, "attackWeight": 7, "defendWeight": 2, "buffWeight": 1, "flavor": "Your cargo is now their cargo."},
+    {"id": "golem", "name": "Rust Golem", "hp": 36, "atk": 10, "aspect": "FOCUS", "row": "FRONT", "xp": 25, "goldMin": 12, "goldMax": 20, "attackWeight": 7, "defendWeight": 3, "buffWeight": 0, "flavor": "Decommissioned. Disagreeable."}
   ]
 }
