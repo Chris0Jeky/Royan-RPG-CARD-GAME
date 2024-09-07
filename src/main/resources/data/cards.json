@@ -11,7 +11,7 @@
     {"id": "knight-shieldwall", "name": "Shield Wall", "cost": 3, "type": "GUARD", "aspect": "MIGHT", "block": 20, "heroClass": "KNIGHT", "rarity": "RARE", "flavor": "Nothing passes."},
     {"id": "neutral-shiv", "name": "Shiv", "cost": 0, "type": "STRIKE", "aspect": "GUILE", "damage": 2, "heroClass": "NEUTRAL", "rarity": "COMMON", "flavor": "Dockside diplomacy."},
     {"id": "neutral-focus", "name": "Focus", "cost": 0, "type": "TRICK", "aspect": "FOCUS", "draw": 1, "heroClass": "NEUTRAL", "rarity": "COMMON", "flavor": "Breathe. Aim."},
-    {"id": "neutral-second-wind", "name": "Second Wind", "cost": 1, "type": "TRICK", "aspect": "FOCUS", "heal": 4, "heroClass": "NEUTRAL", "rarity": "UNCOMMON", "flavor": "Not done yet."},
+    {"id": "neutral-second-wind", "name": "Second Wind", "cost": 1, "type": "TRICK", "aspect": "FOCUS", "heal": 6, "heroClass": "NEUTRAL", "rarity": "UNCOMMON", "flavor": "Not done yet."},
     {"id": "neutral-warcry", "name": "War Cry", "cost": 1, "type": "POWER", "aspect": "MIGHT", "strength": 1, "heroClass": "NEUTRAL", "rarity": "UNCOMMON", "flavor": "LOUDER."},
     {"id": "neutral-expose", "name": "Expose Weakness", "cost": 1, "type": "TRICK", "aspect": "GUILE", "vulnerable": 2, "heroClass": "NEUTRAL", "rarity": "COMMON", "flavor": "There. Hit there."},
     {"id": "neutral-cripple", "name": "Cripple", "cost": 1, "type": "TRICK", "aspect": "GUILE", "damage": 3, "weak": 2, "heroClass": "NEUTRAL", "rarity": "COMMON", "flavor": "Kneecaps are load-bearing."},
@@ -20,6 +20,6 @@
     {"id": "runemage-spark", "name": "Spark", "cost": 1, "type": "STRIKE", "aspect": "FOCUS", "damage": 7, "heroClass": "RUNEMAGE", "rarity": "COMMON", "flavor": "Every storm starts somewhere."}
   ],
   "starterDecks": {
-    "KNIGHT": ["knight-strike", "knight-strike", "knight-strike", "knight-strike", "knight-guard", "knight-guard", "knight-guard", "knight-heavy", "knight-heavy", "knight-rally", "knight-quick", "knight-bulwark"]
+    "KNIGHT": ["knight-strike", "knight-strike", "knight-strike", "knight-guard", "knight-guard", "knight-guard", "knight-guard", "knight-heavy", "knight-heavy", "knight-rally", "knight-quick", "knight-bulwark"]
   }
 }
