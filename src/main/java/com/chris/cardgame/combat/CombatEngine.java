@@ -13,7 +13,7 @@ import com.chris.cardgame.model.Row;
 public class CombatEngine {
     public static final int ENERGY_PER_TURN = 3;
     public static final int DRAW_PER_TURN = 4;
-    public static final int ENEMY_DEFEND_BLOCK = 6;
+    public static final int ENEMY_DEFEND_BLOCK = 5;
     public static final int ENEMY_BUFF_STRENGTH = 2;
 
     public CombatState newBattle(Combatant hero, List<Combatant> companions, List<CardDef> deck,
@@ -21,6 +21,8 @@ public class CombatEngine {
         List<Combatant> enemies = enemyDefs.stream().map(Combatant::enemy).toList();
         CombatState state = new CombatState(hero, new ArrayList<>(companions),
                 new ArrayList<>(enemies), List.copyOf(enemyDefs), seed);
+        hero.resetForBattle();
+        companions.forEach(Combatant::resetForBattle);
         List<CardDef> pile = new ArrayList<>(deck);
         Collections.shuffle(pile, new Random(state.rng().nextLong()));
         state.drawPile().addAll(pile);
