@@ -14,3 +14,9 @@ public class MapGen {
 
     public ActMap generate(int act, long seed) {
         int[] layers = LAYERS.get(act);
+        if (layers == null) {
+            throw new IllegalArgumentException("no such act: " + act);
+        }
+        SplittableRandom rng = new SplittableRandom(seed);
+        Map<String, MapNode> nodes = new LinkedHashMap<>();
+        List<List<String>> byLayer = new ArrayList<>();
