@@ -16,3 +16,4 @@ public record ActMap(int act, Map<String, MapNode> nodes, List<String> entries, 
     public int layers() {
         return nodes.values().stream().mapToInt(MapNode::layer).max().orElse(0) + 1;
     }
+}
