@@ -26,3 +26,9 @@ public class MapGen {
             for (int i = 0; i < layers[layer]; i++) {
                 String id = "a" + act + "-L" + layer + "-" + i;
                 NodeType type = nodeType(act, layer, layers.length, rng);
+                nodes.put(id, new MapNode(id, act, layer, type, new ArrayList<>()));
+                ids.add(id);
+            }
+            byLayer.add(ids);
+        }
+        for (int layer = 0; layer < layers.length - 1; layer++) {
