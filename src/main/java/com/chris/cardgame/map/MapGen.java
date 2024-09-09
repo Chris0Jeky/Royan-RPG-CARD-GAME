@@ -20,3 +20,9 @@ public class MapGen {
         SplittableRandom rng = new SplittableRandom(seed);
         Map<String, MapNode> nodes = new LinkedHashMap<>();
         List<List<String>> byLayer = new ArrayList<>();
+
+        for (int layer = 0; layer < layers.length; layer++) {
+            List<String> ids = new ArrayList<>();
+            for (int i = 0; i < layers[layer]; i++) {
+                String id = "a" + act + "-L" + layer + "-" + i;
+                NodeType type = nodeType(act, layer, layers.length, rng);
