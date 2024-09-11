@@ -38,3 +38,9 @@ public class MapGen {
         String bossId = byLayer.get(byLayer.size() - 1).get(0);
         return new ActMap(act, nodes, entries, bossId);
     }
+
+    private NodeType nodeType(int act, int layer, int layerCount, SplittableRandom rng) {
+        if (layer == 0) {
+            return NodeType.COMBAT;
+        }
+        if (layer == layerCount - 1) {
