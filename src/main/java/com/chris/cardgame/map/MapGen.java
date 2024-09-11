@@ -44,3 +44,9 @@ public class MapGen {
             return NodeType.COMBAT;
         }
         if (layer == layerCount - 1) {
+            return NodeType.BOSS;
+        }
+        if (layer == layerCount - 2) {
+            return NodeType.REST;
+        }
+        double roll = rng.nextDouble();
