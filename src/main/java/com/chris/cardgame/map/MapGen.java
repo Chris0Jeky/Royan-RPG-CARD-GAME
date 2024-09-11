@@ -32,3 +32,9 @@ public class MapGen {
             byLayer.add(ids);
         }
         for (int layer = 0; layer < layers.length - 1; layer++) {
+            linkLayers(nodes, byLayer.get(layer), byLayer.get(layer + 1), rng);
+        }
+        List<String> entries = List.copyOf(byLayer.get(0));
+        String bossId = byLayer.get(byLayer.size() - 1).get(0);
+        return new ActMap(act, nodes, entries, bossId);
+    }
