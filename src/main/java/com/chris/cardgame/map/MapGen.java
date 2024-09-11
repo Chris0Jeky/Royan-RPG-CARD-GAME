@@ -61,3 +61,9 @@ public class MapGen {
         }
         if (roll < 0.89) {
             return NodeType.REST;
+        }
+        return NodeType.ELITE;
+    }
+
+    private void linkLayers(Map<String, MapNode> nodes, List<String> from, List<String> to,
+            SplittableRandom rng) {
