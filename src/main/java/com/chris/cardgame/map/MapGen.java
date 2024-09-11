@@ -56,3 +56,8 @@ public class MapGen {
         if (roll < 0.65) {
             return NodeType.EVENT;
         }
+        if (roll < 0.77) {
+            return NodeType.SHOP;
+        }
+        if (roll < 0.89) {
+            return NodeType.REST;
