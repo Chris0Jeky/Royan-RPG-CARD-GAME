@@ -67,3 +67,9 @@ public class MapGen {
 
     private void linkLayers(Map<String, MapNode> nodes, List<String> from, List<String> to,
             SplittableRandom rng) {
+        for (int i = 0; i < from.size(); i++) {
+            int primary = (int) Math.round((double) i * (to.size() - 1) / Math.max(1, from.size() - 1));
+            connect(nodes, from.get(i), to.get(clamp(primary, to.size())));
+            if (to.size() > 1 && rng.nextDouble() < 0.5) {
+                int extra = primary + (rng.nextBoolean() ? 1 : -1);
+                if (extra >= 0 && extra < to.size() && extra != primary) {
