@@ -50,3 +50,9 @@ public class MapGen {
             return NodeType.REST;
         }
         double roll = rng.nextDouble();
+        if (roll < 0.45) {
+            return NodeType.COMBAT;
+        }
+        if (roll < 0.65) {
+            return NodeType.EVENT;
+        }
