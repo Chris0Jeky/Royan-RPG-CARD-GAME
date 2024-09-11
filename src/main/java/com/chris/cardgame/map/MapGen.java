@@ -73,3 +73,9 @@ public class MapGen {
             if (to.size() > 1 && rng.nextDouble() < 0.5) {
                 int extra = primary + (rng.nextBoolean() ? 1 : -1);
                 if (extra >= 0 && extra < to.size() && extra != primary) {
+                    connect(nodes, from.get(i), to.get(extra));
+                }
+            }
+        }
+        for (int j = 0; j < to.size(); j++) {
+            String target = to.get(j);
