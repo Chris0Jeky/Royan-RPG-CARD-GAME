@@ -91,3 +91,9 @@ public class MapGen {
         List<String> children = nodes.get(from).children();
         if (!children.contains(to)) {
             children.add(to);
+        }
+    }
+
+    private int clamp(int value, int size) {
+        return Math.max(0, Math.min(size - 1, value));
+    }
