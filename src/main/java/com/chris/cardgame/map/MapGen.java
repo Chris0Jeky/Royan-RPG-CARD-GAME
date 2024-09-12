@@ -97,3 +97,4 @@ public class MapGen {
     private int clamp(int value, int size) {
         return Math.max(0, Math.min(size - 1, value));
     }
+}
