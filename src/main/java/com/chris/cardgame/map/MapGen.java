@@ -79,3 +79,9 @@ public class MapGen {
         }
         for (int j = 0; j < to.size(); j++) {
             String target = to.get(j);
+            boolean orphan = from.stream().noneMatch(id -> nodes.get(id).children().contains(target));
+            if (orphan) {
+                int nearest = (int) Math.round((double) j * (from.size() - 1) / Math.max(1, to.size() - 1));
+                connect(nodes, from.get(clamp(nearest, from.size())), target);
+            }
+        }
