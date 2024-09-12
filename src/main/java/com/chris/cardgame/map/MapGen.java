@@ -85,3 +85,9 @@ public class MapGen {
                 connect(nodes, from.get(clamp(nearest, from.size())), target);
             }
         }
+    }
+
+    private void connect(Map<String, MapNode> nodes, String from, String to) {
+        List<String> children = nodes.get(from).children();
+        if (!children.contains(to)) {
+            children.add(to);
