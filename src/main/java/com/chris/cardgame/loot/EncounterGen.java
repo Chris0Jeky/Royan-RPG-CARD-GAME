@@ -18,3 +18,9 @@ public class EncounterGen {
     private static final Map<Integer, List<List<String>>> ELITE = Map.of(
             1, List.of(List.of("pirate", "imp"), List.of("pirate", "rat", "rat")),
             2, List.of(List.of("golem", "imp"), List.of("pirate", "pirate", "imp")),
+            3, List.of(List.of("golem", "pirate", "imp"), List.of("golem", "golem")));
+    private static final Map<Integer, List<String>> BOSS = Map.of(
+            1, List.of("pirate", "rat"),
+            2, List.of("golem", "imp"),
+            3, List.of("golem", "pirate"));
+
