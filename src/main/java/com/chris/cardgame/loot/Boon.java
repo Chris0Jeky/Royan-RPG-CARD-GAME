@@ -13,3 +13,9 @@ public record Boon(String id, String name, String desc, int maxHp, int heal, int
             new Boon("second-wind-blessing", "Second Wind", "+4 max HP, heal 4, +20 gold", 4, 4, 20, 0),
             new Boon("war-paint", "War Paint", "+2 strength every battle", 0, 0, 0, 2));
 
+    public static List<Boon> offer(SplittableRandom rng) {
+        List<Boon> remaining = new ArrayList<>(ALL);
+        List<Boon> options = new ArrayList<>();
+        for (int i = 0; i < 3 && !remaining.isEmpty(); i++) {
+            options.add(remaining.remove(rng.nextInt(remaining.size())));
+        }
