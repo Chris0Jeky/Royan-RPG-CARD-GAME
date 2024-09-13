@@ -24,3 +24,9 @@ public class EncounterGen {
             2, List.of("golem", "imp"),
             3, List.of("golem", "pirate"));
 
+    private final EnemyLoader enemies;
+
+    public EncounterGen(EnemyLoader enemies) {
+        this.enemies = enemies;
+    }
+
