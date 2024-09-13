@@ -19,3 +19,6 @@ public record Boon(String id, String name, String desc, int maxHp, int heal, int
         for (int i = 0; i < 3 && !remaining.isEmpty(); i++) {
             options.add(remaining.remove(rng.nextInt(remaining.size())));
         }
+        return options;
+    }
+}
