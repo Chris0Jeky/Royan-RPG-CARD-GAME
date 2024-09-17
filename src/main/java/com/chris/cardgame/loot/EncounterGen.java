@@ -30,3 +30,9 @@ public class EncounterGen {
         this.enemies = enemies;
     }
 
+    public List<EnemyDef> combat(int act, SplittableRandom rng) {
+        return pick(COMBAT.get(act), rng);
+    }
+
+    public List<EnemyDef> elite(int act, SplittableRandom rng) {
+        return pick(ELITE.get(act), rng);
