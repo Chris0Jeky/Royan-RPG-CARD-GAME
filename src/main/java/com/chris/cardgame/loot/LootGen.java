@@ -21,3 +21,9 @@ public class LootGen {
     public LootGen(CardLoader cards) {
         this.cards = cards;
     }
+
+    public List<CardDef> cardOptions(HeroClass heroClass, List<CardDef> deck, boolean elite,
+            SplittableRandom rng) {
+        Map<String, Integer> counts = new HashMap<>();
+        deck.forEach(card -> counts.merge(card.id(), 1, Integer::sum));
+        List<CardDef> pool = cards.all().stream()
