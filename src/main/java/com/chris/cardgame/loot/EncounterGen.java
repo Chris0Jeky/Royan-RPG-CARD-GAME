@@ -42,3 +42,8 @@ public class EncounterGen {
         List<String> ids = BOSS.get(act);
         if (ids == null) {
             throw new IllegalArgumentException("no boss for act " + act);
+        }
+        return ids.stream().map(enemies::get).toList();
+    }
+
+    private List<EnemyDef> pick(List<List<String>> pool, SplittableRandom rng) {
