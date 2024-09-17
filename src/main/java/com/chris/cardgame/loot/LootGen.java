@@ -15,3 +15,9 @@ public class LootGen {
     public static final int OPTIONS = 3;
     public static final int MAX_COPIES = 3;
     public static final int MAX_DECK = 30;
+
+    private final CardLoader cards;
+
+    public LootGen(CardLoader cards) {
+        this.cards = cards;
+    }
