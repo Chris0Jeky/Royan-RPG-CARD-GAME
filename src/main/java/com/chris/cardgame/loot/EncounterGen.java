@@ -36,3 +36,9 @@ public class EncounterGen {
 
     public List<EnemyDef> elite(int act, SplittableRandom rng) {
         return pick(ELITE.get(act), rng);
+    }
+
+    public List<EnemyDef> boss(int act) {
+        List<String> ids = BOSS.get(act);
+        if (ids == null) {
+            throw new IllegalArgumentException("no boss for act " + act);
