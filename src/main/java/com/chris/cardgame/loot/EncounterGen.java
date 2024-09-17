@@ -47,3 +47,9 @@ public class EncounterGen {
     }
 
     private List<EnemyDef> pick(List<List<String>> pool, SplittableRandom rng) {
+        if (pool == null || pool.isEmpty()) {
+            throw new IllegalArgumentException("empty encounter pool");
+        }
+        return pool.get(rng.nextInt(pool.size())).stream().map(enemies::get).toList();
+    }
+}
