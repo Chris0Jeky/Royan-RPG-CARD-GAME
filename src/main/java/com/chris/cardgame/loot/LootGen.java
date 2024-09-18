@@ -45,3 +45,9 @@ public class LootGen {
         return enemyGold.stream().mapToInt(g -> g).sum();
     }
 
+    public int rollGold(int min, int max, SplittableRandom rng) {
+        return min + rng.nextInt(max - min + 1);
+    }
+
+    private CardDef weightedPick(List<CardDef> pool, boolean elite, SplittableRandom rng) {
+        int total = pool.stream().mapToInt(card -> weight(card.rarity(), elite)).sum();
