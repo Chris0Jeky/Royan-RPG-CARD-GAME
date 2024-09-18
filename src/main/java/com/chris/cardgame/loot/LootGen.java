@@ -27,3 +27,9 @@ public class LootGen {
         Map<String, Integer> counts = new HashMap<>();
         deck.forEach(card -> counts.merge(card.id(), 1, Integer::sum));
         List<CardDef> pool = cards.all().stream()
+                .filter(card -> !card.unplayable())
+                .filter(card -> card.heroClass() == heroClass || card.heroClass() == HeroClass.NEUTRAL)
+                .filter(card -> counts.getOrDefault(card.id(), 0) < MAX_COPIES)
+                .toList();
+        List<CardDef> options = new ArrayList<>();
+        List<CardDef> remaining = new ArrayList<>(pool);
