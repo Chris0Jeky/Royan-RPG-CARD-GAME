@@ -39,3 +39,9 @@ public class LootGen {
             remaining.remove(pick);
         }
         return options;
+    }
+
+    public int goldReward(List<Integer> enemyGold, SplittableRandom rng) {
+        return enemyGold.stream().mapToInt(g -> g).sum();
+    }
+
