@@ -57,3 +57,9 @@ public class LootGen {
             if (roll < 0) {
                 return card;
             }
+        }
+        return pool.get(pool.size() - 1);
+    }
+
+    private int weight(Rarity rarity, boolean elite) {
+        return switch (rarity) {
