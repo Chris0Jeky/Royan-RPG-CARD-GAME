@@ -51,3 +51,9 @@ public class LootGen {
 
     private CardDef weightedPick(List<CardDef> pool, boolean elite, SplittableRandom rng) {
         int total = pool.stream().mapToInt(card -> weight(card.rarity(), elite)).sum();
+        int roll = rng.nextInt(total);
+        for (CardDef card : pool) {
+            roll -= weight(card.rarity(), elite);
+            if (roll < 0) {
+                return card;
+            }
