@@ -33,3 +33,9 @@ public class LootGen {
                 .toList();
         List<CardDef> options = new ArrayList<>();
         List<CardDef> remaining = new ArrayList<>(pool);
+        for (int i = 0; i < OPTIONS && !remaining.isEmpty(); i++) {
+            CardDef pick = weightedPick(remaining, elite, rng);
+            options.add(pick);
+            remaining.remove(pick);
+        }
+        return options;
