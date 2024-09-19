@@ -13,3 +13,9 @@ public class Events {
     private final LootGen loot;
 
     public Events(CardLoader cards) {
+        this.cards = cards;
+        this.loot = new LootGen(cards);
+    }
+
+    public void resolve(RunState state, PrintStream out) {
+        SplittableRandom rng = state.rng();
