@@ -14,3 +14,5 @@ public final class XpCurve {
             return Integer.MAX_VALUE;
         }
         return 20 + level * 12;
+    }
+}
