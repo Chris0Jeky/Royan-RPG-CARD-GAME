@@ -63,3 +63,9 @@ public class LootGen {
 
     private int weight(Rarity rarity, boolean elite) {
         return switch (rarity) {
+            case COMMON -> elite ? 40 : 60;
+            case UNCOMMON -> elite ? 40 : 30;
+            case RARE -> elite ? 20 : 10;
+            case ELITE -> 5;
+        };
+    }
