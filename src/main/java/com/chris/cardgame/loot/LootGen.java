@@ -69,3 +69,4 @@ public class LootGen {
             case ELITE -> 5;
         };
     }
+}
