@@ -30,3 +30,9 @@ public class Events {
                 state.hero().heal(heal);
                 out.println("  Event: Old Shrine - restored " + heal + " HP.");
             }
+            case 2 -> {
+                int loss = 5 + rng.nextInt(6);
+                state.hero().takeDamage(loss);
+                int gold = 40 + rng.nextInt(21);
+                state.addGold(gold);
+                out.println("  Event: Toll Bridge - paid " + loss + " HP, earned " + gold + " gold.");
