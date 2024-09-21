@@ -42,3 +42,9 @@ public class Events {
                 if (!options.isEmpty() && state.gold() >= 40) {
                     state.spendGold(40);
                     state.addCard(options.get(0));
+                    out.println("  Event: Wandering Smith - bought " + options.get(0).name() + " for 40 gold.");
+                } else {
+                    out.println("  Event: Wandering Smith - browsed wares, bought nothing.");
+                }
+            }
+        }
