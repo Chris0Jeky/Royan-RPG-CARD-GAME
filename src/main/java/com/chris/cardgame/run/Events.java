@@ -24,3 +24,9 @@ public class Events {
                 int gold = 30 + rng.nextInt(31);
                 state.addGold(gold);
                 out.println("  Event: Abandoned Cache - found " + gold + " gold.");
+            }
+            case 1 -> {
+                int heal = 10 + rng.nextInt(11);
+                state.hero().heal(heal);
+                out.println("  Event: Old Shrine - restored " + heal + " HP.");
+            }
