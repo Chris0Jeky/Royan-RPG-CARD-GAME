@@ -19,3 +19,8 @@ public class Events {
 
     public void resolve(RunState state, PrintStream out) {
         SplittableRandom rng = state.rng();
+        switch (rng.nextInt(4)) {
+            case 0 -> {
+                int gold = 30 + rng.nextInt(31);
+                state.addGold(gold);
+                out.println("  Event: Abandoned Cache - found " + gold + " gold.");
