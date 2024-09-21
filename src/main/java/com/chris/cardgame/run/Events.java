@@ -36,3 +36,9 @@ public class Events {
                 int gold = 40 + rng.nextInt(21);
                 state.addGold(gold);
                 out.println("  Event: Toll Bridge - paid " + loss + " HP, earned " + gold + " gold.");
+            }
+            default -> {
+                List<CardDef> options = loot.cardOptions(state.heroClass(), state.deck(), false, rng);
+                if (!options.isEmpty() && state.gold() >= 40) {
+                    state.spendGold(40);
+                    state.addCard(options.get(0));
