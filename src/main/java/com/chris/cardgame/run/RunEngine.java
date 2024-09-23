@@ -25,3 +25,9 @@ public class RunEngine {
         this.encounters = new EncounterGen(enemies);
         this.loot = new LootGen(cards);
         this.events = new Events(cards);
+        this.shop = new Shop(cards);
+    }
+
+    public boolean resolve(RunState state, MapNode node, PrintStream out) {
+        out.println("Node " + node.id() + " [" + node.type() + "] - hero " + state.hero()
+                + " | deck " + state.deck().size() + " | gold " + state.gold()
