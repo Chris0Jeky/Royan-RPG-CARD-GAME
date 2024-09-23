@@ -31,3 +31,9 @@ public class RunEngine {
     public boolean resolve(RunState state, MapNode node, PrintStream out) {
         out.println("Node " + node.id() + " [" + node.type() + "] - hero " + state.hero()
                 + " | deck " + state.deck().size() + " | gold " + state.gold()
+                + " | lvl " + state.level());
+        return switch (node.type()) {
+            case COMBAT -> combat(state, encounters.combat(state.act(), state.rng()), false, out);
+            case ELITE -> combat(state, encounters.elite(state.act(), state.rng()), true, out);
+            case BOSS -> combat(state, encounters.boss(state.act()), true, out);
+            case REST -> {
