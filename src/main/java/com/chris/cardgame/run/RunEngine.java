@@ -37,3 +37,9 @@ public class RunEngine {
             case ELITE -> combat(state, encounters.elite(state.act(), state.rng()), true, out);
             case BOSS -> combat(state, encounters.boss(state.act()), true, out);
             case REST -> {
+                int heal = Math.max(1, state.hero().maxHp() * 35 / 100);
+                state.hero().heal(heal);
+                out.println("  Rested: +" + heal + " HP.");
+                yield true;
+            }
+            case SHOP -> {
