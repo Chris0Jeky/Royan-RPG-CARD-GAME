@@ -43,3 +43,9 @@ public class RunEngine {
                 yield true;
             }
             case SHOP -> {
+                shop.visit(state, out);
+                yield true;
+            }
+            case EVENT -> {
+                events.resolve(state, out);
+                yield state.hero().alive();
