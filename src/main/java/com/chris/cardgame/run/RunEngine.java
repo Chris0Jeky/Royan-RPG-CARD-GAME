@@ -19,3 +19,9 @@ public class RunEngine {
     private final EncounterGen encounters;
     private final LootGen loot;
     private final Events events;
+    private final Shop shop;
+
+    public RunEngine(CardLoader cards, EnemyLoader enemies) {
+        this.encounters = new EncounterGen(enemies);
+        this.loot = new LootGen(cards);
+        this.events = new Events(cards);
