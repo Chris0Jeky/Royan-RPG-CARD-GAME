@@ -13,3 +13,9 @@ import com.chris.cardgame.loot.LootGen;
 import com.chris.cardgame.map.ActMap;
 import com.chris.cardgame.map.MapNode;
 import com.chris.cardgame.model.CardDef;
+import com.chris.cardgame.model.EnemyDef;
+
+public class RunEngine {
+    private final EncounterGen encounters;
+    private final LootGen loot;
+    private final Events events;
