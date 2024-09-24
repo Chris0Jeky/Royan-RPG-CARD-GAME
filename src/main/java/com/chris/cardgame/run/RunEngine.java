@@ -73,3 +73,9 @@ public class RunEngine {
 
     private boolean combat(RunState state, List<EnemyDef> foes, boolean elite, PrintStream out) {
         GameLoop.BattleResult result = new GameLoop().runAutoBattle(
+                state.hero(), state.deck(), foes, state.rng().nextLong(), 60, out);
+        if (!result.victory()) {
+            return false;
+        }
+        rewards(state, foes, elite, out);
+        return true;
