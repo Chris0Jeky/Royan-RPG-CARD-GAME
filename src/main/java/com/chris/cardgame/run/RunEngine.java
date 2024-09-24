@@ -85,3 +85,9 @@ public class RunEngine {
         int gold = foes.stream()
                 .mapToInt(foe -> loot.rollGold(foe.goldMin(), foe.goldMax(), state.rng()))
                 .sum() + (elite ? 25 : 0);
+        int xp = foes.stream().mapToInt(EnemyDef::xp).sum();
+        state.addGold(gold);
+        out.println("  Spoils: +" + gold + " gold, +" + xp + " XP.");
+        List<Boon> boons = state.addXp(xp);
+        boons.forEach(boon -> out.println("  Level " + state.level() + "! Boon: " + boon.name()
+                + " (" + boon.desc() + ")."));
