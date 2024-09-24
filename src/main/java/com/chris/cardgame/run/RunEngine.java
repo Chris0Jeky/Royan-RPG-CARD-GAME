@@ -61,3 +61,9 @@ public class RunEngine {
     }
 
     private int childScore(RunState state, MapNode child) {
+        return switch (child.type()) {
+            case BOSS -> 1000;
+            case ELITE -> 50;
+            case COMBAT -> 40;
+            case EVENT -> 30;
+            case SHOP -> state.gold() > 60 ? 38 : 15;
