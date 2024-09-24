@@ -49,3 +49,9 @@ public class RunEngine {
             case EVENT -> {
                 events.resolve(state, out);
                 yield state.hero().alive();
+            }
+        };
+    }
+
+    public MapNode chooseNext(RunState state, ActMap map, MapNode node) {
+        return node.children().stream()
