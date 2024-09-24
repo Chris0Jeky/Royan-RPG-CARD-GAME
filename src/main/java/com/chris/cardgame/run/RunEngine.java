@@ -67,3 +67,9 @@ public class RunEngine {
             case COMBAT -> 40;
             case EVENT -> 30;
             case SHOP -> state.gold() > 60 ? 38 : 15;
+            case REST -> state.hero().hp() < state.hero().maxHp() * 17 / 20 ? 45 : 10;
+        };
+    }
+
+    private boolean combat(RunState state, List<EnemyDef> foes, boolean elite, PrintStream out) {
+        GameLoop.BattleResult result = new GameLoop().runAutoBattle(
