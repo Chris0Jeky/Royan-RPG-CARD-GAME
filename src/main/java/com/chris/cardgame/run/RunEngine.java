@@ -91,3 +91,8 @@ public class RunEngine {
         List<Boon> boons = state.addXp(xp);
         boons.forEach(boon -> out.println("  Level " + state.level() + "! Boon: " + boon.name()
                 + " (" + boon.desc() + ")."));
+        List<CardDef> options = loot.cardOptions(state.heroClass(), state.deck(), elite, state.rng());
+        if (options.isEmpty()) {
+            out.println("  No draft options (collection exhausted).");
+            return;
+        }
