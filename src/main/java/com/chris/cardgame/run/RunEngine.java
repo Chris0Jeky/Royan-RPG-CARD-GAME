@@ -55,3 +55,9 @@ public class RunEngine {
 
     public MapNode chooseNext(RunState state, ActMap map, MapNode node) {
         return node.children().stream()
+                .map(map::node)
+                .max(Comparator.comparingInt(child -> childScore(state, child)))
+                .orElseThrow(() -> new IllegalStateException("dead end at " + node.id()));
+    }
+
+    private int childScore(RunState state, MapNode child) {
