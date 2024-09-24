@@ -79,3 +79,9 @@ public class RunEngine {
         }
         rewards(state, foes, elite, out);
         return true;
+    }
+
+    private void rewards(RunState state, List<EnemyDef> foes, boolean elite, PrintStream out) {
+        int gold = foes.stream()
+                .mapToInt(foe -> loot.rollGold(foe.goldMin(), foe.goldMax(), state.rng()))
+                .sum() + (elite ? 25 : 0);
