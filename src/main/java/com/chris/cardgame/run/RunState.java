@@ -15,3 +15,9 @@ public class RunState {
     private final Combatant hero;
     private final HeroClass heroClass;
     private final List<CardDef> deck;
+    private final SplittableRandom rng;
+    private final long seed;
+    private int gold;
+    private int xp;
+    private int level;
+    private int act;
