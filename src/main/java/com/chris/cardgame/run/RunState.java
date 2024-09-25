@@ -33,3 +33,9 @@ public class RunState {
         this.level = 1;
         this.act = 1;
     }
+
+    public Combatant hero() {
+        return hero;
+    }
+
+    public HeroClass heroClass() {
