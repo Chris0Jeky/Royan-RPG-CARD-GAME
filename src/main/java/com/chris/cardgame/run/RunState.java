@@ -21,3 +21,9 @@ public class RunState {
     private int xp;
     private int level;
     private int act;
+
+    public RunState(String heroName, HeroClass heroClass, List<CardDef> starterDeck, long seed) {
+        this.hero = Combatant.hero(heroName, heroClass, 80);
+        this.heroClass = heroClass;
+        this.deck = new ArrayList<>(starterDeck);
+        this.seed = seed;
