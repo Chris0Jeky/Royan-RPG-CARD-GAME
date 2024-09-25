@@ -96,3 +96,9 @@ public class RunEngine {
             out.println("  No draft options (collection exhausted).");
             return;
         }
+        options.sort(Comparator.comparingInt(card -> card.rarity().ordinal()));
+        int drafts = elite ? 2 : 1;
+        for (int i = 0; i < drafts && !options.isEmpty(); i++) {
+            CardDef pick = options.remove(options.size() - 1);
+            if (state.addCard(pick)) {
+                out.println("  Drafted: " + pick.name() + " (" + pick.rarity() + ").");
