@@ -102,3 +102,9 @@ public class RunEngine {
             CardDef pick = options.remove(options.size() - 1);
             if (state.addCard(pick)) {
                 out.println("  Drafted: " + pick.name() + " (" + pick.rarity() + ").");
+            } else {
+                out.println("  Draft skipped (deck full): " + pick.name() + ".");
+            }
+        }
+    }
+}
