@@ -27,3 +27,9 @@ public class RunState {
         this.heroClass = heroClass;
         this.deck = new ArrayList<>(starterDeck);
         this.seed = seed;
+        this.rng = new SplittableRandom(seed);
+        this.gold = 50;
+        this.xp = 0;
+        this.level = 1;
+        this.act = 1;
+    }
