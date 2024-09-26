@@ -39,3 +39,9 @@ public class RunState {
     }
 
     public HeroClass heroClass() {
+        return heroClass;
+    }
+
+    public List<CardDef> deck() {
+        return deck;
+    }
