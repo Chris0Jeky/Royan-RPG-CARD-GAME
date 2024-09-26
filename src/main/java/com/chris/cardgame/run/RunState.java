@@ -45,3 +45,9 @@ public class RunState {
     public List<CardDef> deck() {
         return deck;
     }
+
+    public SplittableRandom rng() {
+        return rng;
+    }
+
+    public long seed() {
