@@ -63,3 +63,9 @@ public class RunState {
     }
 
     public int level() {
+        return level;
+    }
+
+    public int act() {
+        return act;
+    }
