@@ -69,3 +69,9 @@ public class RunState {
     public int act() {
         return act;
     }
+
+    public void setAct(int act) {
+        this.act = act;
+    }
+
+    public void addGold(int amount) {
