@@ -57,3 +57,9 @@ public class RunState {
     public int gold() {
         return gold;
     }
+
+    public int xp() {
+        return xp;
+    }
+
+    public int level() {
