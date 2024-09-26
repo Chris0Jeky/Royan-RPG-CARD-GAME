@@ -51,3 +51,9 @@ public class RunState {
     }
 
     public long seed() {
+        return seed;
+    }
+
+    public int gold() {
+        return gold;
+    }
