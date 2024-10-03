@@ -104,3 +104,9 @@ public class RunState {
         while (level < XpCurve.MAX_LEVEL && xp >= XpCurve.xpForNext(level)) {
             xp -= XpCurve.xpForNext(level);
             level++;
+            List<Boon> options = Boon.offer(rng);
+            Boon pick = options.stream()
+                    .sorted((a, b) -> Integer.compare(boonScore(b), boonScore(a)))
+                    .findFirst().orElseThrow();
+            applyBoon(pick);
+            earned.add(pick);
