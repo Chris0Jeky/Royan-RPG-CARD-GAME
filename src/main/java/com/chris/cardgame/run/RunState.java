@@ -75,3 +75,9 @@ public class RunState {
     }
 
     public void addGold(int amount) {
+        gold += amount;
+    }
+
+    public boolean spendGold(int amount) {
+        if (gold < amount) {
+            return false;
