@@ -93,3 +93,9 @@ public class RunState {
         long copies = deck.stream().filter(c -> c.id().equals(card.id())).count();
         if (copies >= LootGen.MAX_COPIES) {
             return false;
+        }
+        deck.add(card);
+        return true;
+    }
+
+    public List<Boon> addXp(int amount) {
