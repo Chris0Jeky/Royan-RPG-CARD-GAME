@@ -110,3 +110,9 @@ public class RunState {
                     .findFirst().orElseThrow();
             applyBoon(pick);
             earned.add(pick);
+        }
+        return earned;
+    }
+
+    private int boonScore(Boon boon) {
+        boolean hurt = hero.hp() <= hero.maxHp() * 2 / 3;
