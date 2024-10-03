@@ -81,3 +81,9 @@ public class RunState {
     public boolean spendGold(int amount) {
         if (gold < amount) {
             return false;
+        }
+        gold -= amount;
+        return true;
+    }
+
+    public boolean addCard(CardDef card) {
