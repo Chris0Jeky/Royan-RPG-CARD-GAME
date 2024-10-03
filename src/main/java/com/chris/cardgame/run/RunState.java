@@ -99,3 +99,8 @@ public class RunState {
     }
 
     public List<Boon> addXp(int amount) {
+        xp += amount;
+        List<Boon> earned = new ArrayList<>();
+        while (level < XpCurve.MAX_LEVEL && xp >= XpCurve.xpForNext(level)) {
+            xp -= XpCurve.xpForNext(level);
+            level++;
