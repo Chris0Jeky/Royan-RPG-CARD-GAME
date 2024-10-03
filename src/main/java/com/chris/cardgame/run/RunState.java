@@ -116,3 +116,9 @@ public class RunState {
 
     private int boonScore(Boon boon) {
         boolean hurt = hero.hp() <= hero.maxHp() * 2 / 3;
+        return switch (boon.id()) {
+            case "juggernaut" -> 100;
+            case "war-paint" -> 95;
+            case "feast" -> hurt ? 90 : 20;
+            case "second-wind-blessing" -> 70;
+            default -> 50;
