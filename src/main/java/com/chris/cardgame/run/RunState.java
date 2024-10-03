@@ -87,3 +87,9 @@ public class RunState {
     }
 
     public boolean addCard(CardDef card) {
+        if (deck.size() >= LootGen.MAX_DECK) {
+            return false;
+        }
+        long copies = deck.stream().filter(c -> c.id().equals(card.id())).count();
+        if (copies >= LootGen.MAX_COPIES) {
+            return false;
