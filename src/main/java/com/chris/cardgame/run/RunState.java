@@ -122,3 +122,9 @@ public class RunState {
             case "feast" -> hurt ? 90 : 20;
             case "second-wind-blessing" -> 70;
             default -> 50;
+        };
+    }
+
+    private void applyBoon(Boon boon) {
+        if (boon.maxHp() > 0) {
+            hero.raiseMaxHp(boon.maxHp());
