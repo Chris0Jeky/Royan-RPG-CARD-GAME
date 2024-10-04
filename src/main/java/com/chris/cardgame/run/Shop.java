@@ -21,3 +21,9 @@ public class Shop {
 
     public static int price(CardDef card) {
         return switch (card.rarity()) {
+            case COMMON -> 45;
+            case UNCOMMON -> 70;
+            case RARE -> 120;
+            case ELITE -> 180;
+        };
+    }
