@@ -128,3 +128,9 @@ public class RunState {
     private void applyBoon(Boon boon) {
         if (boon.maxHp() > 0) {
             hero.raiseMaxHp(boon.maxHp());
+        }
+        hero.heal(boon.heal());
+        hero.gainBaseStrength(boon.strength());
+        gold += boon.gold();
+    }
+}
