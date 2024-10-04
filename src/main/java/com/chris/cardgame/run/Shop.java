@@ -15,3 +15,9 @@ public class Shop {
 
     private final LootGen loot;
 
+    public Shop(CardLoader cards) {
+        this.loot = new LootGen(cards);
+    }
+
+    public static int price(CardDef card) {
+        return switch (card.rarity()) {
