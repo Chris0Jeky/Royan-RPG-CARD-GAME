@@ -39,3 +39,9 @@ public class Shop {
                 .filter(card -> state.gold() >= price(card))
                 .findFirst()
                 .ifPresent(card -> {
+                    if (state.spendGold(price(card)) && state.addCard(card)) {
+                        out.println("  Bought " + card.name() + " for " + price(card) + " gold.");
+                    }
+                });
+        if (state.hero().hp() < state.hero().maxHp() * 7 / 10 && state.gold() >= HEAL_COST) {
+            state.spendGold(HEAL_COST);
