@@ -33,3 +33,9 @@ public class Shop {
         List<CardDef> stock = loot.cardOptions(state.heroClass(), state.deck(), true, rng);
         out.println("  Shop stock: " + stock.stream()
                 .map(card -> card.name() + " (" + price(card) + "g)")
+                .reduce((a, b) -> a + ", " + b).orElse("empty"));
+        stock.stream()
+                .sorted(Comparator.comparingInt(Shop::price).reversed())
+                .filter(card -> state.gold() >= price(card))
+                .findFirst()
+                .ifPresent(card -> {
