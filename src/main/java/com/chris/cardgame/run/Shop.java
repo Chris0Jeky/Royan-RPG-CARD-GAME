@@ -27,3 +27,9 @@ public class Shop {
             case ELITE -> 180;
         };
     }
+
+    public void visit(RunState state, PrintStream out) {
+        SplittableRandom rng = state.rng();
+        List<CardDef> stock = loot.cardOptions(state.heroClass(), state.deck(), true, rng);
+        out.println("  Shop stock: " + stock.stream()
+                .map(card -> card.name() + " (" + price(card) + "g)")
