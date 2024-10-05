@@ -45,3 +45,8 @@ public class Shop {
                 });
         if (state.hero().hp() < state.hero().maxHp() * 7 / 10 && state.gold() >= HEAL_COST) {
             state.spendGold(HEAL_COST);
+            state.hero().heal(HEAL_AMOUNT);
+            out.println("  Paid " + HEAL_COST + " gold for healing (" + HEAL_AMOUNT + " HP).");
+        }
+    }
+}
