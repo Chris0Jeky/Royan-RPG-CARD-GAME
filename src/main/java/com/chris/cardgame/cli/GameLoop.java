@@ -1,21 +1,65 @@
 package com.chris.cardgame.cli;
 
 import java.io.PrintStream;
-import java.util.Comparator;
 import java.util.List;
 
 import com.chris.cardgame.combat.CombatEngine;
 import com.chris.cardgame.combat.CombatState;
+import com.chris.cardgame.data.CardLoader;
+import com.chris.cardgame.data.EnemyLoader;
+import com.chris.cardgame.map.ActMap;
+import com.chris.cardgame.map.MapGen;
+import com.chris.cardgame.map.MapNode;
+import com.chris.cardgame.map.NodeType;
 import com.chris.cardgame.model.CardDef;
-import com.chris.cardgame.model.CardType;
 import com.chris.cardgame.model.Combatant;
 import com.chris.cardgame.model.EnemyDef;
+import com.chris.cardgame.model.HeroClass;
 import com.chris.cardgame.model.Row;
+import com.chris.cardgame.run.RunEngine;
+import com.chris.cardgame.run.RunState;
 
 public class GameLoop {
     private final CombatEngine engine = new CombatEngine();
 
     public record BattleResult(boolean victory, int turns, int heroHp, int enemiesSlain, int totalEnemies) {
+    }
+
+    public record CampaignResult(boolean victory, int actsCleared, int level, int deckSize, int gold,
+            int nodesVisited) {
+    }
+
+    public CampaignResult runAutoCampaign(long seed, PrintStream out) {
+        CardLoader cards = CardLoader.load();
+        EnemyLoader enemies = EnemyLoader.load();
+        RunState state = new RunState("Captain Royan", HeroClass.KNIGHT,
+                cards.starterDeck(HeroClass.KNIGHT), seed);
+        RunEngine runner = new RunEngine(cards, enemies);
+        MapGen maps = new MapGen();
+        int nodes = 0;
+        for (int act = 1; act <= 3; act++) {
+            state.setAct(act);
+            ActMap map = maps.generate(act, seed * 31 + act);
+            out.println("##### ACT " + act + " (" + map.nodes().size() + " isles) #####");
+            MapNode node = map.node(map.entries().get(state.rng().nextInt(map.entries().size())));
+            while (true) {
+                nodes++;
+                boolean survived = runner.resolve(state, node, out);
+                if (!survived) {
+                    out.println("### Campaign ended: defeat in Act " + act + " ###");
+                    return new CampaignResult(false, act - 1, state.level(),
+                            state.deck().size(), state.gold(), nodes);
+                }
+                if (node.type() == NodeType.BOSS) {
+                    break;
+                }
+                node = runner.chooseNext(state, map, node);
+            }
+            state.hero().heal(state.hero().maxHp() * 2 / 5);
+            out.println("### Act " + act + " cleared! +40% HP. ###");
+        }
+        out.println("### CAMPAIGN VICTORY: the Sky-Tyrant falls! ###");
+        return new CampaignResult(true, 3, state.level(), state.deck().size(), state.gold(), nodes);
     }
 
     public BattleResult runAutoBattle(Combatant hero, List<CardDef> deck, List<EnemyDef> enemies,
@@ -72,11 +116,12 @@ public class GameLoop {
     }
 
     private int score(CardDef card, CombatState state) {
-        boolean hurt = state.hero().hp() <= state.hero().maxHp() / 2;
+        boolean hurt = state.hero().hp() <= state.hero().maxHp() * 3 / 5;
         return switch (card.type()) {
             case GUARD -> hurt ? 100 + card.block() : 20 + card.block();
             case STRIKE -> 60 + card.damage();
-            case TRICK -> 50 + card.damage() + card.draw() * 5 + (card.weak() + card.vulnerable()) * 4;
+            case TRICK -> 50 + card.damage() + card.draw() * 5 + (card.weak() + card.vulnerable()) * 4
+                    + card.heal() * (hurt ? 8 : 2);
             case POWER -> 40 + card.strength() * 10;
             case CURSE -> Integer.MIN_VALUE;
         };
