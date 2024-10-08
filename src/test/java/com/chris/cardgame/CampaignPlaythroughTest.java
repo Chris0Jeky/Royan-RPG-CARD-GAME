@@ -10,3 +10,4 @@ import com.chris.cardgame.cli.GameLoop;
 import org.junit.jupiter.api.Test;
 
 class CampaignPlaythroughTest {
+    private final PrintStream silent = new PrintStream(OutputStream.nullOutputStream());
