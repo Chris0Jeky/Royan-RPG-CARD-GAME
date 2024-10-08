@@ -19,3 +19,9 @@ class CampaignPlaythroughTest {
 
             assertThat(result.nodesVisited()).isBetween(1, 30);
             assertThat(result.deckSize()).isBetween(12, 30);
+            assertThat(result.level()).isBetween(1, 10);
+            assertThat(result.actsCleared()).isBetween(0, 3);
+            if (result.victory()) {
+                assertThat(result.actsCleared()).isEqualTo(3);
+            }
+        }
