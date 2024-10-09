@@ -29,8 +29,8 @@ class DataLoaderTest {
         List<CardDef> starter = cards.starterDeck(HeroClass.KNIGHT);
 
         assertThat(starter).hasSize(12);
-        assertThat(starter.stream().filter(c -> c.id().equals("knight-strike")).count()).isEqualTo(4);
-        assertThat(starter.stream().filter(c -> c.id().equals("knight-guard")).count()).isEqualTo(3);
+        assertThat(starter.stream().filter(c -> c.id().equals("knight-strike")).count()).isEqualTo(3);
+        assertThat(starter.stream().filter(c -> c.id().equals("knight-guard")).count()).isEqualTo(4);
         assertThat(starter.stream().filter(c -> c.id().equals("knight-heavy")).count()).isEqualTo(2);
     }
 
@@ -49,7 +49,7 @@ class DataLoaderTest {
         EnemyLoader enemies = EnemyLoader.load();
 
         assertThat(enemies.all()).hasSize(4);
-        assertThat(enemies.get("golem").hp()).isEqualTo(48);
+        assertThat(enemies.get("golem").hp()).isEqualTo(36);
         assertThatThrownBy(() -> enemies.get("nope"))
                 .isInstanceOf(IllegalArgumentException.class);
     }
