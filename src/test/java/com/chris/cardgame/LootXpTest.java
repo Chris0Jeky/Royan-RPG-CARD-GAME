@@ -16,3 +16,9 @@ import com.chris.cardgame.model.HeroClass;
 import com.chris.cardgame.run.RunState;
 import org.junit.jupiter.api.Test;
 
+class LootXpTest {
+    private final CardLoader cards = CardLoader.load();
+
+    private RunState state(long seed) {
+        return new RunState("Captain", HeroClass.KNIGHT, cards.starterDeck(HeroClass.KNIGHT), seed);
+    }
