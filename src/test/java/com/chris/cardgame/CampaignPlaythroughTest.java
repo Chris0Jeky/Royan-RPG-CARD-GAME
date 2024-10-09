@@ -25,3 +25,9 @@ class CampaignPlaythroughTest {
                 assertThat(result.actsCleared()).isEqualTo(3);
             }
         }
+    }
+
+    @Test
+    void knownSeedWinsCampaign() {
+        GameLoop.CampaignResult result = new GameLoop().runAutoCampaign(6L, silent);
+
