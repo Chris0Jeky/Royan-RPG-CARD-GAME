@@ -37,3 +37,9 @@ class CampaignPlaythroughTest {
     }
 
     @Test
+    void campaignIsDeterministic() {
+        GameLoop.CampaignResult first = new GameLoop().runAutoCampaign(42L, silent);
+        GameLoop.CampaignResult second = new GameLoop().runAutoCampaign(42L, silent);
+
+        assertThat(second).isEqualTo(first);
+    }
