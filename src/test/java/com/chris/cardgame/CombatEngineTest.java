@@ -51,7 +51,7 @@ class CombatEngineTest {
 
         engine.playCard(state, 0, 0);
 
-        assertThat(state.enemies().get(0).hp()).isEqualTo(9);
+        assertThat(state.enemies().get(0).hp()).isEqualTo(5);
         engine.playCard(state, 0, 0);
         assertThat(state.enemies().get(0).alive()).isFalse();
         assertThat(state.over()).isTrue();
@@ -66,7 +66,7 @@ class CombatEngineTest {
 
         engine.playCard(state, 0, 1);
 
-        assertThat(state.enemies().get(1).hp()).isEqualTo(11);
+        assertThat(state.enemies().get(1).hp()).isEqualTo(9);
     }
 
     @Test

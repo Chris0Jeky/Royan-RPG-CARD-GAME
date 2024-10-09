@@ -43,3 +43,4 @@ class CampaignPlaythroughTest {
 
         assertThat(second).isEqualTo(first);
     }
+}
