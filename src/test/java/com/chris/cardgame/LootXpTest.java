@@ -39,3 +39,9 @@ class LootXpTest {
         assertThat(state.level()).isEqualTo(5);
         assertThat(state.xp()).isEqualTo(0);
         assertThat(boons).hasSize(4);
+    }
+
+    @Test
+    void cardOptionsAreDistinctAndPlayable() {
+        LootGen loot = new LootGen(cards);
+        RunState state = state(5L);
