@@ -45,3 +45,9 @@ class LootXpTest {
     void cardOptionsAreDistinctAndPlayable() {
         LootGen loot = new LootGen(cards);
         RunState state = state(5L);
+
+        List<CardDef> options = loot.cardOptions(HeroClass.KNIGHT, state.deck(), false, state.rng());
+
+        assertThat(options).hasSize(3);
+        assertThat(options.stream().map(CardDef::id).distinct().count()).isEqualTo(3);
+        assertThat(options).noneSatisfy(card ->
