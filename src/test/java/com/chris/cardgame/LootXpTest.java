@@ -27,3 +27,9 @@ class LootXpTest {
     void xpCurveThresholds() {
         assertThat(XpCurve.xpForNext(1)).isEqualTo(32);
         assertThat(XpCurve.xpForNext(9)).isEqualTo(128);
+        assertThat(XpCurve.xpForNext(10)).isEqualTo(Integer.MAX_VALUE);
+    }
+
+    @Test
+    void bigXpGrantsMultipleLevelsAndBoons() {
+        RunState state = state(1L);
