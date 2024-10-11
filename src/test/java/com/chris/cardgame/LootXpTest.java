@@ -22,3 +22,8 @@ class LootXpTest {
     private RunState state(long seed) {
         return new RunState("Captain", HeroClass.KNIGHT, cards.starterDeck(HeroClass.KNIGHT), seed);
     }
+
+    @Test
+    void xpCurveThresholds() {
+        assertThat(XpCurve.xpForNext(1)).isEqualTo(32);
+        assertThat(XpCurve.xpForNext(9)).isEqualTo(128);
