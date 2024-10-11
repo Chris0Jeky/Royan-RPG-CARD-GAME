@@ -51,3 +51,9 @@ class LootXpTest {
         assertThat(options).hasSize(3);
         assertThat(options.stream().map(CardDef::id).distinct().count()).isEqualTo(3);
         assertThat(options).noneSatisfy(card ->
+                assertThat(card.type()).isEqualTo(CardType.CURSE));
+        assertThat(options).allSatisfy(card ->
+                assertThat(card.heroClass()).isIn(HeroClass.KNIGHT, HeroClass.NEUTRAL));
+    }
+
+    @Test
