@@ -57,3 +57,9 @@ class LootXpTest {
     }
 
     @Test
+    void cardOptionsRespectCopyCap() {
+        LootGen loot = new LootGen(cards);
+        List<CardDef> deck = new ArrayList<>(cards.starterDeck(HeroClass.KNIGHT));
+        CardDef strike = cards.get("knight-strike");
+        deck.add(strike);
+
