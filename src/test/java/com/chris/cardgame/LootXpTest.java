@@ -63,3 +63,9 @@ class LootXpTest {
         CardDef strike = cards.get("knight-strike");
         deck.add(strike);
 
+        List<CardDef> options = loot.cardOptions(HeroClass.KNIGHT, deck, false,
+                new SplittableRandom(3L));
+
+        assertThat(options.stream().map(CardDef::id)).doesNotContain("knight-strike");
+    }
+
