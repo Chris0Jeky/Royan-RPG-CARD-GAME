@@ -33,3 +33,9 @@ class LootXpTest {
     @Test
     void bigXpGrantsMultipleLevelsAndBoons() {
         RunState state = state(1L);
+
+        List<Boon> boons = state.addXp(200);
+
+        assertThat(state.level()).isEqualTo(5);
+        assertThat(state.xp()).isEqualTo(0);
+        assertThat(boons).hasSize(4);
