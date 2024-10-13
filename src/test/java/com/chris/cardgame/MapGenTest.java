@@ -15,3 +15,9 @@ import com.chris.cardgame.map.NodeType;
 import org.junit.jupiter.api.Test;
 
 class MapGenTest {
+
+    @Test
+    void actsHaveCorrectNodeCounts() {
+        MapGen gen = new MapGen();
+
+        assertThat(gen.generate(1, 42L).nodes()).hasSize(15);
