@@ -69,3 +69,9 @@ class LootXpTest {
         assertThat(options.stream().map(CardDef::id)).doesNotContain("knight-strike");
     }
 
+    @Test
+    void deckAndGoldLimits() {
+        RunState state = state(1L);
+
+        for (int i = 0; i < 20; i++) {
+            state.addCard(cards.get("neutral-shiv"));
