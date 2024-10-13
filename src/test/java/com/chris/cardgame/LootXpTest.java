@@ -75,3 +75,9 @@ class LootXpTest {
 
         for (int i = 0; i < 20; i++) {
             state.addCard(cards.get("neutral-shiv"));
+        }
+        assertThat(state.deck().size()).isLessThanOrEqualTo(LootGen.MAX_DECK);
+        assertThat(state.spendGold(40)).isTrue();
+        assertThat(state.spendGold(10_000)).isFalse();
+    }
+}
