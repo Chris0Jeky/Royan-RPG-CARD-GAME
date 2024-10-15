@@ -27,3 +27,9 @@ class MapGenTest {
 
     @Test
     void entriesAreCombatAndBossIsLast() {
+        for (int act = 1; act <= 3; act++) {
+            ActMap map = new MapGen().generate(act, 7L);
+
+            assertThat(map.entries()).isNotEmpty();
+            map.entries().forEach(id ->
+                    assertThat(map.node(id).type()).isEqualTo(NodeType.COMBAT));
