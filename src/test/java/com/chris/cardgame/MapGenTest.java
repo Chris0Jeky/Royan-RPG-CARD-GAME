@@ -39,3 +39,9 @@ class MapGenTest {
             assertThat(boss.layer()).isEqualTo(map.layers() - 1);
         }
     }
+
+    @Test
+    void everyNodeReachableAndLinked() {
+        for (int act = 1; act <= 3; act++) {
+            ActMap map = new MapGen().generate(act, 99L);
+            Set<String> seen = new HashSet<>();
