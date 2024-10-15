@@ -45,3 +45,9 @@ class MapGenTest {
         for (int act = 1; act <= 3; act++) {
             ActMap map = new MapGen().generate(act, 99L);
             Set<String> seen = new HashSet<>();
+            Deque<String> queue = new ArrayDeque<>(map.entries());
+            while (!queue.isEmpty()) {
+                String id = queue.removeFirst();
+                if (seen.add(id)) {
+                    queue.addAll(map.node(id).children());
+                }
