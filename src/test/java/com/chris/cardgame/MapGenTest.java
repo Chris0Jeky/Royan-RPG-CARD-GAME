@@ -33,3 +33,9 @@ class MapGenTest {
             assertThat(map.entries()).isNotEmpty();
             map.entries().forEach(id ->
                     assertThat(map.node(id).type()).isEqualTo(NodeType.COMBAT));
+            MapNode boss = map.node(map.bossId());
+            assertThat(boss.type()).isEqualTo(NodeType.BOSS);
+            assertThat(boss.children()).isEmpty();
+            assertThat(boss.layer()).isEqualTo(map.layers() - 1);
+        }
+    }
