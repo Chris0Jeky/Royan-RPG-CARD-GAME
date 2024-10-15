@@ -21,3 +21,9 @@ class MapGenTest {
         MapGen gen = new MapGen();
 
         assertThat(gen.generate(1, 42L).nodes()).hasSize(15);
+        assertThat(gen.generate(2, 42L).nodes()).hasSize(18);
+        assertThat(gen.generate(3, 42L).nodes()).hasSize(22);
+    }
+
+    @Test
+    void entriesAreCombatAndBossIsLast() {
