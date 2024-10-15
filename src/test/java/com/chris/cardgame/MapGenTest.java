@@ -51,3 +51,9 @@ class MapGenTest {
                 if (seen.add(id)) {
                     queue.addAll(map.node(id).children());
                 }
+            }
+
+            assertThat(seen).containsExactlyInAnyOrderElementsOf(map.nodes().keySet());
+            assertThat(seen).contains(map.bossId());
+            map.nodes().values().forEach(node -> {
+                if (node.type() != NodeType.BOSS) {
