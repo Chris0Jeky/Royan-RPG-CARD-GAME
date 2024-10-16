@@ -22,3 +22,9 @@ class RunEngineTest {
     private final CardLoader cards = CardLoader.load();
     private final EnemyLoader enemies = EnemyLoader.load();
 
+    private RunState state(long seed) {
+        return new RunState("Captain", HeroClass.KNIGHT, cards.starterDeck(HeroClass.KNIGHT), seed);
+    }
+
+    @Test
+    void restHealsThirtyFivePercent() {
