@@ -68,3 +68,9 @@ class MapGenTest {
         ActMap first = new MapGen().generate(1, 1234L);
         ActMap second = new MapGen().generate(1, 1234L);
 
+        assertThat(second.nodes().keySet()).containsExactlyInAnyOrderElementsOf(first.nodes().keySet());
+        first.nodes().forEach((id, node) ->
+                assertThat(second.node(id).type()).isEqualTo(node.type()));
+    }
+
+    @Test
