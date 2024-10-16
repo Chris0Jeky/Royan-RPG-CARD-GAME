@@ -57,3 +57,9 @@ class MapGenTest {
             assertThat(seen).contains(map.bossId());
             map.nodes().values().forEach(node -> {
                 if (node.type() != NodeType.BOSS) {
+                    assertThat(node.children()).isNotEmpty();
+                }
+            });
+        }
+    }
+
