@@ -63,3 +63,8 @@ class MapGenTest {
         }
     }
 
+    @Test
+    void generationIsSeeded() {
+        ActMap first = new MapGen().generate(1, 1234L);
+        ActMap second = new MapGen().generate(1, 1234L);
+
