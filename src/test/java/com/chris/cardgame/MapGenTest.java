@@ -74,3 +74,8 @@ class MapGenTest {
     }
 
     @Test
+    void unknownActThrows() {
+        assertThatThrownBy(() -> new MapGen().generate(4, 1L))
+                .isInstanceOf(IllegalArgumentException.class);
+    }
+}
