@@ -70,3 +70,9 @@ class RunEngineTest {
         broke.spendGold(50);
         assertThat(engine.resolve(broke, new MapNode("shop", 1, 2, NodeType.SHOP, List.of()), silent)).isTrue();
         assertThat(broke.deck().size()).isEqualTo(deckBefore);
+
+        RunState curious = state(4L);
+        assertThat(engine.resolve(curious, new MapNode("event", 1, 2, NodeType.EVENT, List.of()), silent)).isTrue();
+    }
+
+    @Test
