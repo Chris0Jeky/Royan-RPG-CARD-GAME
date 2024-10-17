@@ -40,3 +40,9 @@ class RunEngineTest {
         assertThat(state.hero().hp() - before).isEqualTo(state.hero().maxHp() * 35 / 100);
     }
 
+    @Test
+    void combatVictoryGrantsSpoilsAndDraft() {
+        RunEngine engine = new RunEngine(cards, enemies);
+        boolean won = false;
+        for (long seed = 1; seed <= 30 && !won; seed++) {
+            RunState state = state(seed);
