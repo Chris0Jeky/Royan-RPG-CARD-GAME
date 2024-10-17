@@ -58,3 +58,9 @@ class RunEngineTest {
 
     @Test
     void shopAndEventResolveSanely() {
+        RunEngine engine = new RunEngine(cards, enemies);
+        RunState rich = state(2L);
+        rich.addGold(500);
+        int deckBefore = rich.deck().size();
+
+        assertThat(engine.resolve(rich, new MapNode("shop", 1, 2, NodeType.SHOP, List.of()), silent)).isTrue();
