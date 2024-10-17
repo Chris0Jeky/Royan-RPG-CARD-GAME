@@ -46,3 +46,9 @@ class RunEngineTest {
         boolean won = false;
         for (long seed = 1; seed <= 30 && !won; seed++) {
             RunState state = state(seed);
+            won = engine.resolve(state, new MapNode("fight", 1, 0, NodeType.COMBAT, List.of()), silent);
+            if (won) {
+                assertThat(state.gold()).isGreaterThan(50);
+                assertThat(state.xp() + (state.level() - 1) * 1000).isGreaterThan(0);
+                assertThat(state.deck()).hasSize(13);
+            }
