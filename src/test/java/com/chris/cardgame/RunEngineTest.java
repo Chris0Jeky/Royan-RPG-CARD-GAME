@@ -34,3 +34,9 @@ class RunEngineTest {
         int before = state.hero().hp();
 
         boolean survived = engine.resolve(state,
+                new MapNode("rest", 1, 2, NodeType.REST, List.of()), silent);
+
+        assertThat(survived).isTrue();
+        assertThat(state.hero().hp() - before).isEqualTo(state.hero().maxHp() * 35 / 100);
+    }
+
