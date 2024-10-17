@@ -64,3 +64,9 @@ class RunEngineTest {
         int deckBefore = rich.deck().size();
 
         assertThat(engine.resolve(rich, new MapNode("shop", 1, 2, NodeType.SHOP, List.of()), silent)).isTrue();
+        assertThat(rich.deck().size()).isGreaterThanOrEqualTo(deckBefore);
+
+        RunState broke = state(3L);
+        broke.spendGold(50);
+        assertThat(engine.resolve(broke, new MapNode("shop", 1, 2, NodeType.SHOP, List.of()), silent)).isTrue();
+        assertThat(broke.deck().size()).isEqualTo(deckBefore);
