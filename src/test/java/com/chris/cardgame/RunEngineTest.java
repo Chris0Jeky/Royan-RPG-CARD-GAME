@@ -52,3 +52,9 @@ class RunEngineTest {
                 assertThat(state.xp() + (state.level() - 1) * 1000).isGreaterThan(0);
                 assertThat(state.deck()).hasSize(13);
             }
+        }
+        assertThat(won).isTrue();
+    }
+
+    @Test
+    void shopAndEventResolveSanely() {
