@@ -28,3 +28,9 @@ class RunEngineTest {
 
     @Test
     void restHealsThirtyFivePercent() {
+        RunEngine engine = new RunEngine(cards, enemies);
+        RunState state = state(1L);
+        state.hero().takeDamage(50);
+        int before = state.hero().hp();
+
+        boolean survived = engine.resolve(state,
