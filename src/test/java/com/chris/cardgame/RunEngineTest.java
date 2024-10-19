@@ -76,3 +76,9 @@ class RunEngineTest {
     }
 
     @Test
+    void pathPrefersEliteAndRestWhenHurt() {
+        RunEngine engine = new RunEngine(cards, enemies);
+        MapNode node = new MapNode("n", 1, 1, NodeType.COMBAT, List.of("c", "e"));
+        ActMap map = new ActMap(1, Map.of(
+                "n", node,
+                "c", new MapNode("c", 1, 2, NodeType.COMBAT, List.of("x")),
