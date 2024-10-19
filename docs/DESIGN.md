@@ -28,7 +28,7 @@ boss) → combat → pick-1-of-3 loot + XP → repeat → boss → next act.
 ## Heroes & decks (M1: Knight only; M3/M5: all three)
 - Knight (MIGHT): bruiser, block + heavy hits. Ranger (GUILE): cheap strikes, draw, weak.
   Runemage (FOCUS): burst, vulnerable, powers.
-- Deck: start 12, max 30, max 3 copies. Starter Knight: 4 Strike, 3 Guard, 2 Heavy Blow,
+- Deck: start 12, max 30, max 3 copies. Starter Knight: 3 Strike, 4 Guard, 2 Heavy Blow,
   1 Rally, 1 Quick Cut, 1 Bulwark.
 
 ## Progression (M2/M3)
@@ -42,3 +42,7 @@ boss) → combat → pick-1-of-3 loot + XP → repeat → boss → next act.
 
 ## Balance log
 - 2024-07-?? (M1): multipliers locked — advantage 1.5, disadvantage/cover/weak 0.75, vulnerable 1.25.
+- 2024-08-?? (M2): enemy HP pools cut for 3-5 turn normals (rat 14, imp 12, pirate 24/7, golem 36/10);
+  hero 80 HP; rest 35%, act transition 40%; elite/boss draft 2 cards; Second Wind heals 6;
+  enemy DEFEND 5; War Paint boon (+2 base strength) added for damage scaling.
+  Reference: seed 6 wins the campaign (level 6, 20 nodes).
