@@ -94,3 +94,7 @@ class RunEngineTest {
                 "r", new MapNode("r", 1, 2, NodeType.REST, List.of("x")),
                 "x", new MapNode("x", 1, 3, NodeType.BOSS, List.of())), List.of("m"), "x");
         RunState hurt = state(1L);
+        hurt.hero().takeDamage(70);
+        assertThat(engine.chooseNext(hurt, restMap, restChoice).id()).isEqualTo("r");
+    }
+}
