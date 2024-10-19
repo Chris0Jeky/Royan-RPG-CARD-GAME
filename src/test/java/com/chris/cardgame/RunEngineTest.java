@@ -88,3 +88,9 @@ class RunEngineTest {
         assertThat(engine.chooseNext(state(1L), map, node).id()).isEqualTo("e");
 
         MapNode restChoice = new MapNode("m", 1, 1, NodeType.COMBAT, List.of("c2", "r"));
+        ActMap restMap = new ActMap(1, Map.of(
+                "m", restChoice,
+                "c2", new MapNode("c2", 1, 2, NodeType.COMBAT, List.of("x")),
+                "r", new MapNode("r", 1, 2, NodeType.REST, List.of("x")),
+                "x", new MapNode("x", 1, 3, NodeType.BOSS, List.of())), List.of("m"), "x");
+        RunState hurt = state(1L);
