@@ -13,12 +13,14 @@
 ```
 pom.xml                       Java 17, JUnit5, AssertJ, Jackson
 src/main/java/com/chris/cardgame/
-  model/        CardDef, EnemyDef, Combatant, CardType, Aspect, Rarity, HeroClass, Row (+ legacy Card/Deck/Player at root)
-  data/         CardLoader, EnemyLoader (Jackson JSON from resources/data)
+  model/        CardDef (hits/aoe/energy arts), EnemyDef, Combatant (plating, baseStrength, turn-1 stats),
+              CardType, Aspect, Rarity, HeroClass, Row, RelicDef, RelicEffect (+ legacy Card/Deck/Player at root)
+  data/         CardLoader (90), EnemyLoader, RelicLoader (20) (Jackson JSON from resources/data)
   combat/       CombatEngine, CombatState, DamageCalc, Intent/IntentKind
   map/          MapGen, ActMap, MapNode, NodeType (layered DAG, 15/18/22 nodes)
   loot/         EncounterGen, LootGen (pick-1-of-3), XpCurve, Boon
-  run/          RunState, RunEngine, Events, Shop
+  run/          RunState (gold/dust/shards/relics/deck-thinning), RunEngine, Events (6 incl. shrines),
+              Shop (cards + relics), Tavern (heal/removal/relic trade)
   map/          MapGen, MapNode, Act (3-act branching: 15/18/22 nodes)
   loot/         LootGen (pick-1-of-3), XpCurve, Economy (gold/dust/shards)
   ai/           EnemyAi (aggro/turtle/burst/trickster), BossPhases
