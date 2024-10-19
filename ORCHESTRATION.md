@@ -12,6 +12,7 @@
 - 2026-09-26 ~21:00 UTC: portable Temurin 17.0.20.1 + Maven 3.9.9 verified under `$env:TEMP\royan-tools`. M0 DONE on `dev@ce312ea`: Maven layout, fixed Player/Deck/Flow/Declaration/Mechanics, SmokeTest 4/4 green. Next: M1 combat slice (model/combat packages, JSON card loader, energy/draw/intents, front/back rows).
 - 2026-09-26 ~22:05 UTC: M1 DONE on dev: model/data/combat/cli packages, 18 cards + 4 enemies JSON, DESIGN.md locked, 21/21 tests green, Main demo plays (victory turn 3). Next: M2 run loop (map gen, loot pick-1-of-3, XP boons, nodes).
 - 2026-09-26 ~22:15 UTC: M2 DONE on dev: map/loot/run packages, full campaign loop (Main runs 3-act campaign), 38/38 green incl. pinned seed-6 victory. Balance: enemy HP cut, hero 80, elite double-draft, War Paint scaling boon. Lesson: parallel write_file to same new dir races (os 183) — pre-create dirs. Next: M3 collection/economy (90 cards, relics, dust/shards, tavern).
+- 2026-09-26 ~22:30 UTC: M3 DONE on dev: 90 cards (24/class+18 neutral), 20 relics, AoE/multi-hit/energy arts, card-aspect advantage, dust/shards economy, Tavern node, shrine events, shop relics, 3 hero starters selectable. 56/56 green. Balance note: Ranger/Runemage overperform (20/20, 19/20 vs Knight 11/20) — M5 tuning. Next: M4 enemies/content (4 AI behaviors, 2-phase bosses, 24 events, companions).
 
 ## Toolchain (portable, outside repo — OneDrive-safe)
 - Root: `$env:TEMP\royan-tools` (local disk, survives sessions; re-download if missing).

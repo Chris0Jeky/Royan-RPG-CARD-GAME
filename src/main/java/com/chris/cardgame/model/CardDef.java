@@ -20,11 +20,17 @@ public record CardDef(
         HeroClass heroClass,
         Rarity rarity,
         @JsonProperty(defaultValue = "false") boolean unplayable,
+        @JsonProperty(defaultValue = "0") int hits,
+        @JsonProperty(defaultValue = "false") boolean aoe,
+        @JsonProperty(defaultValue = "0") int energy,
         String flavor) {
 
     public CardDef {
         if (cost < 0 || cost > 3) {
             throw new IllegalArgumentException("cost out of range 0-3: " + id);
+        }
+        if (hits <= 0) {
+            hits = 1;
         }
     }
 
