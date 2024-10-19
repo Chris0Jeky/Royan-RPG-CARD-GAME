@@ -82,3 +82,9 @@ class RunEngineTest {
         ActMap map = new ActMap(1, Map.of(
                 "n", node,
                 "c", new MapNode("c", 1, 2, NodeType.COMBAT, List.of("x")),
+                "e", new MapNode("e", 1, 2, NodeType.ELITE, List.of("x")),
+                "x", new MapNode("x", 1, 3, NodeType.BOSS, List.of())), List.of("n"), "x");
+
+        assertThat(engine.chooseNext(state(1L), map, node).id()).isEqualTo("e");
+
+        MapNode restChoice = new MapNode("m", 1, 1, NodeType.COMBAT, List.of("c2", "r"));
