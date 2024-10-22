@@ -9,6 +9,9 @@ public class Combatant {
     private int block;
     private int baseStrength;
     private int strength;
+    private int plating;
+    private int firstTurnEnergy;
+    private int firstTurnDraw;
     private int weak;
     private int vulnerable;
 
@@ -113,6 +116,30 @@ public class Combatant {
     public void gainBaseStrength(int amount) {
         baseStrength += amount;
         strength += amount;
+    }
+
+    public int plating() {
+        return plating;
+    }
+
+    public void gainPlating(int amount) {
+        plating += amount;
+    }
+
+    public int firstTurnEnergy() {
+        return firstTurnEnergy;
+    }
+
+    public void gainFirstTurnEnergy(int amount) {
+        firstTurnEnergy += amount;
+    }
+
+    public int firstTurnDraw() {
+        return firstTurnDraw;
+    }
+
+    public void gainFirstTurnDraw(int amount) {
+        firstTurnDraw += amount;
     }
 
     public void raiseMaxHp(int amount) {
