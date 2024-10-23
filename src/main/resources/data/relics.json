@@ -1,2 +1,3 @@
 {
   "relics": [
+    {"id": "blood-vial", "name": "Blood Vial", "rarity": "COMMON", "effect": "HEAL_AFTER_COMBAT", "value": 3, "flavor": "Still warm. Don't ask."},
