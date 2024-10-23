@@ -4,3 +4,4 @@
     {"id": "whetstone", "name": "Whetstone", "rarity": "COMMON", "effect": "BASE_STRENGTH", "value": 1, "flavor": "Edges matter."},
     {"id": "plank-shield", "name": "Plank Shield", "rarity": "COMMON", "effect": "PLATING", "value": 3, "flavor": "Oak before beauty."},
     {"id": "lucky-coin", "name": "Lucky Coin", "rarity": "COMMON", "effect": "GOLD_PCT", "value": 15, "flavor": "Heads. Always heads."},
+    {"id": "iron-rations", "name": "Iron Rations", "rarity": "COMMON", "effect": "MAX_HP", "value": 6, "flavor": "Hardtack of the skyways."},
