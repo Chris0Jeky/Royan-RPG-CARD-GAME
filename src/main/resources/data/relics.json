@@ -2,3 +2,4 @@
   "relics": [
     {"id": "blood-vial", "name": "Blood Vial", "rarity": "COMMON", "effect": "HEAL_AFTER_COMBAT", "value": 3, "flavor": "Still warm. Don't ask."},
     {"id": "whetstone", "name": "Whetstone", "rarity": "COMMON", "effect": "BASE_STRENGTH", "value": 1, "flavor": "Edges matter."},
+    {"id": "plank-shield", "name": "Plank Shield", "rarity": "COMMON", "effect": "PLATING", "value": 3, "flavor": "Oak before beauty."},
