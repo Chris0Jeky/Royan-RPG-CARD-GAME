@@ -6,3 +6,4 @@
     {"id": "lucky-coin", "name": "Lucky Coin", "rarity": "COMMON", "effect": "GOLD_PCT", "value": 15, "flavor": "Heads. Always heads."},
     {"id": "iron-rations", "name": "Iron Rations", "rarity": "COMMON", "effect": "MAX_HP", "value": 6, "flavor": "Hardtack of the skyways."},
     {"id": "swift-boots", "name": "Swift Boots", "rarity": "COMMON", "effect": "FIRST_TURN_DRAW", "value": 1, "flavor": "Start running before the bell."},
+    {"id": "brass-knuckles", "name": "Brass Knuckles", "rarity": "COMMON", "effect": "BASE_STRENGTH", "value": 1, "flavor": "Polite fists."},
