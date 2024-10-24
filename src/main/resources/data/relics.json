@@ -8,3 +8,4 @@
     {"id": "swift-boots", "name": "Swift Boots", "rarity": "COMMON", "effect": "FIRST_TURN_DRAW", "value": 1, "flavor": "Start running before the bell."},
     {"id": "brass-knuckles", "name": "Brass Knuckles", "rarity": "COMMON", "effect": "BASE_STRENGTH", "value": 1, "flavor": "Polite fists."},
     {"id": "patchwork-cloak", "name": "Patchwork Cloak", "rarity": "COMMON", "effect": "PLATING", "value": 2, "flavor": "Every patch a story."},
+    {"id": "guild-charter", "name": "Guild Charter", "rarity": "COMMON", "effect": "GOLD_PCT", "value": 10, "flavor": "Signed, sealed, profitable."},
