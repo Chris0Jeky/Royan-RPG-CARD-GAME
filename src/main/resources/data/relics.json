@@ -11,3 +11,4 @@
     {"id": "guild-charter", "name": "Guild Charter", "rarity": "COMMON", "effect": "GOLD_PCT", "value": 10, "flavor": "Signed, sealed, profitable."},
     {"id": "war-drums", "name": "War Drums", "rarity": "UNCOMMON", "effect": "FIRST_TURN_ENERGY", "value": 1, "flavor": "The advance starts loud."},
     {"id": "captains-plate", "name": "Captain's Plate", "rarity": "UNCOMMON", "effect": "PLATING", "value": 6, "flavor": "Dented by legends."},
+    {"id": "berserker-brew", "name": "Berserker Brew", "rarity": "UNCOMMON", "effect": "BASE_STRENGTH", "value": 2, "flavor": "Tastes like shouting."},
