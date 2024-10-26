@@ -21,3 +21,4 @@
     {"id": "philosophers-ledger", "name": "Philosopher's Ledger", "rarity": "RARE", "effect": "GOLD_PCT", "value": 40, "flavor": "Compound interest, weaponized."},
     {"id": "heart-of-royan", "name": "Heart of Royan", "rarity": "ELITE", "effect": "HEAL_AFTER_COMBAT", "value": 12, "flavor": "The isle provides."}
   ]
+}
