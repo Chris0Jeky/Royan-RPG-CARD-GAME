@@ -15,3 +15,9 @@
     {"id": "surgeons-kit", "name": "Surgeon's Kit", "rarity": "UNCOMMON", "effect": "HEAL_AFTER_COMBAT", "value": 6, "flavor": "Needle, thread, rum."},
     {"id": "tax-collector", "name": "Tax Collector's Seal", "rarity": "UNCOMMON", "effect": "GOLD_PCT", "value": 25, "flavor": "Ten percent of everything."},
     {"id": "ogre-belt", "name": "Ogre Belt", "rarity": "UNCOMMON", "effect": "MAX_HP", "value": 12, "flavor": "Barely fits. Barely."},
+    {"id": "sky-chart", "name": "Sky Chart", "rarity": "RARE", "effect": "FIRST_TURN_DRAW", "value": 2, "flavor": "Every wind, mapped."},
+    {"id": "tyrants-eye", "name": "Tyrant's Eye", "rarity": "RARE", "effect": "BASE_STRENGTH", "value": 3, "flavor": "It still watches."},
+    {"id": "aegis-core", "name": "Aegis Core", "rarity": "RARE", "effect": "PLATING", "value": 10, "flavor": "A small, calm sun."},
+    {"id": "philosophers-ledger", "name": "Philosopher's Ledger", "rarity": "RARE", "effect": "GOLD_PCT", "value": 40, "flavor": "Compound interest, weaponized."},
+    {"id": "heart-of-royan", "name": "Heart of Royan", "rarity": "ELITE", "effect": "HEAL_AFTER_COMBAT", "value": 12, "flavor": "The isle provides."}
+  ]
