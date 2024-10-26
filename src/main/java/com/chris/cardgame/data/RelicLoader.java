@@ -14,3 +14,8 @@ import java.util.stream.Collectors;
 import com.chris.cardgame.model.Rarity;
 import com.chris.cardgame.model.RelicDef;
 import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
+
+public class RelicLoader {
+    private final Map<String, RelicDef> relics = new LinkedHashMap<>();
+
