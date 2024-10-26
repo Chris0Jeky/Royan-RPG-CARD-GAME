@@ -19,3 +19,9 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 public class RelicLoader {
     private final Map<String, RelicDef> relics = new LinkedHashMap<>();
 
+    public static RelicLoader load() {
+        try (InputStream in = RelicLoader.class.getResourceAsStream("/data/relics.json")) {
+            if (in == null) {
+                throw new IllegalStateException("missing /data/relics.json on classpath");
+            }
+            ObjectMapper mapper = new ObjectMapper();
