@@ -49,3 +49,9 @@ public class RelicLoader {
         return List.copyOf(relics.values());
     }
 
+    public Optional<RelicDef> offer(Set<String> owned, boolean elite, SplittableRandom rng) {
+        List<RelicDef> pool = relics.values().stream()
+                .filter(relic -> !owned.contains(relic.id()))
+                .toList();
+        if (pool.isEmpty()) {
+            return Optional.empty();
