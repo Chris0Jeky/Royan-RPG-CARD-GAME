@@ -43,3 +43,9 @@ public class RelicLoader {
             throw new IllegalArgumentException("unknown relic: " + id);
         }
         return def;
+    }
+
+    public List<RelicDef> all() {
+        return List.copyOf(relics.values());
+    }
+
