@@ -31,3 +31,9 @@ public class RelicLoader {
                 RelicDef def = mapper.treeToValue(node, RelicDef.class);
                 loader.relics.put(def.id(), def);
             }
+            return loader;
+        } catch (IOException e) {
+            throw new IllegalStateException("failed to load relics.json", e);
+        }
+    }
+
