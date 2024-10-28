@@ -55,3 +55,9 @@ public class RelicLoader {
                 .toList();
         if (pool.isEmpty()) {
             return Optional.empty();
+        }
+        List<RelicDef> remaining = new ArrayList<>(pool);
+        int total = remaining.stream().mapToInt(relic -> weight(relic.rarity(), elite)).sum();
+        int roll = rng.nextInt(total);
+        for (RelicDef relic : remaining) {
+            roll -= weight(relic.rarity(), elite);
