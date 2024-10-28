@@ -25,3 +25,9 @@ public class RelicLoader {
                 throw new IllegalStateException("missing /data/relics.json on classpath");
             }
             ObjectMapper mapper = new ObjectMapper();
+            JsonNode root = mapper.readTree(in);
+            RelicLoader loader = new RelicLoader();
+            for (JsonNode node : root.get("relics")) {
+                RelicDef def = mapper.treeToValue(node, RelicDef.class);
+                loader.relics.put(def.id(), def);
+            }
