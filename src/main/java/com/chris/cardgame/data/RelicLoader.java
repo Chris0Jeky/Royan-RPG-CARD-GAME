@@ -37,3 +37,9 @@ public class RelicLoader {
         }
     }
 
+    public RelicDef get(String id) {
+        RelicDef def = relics.get(id);
+        if (def == null) {
+            throw new IllegalArgumentException("unknown relic: " + id);
+        }
+        return def;
