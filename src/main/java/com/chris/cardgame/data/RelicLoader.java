@@ -61,3 +61,9 @@ public class RelicLoader {
         int roll = rng.nextInt(total);
         for (RelicDef relic : remaining) {
             roll -= weight(relic.rarity(), elite);
+            if (roll < 0) {
+                return Optional.of(relic);
+            }
+        }
+        return Optional.of(remaining.get(remaining.size() - 1));
+    }
