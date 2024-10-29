@@ -35,7 +35,13 @@ public class CombatEngine {
         state.setEnergy(ENERGY_PER_TURN);
         state.hero().clearBlock();
         state.companions().forEach(Combatant::clearBlock);
-        for (int i = 0; i < DRAW_PER_TURN; i++) {
+        int draws = DRAW_PER_TURN;
+        if (state.turn() == 1) {
+            state.setEnergy(state.energy() + state.hero().firstTurnEnergy());
+            draws += state.hero().firstTurnDraw();
+            state.hero().gainBlock(state.hero().plating());
+        }
+        for (int i = 0; i < draws; i++) {
             drawOne(state);
         }
         rollIntents(state);
@@ -54,7 +60,7 @@ public class CombatEngine {
             throw new IllegalStateException("not enough energy for " + card.name());
         }
         Combatant target = null;
-        if (card.targetsEnemy()) {
+        if (card.targetsEnemy() && !card.aoe()) {
             if (targetEnemyIndex < 0 || targetEnemyIndex >= state.enemies().size()) {
                 throw new IllegalArgumentException("no such enemy: " + targetEnemyIndex);
             }
@@ -70,17 +76,26 @@ public class CombatEngine {
         hero.gainBlock(card.block());
         hero.heal(card.heal());
         hero.gainStrength(card.strength());
+        state.setEnergy(state.energy() + card.energy());
         for (int i = 0; i < card.draw(); i++) {
             drawOne(state);
         }
-        if (target != null) {
-            if (card.damage() > 0) {
-                boolean cover = target.row() == Row.BACK && frontAlive(state);
-                int damage = DamageCalc.attackDamage(hero, target, card.damage(), cover);
-                target.takeDamage(damage);
+        if (card.targetsEnemy()) {
+            List<Combatant> targets = card.aoe() ? aliveEnemies(state) : List.of(target);
+            for (Combatant foe : targets) {
+                for (int hit = 0; hit < card.hits() && foe.alive(); hit++) {
+                    if (card.damage() > 0) {
+                        boolean cover = foe.row() == Row.BACK && frontAlive(state);
+                        int damage = DamageCalc.attackDamage(card.aspect(), hero.weak(),
+                                hero.strength(), foe, card.damage(), cover);
+                        foe.takeDamage(damage);
+                    }
+                }
+                if (foe.alive() || card.damage() == 0) {
+                    foe.applyWeak(card.weak());
+                    foe.applyVulnerable(card.vulnerable());
+                }
             }
-            target.applyWeak(card.weak());
-            target.applyVulnerable(card.vulnerable());
         }
         state.discardPile().add(card);
         checkEnd(state);
@@ -162,6 +177,16 @@ public class CombatEngine {
             };
             state.intents().set(i, new Intent(kind, preview));
         }
+    }
+
+    private List<Combatant> aliveEnemies(CombatState state) {
+        List<Combatant> alive = new ArrayList<>();
+        state.enemies().forEach(enemy -> {
+            if (enemy.alive()) {
+                alive.add(enemy);
+            }
+        });
+        return alive;
     }
 
     private boolean frontAlive(CombatState state) {

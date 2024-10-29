@@ -73,3 +73,7 @@ public class RelicLoader {
             case COMMON -> elite ? 45 : 60;
             case UNCOMMON -> elite ? 35 : 30;
             case RARE -> elite ? 17 : 9;
+            case ELITE -> elite ? 3 : 1;
+        };
+    }
+}
