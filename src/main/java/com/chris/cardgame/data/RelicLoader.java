@@ -67,3 +67,9 @@ public class RelicLoader {
         }
         return Optional.of(remaining.get(remaining.size() - 1));
     }
+
+    private int weight(Rarity rarity, boolean elite) {
+        return switch (rarity) {
+            case COMMON -> elite ? 45 : 60;
+            case UNCOMMON -> elite ? 35 : 30;
+            case RARE -> elite ? 17 : 9;
