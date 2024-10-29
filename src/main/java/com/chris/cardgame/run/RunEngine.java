@@ -3,10 +3,13 @@ package com.chris.cardgame.run;
 import java.io.PrintStream;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 import com.chris.cardgame.cli.GameLoop;
 import com.chris.cardgame.data.CardLoader;
 import com.chris.cardgame.data.EnemyLoader;
+import com.chris.cardgame.data.RelicLoader;
 import com.chris.cardgame.loot.Boon;
 import com.chris.cardgame.loot.EncounterGen;
 import com.chris.cardgame.loot.LootGen;
@@ -14,24 +17,33 @@ import com.chris.cardgame.map.ActMap;
 import com.chris.cardgame.map.MapNode;
 import com.chris.cardgame.model.CardDef;
 import com.chris.cardgame.model.EnemyDef;
+import com.chris.cardgame.model.RelicDef;
 
 public class RunEngine {
+    public static final int SALVAGE_DUST = 10;
+    public static final int SALVAGE_DECK_SIZE = 24;
+
     private final EncounterGen encounters;
     private final LootGen loot;
+    private final RelicLoader relics;
     private final Events events;
     private final Shop shop;
+    private final Tavern tavern;
 
-    public RunEngine(CardLoader cards, EnemyLoader enemies) {
+    public RunEngine(CardLoader cards, EnemyLoader enemies, RelicLoader relics) {
         this.encounters = new EncounterGen(enemies);
         this.loot = new LootGen(cards);
+        this.relics = relics;
         this.events = new Events(cards);
-        this.shop = new Shop(cards);
+        this.shop = new Shop(cards, relics);
+        this.tavern = new Tavern(relics);
     }
 
     public boolean resolve(RunState state, MapNode node, PrintStream out) {
         out.println("Node " + node.id() + " [" + node.type() + "] - hero " + state.hero()
                 + " | deck " + state.deck().size() + " | gold " + state.gold()
-                + " | lvl " + state.level());
+                + " | dust " + state.dust() + " | shards " + state.shards()
+                + " | relics " + state.relics().size() + " | lvl " + state.level());
         return switch (node.type()) {
             case COMBAT -> combat(state, encounters.combat(state.act(), state.rng()), false, out);
             case ELITE -> combat(state, encounters.elite(state.act(), state.rng()), true, out);
@@ -45,6 +57,10 @@ public class RunEngine {
             case SHOP -> {
                 shop.visit(state, out);
                 yield true;
+            }
+            case TAVERN -> {
+                tavern.visit(state, out);
+                yield state.hero().alive();
             }
             case EVENT -> {
                 events.resolve(state, out);
@@ -65,8 +81,9 @@ public class RunEngine {
             case BOSS -> 1000;
             case ELITE -> 50;
             case COMBAT -> 40;
+            case TAVERN -> 38;
+            case SHOP -> state.gold() > 60 ? 37 : 15;
             case EVENT -> 30;
-            case SHOP -> state.gold() > 60 ? 38 : 15;
             case REST -> state.hero().hp() < state.hero().maxHp() * 17 / 20 ? 45 : 10;
         };
     }
@@ -77,20 +94,48 @@ public class RunEngine {
         if (!result.victory()) {
             return false;
         }
+        int patchUp = state.healAfterCombat();
+        if (patchUp > 0) {
+            state.hero().heal(patchUp);
+            out.println("  Relics mend " + patchUp + " HP.");
+        }
         rewards(state, foes, elite, out);
         return true;
     }
 
     private void rewards(RunState state, List<EnemyDef> foes, boolean elite, PrintStream out) {
-        int gold = foes.stream()
+        int base = foes.stream()
                 .mapToInt(foe -> loot.rollGold(foe.goldMin(), foe.goldMax(), state.rng()))
                 .sum() + (elite ? 25 : 0);
+        int gold = base * (100 + state.goldPctBonus()) / 100;
         int xp = foes.stream().mapToInt(EnemyDef::xp).sum();
         state.addGold(gold);
         out.println("  Spoils: +" + gold + " gold, +" + xp + " XP.");
+        if (elite) {
+            int shards = state.act() >= 3 ? 2 : 1;
+            state.addShards(shards);
+            out.println("  Claimed " + shards + " sky-shard(s).");
+            Set<String> owned = state.relics().stream()
+                    .map(RelicDef::id).collect(Collectors.toSet());
+            relics.offer(owned, true, state.rng()).ifPresentOrElse(
+                    relic -> {
+                        state.addRelic(relic);
+                        out.println("  Relic claimed: " + relic.name() + " (" + relic.effect()
+                                + " +" + relic.value() + ").");
+                    },
+                    () -> {
+                        state.addGold(50);
+                        out.println("  Relic vaults empty: +50 gold instead.");
+                    });
+        }
         List<Boon> boons = state.addXp(xp);
         boons.forEach(boon -> out.println("  Level " + state.level() + "! Boon: " + boon.name()
                 + " (" + boon.desc() + ")."));
+        if (state.deck().size() >= SALVAGE_DECK_SIZE) {
+            state.addDust(SALVAGE_DUST);
+            out.println("  Deck is honed: salvaged draft for +" + SALVAGE_DUST + " dust.");
+            return;
+        }
         List<CardDef> options = loot.cardOptions(state.heroClass(), state.deck(), elite, state.rng());
         if (options.isEmpty()) {
             out.println("  No draft options (collection exhausted).");
