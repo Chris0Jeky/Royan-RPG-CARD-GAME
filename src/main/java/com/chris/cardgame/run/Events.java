@@ -19,7 +19,7 @@ public class Events {
 
     public void resolve(RunState state, PrintStream out) {
         SplittableRandom rng = state.rng();
-        switch (rng.nextInt(4)) {
+        switch (rng.nextInt(6)) {
             case 0 -> {
                 int gold = 30 + rng.nextInt(31);
                 state.addGold(gold);
@@ -37,7 +37,22 @@ public class Events {
                 state.addGold(gold);
                 out.println("  Event: Toll Bridge - paid " + loss + " HP, earned " + gold + " gold.");
             }
+            case 4 -> {
+                int dust = 25 + rng.nextInt(16);
+                state.addDust(dust);
+                out.println("  Event: Dust Shrine - ground spare steel for " + dust + " dust.");
+            }
             default -> {
+                if (state.hero().hp() > 10) {
+                    state.hero().takeDamage(8);
+                    state.addDust(40);
+                    out.println("  Event: Blood Shrine - paid 8 HP for 40 dust.");
+                } else {
+                    state.addGold(20);
+                    out.println("  Event: Blood Shrine - too weak to pay; took alms of 20 gold.");
+                }
+            }
+            case 3 -> {
                 List<CardDef> options = loot.cardOptions(state.heroClass(), state.deck(), false, rng);
                 if (!options.isEmpty() && state.gold() >= 40) {
                     state.spendGold(40);
