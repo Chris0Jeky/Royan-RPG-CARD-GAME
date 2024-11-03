@@ -11,3 +11,4 @@ public class Tavern {
     public static final int HEAL_COST = 40;
     public static final int REMOVE_COST_DUST = 50;
     public static final int RELIC_COST_GOLD = 100;
+    public static final int RELIC_COST_SHARDS = 1;
