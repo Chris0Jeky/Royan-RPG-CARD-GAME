@@ -14,3 +14,4 @@ public class Tavern {
     public static final int RELIC_COST_SHARDS = 1;
 
     private final RelicLoader relics;
+
