@@ -17,3 +17,4 @@ public class Tavern {
 
     public Tavern(RelicLoader relics) {
         this.relics = relics;
+    }
