@@ -15,3 +15,4 @@ public class Tavern {
 
     private final RelicLoader relics;
 
+    public Tavern(RelicLoader relics) {
