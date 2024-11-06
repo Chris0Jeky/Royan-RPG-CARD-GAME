@@ -13,3 +13,4 @@ public class Tavern {
     public static final int RELIC_COST_GOLD = 100;
     public static final int RELIC_COST_SHARDS = 1;
 
+    private final RelicLoader relics;
