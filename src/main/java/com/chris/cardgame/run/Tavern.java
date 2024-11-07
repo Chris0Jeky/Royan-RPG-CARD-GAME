@@ -19,3 +19,4 @@ public class Tavern {
         this.relics = relics;
     }
 
+    public void visit(RunState state, PrintStream out) {
