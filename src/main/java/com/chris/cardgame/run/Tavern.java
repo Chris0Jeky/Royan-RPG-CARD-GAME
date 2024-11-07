@@ -21,3 +21,4 @@ public class Tavern {
 
     public void visit(RunState state, PrintStream out) {
         out.println("  Tavern: stew, songs, and sharp company.");
+        Set<String> owned = state.relics().stream().map(RelicDef::id).collect(Collectors.toSet());
