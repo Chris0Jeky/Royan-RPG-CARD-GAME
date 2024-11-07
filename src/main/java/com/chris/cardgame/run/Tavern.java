@@ -23,3 +23,4 @@ public class Tavern {
         out.println("  Tavern: stew, songs, and sharp company.");
         Set<String> owned = state.relics().stream().map(RelicDef::id).collect(Collectors.toSet());
         if (state.shards() >= RELIC_COST_SHARDS && state.gold() >= RELIC_COST_GOLD) {
+            relics.offer(owned, true, state.rng()).ifPresent(relic -> {
