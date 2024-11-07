@@ -24,3 +24,4 @@ public class Tavern {
         Set<String> owned = state.relics().stream().map(RelicDef::id).collect(Collectors.toSet());
         if (state.shards() >= RELIC_COST_SHARDS && state.gold() >= RELIC_COST_GOLD) {
             relics.offer(owned, true, state.rng()).ifPresent(relic -> {
+                if (state.spendShards(RELIC_COST_SHARDS) && state.spendGold(RELIC_COST_GOLD)) {
