@@ -28,3 +28,4 @@ public class Tavern {
                     state.addRelic(relic);
                     out.println("  Traded a shard + " + RELIC_COST_GOLD + " gold for relic: "
                             + relic.name() + ".");
+                }
