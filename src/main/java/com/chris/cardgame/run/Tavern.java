@@ -29,3 +29,4 @@ public class Tavern {
                     out.println("  Traded a shard + " + RELIC_COST_GOLD + " gold for relic: "
                             + relic.name() + ".");
                 }
+            });
