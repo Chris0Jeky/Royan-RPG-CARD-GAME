@@ -27,3 +27,4 @@ public class Tavern {
                 if (state.spendShards(RELIC_COST_SHARDS) && state.spendGold(RELIC_COST_GOLD)) {
                     state.addRelic(relic);
                     out.println("  Traded a shard + " + RELIC_COST_GOLD + " gold for relic: "
+                            + relic.name() + ".");
