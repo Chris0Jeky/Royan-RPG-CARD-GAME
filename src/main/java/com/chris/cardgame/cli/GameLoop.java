@@ -7,6 +7,7 @@ import com.chris.cardgame.combat.CombatEngine;
 import com.chris.cardgame.combat.CombatState;
 import com.chris.cardgame.data.CardLoader;
 import com.chris.cardgame.data.EnemyLoader;
+import com.chris.cardgame.data.RelicLoader;
 import com.chris.cardgame.map.ActMap;
 import com.chris.cardgame.map.MapGen;
 import com.chris.cardgame.map.MapNode;
@@ -29,12 +30,13 @@ public class GameLoop {
             int nodesVisited) {
     }
 
-    public CampaignResult runAutoCampaign(long seed, PrintStream out) {
+    public CampaignResult runAutoCampaign(long seed, HeroClass heroClass, PrintStream out) {
         CardLoader cards = CardLoader.load();
         EnemyLoader enemies = EnemyLoader.load();
-        RunState state = new RunState("Captain Royan", HeroClass.KNIGHT,
-                cards.starterDeck(HeroClass.KNIGHT), seed);
-        RunEngine runner = new RunEngine(cards, enemies);
+        RelicLoader relics = RelicLoader.load();
+        RunState state = new RunState("Captain Royan", heroClass,
+                cards.starterDeck(heroClass), seed);
+        RunEngine runner = new RunEngine(cards, enemies, relics);
         MapGen maps = new MapGen();
         int nodes = 0;
         for (int act = 1; act <= 3; act++) {
@@ -117,12 +119,15 @@ public class GameLoop {
 
     private int score(CardDef card, CombatState state) {
         boolean hurt = state.hero().hp() <= state.hero().maxHp() * 3 / 5;
+        long foes = state.enemies().stream().filter(Combatant::alive).count();
+        int targets = card.aoe() ? (int) Math.max(1, foes) : 1;
+        int damage = card.damage() * card.hits() * targets;
         return switch (card.type()) {
             case GUARD -> hurt ? 100 + card.block() : 20 + card.block();
-            case STRIKE -> 60 + card.damage();
-            case TRICK -> 50 + card.damage() + card.draw() * 5 + (card.weak() + card.vulnerable()) * 4
-                    + card.heal() * (hurt ? 8 : 2);
-            case POWER -> 40 + card.strength() * 10;
+            case STRIKE -> 60 + damage;
+            case TRICK -> 50 + damage + card.draw() * 5 + (card.weak() + card.vulnerable()) * 4 * targets
+                    + card.heal() * (hurt ? 8 : 2) + card.energy() * 15;
+            case POWER -> 40 + card.strength() * 10 + card.energy() * 15 + card.draw() * 5;
             case CURSE -> Integer.MIN_VALUE;
         };
     }

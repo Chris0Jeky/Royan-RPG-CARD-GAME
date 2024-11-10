@@ -39,3 +39,7 @@ public class Tavern {
             state.spendGold(HEAL_COST);
             int heal = state.hero().maxHp() / 2;
             state.hero().heal(heal);
+            out.println("  Hearty meal: +" + heal + " HP for " + HEAL_COST + " gold.");
+        }
+    }
+}
