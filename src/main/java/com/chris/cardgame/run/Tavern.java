@@ -34,3 +34,4 @@ public class Tavern {
         if (state.dust() >= REMOVE_COST_DUST && state.removeBasic()) {
             state.spendDust(REMOVE_COST_DUST);
             out.println("  Paid " + REMOVE_COST_DUST + " dust to strike a basic card from the deck.");
+        }
