@@ -36,3 +36,4 @@ public class Tavern {
             out.println("  Paid " + REMOVE_COST_DUST + " dust to strike a basic card from the deck.");
         }
         if (state.hero().hp() < state.hero().maxHp() && state.gold() >= HEAL_COST) {
+            state.spendGold(HEAL_COST);
