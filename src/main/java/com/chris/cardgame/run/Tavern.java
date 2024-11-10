@@ -37,3 +37,4 @@ public class Tavern {
         }
         if (state.hero().hp() < state.hero().maxHp() && state.gold() >= HEAL_COST) {
             state.spendGold(HEAL_COST);
+            int heal = state.hero().maxHp() / 2;
