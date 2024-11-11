@@ -14,3 +14,9 @@ import com.chris.cardgame.model.HeroClass;
 import org.junit.jupiter.api.Test;
 
 class BattleArtsTest {
+    private final CombatEngine engine = new CombatEngine();
+    private final CardLoader cards = CardLoader.load();
+    private final EnemyLoader enemies = EnemyLoader.load();
+
+    private Combatant hero() {
+        return Combatant.hero("Captain", HeroClass.KNIGHT, 60);
