@@ -32,3 +32,9 @@ class BattleArtsTest {
         for (int i = 0; i < state.hand().size(); i++) {
             if (state.hand().get(i).id().equals(id)) {
                 return i;
+            }
+        }
+        throw new IllegalStateException("card not in hand: " + id);
+    }
+
+    @Test
