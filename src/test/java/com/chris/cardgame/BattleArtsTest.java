@@ -50,3 +50,9 @@ class BattleArtsTest {
     }
 
     @Test
+    void cardAspectDrivesAdvantage() {
+        CombatState state = battle(hero(),
+                List.of("neutral-shiv", "neutral-shiv", "knight-strike", "knight-strike"),
+                List.of("imp"), 1L);
+
+        engine.playCard(state, indexOf(state, "neutral-shiv"), 0);
