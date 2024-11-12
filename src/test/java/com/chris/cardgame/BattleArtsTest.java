@@ -26,3 +26,9 @@ class BattleArtsTest {
         List<CardDef> cards = deck.stream().map(this.cards::get).toList();
         return engine.newBattle(hero, List.of(), cards,
                 foes.stream().map(enemies::get).toList(), seed);
+    }
+
+    private int indexOf(CombatState state, String id) {
+        for (int i = 0; i < state.hand().size(); i++) {
+            if (state.hand().get(i).id().equals(id)) {
+                return i;
