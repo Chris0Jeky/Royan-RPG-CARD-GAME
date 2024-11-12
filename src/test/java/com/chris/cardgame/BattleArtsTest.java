@@ -20,3 +20,9 @@ class BattleArtsTest {
 
     private Combatant hero() {
         return Combatant.hero("Captain", HeroClass.KNIGHT, 60);
+    }
+
+    private CombatState battle(Combatant hero, List<String> deck, List<String> foes, long seed) {
+        List<CardDef> cards = deck.stream().map(this.cards::get).toList();
+        return engine.newBattle(hero, List.of(), cards,
+                foes.stream().map(enemies::get).toList(), seed);
