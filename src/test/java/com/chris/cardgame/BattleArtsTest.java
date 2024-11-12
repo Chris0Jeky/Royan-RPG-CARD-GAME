@@ -44,3 +44,9 @@ class BattleArtsTest {
                 List.of("rat", "imp"), 1L);
 
         engine.playCard(state, indexOf(state, "knight-cleave"), 0);
+
+        assertThat(state.enemies().get(0).hp()).isEqualTo(3);
+        assertThat(state.enemies().get(1).hp()).isEqualTo(8);
+    }
+
+    @Test
