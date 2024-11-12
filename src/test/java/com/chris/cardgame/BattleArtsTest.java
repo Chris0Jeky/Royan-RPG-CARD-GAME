@@ -38,3 +38,9 @@ class BattleArtsTest {
     }
 
     @Test
+    void aoeHitsEveryFoeWithCover() {
+        CombatState state = battle(hero(),
+                List.of("knight-cleave", "knight-cleave", "knight-cleave", "knight-cleave"),
+                List.of("rat", "imp"), 1L);
+
+        engine.playCard(state, indexOf(state, "knight-cleave"), 0);
