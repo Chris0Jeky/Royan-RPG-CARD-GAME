@@ -68,3 +68,9 @@ class BattleArtsTest {
 
         engine.playCard(state, indexOf(state, "ranger-double-tap"), 0);
 
+        assertThat(state.enemies().get(0).hp()).isEqualTo(20);
+    }
+
+    @Test
+    void strengthAppliesPerHit() {
+        Combatant hero = hero();
