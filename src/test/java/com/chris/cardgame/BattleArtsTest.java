@@ -92,3 +92,9 @@ class BattleArtsTest {
                 List.of("rat"), 1L);
 
         engine.playCard(state, indexOf(state, "runemage-channel"), 0);
+
+        assertThat(state.energy()).isEqualTo(3);
+        assertThat(state.hand()).hasSize(4);
+    }
+
+    @Test
