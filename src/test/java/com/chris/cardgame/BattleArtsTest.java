@@ -86,3 +86,9 @@ class BattleArtsTest {
 
     @Test
     void energyCardsRefundEnergy() {
+        CombatState state = battle(hero(),
+                List.of("runemage-channel", "knight-strike", "knight-strike", "knight-strike",
+                        "knight-guard"),
+                List.of("rat"), 1L);
+
+        engine.playCard(state, indexOf(state, "runemage-channel"), 0);
