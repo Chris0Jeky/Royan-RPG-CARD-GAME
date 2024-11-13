@@ -104,3 +104,9 @@ class BattleArtsTest {
                 List.of("rat"), 1L);
 
         engine.playCard(state, indexOf(state, "runemage-overcharge"), 0);
+
+        assertThat(state.energy()).isEqualTo(5);
+    }
+
+    @Test
+    void platingBlocksTurnOne() {
