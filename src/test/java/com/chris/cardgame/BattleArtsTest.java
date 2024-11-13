@@ -98,3 +98,9 @@ class BattleArtsTest {
     }
 
     @Test
+    void overchargeSpikesEnergy() {
+        CombatState state = battle(hero(),
+                List.of("runemage-overcharge", "knight-strike", "knight-strike", "knight-strike"),
+                List.of("rat"), 1L);
+
+        engine.playCard(state, indexOf(state, "runemage-overcharge"), 0);
