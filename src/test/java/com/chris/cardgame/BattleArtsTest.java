@@ -110,3 +110,9 @@ class BattleArtsTest {
 
     @Test
     void platingBlocksTurnOne() {
+        Combatant hero = hero();
+        hero.gainPlating(5);
+        CombatState state = battle(hero,
+                List.of("knight-strike", "knight-strike", "knight-strike", "knight-strike"),
+                List.of("rat"), 1L);
+
