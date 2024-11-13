@@ -56,3 +56,9 @@ class BattleArtsTest {
                 List.of("imp"), 1L);
 
         engine.playCard(state, indexOf(state, "neutral-shiv"), 0);
+
+        assertThat(state.enemies().get(0).hp()).isEqualTo(9);
+    }
+
+    @Test
+    void multiHitSplitsAcrossHits() {
