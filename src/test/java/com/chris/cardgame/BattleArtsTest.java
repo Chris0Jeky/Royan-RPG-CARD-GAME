@@ -74,3 +74,9 @@ class BattleArtsTest {
     @Test
     void strengthAppliesPerHit() {
         Combatant hero = hero();
+        hero.gainBaseStrength(2);
+        CombatState state = battle(hero,
+                List.of("ranger-double-tap", "knight-strike", "knight-strike", "knight-strike"),
+                List.of("rat"), 1L);
+
+        engine.playCard(state, indexOf(state, "ranger-double-tap"), 0);
