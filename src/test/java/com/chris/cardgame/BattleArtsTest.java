@@ -62,3 +62,9 @@ class BattleArtsTest {
 
     @Test
     void multiHitSplitsAcrossHits() {
+        CombatState state = battle(hero(),
+                List.of("ranger-double-tap", "ranger-double-tap", "knight-strike", "knight-strike"),
+                List.of("pirate"), 1L);
+
+        engine.playCard(state, indexOf(state, "ranger-double-tap"), 0);
+
