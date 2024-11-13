@@ -80,3 +80,9 @@ class BattleArtsTest {
                 List.of("rat"), 1L);
 
         engine.playCard(state, indexOf(state, "ranger-double-tap"), 0);
+
+        assertThat(state.enemies().get(0).hp()).isEqualTo(4);
+    }
+
+    @Test
+    void energyCardsRefundEnergy() {
