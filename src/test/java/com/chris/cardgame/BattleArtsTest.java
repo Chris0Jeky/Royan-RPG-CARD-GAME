@@ -128,3 +128,8 @@ class BattleArtsTest {
                 List.of("knight-strike", "knight-strike", "knight-strike", "knight-strike",
                         "knight-strike", "knight-strike"),
                 List.of("rat"), 1L);
+
+        assertThat(state.energy()).isEqualTo(4);
+        assertThat(state.hand()).hasSize(6);
+    }
+}
