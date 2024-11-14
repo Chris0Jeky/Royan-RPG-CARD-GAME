@@ -17,21 +17,38 @@ class DataLoaderTest {
     void cardsLoadWithValidCosts() {
         CardLoader cards = CardLoader.load();
 
-        assertThat(cards.all()).hasSize(18);
+        assertThat(cards.all()).hasSize(90);
         assertThat(cards.all()).allSatisfy(card ->
                 assertThat(card.cost()).isBetween(0, 3));
+        assertThat(cards.all().stream().map(CardDef::id).distinct().count()).isEqualTo(90);
     }
 
     @Test
-    void knightStarterDeckIsTwelveCards() {
+    void collectionCountsPerClass() {
         CardLoader cards = CardLoader.load();
 
-        List<CardDef> starter = cards.starterDeck(HeroClass.KNIGHT);
+        assertThat(cards.all().stream().filter(c -> c.heroClass() == HeroClass.KNIGHT).count()).isEqualTo(24);
+        assertThat(cards.all().stream().filter(c -> c.heroClass() == HeroClass.RANGER).count()).isEqualTo(24);
+        assertThat(cards.all().stream().filter(c -> c.heroClass() == HeroClass.RUNEMAGE).count()).isEqualTo(24);
+        assertThat(cards.all().stream().filter(c -> c.heroClass() == HeroClass.NEUTRAL).count()).isEqualTo(18);
+    }
 
-        assertThat(starter).hasSize(12);
-        assertThat(starter.stream().filter(c -> c.id().equals("knight-strike")).count()).isEqualTo(3);
-        assertThat(starter.stream().filter(c -> c.id().equals("knight-guard")).count()).isEqualTo(4);
-        assertThat(starter.stream().filter(c -> c.id().equals("knight-heavy")).count()).isEqualTo(2);
+    @Test
+    void starterDecksAreTwelveCards() {
+        CardLoader cards = CardLoader.load();
+
+        List<CardDef> knight = cards.starterDeck(HeroClass.KNIGHT);
+        assertThat(knight).hasSize(12);
+        assertThat(knight.stream().filter(c -> c.id().equals("knight-strike")).count()).isEqualTo(3);
+        assertThat(knight.stream().filter(c -> c.id().equals("knight-guard")).count()).isEqualTo(4);
+
+        List<CardDef> ranger = cards.starterDeck(HeroClass.RANGER);
+        assertThat(ranger).hasSize(12);
+        assertThat(ranger.stream().filter(c -> c.id().equals("ranger-dodge")).count()).isEqualTo(4);
+
+        List<CardDef> runemage = cards.starterDeck(HeroClass.RUNEMAGE);
+        assertThat(runemage).hasSize(12);
+        assertThat(runemage.stream().filter(c -> c.id().equals("runemage-ward")).count()).isEqualTo(4);
     }
 
     @Test
@@ -40,7 +57,7 @@ class DataLoaderTest {
 
         assertThatThrownBy(() -> cards.get("nope"))
                 .isInstanceOf(IllegalArgumentException.class);
-        assertThatThrownBy(() -> cards.starterDeck(HeroClass.RANGER))
+        assertThatThrownBy(() -> cards.starterDeck(HeroClass.NEUTRAL))
                 .isInstanceOf(IllegalArgumentException.class);
     }
 
