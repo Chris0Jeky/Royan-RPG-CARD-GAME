@@ -116,3 +116,9 @@ class BattleArtsTest {
                 List.of("knight-strike", "knight-strike", "knight-strike", "knight-strike"),
                 List.of("rat"), 1L);
 
+        assertThat(state.hero().block()).isEqualTo(5);
+    }
+
+    @Test
+    void firstTurnRelicStatsApply() {
+        Combatant hero = hero();
