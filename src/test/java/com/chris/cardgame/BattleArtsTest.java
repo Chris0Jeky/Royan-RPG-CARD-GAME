@@ -122,3 +122,9 @@ class BattleArtsTest {
     @Test
     void firstTurnRelicStatsApply() {
         Combatant hero = hero();
+        hero.gainFirstTurnEnergy(1);
+        hero.gainFirstTurnDraw(2);
+        CombatState state = battle(hero,
+                List.of("knight-strike", "knight-strike", "knight-strike", "knight-strike",
+                        "knight-strike", "knight-strike"),
+                List.of("rat"), 1L);
