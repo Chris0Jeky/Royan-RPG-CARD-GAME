@@ -45,3 +45,9 @@ class RelicEconomyTest {
 
         for (int i = 0; i < 20; i++) {
             var offered = relics.offer(owned, false, rng);
+            assertThat(offered).isPresent();
+            assertThat(owned).doesNotContain(offered.get().id());
+            owned.add(offered.get().id());
+        }
+        assertThat(relics.offer(owned, false, rng)).isEmpty();
+    }
