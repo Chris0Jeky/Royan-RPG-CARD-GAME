@@ -15,3 +15,9 @@ import com.chris.cardgame.data.RelicLoader;
 import com.chris.cardgame.map.MapNode;
 import com.chris.cardgame.map.NodeType;
 import com.chris.cardgame.model.CardDef;
+import com.chris.cardgame.model.HeroClass;
+import com.chris.cardgame.model.RelicDef;
+import com.chris.cardgame.run.RunEngine;
+import com.chris.cardgame.run.RunState;
+import org.junit.jupiter.api.Test;
+
