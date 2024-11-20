@@ -51,3 +51,9 @@ class RelicEconomyTest {
         }
         assertThat(relics.offer(owned, false, rng)).isEmpty();
     }
+
+    @Test
+    void relicPickupAppliesStats() {
+        RunState state = state(1L);
+        int maxHp = state.hero().maxHp();
+
