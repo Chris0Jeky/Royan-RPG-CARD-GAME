@@ -57,3 +57,9 @@ class RelicEconomyTest {
         RunState state = state(1L);
         int maxHp = state.hero().maxHp();
 
+        state.addRelic(relics.get("whetstone"));
+        state.addRelic(relics.get("plank-shield"));
+        state.addRelic(relics.get("iron-rations"));
+        state.addRelic(relics.get("lucky-coin"));
+        state.addRelic(relics.get("blood-vial"));
+        state.addRelic(relics.get("war-drums"));
