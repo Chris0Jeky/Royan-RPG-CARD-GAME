@@ -33,3 +33,9 @@ class RelicEconomyTest {
 
     @Test
     void relicsLoadDistinctWithPositiveValues() {
+        assertThat(relics.all()).hasSize(20);
+        assertThat(relics.all().stream().map(RelicDef::id).distinct().count()).isEqualTo(20);
+        assertThat(relics.all()).allSatisfy(relic -> assertThat(relic.value()).isPositive());
+    }
+
+    @Test
