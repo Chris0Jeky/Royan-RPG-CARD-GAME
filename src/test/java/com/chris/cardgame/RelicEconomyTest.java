@@ -27,3 +27,9 @@ class RelicEconomyTest {
     private final EnemyLoader enemies = EnemyLoader.load();
     private final RelicLoader relics = RelicLoader.load();
 
+    private RunState state(long seed) {
+        return new RunState("Captain", HeroClass.KNIGHT, cards.starterDeck(HeroClass.KNIGHT), seed);
+    }
+
+    @Test
+    void relicsLoadDistinctWithPositiveValues() {
