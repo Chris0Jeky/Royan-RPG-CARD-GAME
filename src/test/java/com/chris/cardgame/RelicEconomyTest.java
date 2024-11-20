@@ -39,3 +39,9 @@ class RelicEconomyTest {
     }
 
     @Test
+    void offerSkipsOwnedAndExhausts() {
+        Set<String> owned = new HashSet<>();
+        SplittableRandom rng = new SplittableRandom(11L);
+
+        for (int i = 0; i < 20; i++) {
+            var offered = relics.offer(owned, false, rng);
