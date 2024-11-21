@@ -63,3 +63,9 @@ class RelicEconomyTest {
         state.addRelic(relics.get("lucky-coin"));
         state.addRelic(relics.get("blood-vial"));
         state.addRelic(relics.get("war-drums"));
+        state.addRelic(relics.get("swift-boots"));
+
+        assertThat(state.hero().strength()).isEqualTo(1);
+        assertThat(state.hero().plating()).isEqualTo(3);
+        assertThat(state.hero().maxHp()).isEqualTo(maxHp + 6);
+        assertThat(state.goldPctBonus()).isEqualTo(15);
