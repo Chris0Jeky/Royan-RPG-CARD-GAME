@@ -99,3 +99,9 @@ class RelicEconomyTest {
         RunEngine engine = new RunEngine(cards, enemies, relics);
         boolean won = false;
         for (long seed = 1; seed <= 40 && !won; seed++) {
+            RunState state = state(seed);
+            won = engine.resolve(state, new MapNode("elite", 1, 2, NodeType.ELITE, List.of()), silent);
+            if (won) {
+                assertThat(state.relics()).hasSize(1);
+                assertThat(state.shards()).isGreaterThanOrEqualTo(1);
+            }
