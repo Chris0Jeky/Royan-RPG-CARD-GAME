@@ -93,3 +93,9 @@ class RelicEconomyTest {
         assertThat(state.removeBasic()).isTrue();
         assertThat(state.deck()).hasSize(11);
     }
+
+    @Test
+    void eliteVictoryGrantsRelicAndShard() {
+        RunEngine engine = new RunEngine(cards, enemies, relics);
+        boolean won = false;
+        for (long seed = 1; seed <= 40 && !won; seed++) {
