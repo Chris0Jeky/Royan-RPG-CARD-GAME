@@ -81,3 +81,9 @@ class RelicEconomyTest {
         state.addDust(60);
         state.addShards(2);
         assertThat(state.spendDust(50)).isTrue();
+        assertThat(state.spendDust(50)).isFalse();
+        assertThat(state.spendShards(1)).isTrue();
+        assertThat(state.spendShards(5)).isFalse();
+    }
+
+    @Test
