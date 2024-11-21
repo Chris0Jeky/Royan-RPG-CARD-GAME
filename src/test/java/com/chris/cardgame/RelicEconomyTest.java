@@ -87,3 +87,9 @@ class RelicEconomyTest {
     }
 
     @Test
+    void removeBasicThinsStarter() {
+        RunState state = state(1L);
+
+        assertThat(state.removeBasic()).isTrue();
+        assertThat(state.deck()).hasSize(11);
+    }
