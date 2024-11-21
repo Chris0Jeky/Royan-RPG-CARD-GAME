@@ -75,3 +75,9 @@ class RelicEconomyTest {
     }
 
     @Test
+    void dustAndShardWallets() {
+        RunState state = state(1L);
+
+        state.addDust(60);
+        state.addShards(2);
+        assertThat(state.spendDust(50)).isTrue();
