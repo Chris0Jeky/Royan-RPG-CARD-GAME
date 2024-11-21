@@ -105,3 +105,9 @@ class RelicEconomyTest {
                 assertThat(state.relics()).hasSize(1);
                 assertThat(state.shards()).isGreaterThanOrEqualTo(1);
             }
+        }
+        assertThat(won).isTrue();
+    }
+
+    @Test
+    void honedDeckSalvagesDraftForDust() {
