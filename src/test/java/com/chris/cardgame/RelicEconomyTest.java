@@ -69,3 +69,9 @@ class RelicEconomyTest {
         assertThat(state.hero().plating()).isEqualTo(3);
         assertThat(state.hero().maxHp()).isEqualTo(maxHp + 6);
         assertThat(state.goldPctBonus()).isEqualTo(15);
+        assertThat(state.healAfterCombat()).isEqualTo(3);
+        assertThat(state.hero().firstTurnEnergy()).isEqualTo(1);
+        assertThat(state.hero().firstTurnDraw()).isEqualTo(1);
+    }
+
+    @Test
