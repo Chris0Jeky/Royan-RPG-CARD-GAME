@@ -123,3 +123,6 @@ class RelicEconomyTest {
             extras.forEach(card -> state.deck().add(card));
             won = engine.resolve(state, new MapNode("fight", 1, 0, NodeType.COMBAT, List.of()), silent);
             if (won) {
+                assertThat(state.dust()).isGreaterThanOrEqualTo(RunEngine.SALVAGE_DUST);
+            }
+        }
