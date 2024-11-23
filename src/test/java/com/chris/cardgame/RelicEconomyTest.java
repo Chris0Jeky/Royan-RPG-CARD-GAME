@@ -126,3 +126,4 @@ class RelicEconomyTest {
                 assertThat(state.dust()).isGreaterThanOrEqualTo(RunEngine.SALVAGE_DUST);
             }
         }
+        assertThat(won).isTrue();
