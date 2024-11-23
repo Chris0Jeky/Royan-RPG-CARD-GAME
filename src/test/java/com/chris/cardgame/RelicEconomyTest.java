@@ -117,3 +117,9 @@ class RelicEconomyTest {
             RunState state = state(seed);
             List<CardDef> extras = cards.all().stream()
                     .filter(card -> card.heroClass() == HeroClass.KNIGHT
+                            || card.heroClass() == HeroClass.NEUTRAL)
+                    .filter(card -> !card.unplayable())
+                    .limit(12).toList();
+            extras.forEach(card -> state.deck().add(card));
+            won = engine.resolve(state, new MapNode("fight", 1, 0, NodeType.COMBAT, List.of()), silent);
+            if (won) {
