@@ -128,3 +128,4 @@ class RelicEconomyTest {
         }
         assertThat(won).isTrue();
     }
+}
