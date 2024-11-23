@@ -111,3 +111,9 @@ class RelicEconomyTest {
 
     @Test
     void honedDeckSalvagesDraftForDust() {
+        RunEngine engine = new RunEngine(cards, enemies, relics);
+        boolean won = false;
+        for (long seed = 1; seed <= 40 && !won; seed++) {
+            RunState state = state(seed);
+            List<CardDef> extras = cards.all().stream()
+                    .filter(card -> card.heroClass() == HeroClass.KNIGHT
