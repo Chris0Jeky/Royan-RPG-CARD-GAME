@@ -15,12 +15,15 @@ pom.xml                       Java 17, JUnit5, AssertJ, Jackson
 src/main/java/com/chris/cardgame/
   model/        CardDef (hits/aoe/energy arts), EnemyDef, Combatant (plating, baseStrength, turn-1 stats),
               CardType, Aspect, Rarity, HeroClass, Row, RelicDef, RelicEffect (+ legacy Card/Deck/Player at root)
-  data/         CardLoader (90), EnemyLoader, RelicLoader (20) (Jackson JSON from resources/data)
-  combat/       CombatEngine, CombatState, DamageCalc, Intent/IntentKind
+  data/         CardLoader (90), EnemyLoader (10, 3 bosses), RelicLoader (20), EventLoader (24),
+              CompanionLoader (5) (Jackson JSON from resources/data)
+  combat/       CombatEngine (phases, allies), CombatState (events log, AI memory), DamageCalc, Intent/IntentKind
+  ai/           EnemyAi (AGGRO/TURTLE/BURST/TRICKSTER intent tables)
   map/          MapGen, ActMap, MapNode, NodeType (layered DAG, 15/18/22 nodes)
   loot/         EncounterGen, LootGen (pick-1-of-3), XpCurve, Boon
-  run/          RunState (gold/dust/shards/relics/deck-thinning), RunEngine, Events (6 incl. shrines),
-              Shop (cards + relics), Tavern (heal/removal/relic trade)
+  run/          RunState (gold/dust/shards/relics/deck-thinning, companions, seen-events), RunEngine,
+              Events (24 narrative + recruit), Shop (cards + relics),
+              Tavern (heal/removal/relic trade/recruit), Companion (persistent ally)
   map/          MapGen, MapNode, Act (3-act branching: 15/18/22 nodes)
   loot/         LootGen (pick-1-of-3), XpCurve, Economy (gold/dust/shards)
   ai/           EnemyAi (aggro/turtle/burst/trickster), BossPhases
