@@ -18,6 +18,7 @@ boss) → combat → pick-1-of-3 loot + XP → repeat → boss → next act.
 - Card fields are data: damage, block, draw, heal, weak, vulnerable, strength; target SELF /
   ENEMY_ONE / ALL_ENEMIES. Cost 0–3.
 - Aspect triangle: MIGHT → GUILE → FOCUS → MIGHT. Advantage ×1.5, disadvantage ×0.75.
+  Card aspect (not hero aspect) drives attack advantage; defender uses own aspect.
 - Rows: FRONT / BACK. BACK-row targets take ×0.75 while any FRONT ally lives (cover).
 - Weak (attacker): ×0.75 damage. Vulnerable (target): ×1.25 damage taken. Durations tick down
   each round.
@@ -42,6 +43,9 @@ boss) → combat → pick-1-of-3 loot + XP → repeat → boss → next act.
 
 ## Balance log
 - 2024-07-?? (M1): multipliers locked — advantage 1.5, disadvantage/cover/weak 0.75, vulnerable 1.25.
+- 2024-10-?? (M3): 90 cards (24/class + 18 neutral), card aspect drives advantage, AoE/multi-hit/energy arts;
+  20 relics, dust (draft salvage/shrines, card removal) + shards (elites/boss, tavern relics);
+  auto-win rates KNIGHT 11/20, RANGER 20/20, RUNEMAGE 19/20 — Ranger/Mage overtuned, revisit at M5.
 - 2024-08-?? (M2): enemy HP pools cut for 3-5 turn normals (rat 14, imp 12, pirate 24/7, golem 36/10);
   hero 80 HP; rest 35%, act transition 40%; elite/boss draft 2 cards; Second Wind heals 6;
   enemy DEFEND 5; War Paint boon (+2 base strength) added for damage scaling.
