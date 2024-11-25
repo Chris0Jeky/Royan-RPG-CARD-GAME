@@ -102,6 +102,11 @@ public class Combatant {
         }
     }
 
+    public void cleanse() {
+        weak = 0;
+        vulnerable = 0;
+    }
+
     public void heal(int amount) {
         hp = Math.min(maxHp, hp + Math.max(0, amount));
     }
