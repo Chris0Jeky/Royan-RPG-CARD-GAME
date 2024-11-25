@@ -9,6 +9,7 @@ import java.util.Map;
 
 import com.chris.cardgame.data.CardLoader;
 import com.chris.cardgame.data.EnemyLoader;
+import com.chris.cardgame.data.RelicLoader;
 import com.chris.cardgame.map.ActMap;
 import com.chris.cardgame.map.MapNode;
 import com.chris.cardgame.map.NodeType;
@@ -21,14 +22,19 @@ class RunEngineTest {
     private final PrintStream silent = new PrintStream(OutputStream.nullOutputStream());
     private final CardLoader cards = CardLoader.load();
     private final EnemyLoader enemies = EnemyLoader.load();
+    private final RelicLoader relics = RelicLoader.load();
 
     private RunState state(long seed) {
         return new RunState("Captain", HeroClass.KNIGHT, cards.starterDeck(HeroClass.KNIGHT), seed);
     }
 
+    private RunEngine engine() {
+        return new RunEngine(cards, enemies, relics);
+    }
+
     @Test
     void restHealsThirtyFivePercent() {
-        RunEngine engine = new RunEngine(cards, enemies);
+        RunEngine engine = engine();
         RunState state = state(1L);
         state.hero().takeDamage(50);
         int before = state.hero().hp();
@@ -42,7 +48,7 @@ class RunEngineTest {
 
     @Test
     void combatVictoryGrantsSpoilsAndDraft() {
-        RunEngine engine = new RunEngine(cards, enemies);
+        RunEngine engine = engine();
         boolean won = false;
         for (long seed = 1; seed <= 30 && !won; seed++) {
             RunState state = state(seed);
@@ -58,7 +64,7 @@ class RunEngineTest {
 
     @Test
     void shopAndEventResolveSanely() {
-        RunEngine engine = new RunEngine(cards, enemies);
+        RunEngine engine = engine();
         RunState rich = state(2L);
         rich.addGold(500);
         int deckBefore = rich.deck().size();
@@ -76,8 +82,24 @@ class RunEngineTest {
     }
 
     @Test
+    void tavernTradesAndHeals() {
+        RunEngine engine = engine();
+        RunState guest = state(9L);
+        guest.addGold(500);
+        guest.addDust(200);
+        guest.addShards(2);
+        guest.hero().takeDamage(40);
+        int hpBefore = guest.hero().hp();
+
+        assertThat(engine.resolve(guest, new MapNode("tavern", 1, 2, NodeType.TAVERN, List.of()), silent)).isTrue();
+
+        assertThat(guest.relics()).hasSize(1);
+        assertThat(guest.hero().hp()).isGreaterThan(hpBefore);
+    }
+
+    @Test
     void pathPrefersEliteAndRestWhenHurt() {
-        RunEngine engine = new RunEngine(cards, enemies);
+        RunEngine engine = engine();
         MapNode node = new MapNode("n", 1, 1, NodeType.COMBAT, List.of("c", "e"));
         ActMap map = new ActMap(1, Map.of(
                 "n", node,
