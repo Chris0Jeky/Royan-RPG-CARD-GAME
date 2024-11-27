@@ -12,3 +12,9 @@ public record EventDef(String id, String title, String text, List<EventChoice> c
     }
 
     @JsonIgnoreProperties(ignoreUnknown = true)
+    public record EventCost(int gold, int dust, int shards, int hp) {
+    }
+
+    @JsonIgnoreProperties(ignoreUnknown = true)
+    public record EventEffect(int gold, int dust, int shards, int heal, int damage, int maxHp,
+            int strength, boolean draft, boolean relic, boolean curse, boolean removeBasic,
