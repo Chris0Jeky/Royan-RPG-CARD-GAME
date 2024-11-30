@@ -1,8 +1,14 @@
 {
   "enemies": [
-    {"id": "rat", "name": "Gutter Rat", "hp": 14, "atk": 5, "aspect": "GUILE", "row": "FRONT", "xp": 8, "goldMin": 3, "goldMax": 6, "attackWeight": 8, "defendWeight": 2, "buffWeight": 0, "flavor": "It pays the cheese toll."},
-    {"id": "imp", "name": "Cinder Imp", "hp": 12, "atk": 6, "aspect": "FOCUS", "row": "BACK", "xp": 10, "goldMin": 4, "goldMax": 8, "attackWeight": 8, "defendWeight": 1, "buffWeight": 1, "flavor": "Small. Rude. Flammable."},
-    {"id": "pirate", "name": "Sky Pirate", "hp": 24, "atk": 7, "aspect": "MIGHT", "row": "FRONT", "xp": 15, "goldMin": 8, "goldMax": 14, "attackWeight": 7, "defendWeight": 2, "buffWeight": 1, "flavor": "Your cargo is now their cargo."},
-    {"id": "golem", "name": "Rust Golem", "hp": 36, "atk": 10, "aspect": "FOCUS", "row": "FRONT", "xp": 25, "goldMin": 12, "goldMax": 20, "attackWeight": 7, "defendWeight": 3, "buffWeight": 0, "flavor": "Decommissioned. Disagreeable."}
+    {"id": "rat", "name": "Gutter Rat", "hp": 14, "atk": 5, "aspect": "GUILE", "row": "FRONT", "behavior": "AGGRO", "xp": 8, "goldMin": 3, "goldMax": 6, "flavor": "It pays the cheese toll."},
+    {"id": "imp", "name": "Cinder Imp", "hp": 12, "atk": 6, "aspect": "FOCUS", "row": "BACK", "behavior": "TRICKSTER", "xp": 10, "goldMin": 4, "goldMax": 8, "flavor": "Small. Rude. Flammable."},
+    {"id": "cutthroat", "name": "Sky Cutthroat", "hp": 16, "atk": 7, "aspect": "GUILE", "row": "BACK", "behavior": "AGGRO", "xp": 12, "goldMin": 5, "goldMax": 9, "flavor": "Smiles with too many teeth."},
+    {"id": "pirate", "name": "Sky Pirate", "hp": 24, "atk": 7, "aspect": "MIGHT", "row": "FRONT", "behavior": "BURST", "xp": 15, "goldMin": 8, "goldMax": 14, "flavor": "Your cargo is now their cargo."},
+    {"id": "marauder", "name": "Iron Marauder", "hp": 30, "atk": 9, "aspect": "MIGHT", "row": "FRONT", "behavior": "AGGRO", "xp": 20, "goldMin": 10, "goldMax": 16, "flavor": "Knocks twice. Then knocks down."},
+    {"id": "golem", "name": "Rust Golem", "hp": 36, "atk": 10, "aspect": "FOCUS", "row": "FRONT", "behavior": "TURTLE", "xp": 25, "goldMin": 12, "goldMax": 20, "flavor": "Decommissioned. Disagreeable."},
+    {"id": "herald", "name": "Storm Herald", "hp": 26, "atk": 10, "aspect": "FOCUS", "row": "BACK", "behavior": "BURST", "xp": 28, "goldMin": 14, "goldMax": 22, "flavor": "Thunder with a grudge."},
+    {"id": "mara", "name": "Dread Captain Mara", "hp": 45, "atk": 9, "aspect": "MIGHT", "row": "FRONT", "behavior": "BURST", "xp": 40, "goldMin": 30, "goldMax": 45, "boss": true, "phaseTwo": {"atk": 12, "behavior": "AGGRO", "heal": 15, "strength": 2, "herald": "Mara drops her cloak and draws a second saber!"}, "flavor": "The toll is everything."},
+    {"id": "rustking", "name": "The Rust King", "hp": 60, "atk": 11, "aspect": "FOCUS", "row": "FRONT", "behavior": "TURTLE", "xp": 70, "goldMin": 50, "goldMax": 70, "boss": true, "phaseTwo": {"atk": 14, "behavior": "BURST", "heal": 20, "strength": 2, "herald": "The Rust King sheds his shell. Underneath: more king."}, "flavor": "Corrosion given a crown."},
+    {"id": "vex", "name": "Sky-Tyrant Vex", "hp": 80, "atk": 13, "aspect": "FOCUS", "row": "FRONT", "behavior": "BURST", "xp": 120, "goldMin": 90, "goldMax": 120, "boss": true, "phaseTwo": {"atk": 16, "behavior": "AGGRO", "heal": 25, "strength": 3, "herald": "Vex stops toying with you."}, "flavor": "The storm has a name."}
   ]
 }

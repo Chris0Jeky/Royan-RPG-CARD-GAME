@@ -4,3 +4,6 @@
     {"id": "wren", "name": "Hedge-Witch Wren", "aspect": "FOCUS", "hp": 22, "power": 6, "role": "MEDIC", "flavor": "Moss, muttering, miracles."},
     {"id": "bruma", "name": "Shieldbearer Bruma", "aspect": "MIGHT", "hp": 40, "power": 6, "role": "GUARDIAN", "flavor": "A door that walks."},
     {"id": "tess", "name": "Knives Tess", "aspect": "GUILE", "hp": 24, "power": 7, "role": "STRIKER", "flavor": "Collects knives and debts."},
+    {"id": "ode", "name": "Chaplain Ode", "aspect": "GUILE", "hp": 26, "power": 4, "role": "MEDIC", "flavor": "Sermons at swordpoint."}
+  ]
+}
