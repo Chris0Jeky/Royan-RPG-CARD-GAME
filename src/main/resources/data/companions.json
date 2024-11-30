@@ -1,0 +1,6 @@
+{
+  "companions": [
+    {"id": "pip", "name": "Pip the Squire", "aspect": "MIGHT", "hp": 30, "power": 5, "role": "STRIKER", "flavor": "Eager. Loud. Accurate."},
+    {"id": "wren", "name": "Hedge-Witch Wren", "aspect": "FOCUS", "hp": 22, "power": 6, "role": "MEDIC", "flavor": "Moss, muttering, miracles."},
+    {"id": "bruma", "name": "Shieldbearer Bruma", "aspect": "MIGHT", "hp": 40, "power": 6, "role": "GUARDIAN", "flavor": "A door that walks."},
+    {"id": "tess", "name": "Knives Tess", "aspect": "GUILE", "hp": 24, "power": 7, "role": "STRIKER", "flavor": "Collects knives and debts."},
