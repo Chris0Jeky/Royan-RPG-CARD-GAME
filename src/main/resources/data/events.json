@@ -4,3 +4,9 @@
       {"id": "take", "text": "Take the gold.", "effects": {"gold": 45}},
       {"id": "search", "text": "Search the lining.", "effects": {"gold": 25, "draft": true}}]},
     {"id": "shrine", "title": "Old Shrine", "text": "A weather-worn saint of lost sailors.", "choices": [
+      {"id": "pray", "text": "Pray.", "effects": {"heal": 12}},
+      {"id": "desecrate", "text": "Pry off the gilt.", "effects": {"gold": 30, "damage": 5}}]},
+    {"id": "toll", "title": "Toll Bridge", "text": "A chain bridge. A bored troll. A price list.", "choices": [
+      {"id": "pay", "text": "Pay the toll.", "requires": {"gold": 40}, "effects": {"shards": 1}},
+      {"id": "fight", "text": "Refuse.", "effects": {"damage": 8, "gold": 50}}]},
+    {"id": "smith", "title": "Wandering Smith", "text": "An anvil strapped to a balloon. Somehow.", "choices": [
