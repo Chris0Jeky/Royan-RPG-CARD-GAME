@@ -1,2 +1,6 @@
 {
   "events": [
+    {"id": "cache", "title": "Abandoned Cache", "text": "A cracked skiff-chest, half-buried in cloud-moss.", "choices": [
+      {"id": "take", "text": "Take the gold.", "effects": {"gold": 45}},
+      {"id": "search", "text": "Search the lining.", "effects": {"gold": 25, "draft": true}}]},
+    {"id": "shrine", "title": "Old Shrine", "text": "A weather-worn saint of lost sailors.", "choices": [
