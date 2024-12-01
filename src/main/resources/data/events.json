@@ -33,3 +33,9 @@
       {"id": "shelter", "text": "Shelter and wait.", "effects": {"heal": 6}}]},
     {"id": "wreck", "title": "Floating Wreck", "text": "A hulk drifting rudderless between isles.", "choices": [
       {"id": "salvage", "text": "Strip the rigging.", "effects": {"gold": 30, "dust": 20}},
+      {"id": "hold", "text": "Search the hold.", "effects": {"damage": 7, "draft": true}}]},
+    {"id": "duel", "title": "Challenge Duel", "text": "A masked fencer demands satisfaction. For what is unclear.", "choices": [
+      {"id": "accept", "text": "Accept.", "requires": {"hp": 15}, "effects": {"damage": 10, "strength": 2}},
+      {"id": "decline", "text": "Decline politely.", "effects": {}}]},
+    {"id": "fountain", "title": "Aether Fountain", "text": "Blue light wells up through cracked flagstones.", "choices": [
+      {"id": "drink", "text": "Drink deeply.", "effects": {"heal": 15}},
