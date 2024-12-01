@@ -51,3 +51,9 @@
       {"id": "bet", "text": "Bet on the favorite.", "requires": {"gold": 30}, "effects": {"gold": 55}}]},
     {"id": "oracle", "title": "Blind Oracle", "text": "She has already seen you arrive. Twice.", "choices": [
       {"id": "prophecy", "text": "Hear your prophecy.", "requires": {"gold": 20}, "effects": {"maxHp": 3}},
+      {"id": "enemy", "text": "Ask about your foes.", "effects": {"heal": 10}}]},
+    {"id": "stowaway", "title": "Stowaway", "text": "Small hands in the biscuit barrel.", "choices": [
+      {"id": "keep", "text": "Take them on.", "effects": {"companion": true}},
+      {"id": "turnout", "text": "Put them ashore.", "effects": {"gold": 25}}]},
+    {"id": "mine", "title": "Dust Mine", "text": "A hollowed isle glittering with steel-dust.", "choices": [
+      {"id": "work", "text": "Work a shift.", "effects": {"damage": 5, "dust": 50}},
