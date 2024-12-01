@@ -16,3 +16,8 @@
     {"id": "dust-shrine", "title": "Dust Shrine", "text": "A grinding wheel that hums without hands.", "choices": [
       {"id": "grind", "text": "Grind spare steel.", "effects": {"dust": 35}},
       {"id": "meditate", "text": "Meditate to the hum.", "effects": {"heal": 8}}]},
+    {"id": "blood-shrine", "title": "Blood Shrine", "text": "The stone drinks. It is always thirsty.", "choices": [
+      {"id": "bleed", "text": "Offer blood.", "requires": {"hp": 10}, "effects": {"damage": 8, "dust": 40}},
+      {"id": "alms", "text": "Take the alms bowl.", "effects": {"gold": 20}}]},
+    {"id": "guild-desk", "title": "Guild Desk", "text": "Contracts, bounties, and one suspicious parrot.", "choices": [
+      {"id": "hire", "text": "Hire a blade.", "requires": {"gold": 80}, "effects": {"companion": true}},
