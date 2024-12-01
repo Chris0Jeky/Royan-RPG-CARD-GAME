@@ -21,3 +21,9 @@
       {"id": "alms", "text": "Take the alms bowl.", "effects": {"gold": 20}}]},
     {"id": "guild-desk", "title": "Guild Desk", "text": "Contracts, bounties, and one suspicious parrot.", "choices": [
       {"id": "hire", "text": "Hire a blade.", "requires": {"gold": 80}, "effects": {"companion": true}},
+      {"id": "bounty", "text": "Take a bounty.", "effects": {"damage": 5, "gold": 60}}]},
+    {"id": "gambler", "title": "Dice Game", "text": "Three sailors, loaded dice, easy money. Allegedly.", "choices": [
+      {"id": "bet", "text": "Bet big.", "requires": {"gold": 30}, "effects": {"gold": 65}},
+      {"id": "sleight", "text": "Palm a few coins.", "effects": {"damage": 4, "gold": 45}}]},
+    {"id": "beggar", "title": "Beggar Captain", "text": "A coat of medals and a cup of nothing.", "choices": [
+      {"id": "give", "text": "Give alms.", "requires": {"gold": 25}, "effects": {"maxHp": 4}},
