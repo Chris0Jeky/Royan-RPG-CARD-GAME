@@ -27,3 +27,9 @@
       {"id": "sleight", "text": "Palm a few coins.", "effects": {"damage": 4, "gold": 45}}]},
     {"id": "beggar", "title": "Beggar Captain", "text": "A coat of medals and a cup of nothing.", "choices": [
       {"id": "give", "text": "Give alms.", "requires": {"gold": 25}, "effects": {"maxHp": 4}},
+      {"id": "refuse", "text": "Walk past.", "effects": {}}]},
+    {"id": "storm", "title": "Sky Squall", "text": "Black clouds ahead, crackling with loose aether.", "choices": [
+      {"id": "ride", "text": "Ride the edge.", "effects": {"damage": 6, "shards": 1}},
+      {"id": "shelter", "text": "Shelter and wait.", "effects": {"heal": 6}}]},
+    {"id": "wreck", "title": "Floating Wreck", "text": "A hulk drifting rudderless between isles.", "choices": [
+      {"id": "salvage", "text": "Strip the rigging.", "effects": {"gold": 30, "dust": 20}},
