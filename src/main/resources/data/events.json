@@ -39,3 +39,9 @@
       {"id": "decline", "text": "Decline politely.", "effects": {}}]},
     {"id": "fountain", "title": "Aether Fountain", "text": "Blue light wells up through cracked flagstones.", "choices": [
       {"id": "drink", "text": "Drink deeply.", "effects": {"heal": 15}},
+      {"id": "bottle", "text": "Bottle some.", "effects": {"gold": 30, "heal": 5}}]},
+    {"id": "archive", "title": "Cloud Archive", "text": "A library chained to a passing cloud.", "choices": [
+      {"id": "study", "text": "Study the manuals.", "effects": {"draft": true}},
+      {"id": "maps", "text": "Copy the charts.", "effects": {"gold": 40}}]},
+    {"id": "forge", "title": "Sky Forge", "text": "Heat shimmer over a floating anvil-isle.", "choices": [
+      {"id": "reforge", "text": "Reforge the deck.", "requires": {"dust": 50}, "effects": {"removeBasic": true}},
