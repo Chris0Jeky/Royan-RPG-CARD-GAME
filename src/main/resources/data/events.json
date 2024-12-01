@@ -45,3 +45,9 @@
       {"id": "maps", "text": "Copy the charts.", "effects": {"gold": 40}}]},
     {"id": "forge", "title": "Sky Forge", "text": "Heat shimmer over a floating anvil-isle.", "choices": [
       {"id": "reforge", "text": "Reforge the deck.", "requires": {"dust": 50}, "effects": {"removeBasic": true}},
+      {"id": "quench", "text": "Quench a blade.", "requires": {"gold": 30}, "effects": {"strength": 1}}]},
+    {"id": "pit", "title": "Fighting Pit", "text": "Sand, sweat, and very short odds.", "choices": [
+      {"id": "fight", "text": "Enter the pit.", "requires": {"hp": 20}, "effects": {"damage": 12, "gold": 80}},
+      {"id": "bet", "text": "Bet on the favorite.", "requires": {"gold": 30}, "effects": {"gold": 55}}]},
+    {"id": "oracle", "title": "Blind Oracle", "text": "She has already seen you arrive. Twice.", "choices": [
+      {"id": "prophecy", "text": "Hear your prophecy.", "requires": {"gold": 20}, "effects": {"maxHp": 3}},
