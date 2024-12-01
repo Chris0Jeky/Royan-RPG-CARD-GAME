@@ -10,3 +10,9 @@
       {"id": "pay", "text": "Pay the toll.", "requires": {"gold": 40}, "effects": {"shards": 1}},
       {"id": "fight", "text": "Refuse.", "effects": {"damage": 8, "gold": 50}}]},
     {"id": "smith", "title": "Wandering Smith", "text": "An anvil strapped to a balloon. Somehow.", "choices": [
+      {"id": "buy", "text": "Buy a fine card.", "requires": {"gold": 40}, "effects": {"draft": true}},
+      {"id": "whet", "text": "Hone your edge.", "requires": {"gold": 25}, "effects": {"strength": 1}},
+      {"id": "leave", "text": "Nod and walk on.", "effects": {}}]},
+    {"id": "dust-shrine", "title": "Dust Shrine", "text": "A grinding wheel that hums without hands.", "choices": [
+      {"id": "grind", "text": "Grind spare steel.", "effects": {"dust": 35}},
+      {"id": "meditate", "text": "Meditate to the hum.", "effects": {"heal": 8}}]},
