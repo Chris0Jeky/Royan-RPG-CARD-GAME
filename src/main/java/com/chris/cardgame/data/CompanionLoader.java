@@ -9,3 +9,9 @@ import java.util.Map;
 import com.chris.cardgame.model.CompanionDef;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+
+public class CompanionLoader {
+    private final Map<String, CompanionDef> companions = new LinkedHashMap<>();
+
+    public static CompanionLoader load() {
+        try (InputStream in = CompanionLoader.class.getResourceAsStream("/data/companions.json")) {
