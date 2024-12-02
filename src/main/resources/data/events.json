@@ -63,3 +63,9 @@
       {"id": "rest", "text": "Eat and rest.", "effects": {"heal": 10}}]},
     {"id": "memorial", "title": "Fallen Memorial", "text": "Names of captains, carved small and many.", "choices": [
       {"id": "honor", "text": "Honor the fallen.", "effects": {"maxHp": 5}},
+      {"id": "loot", "text": "Loot the offerings.", "effects": {"gold": 50, "curse": true}}]},
+    {"id": "smuggler", "title": "Smuggler's Offer", "text": "No questions. No receipts. No refunds.", "choices": [
+      {"id": "relic", "text": "Buy the strange device.", "requires": {"gold": 100}, "effects": {"relic": true}},
+      {"id": "maps", "text": "Buy the charts.", "requires": {"gold": 30}, "effects": {"gold": 45}}]},
+    {"id": "whisper", "title": "Whispering Stone", "text": "It knows your name. It says it wrong on purpose.", "choices": [
+      {"id": "listen", "text": "Listen.", "effects": {"curse": true, "strength": 1}},
