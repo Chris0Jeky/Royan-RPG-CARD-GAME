@@ -69,3 +69,9 @@
       {"id": "maps", "text": "Buy the charts.", "requires": {"gold": 30}, "effects": {"gold": 45}}]},
     {"id": "whisper", "title": "Whispering Stone", "text": "It knows your name. It says it wrong on purpose.", "choices": [
       {"id": "listen", "text": "Listen.", "effects": {"curse": true, "strength": 1}},
+      {"id": "smash", "text": "Smash it.", "effects": {"damage": 6, "dust": 35}}]},
+    {"id": "feast", "title": "Feast Hall", "text": "Long tables, longer toasts.", "choices": [
+      {"id": "feast", "text": "Feast.", "requires": {"gold": 35}, "effects": {"heal": 20}},
+      {"id": "work", "text": "Work the kitchens.", "effects": {"heal": 8, "gold": 15}}]}
+  ]
+}
