@@ -57,3 +57,9 @@
       {"id": "turnout", "text": "Put them ashore.", "effects": {"gold": 25}}]},
     {"id": "mine", "title": "Dust Mine", "text": "A hollowed isle glittering with steel-dust.", "choices": [
       {"id": "work", "text": "Work a shift.", "effects": {"damage": 5, "dust": 50}},
+      {"id": "claim", "text": "Buy a claim.", "requires": {"gold": 60}, "effects": {"dust": 80}}]},
+    {"id": "carnival", "title": "Isle Carnival", "text": "Drums, lanterns, rigged games.", "choices": [
+      {"id": "play", "text": "Play the games.", "requires": {"gold": 25}, "effects": {"draft": true}},
+      {"id": "rest", "text": "Eat and rest.", "effects": {"heal": 10}}]},
+    {"id": "memorial", "title": "Fallen Memorial", "text": "Names of captains, carved small and many.", "choices": [
+      {"id": "honor", "text": "Honor the fallen.", "effects": {"maxHp": 5}},
