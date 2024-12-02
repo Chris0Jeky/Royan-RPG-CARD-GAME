@@ -15,3 +15,9 @@ public class CompanionLoader {
 
     public static CompanionLoader load() {
         try (InputStream in = CompanionLoader.class.getResourceAsStream("/data/companions.json")) {
+            if (in == null) {
+                throw new IllegalStateException("missing /data/companions.json on classpath");
+            }
+            ObjectMapper mapper = new ObjectMapper();
+            JsonNode root = mapper.readTree(in);
+            CompanionLoader loader = new CompanionLoader();
