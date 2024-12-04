@@ -27,3 +27,9 @@ public class CompanionLoader {
             }
             return loader;
         } catch (IOException e) {
+            throw new IllegalStateException("failed to load companions.json", e);
+        }
+    }
+
+    public CompanionDef get(String id) {
+        CompanionDef def = companions.get(id);
