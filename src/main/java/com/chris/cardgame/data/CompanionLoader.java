@@ -33,3 +33,9 @@ public class CompanionLoader {
 
     public CompanionDef get(String id) {
         CompanionDef def = companions.get(id);
+        if (def == null) {
+            throw new IllegalArgumentException("unknown companion: " + id);
+        }
+        return def;
+    }
+
