@@ -39,3 +39,7 @@ public class CompanionLoader {
         return def;
     }
 
+    public List<CompanionDef> all() {
+        return List.copyOf(companions.values());
+    }
+}
