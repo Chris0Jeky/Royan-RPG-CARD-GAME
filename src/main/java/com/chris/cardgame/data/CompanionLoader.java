@@ -21,3 +21,9 @@ public class CompanionLoader {
             ObjectMapper mapper = new ObjectMapper();
             JsonNode root = mapper.readTree(in);
             CompanionLoader loader = new CompanionLoader();
+            for (JsonNode node : root.get("companions")) {
+                CompanionDef def = mapper.treeToValue(node, CompanionDef.class);
+                loader.companions.put(def.id(), def);
+            }
+            return loader;
+        } catch (IOException e) {
