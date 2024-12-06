@@ -28,3 +28,9 @@ public class EventLoader {
             return loader;
         } catch (IOException e) {
             throw new IllegalStateException("failed to load events.json", e);
+        }
+    }
+
+    public EventDef get(String id) {
+        EventDef def = events.get(id);
+        if (def == null) {
