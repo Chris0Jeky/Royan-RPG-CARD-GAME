@@ -40,3 +40,6 @@ public class EventLoader {
     }
 
     public List<EventDef> all() {
+        return List.copyOf(events.values());
+    }
+}

@@ -5,9 +5,12 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Random;
 
+import com.chris.cardgame.ai.EnemyAi;
 import com.chris.cardgame.model.CardDef;
 import com.chris.cardgame.model.Combatant;
+import com.chris.cardgame.model.CompanionRole;
 import com.chris.cardgame.model.EnemyDef;
+import com.chris.cardgame.model.PhaseTwo;
 import com.chris.cardgame.model.Row;
 
 public class CombatEngine {
@@ -18,8 +21,15 @@ public class CombatEngine {
 
     public CombatState newBattle(Combatant hero, List<Combatant> companions, List<CardDef> deck,
             List<EnemyDef> enemyDefs, long seed) {
+        return newBattle(hero, companions, List.of(), List.of(), deck, enemyDefs, seed);
+    }
+
+    public CombatState newBattle(Combatant hero, List<Combatant> companions,
+            List<CompanionRole> companionRoles, List<Integer> companionPower, List<CardDef> deck,
+            List<EnemyDef> enemyDefs, long seed) {
         List<Combatant> enemies = enemyDefs.stream().map(Combatant::enemy).toList();
         CombatState state = new CombatState(hero, new ArrayList<>(companions),
+                List.copyOf(companionRoles), List.copyOf(companionPower),
                 new ArrayList<>(enemies), List.copyOf(enemyDefs), seed);
         hero.resetForBattle();
         companions.forEach(Combatant::resetForBattle);
@@ -106,16 +116,17 @@ public class CombatEngine {
         state.discardPile().addAll(state.hand());
         state.hand().clear();
         state.enemies().forEach(Combatant::clearBlock);
+        companionsAct(state);
         for (int i = 0; i < state.enemies().size(); i++) {
             Combatant enemy = state.enemies().get(i);
             if (!enemy.alive()) {
                 continue;
             }
-            EnemyDef def = state.enemyDefs().get(i);
             Intent intent = state.intents().get(i);
             switch (intent.kind()) {
                 case ATTACK -> {
-                    int damage = DamageCalc.attackDamage(enemy, state.hero(), def.atk(), false);
+                    int damage = DamageCalc.attackDamage(enemy, state.hero(),
+                            state.currentAtk().get(i), false);
                     state.hero().takeDamage(damage);
                 }
                 case DEFEND -> enemy.gainBlock(ENEMY_DEFEND_BLOCK);
@@ -134,6 +145,71 @@ public class CombatEngine {
         }
     }
 
+    private void companionsAct(CombatState state) {
+        for (int i = 0; i < state.companions().size(); i++) {
+            Combatant ally = state.companions().get(i);
+            if (!ally.alive()) {
+                continue;
+            }
+            CompanionRole role = state.companionRoles().get(i);
+            int power = state.companionPower().get(i);
+            switch (role) {
+                case STRIKER -> {
+                    Combatant target = firstAliveFoe(state);
+                    if (target != null) {
+                        boolean cover = target.row() == Row.BACK && frontAlive(state);
+                        int before = target.hp();
+                        int damage = DamageCalc.attackDamage(ally, target, power, cover);
+                        target.takeDamage(damage);
+                        state.log(ally.name() + " strikes " + target.name() + " for "
+                                + (before - target.hp()) + ".");
+                    }
+                }
+                case GUARDIAN -> {
+                    state.hero().gainBlock(power);
+                    state.log(ally.name() + " shields the Captain (+" + power + " block).");
+                }
+                case MEDIC -> {
+                    Combatant patient = lowestAlly(state);
+                    int before = patient.hp();
+                    patient.heal(power);
+                    state.log(ally.name() + " tends " + patient.name() + " (+"
+                            + (patient.hp() - before) + " HP).");
+                }
+            }
+        }
+    }
+
+    private Combatant firstAliveFoe(CombatState state) {
+        for (Combatant enemy : state.enemies()) {
+            if (enemy.alive() && enemy.row() == Row.FRONT) {
+                return enemy;
+            }
+        }
+        for (Combatant enemy : state.enemies()) {
+            if (enemy.alive()) {
+                return enemy;
+            }
+        }
+        return null;
+    }
+
+    private Combatant lowestAlly(CombatState state) {
+        Combatant lowest = state.hero();
+        double lowestFrac = (double) state.hero().hp() / state.hero().maxHp();
+        for (Combatant ally : state.companions()) {
+            if (!ally.alive()) {
+                continue;
+            }
+            double frac = (double) ally.hp() / ally.maxHp();
+            if (frac < lowestFrac) {
+                lowestFrac = frac;
+                lowest = ally;
+            }
+        }
+        return lowest;
+    }
+
     private void drawOne(CombatState state) {
         if (state.drawPile().isEmpty()) {
             if (state.discardPile().isEmpty()) {
@@ -148,29 +224,17 @@ public class CombatEngine {
     }
 
     private void rollIntents(CombatState state) {
+        EnemyAi ai = new EnemyAi();
         for (int i = 0; i < state.enemies().size(); i++) {
             Combatant enemy = state.enemies().get(i);
             if (!enemy.alive()) {
                 continue;
             }
-            EnemyDef def = state.enemyDefs().get(i);
-            int attack = Math.max(0, def.attackWeight());
-            int defend = Math.max(0, def.defendWeight());
-            int buff = Math.max(0, def.buffWeight());
-            int total = attack + defend + buff;
-            IntentKind kind = IntentKind.ATTACK;
-            if (total > 0) {
-                int roll = state.rng().nextInt(total);
-                if (roll < attack) {
-                    kind = IntentKind.ATTACK;
-                } else if (roll < attack + defend) {
-                    kind = IntentKind.DEFEND;
-                } else {
-                    kind = IntentKind.BUFF;
-                }
-            }
+            IntentKind kind = ai.roll(state.currentBehavior().get(i),
+                    i, state.aiMemory(), state.rng());
             int preview = switch (kind) {
-                case ATTACK -> DamageCalc.attackDamage(enemy, state.hero(), def.atk(), false);
+                case ATTACK -> DamageCalc.attackDamage(enemy, state.hero(),
+                        state.currentAtk().get(i), false);
                 case DEFEND -> ENEMY_DEFEND_BLOCK;
                 case BUFF -> ENEMY_BUFF_STRENGTH;
                 case DEBUFF -> 1;
@@ -195,10 +259,31 @@ public class CombatEngine {
     }
 
     private void checkEnd(CombatState state) {
+        checkPhaseTransitions(state);
         boolean allDead = state.enemies().stream().noneMatch(Combatant::alive);
         boolean heroDead = !state.hero().alive();
         state.setVictory(allDead && !heroDead);
         state.setOver(allDead || heroDead);
+    }
+
+    private void checkPhaseTransitions(CombatState state) {
+        for (int i = 0; i < state.enemies().size(); i++) {
+            Combatant enemy = state.enemies().get(i);
+            PhaseTwo phase = state.enemyDefs().get(i).phaseTwo();
+            if (phase == null || state.transitioned().contains(i) || !enemy.alive()) {
+                continue;
+            }
+            if (enemy.hp() * 2 > enemy.maxHp()) {
+                continue;
+            }
+            state.transitioned().add(i);
+            state.currentAtk().set(i, phase.atk());
+            state.currentBehavior().set(i, phase.behavior());
+            enemy.cleanse();
+            enemy.heal(phase.heal());
+            enemy.gainStrength(phase.strength());
+            state.log(enemy.name() + " transforms! " + phase.herald());
+        }
     }
 
     private void requireLive(CombatState state) {
