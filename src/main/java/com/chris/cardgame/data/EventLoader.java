@@ -34,3 +34,9 @@ public class EventLoader {
     public EventDef get(String id) {
         EventDef def = events.get(id);
         if (def == null) {
+            throw new IllegalArgumentException("unknown event: " + id);
+        }
+        return def;
+    }
+
+    public List<EventDef> all() {
