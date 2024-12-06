@@ -22,3 +22,9 @@ public class EventLoader {
             JsonNode root = mapper.readTree(in);
             EventLoader loader = new EventLoader();
             for (JsonNode node : root.get("events")) {
+                EventDef def = mapper.readValue(node.traverse(), EventDef.class);
+                loader.events.put(def.id(), def);
+            }
+            return loader;
+        } catch (IOException e) {
+            throw new IllegalStateException("failed to load events.json", e);
