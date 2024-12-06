@@ -17,3 +17,8 @@ public class EventLoader {
         try (InputStream in = EventLoader.class.getResourceAsStream("/data/events.json")) {
             if (in == null) {
                 throw new IllegalStateException("missing /data/events.json on classpath");
+            }
+            ObjectMapper mapper = new ObjectMapper();
+            JsonNode root = mapper.readTree(in);
+            EventLoader loader = new EventLoader();
+            for (JsonNode node : root.get("events")) {
