@@ -11,3 +11,9 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 public class EventLoader {
+    private final Map<String, EventDef> events = new LinkedHashMap<>();
+
+    public static EventLoader load() {
+        try (InputStream in = EventLoader.class.getResourceAsStream("/data/events.json")) {
+            if (in == null) {
+                throw new IllegalStateException("missing /data/events.json on classpath");
