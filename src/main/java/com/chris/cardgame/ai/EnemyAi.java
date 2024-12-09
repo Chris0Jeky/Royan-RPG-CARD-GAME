@@ -12,3 +12,4 @@ public class EnemyAi {
             SplittableRandom rng) {
         return switch (behavior) {
             case AGGRO -> weighted(rng, 8, 1, 1, 0);
+            case TURTLE -> weighted(rng, 4, 4, 2, 0);
