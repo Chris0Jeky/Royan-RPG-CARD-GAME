@@ -11,3 +11,4 @@ public class EnemyAi {
     public IntentKind roll(Behavior behavior, int enemyIndex, Map<Integer, Integer> memory,
             SplittableRandom rng) {
         return switch (behavior) {
+            case AGGRO -> weighted(rng, 8, 1, 1, 0);
