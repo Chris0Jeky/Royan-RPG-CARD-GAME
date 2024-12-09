@@ -14,3 +14,4 @@ public class EnemyAi {
             case AGGRO -> weighted(rng, 8, 1, 1, 0);
             case TURTLE -> weighted(rng, 4, 4, 2, 0);
             case TRICKSTER -> weighted(rng, 5, 2, 0, 3);
+            case BURST -> {
