@@ -15,3 +15,4 @@ public class EnemyAi {
             case TURTLE -> weighted(rng, 4, 4, 2, 0);
             case TRICKSTER -> weighted(rng, 5, 2, 0, 3);
             case BURST -> {
+                int count = memory.getOrDefault(enemyIndex, 0);
