@@ -16,3 +16,4 @@ public class EnemyAi {
             case TRICKSTER -> weighted(rng, 5, 2, 0, 3);
             case BURST -> {
                 int count = memory.getOrDefault(enemyIndex, 0);
+                if (count >= 2) {
