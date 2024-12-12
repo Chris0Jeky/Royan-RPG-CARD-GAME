@@ -23,3 +23,4 @@ public class EnemyAi {
                 memory.put(enemyIndex, count + 1);
                 yield IntentKind.ATTACK;
             }
+        };
