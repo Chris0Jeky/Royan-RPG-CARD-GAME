@@ -17,3 +17,4 @@ public class EnemyAi {
             case BURST -> {
                 int count = memory.getOrDefault(enemyIndex, 0);
                 if (count >= 2) {
+                    memory.put(enemyIndex, 0);
