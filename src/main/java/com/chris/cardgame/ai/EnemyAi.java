@@ -19,3 +19,4 @@ public class EnemyAi {
                 if (count >= 2) {
                     memory.put(enemyIndex, 0);
                     yield IntentKind.BUFF;
+                }
