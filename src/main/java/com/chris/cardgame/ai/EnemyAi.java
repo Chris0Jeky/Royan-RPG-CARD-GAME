@@ -20,3 +20,4 @@ public class EnemyAi {
                     memory.put(enemyIndex, 0);
                     yield IntentKind.BUFF;
                 }
+                memory.put(enemyIndex, count + 1);
