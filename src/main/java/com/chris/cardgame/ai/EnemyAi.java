@@ -31,3 +31,4 @@ public class EnemyAi {
         int roll = rng.nextInt(total);
         if (roll < attack) {
             return IntentKind.ATTACK;
+        }
