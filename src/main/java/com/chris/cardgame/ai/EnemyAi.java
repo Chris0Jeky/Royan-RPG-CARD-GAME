@@ -27,3 +27,4 @@ public class EnemyAi {
     }
 
     private IntentKind weighted(SplittableRandom rng, int attack, int defend, int buff, int debuff) {
+        int total = attack + defend + buff + debuff;
