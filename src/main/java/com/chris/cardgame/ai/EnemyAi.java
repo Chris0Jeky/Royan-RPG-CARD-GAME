@@ -24,3 +24,4 @@ public class EnemyAi {
                 yield IntentKind.ATTACK;
             }
         };
+    }
