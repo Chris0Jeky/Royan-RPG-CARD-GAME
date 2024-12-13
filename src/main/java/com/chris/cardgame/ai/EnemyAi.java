@@ -30,3 +30,4 @@ public class EnemyAi {
         int total = attack + defend + buff + debuff;
         int roll = rng.nextInt(total);
         if (roll < attack) {
+            return IntentKind.ATTACK;
