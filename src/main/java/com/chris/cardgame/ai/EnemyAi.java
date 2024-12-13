@@ -32,3 +32,7 @@ public class EnemyAi {
         if (roll < attack) {
             return IntentKind.ATTACK;
         }
+        if (roll < attack + defend) {
+            return IntentKind.DEFEND;
+        }
+        if (roll < attack + defend + buff) {
