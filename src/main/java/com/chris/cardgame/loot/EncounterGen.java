@@ -9,20 +9,22 @@ import com.chris.cardgame.model.EnemyDef;
 
 public class EncounterGen {
     private static final Map<Integer, List<List<String>>> COMBAT = Map.of(
-            1, List.of(List.of("rat"), List.of("rat", "imp"), List.of("imp", "imp"),
-                    List.of("pirate"), List.of("rat", "rat", "imp")),
+            1, List.of(List.of("rat"), List.of("rat", "imp"), List.of("cutthroat"),
+                    List.of("imp", "imp"), List.of("rat", "rat", "imp"), List.of("pirate")),
             2, List.of(List.of("pirate"), List.of("pirate", "imp"), List.of("golem"),
-                    List.of("pirate", "rat", "rat")),
-            3, List.of(List.of("golem", "imp"), List.of("pirate", "pirate"),
-                    List.of("golem", "rat", "imp")));
+                    List.of("pirate", "rat", "rat"), List.of("cutthroat", "cutthroat"),
+                    List.of("marauder")),
+            3, List.of(List.of("golem", "imp"), List.of("marauder", "cutthroat"),
+                    List.of("herald", "imp"), List.of("golem", "rat", "imp"),
+                    List.of("herald", "cutthroat")));
     private static final Map<Integer, List<List<String>>> ELITE = Map.of(
             1, List.of(List.of("pirate", "imp"), List.of("pirate", "rat", "rat")),
-            2, List.of(List.of("golem", "imp"), List.of("pirate", "pirate", "imp")),
-            3, List.of(List.of("golem", "pirate", "imp"), List.of("golem", "golem")));
+            2, List.of(List.of("golem", "imp"), List.of("marauder", "cutthroat")),
+            3, List.of(List.of("golem", "herald"), List.of("marauder", "herald")));
     private static final Map<Integer, List<String>> BOSS = Map.of(
-            1, List.of("pirate", "rat"),
-            2, List.of("golem", "imp"),
-            3, List.of("golem", "pirate"));
+            1, List.of("mara", "rat"),
+            2, List.of("rustking", "imp"),
+            3, List.of("vex", "herald"));
 
     private final EnemyLoader enemies;
 
