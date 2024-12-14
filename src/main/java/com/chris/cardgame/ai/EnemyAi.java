@@ -36,3 +36,8 @@ public class EnemyAi {
             return IntentKind.DEFEND;
         }
         if (roll < attack + defend + buff) {
+            return IntentKind.BUFF;
+        }
+        return IntentKind.DEBUFF;
+    }
+}
