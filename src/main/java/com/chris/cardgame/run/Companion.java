@@ -17,3 +17,9 @@ public class Companion {
         return def;
     }
 
+    public int hp() {
+        return hp;
+    }
+
+    public boolean alive() {
+        return hp > 0;
