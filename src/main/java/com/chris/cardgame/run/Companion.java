@@ -23,3 +23,9 @@ public class Companion {
 
     public boolean alive() {
         return hp > 0;
+    }
+
+    public void rest() {
+        hp = Math.min(def.hp(), hp + Math.max(1, def.hp() / 4));
+    }
+
