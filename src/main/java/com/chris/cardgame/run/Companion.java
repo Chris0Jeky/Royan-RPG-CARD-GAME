@@ -11,3 +11,9 @@ public class Companion {
     public Companion(CompanionDef def) {
         this.def = def;
         this.hp = def.hp();
+    }
+
+    public CompanionDef def() {
+        return def;
+    }
+
