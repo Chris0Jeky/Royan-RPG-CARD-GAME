@@ -6,7 +6,9 @@ import java.util.List;
 import com.chris.cardgame.combat.CombatEngine;
 import com.chris.cardgame.combat.CombatState;
 import com.chris.cardgame.data.CardLoader;
+import com.chris.cardgame.data.CompanionLoader;
 import com.chris.cardgame.data.EnemyLoader;
+import com.chris.cardgame.data.EventLoader;
 import com.chris.cardgame.data.RelicLoader;
 import com.chris.cardgame.map.ActMap;
 import com.chris.cardgame.map.MapGen;
@@ -14,16 +16,19 @@ import com.chris.cardgame.map.MapNode;
 import com.chris.cardgame.map.NodeType;
 import com.chris.cardgame.model.CardDef;
 import com.chris.cardgame.model.Combatant;
+import com.chris.cardgame.model.CompanionRole;
 import com.chris.cardgame.model.EnemyDef;
 import com.chris.cardgame.model.HeroClass;
 import com.chris.cardgame.model.Row;
+import com.chris.cardgame.run.Companion;
 import com.chris.cardgame.run.RunEngine;
 import com.chris.cardgame.run.RunState;
 
 public class GameLoop {
     private final CombatEngine engine = new CombatEngine();
 
-    public record BattleResult(boolean victory, int turns, int heroHp, int enemiesSlain, int totalEnemies) {
+    public record BattleResult(boolean victory, int turns, int heroHp, int enemiesSlain,
+            int totalEnemies, List<Integer> companionHp) {
     }
 
     public record CampaignResult(boolean victory, int actsCleared, int level, int deckSize, int gold,
@@ -34,9 +39,11 @@ public class GameLoop {
         CardLoader cards = CardLoader.load();
         EnemyLoader enemies = EnemyLoader.load();
         RelicLoader relics = RelicLoader.load();
+        CompanionLoader companions = CompanionLoader.load();
+        EventLoader events = EventLoader.load();
         RunState state = new RunState("Captain Royan", heroClass,
                 cards.starterDeck(heroClass), seed);
-        RunEngine runner = new RunEngine(cards, enemies, relics);
+        RunEngine runner = new RunEngine(cards, enemies, relics, companions, events);
         MapGen maps = new MapGen();
         int nodes = 0;
         for (int act = 1; act <= 3; act++) {
@@ -64,10 +71,16 @@ public class GameLoop {
         return new CampaignResult(true, 3, state.level(), state.deck().size(), state.gold(), nodes);
     }
 
-    public BattleResult runAutoBattle(Combatant hero, List<CardDef> deck, List<EnemyDef> enemies,
-            long seed, int maxTurns, PrintStream out) {
-        CombatState state = engine.newBattle(hero, List.of(), deck, enemies, seed);
-        out.println("=== Battle: " + hero.name() + " vs " + enemies.size() + " foes (seed " + seed + ") ===");
+    public BattleResult runAutoBattle(Combatant hero, List<Companion> companions,
+            List<CardDef> deck, List<EnemyDef> enemies, long seed, int maxTurns, PrintStream out) {
+        List<Combatant> fighters = companions.stream().map(Companion::toCombatant).toList();
+        List<CompanionRole> roles = companions.stream()
+                .map(companion -> companion.def().role()).toList();
+        List<Integer> powers = companions.stream()
+                .map(companion -> companion.def().power()).toList();
+        CombatState state = engine.newBattle(hero, fighters, roles, powers, deck, enemies, seed);
+        out.println("=== Battle: " + hero.name() + " + " + fighters.size() + " allies vs "
+                + enemies.size() + " foes (seed " + seed + ") ===");
         while (!state.over() && state.turn() <= maxTurns) {
             describe(state, out);
             autoTurn(state, out);
@@ -75,9 +88,11 @@ public class GameLoop {
                 engine.endTurn(state);
             }
         }
+        drainEvents(state, out);
         int slain = (int) state.enemies().stream().filter(e -> !e.alive()).count();
+        List<Integer> companionHp = state.companions().stream().map(Combatant::hp).toList();
         BattleResult result = new BattleResult(state.victory(), state.turn(), state.hero().hp(),
-                slain, state.enemies().size());
+                slain, state.enemies().size(), companionHp);
         out.println(result.victory() ? ">>> VICTORY in " + result.turns() + " turns"
                 : ">>> DEFEAT after " + result.turns() + " turns");
         return result;
@@ -147,9 +162,18 @@ public class GameLoop {
         return 0;
     }
 
+    private void drainEvents(CombatState state, PrintStream out) {
+        state.events().forEach(event -> out.println("  !! " + event));
+        state.events().clear();
+    }
+
     private void describe(CombatState state, PrintStream out) {
+        drainEvents(state, out);
         out.println("-- turn " + state.turn() + " | energy " + state.energy()
                 + " | hero " + state.hero() + " --");
+        for (int i = 0; i < state.companions().size(); i++) {
+            out.println("  ally " + i + ": " + state.companions().get(i));
+        }
         for (int i = 0; i < state.enemies().size(); i++) {
             Combatant enemy = state.enemies().get(i);
             String intent = enemy.alive() ? " [" + state.intents().get(i) + "]" : " [DOWN]";
