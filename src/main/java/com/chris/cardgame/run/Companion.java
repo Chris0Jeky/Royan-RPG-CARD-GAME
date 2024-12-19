@@ -29,3 +29,9 @@ public class Companion {
         hp = Math.min(def.hp(), hp + Math.max(1, def.hp() / 4));
     }
 
+    public Combatant toCombatant() {
+        Combatant fighter = new Combatant(def.name(), def.aspect(), Row.BACK, def.hp());
+        if (hp < def.hp()) {
+            fighter.takeDamage(def.hp() - hp);
+        }
+        return fighter;
