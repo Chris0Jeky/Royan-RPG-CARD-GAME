@@ -27,7 +27,7 @@ class BattlePlaythroughTest {
         List<EnemyDef> foes = List.of(enemies.get("rat"), enemies.get("imp"));
 
         GameLoop.BattleResult result =
-                new GameLoop().runAutoBattle(hero, deck, foes, 7L, 50, silent);
+                new GameLoop().runAutoBattle(hero, List.of(), deck, foes, 7L, 50, silent);
 
         assertThat(result.victory()).isTrue();
         assertThat(result.enemiesSlain()).isEqualTo(2);
@@ -42,7 +42,7 @@ class BattlePlaythroughTest {
         List<CardDef> deck = cards.starterDeck(HeroClass.KNIGHT);
 
         GameLoop.BattleResult result = new GameLoop().runAutoBattle(
-                hero, deck, List.of(enemies.get("golem")), 3L, 50, silent);
+                hero, List.of(), deck, List.of(enemies.get("golem")), 3L, 50, silent);
 
         assertThat(result.victory()).isFalse();
     }
@@ -55,7 +55,7 @@ class BattlePlaythroughTest {
         List<CardDef> deck = cards.starterDeck(HeroClass.KNIGHT);
 
         GameLoop.BattleResult result = new GameLoop().runAutoBattle(
-                hero, deck, List.of(enemies.get("golem")), 5L, 2, silent);
+                hero, List.of(), deck, List.of(enemies.get("golem")), 5L, 2, silent);
 
         assertThat(result.turns()).isLessThanOrEqualTo(3);
     }
