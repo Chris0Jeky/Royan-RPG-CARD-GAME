@@ -35,3 +35,9 @@ public class Companion {
             fighter.takeDamage(def.hp() - hp);
         }
         return fighter;
+    }
+
+    public void syncFrom(Combatant fighter) {
+        hp = fighter.hp();
+    }
+
