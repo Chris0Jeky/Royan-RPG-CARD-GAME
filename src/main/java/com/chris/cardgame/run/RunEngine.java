@@ -8,7 +8,9 @@ import java.util.stream.Collectors;
 
 import com.chris.cardgame.cli.GameLoop;
 import com.chris.cardgame.data.CardLoader;
+import com.chris.cardgame.data.CompanionLoader;
 import com.chris.cardgame.data.EnemyLoader;
+import com.chris.cardgame.data.EventLoader;
 import com.chris.cardgame.data.RelicLoader;
 import com.chris.cardgame.loot.Boon;
 import com.chris.cardgame.loot.EncounterGen;
@@ -30,13 +32,14 @@ public class RunEngine {
     private final Shop shop;
     private final Tavern tavern;
 
-    public RunEngine(CardLoader cards, EnemyLoader enemies, RelicLoader relics) {
+    public RunEngine(CardLoader cards, EnemyLoader enemies, RelicLoader relics,
+            CompanionLoader companions, EventLoader events) {
         this.encounters = new EncounterGen(enemies);
         this.loot = new LootGen(cards);
         this.relics = relics;
-        this.events = new Events(cards);
+        this.events = new Events(events, cards, relics, companions);
         this.shop = new Shop(cards, relics);
-        this.tavern = new Tavern(relics);
+        this.tavern = new Tavern(relics, companions);
     }
 
     public boolean resolve(RunState state, MapNode node, PrintStream out) {
@@ -45,9 +48,9 @@ public class RunEngine {
                 + " | dust " + state.dust() + " | shards " + state.shards()
                 + " | relics " + state.relics().size() + " | lvl " + state.level());
         return switch (node.type()) {
-            case COMBAT -> combat(state, encounters.combat(state.act(), state.rng()), false, out);
-            case ELITE -> combat(state, encounters.elite(state.act(), state.rng()), true, out);
-            case BOSS -> combat(state, encounters.boss(state.act()), true, out);
+            case COMBAT -> combat(state, encounters.combat(state.act(), state.rng()), node.type(), out);
+            case ELITE -> combat(state, encounters.elite(state.act(), state.rng()), node.type(), out);
+            case BOSS -> combat(state, encounters.boss(state.act()), node.type(), out);
             case REST -> {
                 int heal = Math.max(1, state.hero().maxHp() * 35 / 100);
                 state.hero().heal(heal);
@@ -88,22 +91,41 @@ public class RunEngine {
         };
     }
 
-    private boolean combat(RunState state, List<EnemyDef> foes, boolean elite, PrintStream out) {
+    private boolean combat(RunState state, List<EnemyDef> foes,
+            com.chris.cardgame.map.NodeType kind, PrintStream out) {
+        boolean elite = kind == com.chris.cardgame.map.NodeType.ELITE
+                || kind == com.chris.cardgame.map.NodeType.BOSS;
         GameLoop.BattleResult result = new GameLoop().runAutoBattle(
-                state.hero(), state.deck(), foes, state.rng().nextLong(), 60, out);
+                state.hero(), state.companions(), state.deck(), foes,
+                state.rng().nextLong(), 60, out);
         if (!result.victory()) {
             return false;
         }
+        syncCompanions(state, result, out);
         int patchUp = state.healAfterCombat();
         if (patchUp > 0) {
             state.hero().heal(patchUp);
             out.println("  Relics mend " + patchUp + " HP.");
         }
-        rewards(state, foes, elite, out);
+        rewards(state, foes, elite, kind == com.chris.cardgame.map.NodeType.BOSS, out);
         return true;
     }
 
-    private void rewards(RunState state, List<EnemyDef> foes, boolean elite, PrintStream out) {
+    private void syncCompanions(RunState state, GameLoop.BattleResult result, PrintStream out) {
+        for (int i = state.companions().size() - 1; i >= 0; i--) {
+            Companion ally = state.companions().get(i);
+            ally.setHp(result.companionHp().get(i));
+            if (!ally.alive()) {
+                state.companions().remove(i);
+                out.println("  " + ally.def().name() + " falls and must be carried home.");
+            } else {
+                ally.rest();
+            }
+        }
+    }
+
+    private void rewards(RunState state, List<EnemyDef> foes, boolean elite, boolean boss,
+            PrintStream out) {
         int base = foes.stream()
                 .mapToInt(foe -> loot.rollGold(foe.goldMin(), foe.goldMax(), state.rng()))
                 .sum() + (elite ? 25 : 0);
@@ -112,7 +134,7 @@ public class RunEngine {
         state.addGold(gold);
         out.println("  Spoils: +" + gold + " gold, +" + xp + " XP.");
         if (elite) {
-            int shards = state.act() >= 3 ? 2 : 1;
+            int shards = boss ? 2 : 1;
             state.addShards(shards);
             out.println("  Claimed " + shards + " sky-shard(s).");
             Set<String> owned = state.relics().stream()
