@@ -4,6 +4,7 @@ import java.io.PrintStream;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+import com.chris.cardgame.data.CompanionLoader;
 import com.chris.cardgame.data.RelicLoader;
 import com.chris.cardgame.model.RelicDef;
 
@@ -12,11 +13,14 @@ public class Tavern {
     public static final int REMOVE_COST_DUST = 50;
     public static final int RELIC_COST_GOLD = 100;
     public static final int RELIC_COST_SHARDS = 1;
+    public static final int RECRUIT_COST = 80;
 
     private final RelicLoader relics;
+    private final CompanionLoader companions;
 
-    public Tavern(RelicLoader relics) {
+    public Tavern(RelicLoader relics, CompanionLoader companions) {
         this.relics = relics;
+        this.companions = companions;
     }
 
     public void visit(RunState state, PrintStream out) {
@@ -34,6 +38,11 @@ public class Tavern {
         if (state.dust() >= REMOVE_COST_DUST && state.removeBasic()) {
             state.spendDust(REMOVE_COST_DUST);
             out.println("  Paid " + REMOVE_COST_DUST + " dust to strike a basic card from the deck.");
+        }
+        if (state.companions().size() < RunState.MAX_COMPANIONS && state.gold() >= RECRUIT_COST) {
+            state.spendGold(RECRUIT_COST);
+            out.println("  Posted a bounty for a blade (" + RECRUIT_COST + " gold).");
+            Events.recruit(state, companions, out);
         }
         if (state.hero().hp() < state.hero().maxHp() && state.gold() >= HEAL_COST) {
             state.spendGold(HEAL_COST);
