@@ -18,9 +18,13 @@ public class RunState {
             "knight-strike", "knight-guard", "ranger-aimed", "ranger-dodge",
             "runemage-spark", "runemage-ward");
 
+    public static final int MAX_COMPANIONS = 2;
+
     private final Combatant hero;
     private final HeroClass heroClass;
     private final List<CardDef> deck;
+    private final List<Companion> companions = new ArrayList<>();
+    private final java.util.Set<String> seenEvents = new java.util.HashSet<>();
     private final List<RelicDef> relics = new ArrayList<>();
     private final SplittableRandom rng;
     private final long seed;
@@ -152,6 +156,23 @@ public class RunState {
 
     public void setAct(int act) {
         this.act = act;
+        this.seenEvents.clear();
+    }
+
+    public List<Companion> companions() {
+        return companions;
+    }
+
+    public boolean recruit(Companion companion) {
+        if (companions.size() >= MAX_COMPANIONS) {
+            return false;
+        }
+        companions.add(companion);
+        return true;
+    }
+
+    public java.util.Set<String> seenEvents() {
+        return seenEvents;
     }
 
     public void addGold(int amount) {
