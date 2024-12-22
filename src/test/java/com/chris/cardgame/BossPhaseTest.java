@@ -10,3 +10,4 @@ import com.chris.cardgame.data.CardLoader;
 import com.chris.cardgame.data.EnemyLoader;
 import com.chris.cardgame.model.Behavior;
 import com.chris.cardgame.model.CardDef;
+import com.chris.cardgame.model.Combatant;
