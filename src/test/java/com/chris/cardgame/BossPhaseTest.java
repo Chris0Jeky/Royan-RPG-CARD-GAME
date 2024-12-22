@@ -12,3 +12,4 @@ import com.chris.cardgame.model.Behavior;
 import com.chris.cardgame.model.CardDef;
 import com.chris.cardgame.model.Combatant;
 import com.chris.cardgame.model.HeroClass;
+import org.junit.jupiter.api.Test;
