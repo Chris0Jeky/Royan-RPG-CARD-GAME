@@ -21,3 +21,4 @@ class BossPhaseTest {
 
     private CombatState battle(String bossId, int heroHp) {
         List<CardDef> deck = List.of(
+                cards.get("knight-execute"), cards.get("knight-execute"),
