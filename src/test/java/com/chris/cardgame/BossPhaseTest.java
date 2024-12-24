@@ -20,3 +20,4 @@ class BossPhaseTest {
     private final EnemyLoader enemies = EnemyLoader.load();
 
     private CombatState battle(String bossId, int heroHp) {
+        List<CardDef> deck = List.of(
