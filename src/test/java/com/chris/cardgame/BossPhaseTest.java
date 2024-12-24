@@ -17,3 +17,4 @@ import org.junit.jupiter.api.Test;
 class BossPhaseTest {
     private final CombatEngine engine = new CombatEngine();
     private final CardLoader cards = CardLoader.load();
+    private final EnemyLoader enemies = EnemyLoader.load();
