@@ -15,3 +15,4 @@ import com.chris.cardgame.model.HeroClass;
 import org.junit.jupiter.api.Test;
 
 class BossPhaseTest {
+    private final CombatEngine engine = new CombatEngine();
