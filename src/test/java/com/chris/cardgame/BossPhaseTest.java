@@ -27,3 +27,4 @@ class BossPhaseTest {
                 deck, List.of(enemies.get(bossId)), 1L);
     }
 
+    private void playExecute(CombatState state) {
