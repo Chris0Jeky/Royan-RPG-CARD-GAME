@@ -28,3 +28,4 @@ class BossPhaseTest {
     }
 
     private void playExecute(CombatState state) {
+        for (int i = 0; i < state.hand().size(); i++) {
