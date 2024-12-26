@@ -26,3 +26,4 @@ class BossPhaseTest {
         return engine.newBattle(Combatant.hero("Captain", HeroClass.KNIGHT, heroHp), List.of(),
                 deck, List.of(enemies.get(bossId)), 1L);
     }
+
