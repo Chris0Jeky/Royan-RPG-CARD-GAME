@@ -23,3 +23,4 @@ class BossPhaseTest {
         List<CardDef> deck = List.of(
                 cards.get("knight-execute"), cards.get("knight-execute"),
                 cards.get("knight-execute"), cards.get("knight-execute"));
+        return engine.newBattle(Combatant.hero("Captain", HeroClass.KNIGHT, heroHp), List.of(),
