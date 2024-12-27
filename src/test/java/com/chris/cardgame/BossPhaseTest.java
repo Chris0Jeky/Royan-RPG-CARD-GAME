@@ -32,3 +32,4 @@ class BossPhaseTest {
             if (state.hand().get(i).id().equals("knight-execute") && state.energy() >= 3) {
                 engine.playCard(state, i, 0);
                 return;
+            }
