@@ -33,3 +33,4 @@ class BossPhaseTest {
                 engine.playCard(state, i, 0);
                 return;
             }
+        }
