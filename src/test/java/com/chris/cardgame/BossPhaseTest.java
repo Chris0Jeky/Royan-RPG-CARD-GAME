@@ -34,3 +34,4 @@ class BossPhaseTest {
                 return;
             }
         }
+        throw new IllegalStateException("no playable execute");
