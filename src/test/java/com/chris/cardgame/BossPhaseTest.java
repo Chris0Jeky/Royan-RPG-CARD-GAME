@@ -42,3 +42,4 @@ class BossPhaseTest {
         CombatState state = battle("mara", 200);
 
         playExecute(state);
+        assertThat(state.transitioned()).isEmpty();
