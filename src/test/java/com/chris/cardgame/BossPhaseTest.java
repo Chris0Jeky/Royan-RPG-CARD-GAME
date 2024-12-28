@@ -38,3 +38,4 @@ class BossPhaseTest {
     }
 
     @Test
+    void maraTransformsAtHalfHp() {
