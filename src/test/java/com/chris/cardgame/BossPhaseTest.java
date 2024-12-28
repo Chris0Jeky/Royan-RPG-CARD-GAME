@@ -41,3 +41,4 @@ class BossPhaseTest {
     void maraTransformsAtHalfHp() {
         CombatState state = battle("mara", 200);
 
+        playExecute(state);
