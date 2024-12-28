@@ -43,3 +43,4 @@ class BossPhaseTest {
 
         playExecute(state);
         assertThat(state.transitioned()).isEmpty();
+        engine.endTurn(state);
