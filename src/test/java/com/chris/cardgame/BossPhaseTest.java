@@ -50,3 +50,4 @@ class BossPhaseTest {
         assertThat(state.currentAtk().get(0)).isEqualTo(12);
         assertThat(state.currentBehavior().get(0)).isEqualTo(Behavior.AGGRO);
         assertThat(state.enemies().get(0).hp()).isEqualTo(28);
+        assertThat(state.enemies().get(0).strength()).isEqualTo(2);
