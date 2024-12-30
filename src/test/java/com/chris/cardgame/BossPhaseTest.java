@@ -52,3 +52,4 @@ class BossPhaseTest {
         assertThat(state.enemies().get(0).hp()).isEqualTo(28);
         assertThat(state.enemies().get(0).strength()).isEqualTo(2);
         assertThat(state.events()).anySatisfy(event ->
+                assertThat(event).contains("transforms"));
