@@ -46,3 +46,4 @@ class BossPhaseTest {
         engine.endTurn(state);
         playExecute(state);
 
+        assertThat(state.transitioned()).containsExactly(0);
