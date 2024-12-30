@@ -47,3 +47,4 @@ class BossPhaseTest {
         playExecute(state);
 
         assertThat(state.transitioned()).containsExactly(0);
+        assertThat(state.currentAtk().get(0)).isEqualTo(12);
