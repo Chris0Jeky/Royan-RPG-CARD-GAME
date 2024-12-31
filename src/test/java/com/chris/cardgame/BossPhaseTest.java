@@ -57,3 +57,4 @@ class BossPhaseTest {
 
     @Test
     void transitionHappensOnce() {
+        CombatState state = battle("mara", 300);
