@@ -56,3 +56,4 @@ class BossPhaseTest {
     }
 
     @Test
+    void transitionHappensOnce() {
