@@ -61,3 +61,4 @@ class BossPhaseTest {
 
         playExecute(state);
         engine.endTurn(state);
+        playExecute(state);
