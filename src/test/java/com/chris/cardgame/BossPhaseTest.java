@@ -65,3 +65,9 @@ class BossPhaseTest {
         long first = state.events().stream().filter(e -> e.contains("transforms")).count();
         engine.endTurn(state);
         playExecute(state);
+        long second = state.events().stream().filter(e -> e.contains("transforms")).count();
+
+        assertThat(first).isEqualTo(1);
+        assertThat(second).isEqualTo(1);
+    }
+
