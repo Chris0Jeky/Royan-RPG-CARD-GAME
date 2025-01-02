@@ -60,3 +60,4 @@ class BossPhaseTest {
         CombatState state = battle("mara", 300);
 
         playExecute(state);
+        engine.endTurn(state);
