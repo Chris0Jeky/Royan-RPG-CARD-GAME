@@ -62,3 +62,4 @@ class BossPhaseTest {
         playExecute(state);
         engine.endTurn(state);
         playExecute(state);
+        long first = state.events().stream().filter(e -> e.contains("transforms")).count();
