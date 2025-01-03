@@ -71,3 +71,9 @@ class BossPhaseTest {
         assertThat(second).isEqualTo(1);
     }
 
+    @Test
+    void vexPhaseTwoHitsHarder() {
+        CombatState state = battle("vex", 400);
+
+        playExecute(state);
+        engine.endTurn(state);
