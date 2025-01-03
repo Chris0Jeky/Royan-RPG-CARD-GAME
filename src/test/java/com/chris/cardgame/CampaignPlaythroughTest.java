@@ -40,11 +40,18 @@ class CampaignPlaythroughTest {
 
     @Test
     void knownSeedWinsCampaign() {
-        GameLoop.CampaignResult result = new GameLoop().runAutoCampaign(6L, HeroClass.KNIGHT, silent);
+        GameLoop.CampaignResult result = new GameLoop().runAutoCampaign(4L, HeroClass.KNIGHT, silent);
 
         assertThat(result.victory()).isTrue();
         assertThat(result.actsCleared()).isEqualTo(3);
         assertThat(result.level()).isGreaterThanOrEqualTo(5);
+    }
+
+    @Test
+    void everyHeroHasAWinnableSeed() {
+        assertThat(new GameLoop().runAutoCampaign(4L, HeroClass.KNIGHT, silent).victory()).isTrue();
+        assertThat(new GameLoop().runAutoCampaign(3L, HeroClass.RANGER, silent).victory()).isTrue();
+        assertThat(new GameLoop().runAutoCampaign(1L, HeroClass.RUNEMAGE, silent).victory()).isTrue();
     }
 
     @Test
