@@ -18,3 +18,9 @@ import com.chris.cardgame.map.NodeType;
 import com.chris.cardgame.model.CardDef;
 import com.chris.cardgame.model.Combatant;
 import com.chris.cardgame.model.CompanionRole;
+import com.chris.cardgame.model.HeroClass;
+import com.chris.cardgame.run.Companion;
+import com.chris.cardgame.run.RunEngine;
+import com.chris.cardgame.run.RunState;
+import org.junit.jupiter.api.Test;
+
