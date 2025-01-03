@@ -83,3 +83,8 @@ class BossPhaseTest {
         engine.endTurn(state);
         playExecute(state);
 
+        assertThat(state.transitioned()).containsExactly(0);
+        assertThat(state.currentAtk().get(0)).isEqualTo(16);
+        assertThat(state.enemies().get(0).hp()).isEqualTo(57);
+    }
+}
