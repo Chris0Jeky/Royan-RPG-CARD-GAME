@@ -42,3 +42,9 @@ class CompanionTest {
                 Combatant.hero("Captain", HeroClass.KNIGHT, 60),
                 List.of(ally.toCombatant()),
                 List.of(ally.def().role()),
+                List.of(ally.def().power()),
+                deck, List.of(enemies.get(foeId)), 1L);
+    }
+
+    @Test
+    void strikerDamagesFirstFoe() {
