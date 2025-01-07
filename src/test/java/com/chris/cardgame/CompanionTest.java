@@ -36,3 +36,9 @@ class CompanionTest {
     private CombatState battleWith(String companionId, String foeId) {
         Companion ally = new Companion(companions.get(companionId));
         List<CardDef> deck = List.of(
+                cards.get("knight-strike"), cards.get("knight-strike"),
+                cards.get("knight-strike"), cards.get("knight-strike"));
+        return engine.newBattle(
+                Combatant.hero("Captain", HeroClass.KNIGHT, 60),
+                List.of(ally.toCombatant()),
+                List.of(ally.def().role()),
