@@ -30,3 +30,9 @@ class CompanionTest {
     private final CardLoader cards = CardLoader.load();
     private final EnemyLoader enemies = EnemyLoader.load();
     private final RelicLoader relics = RelicLoader.load();
+    private final CompanionLoader companions = CompanionLoader.load();
+    private final EventLoader events = EventLoader.load();
+
+    private CombatState battleWith(String companionId, String foeId) {
+        Companion ally = new Companion(companions.get(companionId));
+        List<CardDef> deck = List.of(
