@@ -48,3 +48,9 @@ class CompanionTest {
 
     @Test
     void strikerDamagesFirstFoe() {
+        CombatState state = battleWith("pip", "rat");
+
+        engine.endTurn(state);
+
+        assertThat(state.enemies().get(0).hp()).isEqualTo(6);
+    }
