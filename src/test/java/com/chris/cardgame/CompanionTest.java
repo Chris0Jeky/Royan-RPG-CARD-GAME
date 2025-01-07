@@ -24,3 +24,9 @@ import com.chris.cardgame.run.RunEngine;
 import com.chris.cardgame.run.RunState;
 import org.junit.jupiter.api.Test;
 
+class CompanionTest {
+    private final PrintStream silent = new PrintStream(OutputStream.nullOutputStream());
+    private final CombatEngine engine = new CombatEngine();
+    private final CardLoader cards = CardLoader.load();
+    private final EnemyLoader enemies = EnemyLoader.load();
+    private final RelicLoader relics = RelicLoader.load();
