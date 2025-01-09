@@ -66,3 +66,9 @@ class CompanionTest {
 
     @Test
     void medicHealsBeforeEnemyActs() {
+        CombatState state = battleWith("wren", "rat");
+        state.hero().takeDamage(20);
+
+        engine.endTurn(state);
+
+        assertThat(state.hero().hp()).isIn(42, 46);
