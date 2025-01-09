@@ -96,3 +96,9 @@ class CompanionTest {
         pip.setHp(10);
 
         pip.rest();
+
+        assertThat(pip.hp()).isEqualTo(17);
+    }
+
+    @Test
+    void runCapsCompanionsAtTwo() {
