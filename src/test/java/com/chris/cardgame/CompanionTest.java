@@ -78,3 +78,9 @@ class CompanionTest {
     void tavernRecruitsUpToTwo() {
         RunEngine engine = new RunEngine(cards, enemies, relics, companions, events);
         RunState state = new RunState("Captain", HeroClass.KNIGHT,
+                cards.starterDeck(HeroClass.KNIGHT), 20L);
+        state.addGold(500);
+        state.addDust(500);
+
+        MapNode tavern = new MapNode("tavern", 1, 2, NodeType.TAVERN, List.of());
+        engine.resolve(state, tavern, silent);
