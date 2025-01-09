@@ -90,3 +90,9 @@ class CompanionTest {
         assertThat(state.companions()).hasSize(2);
     }
 
+    @Test
+    void companionRestsBetweenBattles() {
+        Companion pip = new Companion(companions.get("pip"));
+        pip.setHp(10);
+
+        pip.rest();
