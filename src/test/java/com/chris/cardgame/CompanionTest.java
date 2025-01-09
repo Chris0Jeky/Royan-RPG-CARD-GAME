@@ -60,3 +60,9 @@ class CompanionTest {
         CombatState state = battleWith("bruma", "rat");
 
         engine.endTurn(state);
+
+        assertThat(state.hero().hp()).isEqualTo(60);
+    }
+
+    @Test
+    void medicHealsBeforeEnemyActs() {
