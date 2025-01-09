@@ -72,3 +72,9 @@ class CompanionTest {
         engine.endTurn(state);
 
         assertThat(state.hero().hp()).isIn(42, 46);
+    }
+
+    @Test
+    void tavernRecruitsUpToTwo() {
+        RunEngine engine = new RunEngine(cards, enemies, relics, companions, events);
+        RunState state = new RunState("Captain", HeroClass.KNIGHT,
