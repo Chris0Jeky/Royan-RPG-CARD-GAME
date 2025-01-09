@@ -84,3 +84,9 @@ class CompanionTest {
 
         MapNode tavern = new MapNode("tavern", 1, 2, NodeType.TAVERN, List.of());
         engine.resolve(state, tavern, silent);
+        engine.resolve(state, tavern, silent);
+        engine.resolve(state, tavern, silent);
+
+        assertThat(state.companions()).hasSize(2);
+    }
+
