@@ -54,3 +54,9 @@ class CompanionTest {
 
         assertThat(state.enemies().get(0).hp()).isEqualTo(6);
     }
+
+    @Test
+    void guardianSoaksEnemyHit() {
+        CombatState state = battleWith("bruma", "rat");
+
+        engine.endTurn(state);
