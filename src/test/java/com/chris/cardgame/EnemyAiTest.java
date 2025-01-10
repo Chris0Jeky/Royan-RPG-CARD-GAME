@@ -26,3 +26,9 @@ class EnemyAiTest {
     }
 
     @Test
+    void burstTracksEnemiesIndependently() {
+        EnemyAi ai = new EnemyAi();
+        Map<Integer, Integer> memory = new HashMap<>();
+        SplittableRandom rng = new SplittableRandom(1L);
+
+        ai.roll(Behavior.BURST, 0, memory, rng);
