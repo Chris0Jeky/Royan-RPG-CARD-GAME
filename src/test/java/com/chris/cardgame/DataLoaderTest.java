@@ -65,8 +65,9 @@ class DataLoaderTest {
     void enemiesLoad() {
         EnemyLoader enemies = EnemyLoader.load();
 
-        assertThat(enemies.all()).hasSize(4);
+        assertThat(enemies.all()).hasSize(10);
         assertThat(enemies.get("golem").hp()).isEqualTo(36);
+        assertThat(enemies.all().stream().filter(e -> e.boss()).count()).isEqualTo(3);
         assertThatThrownBy(() -> enemies.get("nope"))
                 .isInstanceOf(IllegalArgumentException.class);
     }

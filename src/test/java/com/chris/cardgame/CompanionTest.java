@@ -108,3 +108,6 @@ class CompanionTest {
         assertThat(state.recruit(new Companion(companions.get("pip")))).isTrue();
         assertThat(state.recruit(new Companion(companions.get("wren")))).isTrue();
         assertThat(state.recruit(new Companion(companions.get("tess")))).isFalse();
+        assertThat(state.companions()).hasSize(2);
+    }
+}
