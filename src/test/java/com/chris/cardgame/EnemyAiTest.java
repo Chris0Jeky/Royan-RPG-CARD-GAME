@@ -14,3 +14,9 @@ import org.junit.jupiter.api.Test;
 class EnemyAiTest {
 
     @Test
+    void burstCyclesTwoAttacksThenBuff() {
+        EnemyAi ai = new EnemyAi();
+        Map<Integer, Integer> memory = new HashMap<>();
+        SplittableRandom rng = new SplittableRandom(1L);
+
+        assertThat(ai.roll(Behavior.BURST, 0, memory, rng)).isEqualTo(IntentKind.ATTACK);
