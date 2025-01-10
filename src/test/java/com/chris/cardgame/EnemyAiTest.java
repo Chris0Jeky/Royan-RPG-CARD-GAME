@@ -20,3 +20,9 @@ class EnemyAiTest {
         SplittableRandom rng = new SplittableRandom(1L);
 
         assertThat(ai.roll(Behavior.BURST, 0, memory, rng)).isEqualTo(IntentKind.ATTACK);
+        assertThat(ai.roll(Behavior.BURST, 0, memory, rng)).isEqualTo(IntentKind.ATTACK);
+        assertThat(ai.roll(Behavior.BURST, 0, memory, rng)).isEqualTo(IntentKind.BUFF);
+        assertThat(ai.roll(Behavior.BURST, 0, memory, rng)).isEqualTo(IntentKind.ATTACK);
+    }
+
+    @Test
