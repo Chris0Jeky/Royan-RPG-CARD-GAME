@@ -8,3 +8,9 @@ import java.util.SplittableRandom;
 
 import com.chris.cardgame.ai.EnemyAi;
 import com.chris.cardgame.combat.IntentKind;
+import com.chris.cardgame.model.Behavior;
+import org.junit.jupiter.api.Test;
+
+class EnemyAiTest {
+
+    @Test
