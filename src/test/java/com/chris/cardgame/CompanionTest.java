@@ -102,3 +102,9 @@ class CompanionTest {
 
     @Test
     void runCapsCompanionsAtTwo() {
+        RunState state = new RunState("Captain", HeroClass.KNIGHT,
+                cards.starterDeck(HeroClass.KNIGHT), 21L);
+
+        assertThat(state.recruit(new Companion(companions.get("pip")))).isTrue();
+        assertThat(state.recruit(new Companion(companions.get("wren")))).isTrue();
+        assertThat(state.recruit(new Companion(companions.get("tess")))).isFalse();
