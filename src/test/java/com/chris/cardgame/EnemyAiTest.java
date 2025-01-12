@@ -68,3 +68,9 @@ class EnemyAiTest {
 
     @Test
     void turtleDefendsOften() {
+        EnemyAi ai = new EnemyAi();
+        SplittableRandom rng = new SplittableRandom(7L);
+        int defends = 0;
+
+        for (int i = 0; i < 200; i++) {
+            if (ai.roll(Behavior.TURTLE, 0, new HashMap<>(), rng) == IntentKind.DEFEND) {
