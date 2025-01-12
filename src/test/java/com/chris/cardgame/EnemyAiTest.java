@@ -44,3 +44,9 @@ class EnemyAiTest {
         SplittableRandom rng = new SplittableRandom(3L);
         int attacks = 0;
 
+        for (int i = 0; i < 200; i++) {
+            IntentKind kind = ai.roll(Behavior.AGGRO, 0, new HashMap<>(), rng);
+            assertThat(kind).isNotEqualTo(IntentKind.DEBUFF);
+            if (kind == IntentKind.ATTACK) {
+                attacks++;
+            }
