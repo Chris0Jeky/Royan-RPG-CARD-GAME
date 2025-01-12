@@ -50,3 +50,9 @@ class EnemyAiTest {
             if (kind == IntentKind.ATTACK) {
                 attacks++;
             }
+        }
+        assertThat(attacks).isGreaterThan(100);
+    }
+
+    @Test
+    void tricksterRollsDebuffs() {
