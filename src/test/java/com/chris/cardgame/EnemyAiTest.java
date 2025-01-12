@@ -74,3 +74,9 @@ class EnemyAiTest {
 
         for (int i = 0; i < 200; i++) {
             if (ai.roll(Behavior.TURTLE, 0, new HashMap<>(), rng) == IntentKind.DEFEND) {
+                defends++;
+            }
+        }
+        assertThat(defends).isGreaterThan(40);
+    }
+}
