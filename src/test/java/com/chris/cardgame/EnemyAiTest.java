@@ -38,3 +38,9 @@ class EnemyAiTest {
         assertThat(ai.roll(Behavior.BURST, 0, memory, rng)).isEqualTo(IntentKind.BUFF);
     }
 
+    @Test
+    void aggroMostlyAttacksNeverDebuffs() {
+        EnemyAi ai = new EnemyAi();
+        SplittableRandom rng = new SplittableRandom(3L);
+        int attacks = 0;
+
