@@ -56,3 +56,9 @@ class EnemyAiTest {
 
     @Test
     void tricksterRollsDebuffs() {
+        EnemyAi ai = new EnemyAi();
+        SplittableRandom rng = new SplittableRandom(5L);
+        boolean seen = false;
+
+        for (int i = 0; i < 200 && !seen; i++) {
+            seen = ai.roll(Behavior.TRICKSTER, 0, new HashMap<>(), rng) == IntentKind.DEBUFF;
