@@ -62,3 +62,9 @@ class EnemyAiTest {
 
         for (int i = 0; i < 200 && !seen; i++) {
             seen = ai.roll(Behavior.TRICKSTER, 0, new HashMap<>(), rng) == IntentKind.DEBUFF;
+        }
+        assertThat(seen).isTrue();
+    }
+
+    @Test
+    void turtleDefendsOften() {
