@@ -39,3 +39,8 @@ class NarrativeEventTest {
         assertThat(events.all()).hasSize(24);
         assertThat(events.all()).allSatisfy(event -> {
             assertThat(event.title()).isNotBlank();
+            assertThat(event.choices().size()).isGreaterThanOrEqualTo(2);
+            assertThat(event.choices()).allSatisfy(choice ->
+                    assertThat(choice.text()).isNotBlank());
+        });
+    }
