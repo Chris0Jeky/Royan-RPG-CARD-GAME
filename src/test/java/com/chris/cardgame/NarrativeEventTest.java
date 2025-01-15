@@ -33,3 +33,9 @@ class NarrativeEventTest {
     private Events engine() {
         return new Events(events, cards, relics, companions);
     }
+
+    @Test
+    void twentyFourEventsLoadWithChoices() {
+        assertThat(events.all()).hasSize(24);
+        assertThat(events.all()).allSatisfy(event -> {
+            assertThat(event.title()).isNotBlank();
