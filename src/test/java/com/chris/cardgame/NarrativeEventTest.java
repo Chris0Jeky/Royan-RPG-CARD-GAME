@@ -27,3 +27,9 @@ class NarrativeEventTest {
     private final CompanionLoader companions = CompanionLoader.load();
 
     private RunState state(long seed) {
+        return new RunState("Captain", HeroClass.KNIGHT, cards.starterDeck(HeroClass.KNIGHT), seed);
+    }
+
+    private Events engine() {
+        return new Events(events, cards, relics, companions);
+    }
