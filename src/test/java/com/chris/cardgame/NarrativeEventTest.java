@@ -15,3 +15,9 @@ import com.chris.cardgame.model.EventDef.EventChoice;
 import com.chris.cardgame.model.EventDef.EventCost;
 import com.chris.cardgame.model.EventDef.EventEffect;
 import com.chris.cardgame.model.HeroClass;
+import com.chris.cardgame.run.Events;
+import com.chris.cardgame.run.RunState;
+import org.junit.jupiter.api.Test;
+
+class NarrativeEventTest {
+    private final PrintStream silent = new PrintStream(OutputStream.nullOutputStream());
