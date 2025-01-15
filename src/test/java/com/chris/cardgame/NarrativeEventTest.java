@@ -21,3 +21,9 @@ import org.junit.jupiter.api.Test;
 
 class NarrativeEventTest {
     private final PrintStream silent = new PrintStream(OutputStream.nullOutputStream());
+    private final CardLoader cards = CardLoader.load();
+    private final EventLoader events = EventLoader.load();
+    private final RelicLoader relics = RelicLoader.load();
+    private final CompanionLoader companions = CompanionLoader.load();
+
+    private RunState state(long seed) {
