@@ -50,3 +50,9 @@ class NarrativeEventTest {
         Events engine = engine();
         RunState state = state(1L);
 
+        for (int i = 0; i < 24; i++) {
+            engine.pick(state);
+        }
+        assertThat(state.seenEvents()).hasSize(24);
+        engine.pick(state);
+        assertThat(state.seenEvents()).hasSize(1);
