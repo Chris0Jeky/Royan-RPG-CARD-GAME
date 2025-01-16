@@ -56,3 +56,9 @@ class NarrativeEventTest {
         assertThat(state.seenEvents()).hasSize(24);
         engine.pick(state);
         assertThat(state.seenEvents()).hasSize(1);
+    }
+
+    @Test
+    void chooseRespectsCosts() {
+        Events engine = engine();
+        EventDef toll = events.get("toll");
