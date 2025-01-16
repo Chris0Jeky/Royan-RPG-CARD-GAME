@@ -68,3 +68,9 @@ class NarrativeEventTest {
         assertThat(engine.choose(toll, broke).id()).isEqualTo("fight");
 
         RunState rich = state(2L);
+        rich.addGold(200);
+        assertThat(engine.choose(toll, rich).id()).isEqualTo("pay");
+    }
+
+    @Test
+    void chooseAvoidsLethal() {
