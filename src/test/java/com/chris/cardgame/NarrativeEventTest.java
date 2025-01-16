@@ -80,3 +80,9 @@ class NarrativeEventTest {
                         new EventChoice("pain", "Suffer.",
                                 new EventCost(0, 0, 0, 0),
                                 new EventEffect(0, 0, 0, 0, 50, 0, 0,
+                                        false, false, false, false, false)),
+                        new EventChoice("pass", "Decline.",
+                                new EventCost(0, 0, 0, 0),
+                                new EventEffect(0, 0, 0, 5, 0, 0, 0,
+                                        false, false, false, false, false))));
+        RunState frail = state(3L);
