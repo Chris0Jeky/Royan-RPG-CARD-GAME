@@ -62,3 +62,9 @@ class NarrativeEventTest {
     void chooseRespectsCosts() {
         Events engine = engine();
         EventDef toll = events.get("toll");
+
+        RunState broke = state(2L);
+        broke.spendGold(50);
+        assertThat(engine.choose(toll, broke).id()).isEqualTo("fight");
+
+        RunState rich = state(2L);
