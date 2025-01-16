@@ -44,3 +44,9 @@ class NarrativeEventTest {
                     assertThat(choice.text()).isNotBlank());
         });
     }
+
+    @Test
+    void pickAvoidsRepeatsThenResets() {
+        Events engine = engine();
+        RunState state = state(1L);
+
