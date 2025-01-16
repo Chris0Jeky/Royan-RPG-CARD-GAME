@@ -74,3 +74,9 @@ class NarrativeEventTest {
 
     @Test
     void chooseAvoidsLethal() {
+        Events engine = engine();
+        EventDef gauntlet = new EventDef("gauntlet", "Gauntlet", "Pain or nothing.",
+                List.of(
+                        new EventChoice("pain", "Suffer.",
+                                new EventCost(0, 0, 0, 0),
+                                new EventEffect(0, 0, 0, 0, 50, 0, 0,
