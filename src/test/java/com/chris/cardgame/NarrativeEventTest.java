@@ -116,3 +116,9 @@ class NarrativeEventTest {
         engine.apply(state, loot, silent);
 
         assertThat(state.gold()).isEqualTo(100);
+        assertThat(state.deck().stream().map(c -> c.id()))
+                .containsAnyOf("curse-doubt", "curse-sloth");
+    }
+
+    @Test
+    void stowawayRecruitsCompanion() {
