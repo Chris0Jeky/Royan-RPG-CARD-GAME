@@ -110,3 +110,9 @@ class NarrativeEventTest {
         Events engine = engine();
         EventDef memorial = events.get("memorial");
         EventChoice loot = memorial.choices().stream()
+                .filter(choice -> choice.id().equals("loot")).findFirst().orElseThrow();
+        RunState state = state(5L);
+
+        engine.apply(state, loot, silent);
+
+        assertThat(state.gold()).isEqualTo(100);
