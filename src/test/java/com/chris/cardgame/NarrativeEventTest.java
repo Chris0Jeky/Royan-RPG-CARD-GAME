@@ -104,3 +104,9 @@ class NarrativeEventTest {
         assertThat(state.gold()).isEqualTo(10);
         assertThat(state.deck()).hasSize(13);
     }
+
+    @Test
+    void curseSlipsIntoDeck() {
+        Events engine = engine();
+        EventDef memorial = events.get("memorial");
+        EventChoice loot = memorial.choices().stream()
