@@ -86,3 +86,9 @@ class NarrativeEventTest {
                                 new EventEffect(0, 0, 0, 5, 0, 0, 0,
                                         false, false, false, false, false))));
         RunState frail = state(3L);
+        frail.hero().takeDamage(50);
+
+        assertThat(engine.choose(gauntlet, frail).id()).isEqualTo("pass");
+    }
+
+    @Test
