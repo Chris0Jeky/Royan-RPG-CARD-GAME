@@ -92,3 +92,9 @@ class NarrativeEventTest {
     }
 
     @Test
+    void smithDraftTradesGoldForCard() {
+        Events engine = engine();
+        EventDef smith = events.get("smith");
+        EventChoice buy = smith.choices().stream()
+                .filter(choice -> choice.id().equals("buy")).findFirst().orElseThrow();
+        RunState state = state(4L);
