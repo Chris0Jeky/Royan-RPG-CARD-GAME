@@ -98,3 +98,9 @@ class NarrativeEventTest {
         EventChoice buy = smith.choices().stream()
                 .filter(choice -> choice.id().equals("buy")).findFirst().orElseThrow();
         RunState state = state(4L);
+
+        engine.apply(state, buy, silent);
+
+        assertThat(state.gold()).isEqualTo(10);
+        assertThat(state.deck()).hasSize(13);
+    }
