@@ -132,3 +132,4 @@ class NarrativeEventTest {
 
         assertThat(state.companions()).hasSize(1);
     }
+}
