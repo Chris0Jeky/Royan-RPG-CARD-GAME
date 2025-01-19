@@ -122,3 +122,9 @@ class NarrativeEventTest {
 
     @Test
     void stowawayRecruitsCompanion() {
+        Events engine = engine();
+        EventDef stowaway = events.get("stowaway");
+        EventChoice keep = stowaway.choices().stream()
+                .filter(choice -> choice.id().equals("keep")).findFirst().orElseThrow();
+        RunState state = state(6L);
+
