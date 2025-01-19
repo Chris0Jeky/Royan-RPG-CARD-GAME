@@ -8,7 +8,9 @@ import java.util.List;
 import java.util.Map;
 
 import com.chris.cardgame.data.CardLoader;
+import com.chris.cardgame.data.CompanionLoader;
 import com.chris.cardgame.data.EnemyLoader;
+import com.chris.cardgame.data.EventLoader;
 import com.chris.cardgame.data.RelicLoader;
 import com.chris.cardgame.map.ActMap;
 import com.chris.cardgame.map.MapNode;
@@ -23,13 +25,15 @@ class RunEngineTest {
     private final CardLoader cards = CardLoader.load();
     private final EnemyLoader enemies = EnemyLoader.load();
     private final RelicLoader relics = RelicLoader.load();
+    private final CompanionLoader companions = CompanionLoader.load();
+    private final EventLoader events = EventLoader.load();
 
     private RunState state(long seed) {
         return new RunState("Captain", HeroClass.KNIGHT, cards.starterDeck(HeroClass.KNIGHT), seed);
     }
 
     private RunEngine engine() {
-        return new RunEngine(cards, enemies, relics);
+        return new RunEngine(cards, enemies, relics, companions, events);
     }
 
     @Test
