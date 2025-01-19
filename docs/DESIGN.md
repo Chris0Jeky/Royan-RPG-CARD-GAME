@@ -37,12 +37,23 @@ boss) → combat → pick-1-of-3 loot + XP → repeat → boss → next act.
 - Economy: gold (shops/shrines), dust (card upgrades, 3:1), shards (relic rerolls). No premium.
 - 20 relics, 24 narrative events, tavern (heal / recruit / upgrade), shrines (card surgery).
 
-## Enemy AI (M1: weighted intents; M4: 4 behaviors + 2-phase bosses)
-- Intents: ATTACK / DEFEND / BUFF / DEBUFF, rolled per enemy per turn from behavior weights.
-- M1 behaviors are data (attack/defend/buff weights per enemy).
+## Enemy AI (M4 — implemented)
+- 4 behaviors: AGGRO (attacks relentlessly), TURTLE (block + buffs), BURST (2 attacks then BUFF cycle),
+  TRICKSTER (attacks + DEBUFF weakens). Intents telegraphed every turn.
+- Bosses (Mara / Rust King / Vex) have 2 phases: at 50% HP they cleanse, heal, gain strength,
+  and switch attack/behavior. Enemies focus the hero; companions support from the back line.
+
+## Events & companions (M4 — implemented)
+- 24 narrative events with costed choices (gold/dust/shards/HP gates); no repeats within an act;
+  auto-policy avoids lethal choices. Effects: currencies, heal/damage, boons, drafts, relics,
+  curses, deck-thinning, companion recruits.
+- 5 companions (Striker/Guardian/Medic), max 2 per run, recruited via tavern/events/guild desk;
+  they act before enemies each round and rest between battles.
 
 ## Balance log
 - 2024-07-?? (M1): multipliers locked — advantage 1.5, disadvantage/cover/weak 0.75, vulnerable 1.25.
+- 2024-11-?? (M4): 10 enemies (4 behaviors) + 3 two-phase bosses, 24 events, 5 companions.
+  Auto-win rates K 2/30, R 6/30, M 27/30 — Knight suffers vs FOCUS-heavy pools; Mage overperforms. M5 must rebalance.
 - 2024-10-?? (M3): 90 cards (24/class + 18 neutral), card aspect drives advantage, AoE/multi-hit/energy arts;
   20 relics, dust (draft salvage/shrines, card removal) + shards (elites/boss, tavern relics);
   auto-win rates KNIGHT 11/20, RANGER 20/20, RUNEMAGE 19/20 — Ranger/Mage overtuned, revisit at M5.
