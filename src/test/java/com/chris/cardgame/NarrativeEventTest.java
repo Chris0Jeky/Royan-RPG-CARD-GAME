@@ -131,3 +131,4 @@ class NarrativeEventTest {
         engine.apply(state, keep, silent);
 
         assertThat(state.companions()).hasSize(1);
+    }
