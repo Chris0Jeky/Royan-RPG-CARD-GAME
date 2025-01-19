@@ -2,7 +2,7 @@ package com.chris.cardgame.model;
 
 public class Combatant {
     private final String name;
-    private final Aspect aspect;
+    private Aspect aspect;
     private final Row row;
     private int maxHp;
     private int hp;
@@ -37,6 +37,10 @@ public class Combatant {
 
     public Aspect aspect() {
         return aspect;
+    }
+
+    public void setAspect(Aspect aspect) {
+        this.aspect = aspect;
     }
 
     public Row row() {
