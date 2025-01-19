@@ -27,7 +27,8 @@ src/main/java/com/chris/cardgame/
   map/          MapGen, MapNode, Act (3-act branching: 15/18/22 nodes)
   loot/         LootGen (pick-1-of-3), XpCurve, Economy (gold/dust/shards)
   ai/           EnemyAi (aggro/turtle/burst/trickster), BossPhases
-  cli/          Main, GameLoop, Render (text), Input, SaveStore
+  cli/          Main (play/continue/auto), GameLoop (auto demo), InteractiveLoop (human play),
+              Input/ScannerInput/ScriptedInput, SaveStore + run/SaveData (JSON autosave)
 src/main/resources/data/  cards.json, relics.json, events.json, maps/
 src/test/java/...         engine/combat/loot/ai/cli-smoke suites
 docs/           DESIGN.md, RULES.md, DEVLOG.md, QA.md
