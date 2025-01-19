@@ -10,7 +10,9 @@ import java.util.Set;
 import java.util.SplittableRandom;
 
 import com.chris.cardgame.data.CardLoader;
+import com.chris.cardgame.data.CompanionLoader;
 import com.chris.cardgame.data.EnemyLoader;
+import com.chris.cardgame.data.EventLoader;
 import com.chris.cardgame.data.RelicLoader;
 import com.chris.cardgame.map.MapNode;
 import com.chris.cardgame.map.NodeType;
@@ -26,6 +28,12 @@ class RelicEconomyTest {
     private final CardLoader cards = CardLoader.load();
     private final EnemyLoader enemies = EnemyLoader.load();
     private final RelicLoader relics = RelicLoader.load();
+    private final CompanionLoader companions = CompanionLoader.load();
+    private final EventLoader events = EventLoader.load();
+
+    private RunEngine engine() {
+        return new RunEngine(cards, enemies, relics, companions, events);
+    }
 
     private RunState state(long seed) {
         return new RunState("Captain", HeroClass.KNIGHT, cards.starterDeck(HeroClass.KNIGHT), seed);
@@ -96,7 +104,7 @@ class RelicEconomyTest {
 
     @Test
     void eliteVictoryGrantsRelicAndShard() {
-        RunEngine engine = new RunEngine(cards, enemies, relics);
+        RunEngine engine = engine();
         boolean won = false;
         for (long seed = 1; seed <= 40 && !won; seed++) {
             RunState state = state(seed);
@@ -111,7 +119,7 @@ class RelicEconomyTest {
 
     @Test
     void honedDeckSalvagesDraftForDust() {
-        RunEngine engine = new RunEngine(cards, enemies, relics);
+        RunEngine engine = engine();
         boolean won = false;
         for (long seed = 1; seed <= 40 && !won; seed++) {
             RunState state = state(seed);
