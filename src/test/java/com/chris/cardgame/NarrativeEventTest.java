@@ -128,3 +128,6 @@ class NarrativeEventTest {
                 .filter(choice -> choice.id().equals("keep")).findFirst().orElseThrow();
         RunState state = state(6L);
 
+        engine.apply(state, keep, silent);
+
+        assertThat(state.companions()).hasSize(1);
