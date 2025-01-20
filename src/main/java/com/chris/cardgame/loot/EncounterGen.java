@@ -12,15 +12,15 @@ public class EncounterGen {
             1, List.of(List.of("rat"), List.of("rat", "imp"), List.of("cutthroat"),
                     List.of("imp", "imp"), List.of("rat", "rat", "imp"), List.of("pirate")),
             2, List.of(List.of("pirate"), List.of("pirate", "imp"), List.of("golem"),
-                    List.of("pirate", "rat", "rat"), List.of("cutthroat", "cutthroat"),
+                    List.of("duelist"), List.of("cutthroat", "imp"),
                     List.of("marauder")),
-            3, List.of(List.of("golem", "imp"), List.of("marauder", "cutthroat"),
-                    List.of("herald", "imp"), List.of("golem", "rat", "imp"),
-                    List.of("herald", "cutthroat")));
+            3, List.of(List.of("golem", "imp"), List.of("marauder", "imp"),
+                    List.of("herald", "imp"), List.of("assassin", "imp"),
+                    List.of("duelist", "herald")));
     private static final Map<Integer, List<List<String>>> ELITE = Map.of(
             1, List.of(List.of("pirate", "imp"), List.of("pirate", "rat", "rat")),
-            2, List.of(List.of("golem", "imp"), List.of("marauder", "cutthroat")),
-            3, List.of(List.of("golem", "herald"), List.of("marauder", "herald")));
+            2, List.of(List.of("golem", "imp"), List.of("duelist", "cutthroat")),
+            3, List.of(List.of("golem", "herald"), List.of("assassin", "marauder")));
     private static final Map<Integer, List<String>> BOSS = Map.of(
             1, List.of("mara", "rat"),
             2, List.of("rustking", "imp"),
