@@ -2,11 +2,11 @@
   "cards": [
     {"id": "knight-strike", "name": "Strike", "cost": 1, "type": "STRIKE", "aspect": "MIGHT", "damage": 6, "heroClass": "KNIGHT", "rarity": "COMMON", "flavor": "Guild basic training."},
     {"id": "knight-guard", "name": "Guard", "cost": 1, "type": "GUARD", "aspect": "MIGHT", "block": 5, "heroClass": "KNIGHT", "rarity": "COMMON", "flavor": "Shield up, Captain."},
-    {"id": "knight-heavy", "name": "Heavy Blow", "cost": 2, "type": "STRIKE", "aspect": "MIGHT", "damage": 11, "heroClass": "KNIGHT", "rarity": "COMMON", "flavor": "Put your hips into it."},
+    {"id": "knight-heavy", "name": "Heavy Blow", "cost": 2, "type": "STRIKE", "aspect": "MIGHT", "damage": 12, "heroClass": "KNIGHT", "rarity": "COMMON", "flavor": "Put your hips into it."},
     {"id": "knight-rally", "name": "Rally", "cost": 1, "type": "TRICK", "aspect": "MIGHT", "block": 3, "draw": 1, "heroClass": "KNIGHT", "rarity": "COMMON", "flavor": "To me! To me!"},
     {"id": "knight-quick", "name": "Quick Cut", "cost": 0, "type": "STRIKE", "aspect": "GUILE", "damage": 3, "heroClass": "KNIGHT", "rarity": "COMMON", "flavor": "Fast is fine."},
     {"id": "knight-bulwark", "name": "Bulwark", "cost": 2, "type": "GUARD", "aspect": "MIGHT", "block": 11, "heroClass": "KNIGHT", "rarity": "UNCOMMON", "flavor": "A wall with a sword."},
-    {"id": "knight-execute", "name": "Execute", "cost": 3, "type": "STRIKE", "aspect": "MIGHT", "damage": 16, "heroClass": "KNIGHT", "rarity": "RARE", "flavor": "No speeches. Just paperwork."},
+    {"id": "knight-execute", "name": "Execute", "cost": 3, "type": "STRIKE", "aspect": "MIGHT", "damage": 18, "heroClass": "KNIGHT", "rarity": "RARE", "flavor": "No speeches. Just paperwork."},
     {"id": "knight-warhorn", "name": "War Horn", "cost": 1, "type": "POWER", "aspect": "MIGHT", "strength": 2, "heroClass": "KNIGHT", "rarity": "UNCOMMON", "flavor": "The isles remember this sound."},
     {"id": "knight-shieldwall", "name": "Shield Wall", "cost": 3, "type": "GUARD", "aspect": "MIGHT", "block": 20, "heroClass": "KNIGHT", "rarity": "RARE", "flavor": "Nothing passes."},
     {"id": "knight-pommel", "name": "Pommel Smash", "cost": 1, "type": "STRIKE", "aspect": "MIGHT", "damage": 4, "weak": 1, "heroClass": "KNIGHT", "rarity": "COMMON", "flavor": "Mind the hilt."},
@@ -16,9 +16,9 @@
     {"id": "knight-turtle", "name": "Turtle", "cost": 0, "type": "GUARD", "aspect": "MIGHT", "block": 2, "heroClass": "KNIGHT", "rarity": "COMMON", "flavor": "Small shield. Big attitude."},
     {"id": "knight-aegis", "name": "Aegis", "cost": 2, "type": "GUARD", "aspect": "FOCUS", "block": 8, "heal": 2, "heroClass": "KNIGHT", "rarity": "UNCOMMON", "flavor": "Blessed plate."},
     {"id": "knight-challenge", "name": "Challenge", "cost": 1, "type": "TRICK", "aspect": "MIGHT", "weak": 1, "aoe": true, "heroClass": "KNIGHT", "rarity": "COMMON", "flavor": "You. Me. Now. All of you."},
-    {"id": "knight-disarm", "name": "Disarm", "cost": 1, "type": "TRICK", "aspect": "GUILE", "damage": 4, "vulnerable": 2, "heroClass": "KNIGHT", "rarity": "COMMON", "flavor": "Nice sword. Was nice."},
+    {"id": "knight-disarm", "name": "Disarm", "cost": 1, "type": "TRICK", "aspect": "GUILE", "damage": 6, "vulnerable": 2, "heroClass": "KNIGHT", "rarity": "COMMON", "flavor": "Nice sword. Was nice."},
     {"id": "knight-reposition", "name": "Reposition", "cost": 1, "type": "TRICK", "aspect": "GUILE", "block": 2, "draw": 2, "heroClass": "KNIGHT", "rarity": "UNCOMMON", "flavor": "Footwork wins wars."},
-    {"id": "knight-duel", "name": "Duel", "cost": 2, "type": "TRICK", "aspect": "MIGHT", "damage": 13, "heroClass": "KNIGHT", "rarity": "UNCOMMON", "flavor": "First blood decides."},
+    {"id": "knight-duel", "name": "Duel", "cost": 2, "type": "TRICK", "aspect": "MIGHT", "damage": 10, "energy": 1, "heroClass": "KNIGHT", "rarity": "UNCOMMON", "flavor": "First blood decides."},
     {"id": "knight-shove", "name": "Shove", "cost": 0, "type": "TRICK", "aspect": "MIGHT", "weak": 1, "heroClass": "KNIGHT", "rarity": "UNCOMMON", "flavor": "Back off."},
     {"id": "knight-battle-rage", "name": "Battle Rage", "cost": 2, "type": "POWER", "aspect": "MIGHT", "strength": 3, "heroClass": "KNIGHT", "rarity": "UNCOMMON", "flavor": "See red. Hit red."},
     {"id": "knight-oath", "name": "Oath", "cost": 0, "type": "POWER", "aspect": "FOCUS", "strength": 1, "heroClass": "KNIGHT", "rarity": "RARE", "flavor": "Sworn on cold iron."},
@@ -93,7 +93,7 @@
   ],
   "starterDecks": {
     "KNIGHT": ["knight-strike", "knight-strike", "knight-strike", "knight-guard", "knight-guard", "knight-guard", "knight-guard", "knight-heavy", "knight-heavy", "knight-rally", "knight-quick", "knight-bulwark"],
-    "RANGER": ["ranger-aimed", "ranger-aimed", "ranger-aimed", "ranger-dodge", "ranger-dodge", "ranger-dodge", "ranger-dodge", "ranger-double-tap", "ranger-double-tap", "ranger-scout", "ranger-snipe", "ranger-tumble"],
+    "RANGER": ["ranger-aimed", "ranger-aimed", "ranger-aimed", "ranger-dodge", "ranger-dodge", "ranger-dodge", "ranger-dodge", "ranger-double-tap", "ranger-double-tap", "ranger-scout", "ranger-volley", "ranger-tumble"],
     "RUNEMAGE": ["runemage-spark", "runemage-spark", "runemage-spark", "runemage-ward", "runemage-ward", "runemage-ward", "runemage-ward", "runemage-zap", "runemage-zap", "runemage-channel", "runemage-frostbolt", "runemage-stoneskin"]
   }
 }
