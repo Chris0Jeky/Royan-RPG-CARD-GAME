@@ -279,6 +279,7 @@ public class CombatEngine {
             state.transitioned().add(i);
             state.currentAtk().set(i, phase.atk());
             state.currentBehavior().set(i, phase.behavior());
+            enemy.setAspect(phase.aspect());
             enemy.cleanse();
             enemy.heal(phase.heal());
             enemy.gainStrength(phase.strength());
