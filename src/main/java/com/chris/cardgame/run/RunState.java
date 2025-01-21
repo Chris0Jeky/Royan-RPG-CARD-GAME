@@ -4,6 +4,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.SplittableRandom;
 
+import com.chris.cardgame.data.CardLoader;
+import com.chris.cardgame.data.CompanionLoader;
+import com.chris.cardgame.data.RelicLoader;
 import com.chris.cardgame.loot.Boon;
 import com.chris.cardgame.loot.LootGen;
 import com.chris.cardgame.loot.XpCurve;
@@ -36,7 +39,7 @@ public class RunState {
     private int act;
 
     public RunState(String heroName, HeroClass heroClass, List<CardDef> starterDeck, long seed) {
-        this.hero = Combatant.hero(heroName, heroClass, 80);
+        this.hero = Combatant.hero(heroName, heroClass, heroClass.startingHp());
         this.heroClass = heroClass;
         this.deck = new ArrayList<>(starterDeck);
         this.seed = seed;
@@ -132,6 +135,10 @@ public class RunState {
                 .mapToInt(RelicDef::value).sum();
     }
 
+    public boolean hasBasic() {
+        return deck.stream().anyMatch(card -> BASIC_IDS.contains(card.id()));
+    }
+
     public boolean removeBasic() {
         for (int i = 0; i < deck.size(); i++) {
             if (BASIC_IDS.contains(deck.get(i).id())) {
@@ -140,6 +147,44 @@ public class RunState {
             }
         }
         return false;
+    }
+
+    public SaveData toSave(String nodeId) {
+        return new SaveData(1, seed, heroClass, act, nodeId,
+                hero.hp(), hero.maxHp(), hero.strength(), hero.plating(),
+                hero.firstTurnEnergy(), hero.firstTurnDraw(),
+                deck.stream().map(CardDef::id).toList(),
+                relics.stream().map(RelicDef::id).toList(),
+                companions.stream().map(companion -> companion.def().id()).toList(),
+                companions.stream().map(Companion::hp).toList(),
+                gold, dust, shards, xp, level, java.util.Set.copyOf(seenEvents));
+    }
+
+    public static RunState fromSave(SaveData save, CardLoader cards, RelicLoader relics,
+            CompanionLoader companions) {
+        RunState state = new RunState("Captain Royan", save.heroClass(),
+                save.deck().stream().map(cards::get).toList(), save.seed());
+        state.setAct(save.act());
+        state.hero().raiseMaxHp(save.heroMaxHp() - state.hero().maxHp());
+        state.hero().takeDamage(state.hero().maxHp());
+        state.hero().heal(save.heroHp());
+        state.hero().gainBaseStrength(save.baseStrength());
+        state.hero().gainPlating(save.plating());
+        state.hero().gainFirstTurnEnergy(save.firstTurnEnergy());
+        state.hero().gainFirstTurnDraw(save.firstTurnDraw());
+        save.relics().forEach(id -> state.relics.add(relics.get(id)));
+        for (int i = 0; i < save.companionIds().size(); i++) {
+            Companion companion = new Companion(companions.get(save.companionIds().get(i)));
+            companion.setHp(save.companionHp().get(i));
+            state.companions.add(companion);
+        }
+        state.gold = save.gold();
+        state.dust = save.dust();
+        state.shards = save.shards();
+        state.xp = save.xp();
+        state.level = save.level();
+        state.seenEvents.addAll(save.seenEvents());
+        return state;
     }
 
     public int xp() {
@@ -200,12 +245,8 @@ public class RunState {
     }
 
     public List<Boon> addXp(int amount) {
-        xp += amount;
         List<Boon> earned = new ArrayList<>();
-        while (level < XpCurve.MAX_LEVEL && xp >= XpCurve.xpForNext(level)) {
-            xp -= XpCurve.xpForNext(level);
-            level++;
-            List<Boon> options = Boon.offer(rng);
+        for (List<Boon> options : levelUp(amount)) {
             Boon pick = options.stream()
                     .sorted((a, b) -> Integer.compare(boonScore(b), boonScore(a)))
                     .findFirst().orElseThrow();
@@ -213,6 +254,17 @@ public class RunState {
             earned.add(pick);
         }
         return earned;
+    }
+
+    public List<List<Boon>> levelUp(int amount) {
+        xp += amount;
+        List<List<Boon>> offers = new ArrayList<>();
+        while (level < XpCurve.MAX_LEVEL && xp >= XpCurve.xpForNext(level)) {
+            xp -= XpCurve.xpForNext(level);
+            level++;
+            offers.add(Boon.offer(rng));
+        }
+        return offers;
     }
 
     private int boonScore(Boon boon) {
@@ -226,7 +278,7 @@ public class RunState {
         };
     }
 
-    private void applyBoon(Boon boon) {
+    public void applyBoon(Boon boon) {
         if (boon.maxHp() > 0) {
             hero.raiseMaxHp(boon.maxHp());
         }
