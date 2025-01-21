@@ -101,7 +101,7 @@ public class RunEngine {
         if (!result.victory()) {
             return false;
         }
-        syncCompanions(state, result, out);
+        syncCompanions(state, result.companionHp(), out);
         int patchUp = state.healAfterCombat();
         if (patchUp > 0) {
             state.hero().heal(patchUp);
@@ -111,10 +111,11 @@ public class RunEngine {
         return true;
     }
 
-    private void syncCompanions(RunState state, GameLoop.BattleResult result, PrintStream out) {
+    public static void syncCompanions(RunState state, java.util.List<Integer> companionHp,
+            PrintStream out) {
         for (int i = state.companions().size() - 1; i >= 0; i--) {
             Companion ally = state.companions().get(i);
-            ally.setHp(result.companionHp().get(i));
+            ally.setHp(companionHp.get(i));
             if (!ally.alive()) {
                 state.companions().remove(i);
                 out.println("  " + ally.def().name() + " falls and must be carried home.");
