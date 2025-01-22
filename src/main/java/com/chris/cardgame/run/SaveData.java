@@ -6,3 +6,4 @@ import java.util.Set;
 import com.chris.cardgame.model.HeroClass;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
+@JsonIgnoreProperties(ignoreUnknown = true)
