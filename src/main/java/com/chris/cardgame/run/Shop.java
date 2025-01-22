@@ -52,7 +52,9 @@ public class Shop {
                 .filter(card -> state.gold() >= price(card))
                 .findFirst()
                 .ifPresent(card -> {
-                    if (state.spendGold(price(card)) && state.addCard(card)) {
+                    if (state.deck().size() >= com.chris.cardgame.loot.LootGen.MAX_DECK) {
+                        out.println("  Deck is full.");
+                    } else if (state.spendGold(price(card)) && state.addCard(card)) {
                         out.println("  Bought " + card.name() + " for " + price(card) + " gold.");
                     }
                 });

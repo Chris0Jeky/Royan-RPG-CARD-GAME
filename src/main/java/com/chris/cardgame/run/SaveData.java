@@ -12,3 +12,4 @@ public record SaveData(int version, long seed, HeroClass heroClass, int act, Str
         int firstTurnDraw, List<String> deck, List<String> relics, List<String> companionIds,
         List<Integer> companionHp, int gold, int dust, int shards, int xp, int level,
         Set<String> seenEvents) {
+}
