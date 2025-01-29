@@ -45,3 +45,9 @@ public class InteractiveLoop {
     private final CardLoader cards = CardLoader.load();
     private final EnemyLoader enemies = EnemyLoader.load();
     private final RelicLoader relics = RelicLoader.load();
+    private final CompanionLoader companions = CompanionLoader.load();
+    private final EventLoader eventDefs = EventLoader.load();
+    private final EncounterGen encounters = new EncounterGen(enemies);
+    private final LootGen loot = new LootGen(cards);
+    private final Events events = new Events(eventDefs, cards, relics, companions);
+
