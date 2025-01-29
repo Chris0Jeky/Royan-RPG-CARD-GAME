@@ -51,3 +51,9 @@ public class InteractiveLoop {
     private final LootGen loot = new LootGen(cards);
     private final Events events = new Events(eventDefs, cards, relics, companions);
 
+    public Result runCampaign(HeroClass heroClass, long seed, Input in, PrintStream out,
+            Path saveFile) {
+        RunState state = new RunState("Captain Royan", heroClass,
+                cards.starterDeck(heroClass), seed);
+        out.println("Royan RPG Card Game - " + heroClass + " campaign (seed " + seed + ")");
+        return runFromState(state, null, in, out, saveFile);
