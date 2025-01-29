@@ -39,3 +39,9 @@ import com.chris.cardgame.run.Tavern;
 
 public class InteractiveLoop {
     public record Result(boolean victory, int actsCleared, int level, boolean abandoned) {
+    }
+
+    private final CombatEngine engine = new CombatEngine();
+    private final CardLoader cards = CardLoader.load();
+    private final EnemyLoader enemies = EnemyLoader.load();
+    private final RelicLoader relics = RelicLoader.load();
