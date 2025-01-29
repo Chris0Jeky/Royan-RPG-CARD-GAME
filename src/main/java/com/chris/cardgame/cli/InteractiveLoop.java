@@ -63,3 +63,9 @@ public class InteractiveLoop {
         SaveData save = SaveStore.load(saveFile);
         RunState state = RunState.fromSave(save, cards, relics, companions);
         out.println("Royan RPG Card Game - resuming " + save.heroClass() + ", Act " + save.act());
+        return runFromState(state, save.nodeId(), in, out, saveFile);
+    }
+
+    private Result runFromState(RunState state, String startNode, Input in, PrintStream out,
+            Path saveFile) {
+        MapGen maps = new MapGen();
