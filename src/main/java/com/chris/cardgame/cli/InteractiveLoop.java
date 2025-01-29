@@ -33,3 +33,9 @@ import com.chris.cardgame.run.Companion;
 import com.chris.cardgame.run.Events;
 import com.chris.cardgame.run.RunEngine;
 import com.chris.cardgame.run.RunState;
+import com.chris.cardgame.run.SaveData;
+import com.chris.cardgame.run.Shop;
+import com.chris.cardgame.run.Tavern;
+
+public class InteractiveLoop {
+    public record Result(boolean victory, int actsCleared, int level, boolean abandoned) {
