@@ -57,3 +57,9 @@ public class InteractiveLoop {
                 cards.starterDeck(heroClass), seed);
         out.println("Royan RPG Card Game - " + heroClass + " campaign (seed " + seed + ")");
         return runFromState(state, null, in, out, saveFile);
+    }
+
+    public Result continueCampaign(Input in, PrintStream out, Path saveFile) {
+        SaveData save = SaveStore.load(saveFile);
+        RunState state = RunState.fromSave(save, cards, relics, companions);
+        out.println("Royan RPG Card Game - resuming " + save.heroClass() + ", Act " + save.act());
