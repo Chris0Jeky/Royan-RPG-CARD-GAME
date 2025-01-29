@@ -69,3 +69,9 @@ public class InteractiveLoop {
     private Result runFromState(RunState state, String startNode, Input in, PrintStream out,
             Path saveFile) {
         MapGen maps = new MapGen();
+        for (int act = state.act(); act <= 3; act++) {
+            if (act != state.act()) {
+                state.setAct(act);
+            }
+            ActMap map = maps.generate(act, state.seed() * 31 + act);
+            out.println("##### ACT " + act + " (" + map.nodes().size() + " isles) #####");
