@@ -81,3 +81,9 @@ public class InteractiveLoop {
             } else {
                 node = promptEntry(state, map, in, out, saveFile, act);
                 if (node == null) {
+                    return new Result(false, act - 1, state.level(), true);
+                }
+            }
+            startNode = null;
+            while (true) {
+                boolean survived = resolveNode(state, node, in, out);
