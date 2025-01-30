@@ -98,3 +98,9 @@ public class InteractiveLoop {
                 node = promptNext(state, map, node, in, out, saveFile, act);
                 if (node == null) {
                     return new Result(false, act - 1, state.level(), true);
+                }
+                SaveStore.save(saveFile, state.toSave(node.id()));
+            }
+            state.hero().heal(state.hero().maxHp() * 2 / 5);
+            out.println("### Act " + act + " cleared! +40% HP. ###");
+            if (act < 3) {
