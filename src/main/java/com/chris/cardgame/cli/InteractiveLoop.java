@@ -75,3 +75,9 @@ public class InteractiveLoop {
             }
             ActMap map = maps.generate(act, state.seed() * 31 + act);
             out.println("##### ACT " + act + " (" + map.nodes().size() + " isles) #####");
+            MapNode node;
+            if (startNode != null) {
+                node = map.node(startNode);
+            } else {
+                node = promptEntry(state, map, in, out, saveFile, act);
+                if (node == null) {
