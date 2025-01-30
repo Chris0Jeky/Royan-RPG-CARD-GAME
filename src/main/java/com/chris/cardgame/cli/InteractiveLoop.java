@@ -93,3 +93,8 @@ public class InteractiveLoop {
                     return new Result(false, act - 1, state.level(), false);
                 }
                 if (node.type() == com.chris.cardgame.map.NodeType.BOSS) {
+                    break;
+                }
+                node = promptNext(state, map, node, in, out, saveFile, act);
+                if (node == null) {
+                    return new Result(false, act - 1, state.level(), true);
