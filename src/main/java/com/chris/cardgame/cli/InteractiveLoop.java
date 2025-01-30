@@ -87,3 +87,9 @@ public class InteractiveLoop {
             startNode = null;
             while (true) {
                 boolean survived = resolveNode(state, node, in, out);
+                if (!survived) {
+                    out.println("### The Captain falls in Act " + act + " ###");
+                    SaveStore.delete(saveFile);
+                    return new Result(false, act - 1, state.level(), false);
+                }
+                if (node.type() == com.chris.cardgame.map.NodeType.BOSS) {
