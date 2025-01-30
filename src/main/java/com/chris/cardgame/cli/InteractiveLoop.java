@@ -104,3 +104,9 @@ public class InteractiveLoop {
             state.hero().heal(state.hero().maxHp() * 2 / 5);
             out.println("### Act " + act + " cleared! +40% HP. ###");
             if (act < 3) {
+                state.setAct(act + 1);
+                SaveStore.save(saveFile, state.toSave(null));
+                state.setAct(act);
+            }
+        }
+        out.println("### CAMPAIGN VICTORY: the Sky-Tyrant falls! ###");
