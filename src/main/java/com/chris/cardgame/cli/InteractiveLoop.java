@@ -128,3 +128,9 @@ public class InteractiveLoop {
                 SaveStore.save(saveFile, state.toSave(null));
                 return null;
             }
+            Integer pick = parseInt(line);
+            if (pick != null && pick >= 0 && pick < map.entries().size()) {
+                return map.node(map.entries().get(pick));
+            }
+            out.println("Huh? Pick 0-" + (map.entries().size() - 1) + " or 'quit'.");
+        }
