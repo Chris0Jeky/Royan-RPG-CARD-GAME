@@ -116,3 +116,9 @@ public class InteractiveLoop {
 
     private MapNode promptEntry(RunState state, ActMap map, Input in, PrintStream out,
             Path saveFile, int act) {
+        out.println("Choose your landing isle (or 'quit'):");
+        for (int i = 0; i < map.entries().size(); i++) {
+            MapNode entry = map.node(map.entries().get(i));
+            out.println("  [" + i + "] " + entry.id() + " " + entry.type()
+                    + " -> " + entry.children().size() + " paths");
+        }
