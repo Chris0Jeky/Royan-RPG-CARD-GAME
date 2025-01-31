@@ -134,3 +134,9 @@ public class InteractiveLoop {
             }
             out.println("Huh? Pick 0-" + (map.entries().size() - 1) + " or 'quit'.");
         }
+    }
+
+    private MapNode promptNext(RunState state, ActMap map, MapNode node, Input in, PrintStream out,
+            Path saveFile, int act) {
+        out.println("Choose your course (or 'quit'):");
+        List<String> children = node.children();
