@@ -158,3 +158,9 @@ public class InteractiveLoop {
         }
     }
 
+    public boolean resolveNode(RunState state, MapNode node, Input in, PrintStream out) {
+        out.println("Node " + node.id() + " [" + node.type() + "] - hero " + state.hero()
+                + " | deck " + state.deck().size() + " | gold " + state.gold()
+                + " | dust " + state.dust() + " | shards " + state.shards()
+                + " | relics " + state.relics().size() + " | lvl " + state.level());
+        return switch (node.type()) {
