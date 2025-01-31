@@ -122,3 +122,9 @@ public class InteractiveLoop {
             out.println("  [" + i + "] " + entry.id() + " " + entry.type()
                     + " -> " + entry.children().size() + " paths");
         }
+        while (true) {
+            String line = in.readLine("isle>");
+            if (line.equalsIgnoreCase("quit")) {
+                SaveStore.save(saveFile, state.toSave(null));
+                return null;
+            }
