@@ -110,3 +110,9 @@ public class InteractiveLoop {
             }
         }
         out.println("### CAMPAIGN VICTORY: the Sky-Tyrant falls! ###");
+        SaveStore.delete(saveFile);
+        return new Result(true, 3, state.level(), false);
+    }
+
+    private MapNode promptEntry(RunState state, ActMap map, Input in, PrintStream out,
+            Path saveFile, int act) {
