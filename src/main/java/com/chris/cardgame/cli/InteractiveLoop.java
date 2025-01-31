@@ -152,3 +152,9 @@ public class InteractiveLoop {
             }
             Integer pick = parseInt(line);
             if (pick != null && pick >= 0 && pick < children.size()) {
+                return map.node(children.get(pick));
+            }
+            out.println("Huh? Pick 0-" + (children.size() - 1) + " or 'quit'.");
+        }
+    }
+
