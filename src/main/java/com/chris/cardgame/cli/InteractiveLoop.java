@@ -146,3 +146,9 @@ public class InteractiveLoop {
         }
         while (true) {
             String line = in.readLine("course>");
+            if (line.equalsIgnoreCase("quit")) {
+                SaveStore.save(saveFile, state.toSave(children.get(0)));
+                return null;
+            }
+            Integer pick = parseInt(line);
+            if (pick != null && pick >= 0 && pick < children.size()) {
