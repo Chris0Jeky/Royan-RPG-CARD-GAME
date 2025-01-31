@@ -140,3 +140,9 @@ public class InteractiveLoop {
             Path saveFile, int act) {
         out.println("Choose your course (or 'quit'):");
         List<String> children = node.children();
+        for (int i = 0; i < children.size(); i++) {
+            MapNode child = map.node(children.get(i));
+            out.println("  [" + i + "] " + child.id() + " " + child.type());
+        }
+        while (true) {
+            String line = in.readLine("course>");
