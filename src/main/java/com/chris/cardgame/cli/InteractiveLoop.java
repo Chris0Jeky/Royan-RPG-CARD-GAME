@@ -164,3 +164,9 @@ public class InteractiveLoop {
                 + " | dust " + state.dust() + " | shards " + state.shards()
                 + " | relics " + state.relics().size() + " | lvl " + state.level());
         return switch (node.type()) {
+            case COMBAT -> battleNode(state, encounters.combat(state.act(), state.rng()),
+                    false, false, in, out);
+            case ELITE -> battleNode(state, encounters.elite(state.act(), state.rng()),
+                    true, false, in, out);
+            case BOSS -> battleNode(state, encounters.boss(state.act()), true, true, in, out);
+            case REST -> {
