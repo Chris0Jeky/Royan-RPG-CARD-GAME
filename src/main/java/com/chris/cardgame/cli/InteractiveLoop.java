@@ -182,3 +182,9 @@ public class InteractiveLoop {
             case TAVERN -> {
                 manualTavern(state, in, out);
                 yield state.hero().alive();
+            }
+            case EVENT -> {
+                EventDef event = events.pick(state);
+                out.println("  Event: " + event.title() + " - " + event.text());
+                for (int i = 0; i < event.choices().size(); i++) {
+                    EventChoice choice = event.choices().get(i);
