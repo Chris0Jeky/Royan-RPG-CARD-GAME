@@ -206,3 +206,9 @@ public class InteractiveLoop {
     }
 
     private String afford(EventChoice choice, RunState state) {
+        if (choice.requires() == null) {
+            return "";
+        }
+        List<String> parts = new ArrayList<>();
+        if (choice.requires().gold() > 0) {
+            parts.add(choice.requires().gold() + "g");
