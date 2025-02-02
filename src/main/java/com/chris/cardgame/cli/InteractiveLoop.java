@@ -170,3 +170,9 @@ public class InteractiveLoop {
                     true, false, in, out);
             case BOSS -> battleNode(state, encounters.boss(state.act()), true, true, in, out);
             case REST -> {
+                int heal = Math.max(1, state.hero().maxHp() * 35 / 100);
+                state.hero().heal(heal);
+                out.println("  Rested: +" + heal + " HP.");
+                yield true;
+            }
+            case SHOP -> {
