@@ -176,3 +176,9 @@ public class InteractiveLoop {
                 yield true;
             }
             case SHOP -> {
+                manualShop(state, in, out);
+                yield true;
+            }
+            case TAVERN -> {
+                manualTavern(state, in, out);
+                yield state.hero().alive();
