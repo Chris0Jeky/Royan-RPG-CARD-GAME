@@ -200,3 +200,9 @@ public class InteractiveLoop {
                     }
                     out.println("Huh? Pick an affordable choice.");
                 }
+                yield state.hero().alive();
+            }
+        };
+    }
+
+    private String afford(EventChoice choice, RunState state) {
