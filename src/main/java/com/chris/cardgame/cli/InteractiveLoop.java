@@ -188,3 +188,9 @@ public class InteractiveLoop {
                 out.println("  Event: " + event.title() + " - " + event.text());
                 for (int i = 0; i < event.choices().size(); i++) {
                     EventChoice choice = event.choices().get(i);
+                    out.println("  [" + i + "] " + choice.text() + afford(choice, state));
+                }
+                while (true) {
+                    Integer pick = parseInt(in.readLine("choice>"));
+                    if (pick != null && pick >= 0 && pick < event.choices().size()
+                            && affordable(event.choices().get(pick), state)) {
