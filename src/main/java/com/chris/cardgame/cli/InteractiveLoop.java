@@ -194,3 +194,9 @@ public class InteractiveLoop {
                     Integer pick = parseInt(in.readLine("choice>"));
                     if (pick != null && pick >= 0 && pick < event.choices().size()
                             && affordable(event.choices().get(pick), state)) {
+                        out.println("  Chose: " + event.choices().get(pick).text());
+                        events.apply(state, event.choices().get(pick), out);
+                        break;
+                    }
+                    out.println("Huh? Pick an affordable choice.");
+                }
