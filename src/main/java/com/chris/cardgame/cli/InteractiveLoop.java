@@ -223,3 +223,9 @@ public class InteractiveLoop {
             parts.add("hp>" + choice.requires().hp());
         }
         String cost = parts.isEmpty() ? "" : " (needs " + String.join(", ", parts) + ")";
+        return affordable(choice, state) ? cost : cost + " [CANNOT AFFORD]";
+    }
+
+    private boolean affordable(EventChoice choice, RunState state) {
+        if (choice.requires() == null) {
+            return true;
