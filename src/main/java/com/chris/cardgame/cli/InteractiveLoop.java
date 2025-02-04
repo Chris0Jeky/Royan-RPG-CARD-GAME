@@ -212,3 +212,9 @@ public class InteractiveLoop {
         List<String> parts = new ArrayList<>();
         if (choice.requires().gold() > 0) {
             parts.add(choice.requires().gold() + "g");
+        }
+        if (choice.requires().dust() > 0) {
+            parts.add(choice.requires().dust() + " dust");
+        }
+        if (choice.requires().shards() > 0) {
+            parts.add(choice.requires().shards() + " shards");
