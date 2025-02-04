@@ -235,3 +235,9 @@ public class InteractiveLoop {
                 && state.shards() >= choice.requires().shards()
                 && state.hero().hp() > choice.requires().hp();
     }
+
+    public boolean battleNode(RunState state, List<EnemyDef> foes, boolean elite, boolean boss,
+            Input in, PrintStream out) {
+        boolean victory = manualBattle(state, foes, in, out);
+        if (!victory) {
+            return false;
