@@ -229,3 +229,9 @@ public class InteractiveLoop {
     private boolean affordable(EventChoice choice, RunState state) {
         if (choice.requires() == null) {
             return true;
+        }
+        return state.gold() >= choice.requires().gold()
+                && state.dust() >= choice.requires().dust()
+                && state.shards() >= choice.requires().shards()
+                && state.hero().hp() > choice.requires().hp();
+    }
