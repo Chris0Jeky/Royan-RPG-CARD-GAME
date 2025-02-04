@@ -218,3 +218,8 @@ public class InteractiveLoop {
         }
         if (choice.requires().shards() > 0) {
             parts.add(choice.requires().shards() + " shards");
+        }
+        if (choice.requires().hp() > 0) {
+            parts.add("hp>" + choice.requires().hp());
+        }
+        String cost = parts.isEmpty() ? "" : " (needs " + String.join(", ", parts) + ")";
