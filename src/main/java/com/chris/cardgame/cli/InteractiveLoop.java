@@ -265,3 +265,9 @@ public class InteractiveLoop {
                         state.addRelic(relic);
                         out.println("  Relic claimed: " + relic.name() + ".");
                     },
+                    () -> {
+                        state.addGold(50);
+                        out.println("  Relic vaults empty: +50 gold instead.");
+                    });
+        }
+        for (List<Boon> offer : state.levelUp(xp)) {
