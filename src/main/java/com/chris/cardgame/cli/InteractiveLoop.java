@@ -247,3 +247,9 @@ public class InteractiveLoop {
             state.hero().heal(patchUp);
             out.println("  Relics mend " + patchUp + " HP.");
         }
+        int base = foes.stream()
+                .mapToInt(foe -> loot.rollGold(foe.goldMin(), foe.goldMax(), state.rng()))
+                .sum() + (elite ? 25 : 0);
+        int gold = base * (100 + state.goldPctBonus()) / 100;
+        int xp = foes.stream().mapToInt(EnemyDef::xp).sum();
+        state.addGold(gold);
