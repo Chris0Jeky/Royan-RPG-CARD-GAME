@@ -241,3 +241,9 @@ public class InteractiveLoop {
         boolean victory = manualBattle(state, foes, in, out);
         if (!victory) {
             return false;
+        }
+        int patchUp = state.healAfterCombat();
+        if (patchUp > 0) {
+            state.hero().heal(patchUp);
+            out.println("  Relics mend " + patchUp + " HP.");
+        }
