@@ -283,3 +283,9 @@ public class InteractiveLoop {
                     break;
                 }
                 out.println("Huh? Pick 0-" + (offer.size() - 1) + ".");
+            }
+        }
+        int drafts = elite ? 2 : 1;
+        for (int i = 0; i < drafts; i++) {
+            List<CardDef> options = loot.cardOptions(state.heroClass(), state.deck(), elite, state.rng());
+            if (options.isEmpty()) {
