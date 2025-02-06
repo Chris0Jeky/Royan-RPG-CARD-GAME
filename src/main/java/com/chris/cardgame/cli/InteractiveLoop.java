@@ -259,3 +259,9 @@ public class InteractiveLoop {
             state.addShards(shards);
             out.println("  Claimed " + shards + " sky-shard(s).");
             Set<String> owned = state.relics().stream()
+                    .map(RelicDef::id).collect(Collectors.toSet());
+            relics.offer(owned, true, state.rng()).ifPresentOrElse(
+                    relic -> {
+                        state.addRelic(relic);
+                        out.println("  Relic claimed: " + relic.name() + ".");
+                    },
