@@ -253,3 +253,9 @@ public class InteractiveLoop {
         int gold = base * (100 + state.goldPctBonus()) / 100;
         int xp = foes.stream().mapToInt(EnemyDef::xp).sum();
         state.addGold(gold);
+        out.println("  Spoils: +" + gold + " gold, +" + xp + " XP.");
+        if (elite) {
+            int shards = boss ? 2 : 1;
+            state.addShards(shards);
+            out.println("  Claimed " + shards + " sky-shard(s).");
+            Set<String> owned = state.relics().stream()
