@@ -271,3 +271,9 @@ public class InteractiveLoop {
                     });
         }
         for (List<Boon> offer : state.levelUp(xp)) {
+            out.println("  Level " + state.level() + "! Choose a boon:");
+            for (int i = 0; i < offer.size(); i++) {
+                out.println("  [" + i + "] " + offer.get(i).name() + " (" + offer.get(i).desc() + ")");
+            }
+            while (true) {
+                Integer pick = parseInt(in.readLine("boon>"));
