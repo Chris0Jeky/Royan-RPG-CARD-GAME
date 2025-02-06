@@ -277,3 +277,9 @@ public class InteractiveLoop {
             }
             while (true) {
                 Integer pick = parseInt(in.readLine("boon>"));
+                if (pick != null && pick >= 0 && pick < offer.size()) {
+                    state.applyBoon(offer.get(pick));
+                    out.println("  Boon: " + offer.get(pick).name() + ".");
+                    break;
+                }
+                out.println("Huh? Pick 0-" + (offer.size() - 1) + ".");
