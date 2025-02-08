@@ -337,3 +337,9 @@ public class InteractiveLoop {
             String line = in.readLine("battle>");
             String[] parts = line.trim().split("\\s+");
             if (parts[0].equalsIgnoreCase("end")) {
+                engine.endTurn(battle);
+            } else if (parts[0].equalsIgnoreCase("play") && parts.length >= 2) {
+                Integer hand = parseInt(parts[1]);
+                int foe = parts.length >= 3 ? parseIntOr(parts[2], 0) : 0;
+                if (hand == null) {
+                    out.println("Huh? 'play <card> [foe]'.");
