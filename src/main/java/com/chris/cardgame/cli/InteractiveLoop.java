@@ -325,3 +325,9 @@ public class InteractiveLoop {
                 .map(Companion::toCombatant).toList();
         List<CompanionRole> roles = state.companions().stream()
                 .map(companion -> companion.def().role()).toList();
+        List<Integer> powers = state.companions().stream()
+                .map(companion -> companion.def().power()).toList();
+        CombatState battle = engine.newBattle(state.hero(), fighters, roles, powers,
+                state.deck(), foes, state.rng().nextLong());
+        out.println("=== Battle: " + state.hero().name() + " vs " + foes.size() + " foes ===");
+        out.println("Commands: 'play <card> [foe]', 'end'. Aoe cards need no foe.");
