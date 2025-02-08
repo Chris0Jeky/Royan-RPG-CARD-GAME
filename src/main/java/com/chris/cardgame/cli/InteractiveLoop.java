@@ -289,3 +289,9 @@ public class InteractiveLoop {
         for (int i = 0; i < drafts; i++) {
             List<CardDef> options = loot.cardOptions(state.heroClass(), state.deck(), elite, state.rng());
             if (options.isEmpty()) {
+                out.println("  No draft options (collection exhausted).");
+                break;
+            }
+            out.println("  Draft a card (or 'skip' for +" + RunEngine.SALVAGE_DUST + " dust):");
+            for (int j = 0; j < options.size(); j++) {
+                CardDef card = options.get(j);
