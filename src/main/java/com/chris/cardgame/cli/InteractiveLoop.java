@@ -301,3 +301,9 @@ public class InteractiveLoop {
             while (true) {
                 String line = in.readLine("draft>");
                 if (line.equalsIgnoreCase("skip")) {
+                    state.addDust(RunEngine.SALVAGE_DUST);
+                    out.println("  Salvaged: +" + RunEngine.SALVAGE_DUST + " dust.");
+                    break;
+                }
+                Integer pick = parseInt(line);
+                if (pick != null && pick >= 0 && pick < options.size()) {
