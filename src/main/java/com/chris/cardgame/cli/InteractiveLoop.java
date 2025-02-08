@@ -319,3 +319,9 @@ public class InteractiveLoop {
         }
         return true;
     }
+
+    public boolean manualBattle(RunState state, List<EnemyDef> foes, Input in, PrintStream out) {
+        List<Combatant> fighters = state.companions().stream()
+                .map(Companion::toCombatant).toList();
+        List<CompanionRole> roles = state.companions().stream()
+                .map(companion -> companion.def().role()).toList();
