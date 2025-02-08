@@ -331,3 +331,9 @@ public class InteractiveLoop {
                 state.deck(), foes, state.rng().nextLong());
         out.println("=== Battle: " + state.hero().name() + " vs " + foes.size() + " foes ===");
         out.println("Commands: 'play <card> [foe]', 'end'. Aoe cards need no foe.");
+        while (!battle.over()) {
+            drainEvents(battle, out);
+            renderBattle(battle, out);
+            String line = in.readLine("battle>");
+            String[] parts = line.trim().split("\\s+");
+            if (parts[0].equalsIgnoreCase("end")) {
