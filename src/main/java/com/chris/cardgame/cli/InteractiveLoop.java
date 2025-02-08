@@ -313,3 +313,9 @@ public class InteractiveLoop {
                         out.println("  Deck is full.");
                     }
                     break;
+                }
+                out.println("Huh? Pick 0-" + (options.size() - 1) + " or 'skip'.");
+            }
+        }
+        return true;
+    }
