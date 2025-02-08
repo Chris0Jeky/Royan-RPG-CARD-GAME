@@ -295,3 +295,9 @@ public class InteractiveLoop {
             out.println("  Draft a card (or 'skip' for +" + RunEngine.SALVAGE_DUST + " dust):");
             for (int j = 0; j < options.size(); j++) {
                 CardDef card = options.get(j);
+                out.println("  [" + j + "] " + card.name() + " (" + card.cost() + ") "
+                        + card.type() + " " + card.rarity() + " - " + describeCard(card));
+            }
+            while (true) {
+                String line = in.readLine("draft>");
+                if (line.equalsIgnoreCase("skip")) {
