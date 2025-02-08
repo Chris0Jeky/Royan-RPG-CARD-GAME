@@ -307,3 +307,9 @@ public class InteractiveLoop {
                 }
                 Integer pick = parseInt(line);
                 if (pick != null && pick >= 0 && pick < options.size()) {
+                    if (state.addCard(options.get(pick))) {
+                        out.println("  Drafted: " + options.get(pick).name() + ".");
+                    } else {
+                        out.println("  Deck is full.");
+                    }
+                    break;
