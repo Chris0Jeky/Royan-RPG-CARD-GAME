@@ -384,3 +384,9 @@ public class InteractiveLoop {
         if (card.unplayable()) {
             return "unplayable";
         }
+        List<String> parts = new ArrayList<>();
+        if (card.damage() > 0) {
+            parts.add(card.damage() + "x" + card.hits() + " dmg" + (card.aoe() ? " ALL" : ""));
+        }
+        if (card.block() > 0) {
+            parts.add(card.block() + " block");
