@@ -360,3 +360,9 @@ public class InteractiveLoop {
         out.println(battle.victory() ? ">>> VICTORY in " + battle.turn() + " turns"
                 : ">>> DEFEAT after " + battle.turn() + " turns");
         return battle.victory();
+    }
+
+    private void renderBattle(CombatState battle, PrintStream out) {
+        out.println("-- turn " + battle.turn() + " | energy " + battle.energy()
+                + " | hero " + battle.hero() + " --");
+        for (int i = 0; i < battle.companions().size(); i++) {
