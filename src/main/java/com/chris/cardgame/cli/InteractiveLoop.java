@@ -366,3 +366,9 @@ public class InteractiveLoop {
         out.println("-- turn " + battle.turn() + " | energy " + battle.energy()
                 + " | hero " + battle.hero() + " --");
         for (int i = 0; i < battle.companions().size(); i++) {
+            out.println("  ally " + i + ": " + battle.companions().get(i));
+        }
+        for (int i = 0; i < battle.enemies().size(); i++) {
+            Combatant enemy = battle.enemies().get(i);
+            String intent = enemy.alive() ? " [" + battle.intents().get(i) + "]" : " [DOWN]";
+            out.println("  foe " + i + ": " + enemy + " " + enemy.aspect() + intent);
