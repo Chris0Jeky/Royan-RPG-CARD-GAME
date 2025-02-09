@@ -354,3 +354,9 @@ public class InteractiveLoop {
                 out.println("Huh? 'play <card> [foe]' or 'end'.");
             }
         }
+        drainEvents(battle, out);
+        List<Integer> companionHp = battle.companions().stream().map(Combatant::hp).toList();
+        RunEngine.syncCompanions(state, companionHp, out);
+        out.println(battle.victory() ? ">>> VICTORY in " + battle.turn() + " turns"
+                : ">>> DEFEAT after " + battle.turn() + " turns");
+        return battle.victory();
