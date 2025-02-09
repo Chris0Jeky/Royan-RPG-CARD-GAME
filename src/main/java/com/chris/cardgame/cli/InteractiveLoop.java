@@ -372,3 +372,9 @@ public class InteractiveLoop {
             Combatant enemy = battle.enemies().get(i);
             String intent = enemy.alive() ? " [" + battle.intents().get(i) + "]" : " [DOWN]";
             out.println("  foe " + i + ": " + enemy + " " + enemy.aspect() + intent);
+        }
+        for (int i = 0; i < battle.hand().size(); i++) {
+            CardDef card = battle.hand().get(i);
+            out.println("  [" + i + "] " + card.name() + " (" + card.cost() + ") "
+                    + card.type() + " " + card.aspect() + " - " + describeCard(card));
+        }
