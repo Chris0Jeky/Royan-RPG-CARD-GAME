@@ -378,3 +378,9 @@ public class InteractiveLoop {
             out.println("  [" + i + "] " + card.name() + " (" + card.cost() + ") "
                     + card.type() + " " + card.aspect() + " - " + describeCard(card));
         }
+    }
+
+    private String describeCard(CardDef card) {
+        if (card.unplayable()) {
+            return "unplayable";
+        }
