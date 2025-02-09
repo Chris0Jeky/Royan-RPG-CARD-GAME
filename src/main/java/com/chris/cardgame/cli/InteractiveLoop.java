@@ -348,3 +348,9 @@ public class InteractiveLoop {
                 try {
                     engine.playCard(battle, hand, foe);
                 } catch (IllegalArgumentException | IllegalStateException e) {
+                    out.println("  Cannot play: " + e.getMessage());
+                }
+            } else {
+                out.println("Huh? 'play <card> [foe]' or 'end'.");
+            }
+        }
