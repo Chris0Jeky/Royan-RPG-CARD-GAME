@@ -343,3 +343,8 @@ public class InteractiveLoop {
                 int foe = parts.length >= 3 ? parseIntOr(parts[2], 0) : 0;
                 if (hand == null) {
                     out.println("Huh? 'play <card> [foe]'.");
+                    continue;
+                }
+                try {
+                    engine.playCard(battle, hand, foe);
+                } catch (IllegalArgumentException | IllegalStateException e) {
