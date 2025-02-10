@@ -402,3 +402,9 @@ public class InteractiveLoop {
         }
         if (card.vulnerable() > 0) {
             parts.add("vuln " + card.vulnerable());
+        }
+        if (card.strength() > 0) {
+            parts.add("str " + card.strength());
+        }
+        if (card.energy() > 0) {
+            parts.add("+" + card.energy() + " energy");
