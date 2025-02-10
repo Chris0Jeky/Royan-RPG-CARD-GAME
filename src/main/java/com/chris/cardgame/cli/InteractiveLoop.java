@@ -414,3 +414,9 @@ public class InteractiveLoop {
 
     private void drainEvents(CombatState battle, PrintStream out) {
         battle.events().forEach(event -> out.println("  !! " + event));
+        battle.events().clear();
+    }
+
+    public void manualShop(RunState state, Input in, PrintStream out) {
+        List<CardDef> stock = loot.cardOptions(state.heroClass(), state.deck(), true, state.rng());
+        Set<String> owned = state.relics().stream()
