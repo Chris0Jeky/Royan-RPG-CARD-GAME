@@ -420,3 +420,9 @@ public class InteractiveLoop {
     public void manualShop(RunState state, Input in, PrintStream out) {
         List<CardDef> stock = loot.cardOptions(state.heroClass(), state.deck(), true, state.rng());
         Set<String> owned = state.relics().stream()
+                .map(RelicDef::id).collect(Collectors.toSet());
+        RelicDef relic = relics.offer(owned, false, state.rng()).orElse(null);
+        out.println("  Shop (gold " + state.gold() + "). Commands: 'card <#>', 'relic', 'heal', 'leave'.");
+        for (int i = 0; i < stock.size(); i++) {
+            out.println("  card [" + i + "] " + stock.get(i).name() + " - "
+                    + Shop.price(stock.get(i)) + "g");
