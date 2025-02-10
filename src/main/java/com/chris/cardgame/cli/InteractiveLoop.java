@@ -408,3 +408,9 @@ public class InteractiveLoop {
         }
         if (card.energy() > 0) {
             parts.add("+" + card.energy() + " energy");
+        }
+        return String.join(", ", parts);
+    }
+
+    private void drainEvents(CombatState battle, PrintStream out) {
+        battle.events().forEach(event -> out.println("  !! " + event));
