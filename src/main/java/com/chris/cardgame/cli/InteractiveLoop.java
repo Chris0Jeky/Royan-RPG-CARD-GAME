@@ -396,3 +396,9 @@ public class InteractiveLoop {
         }
         if (card.heal() > 0) {
             parts.add("heal " + card.heal());
+        }
+        if (card.weak() > 0) {
+            parts.add("weak " + card.weak());
+        }
+        if (card.vulnerable() > 0) {
+            parts.add("vuln " + card.vulnerable());
