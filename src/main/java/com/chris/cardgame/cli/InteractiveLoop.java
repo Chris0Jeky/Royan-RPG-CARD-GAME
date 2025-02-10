@@ -390,3 +390,9 @@ public class InteractiveLoop {
         }
         if (card.block() > 0) {
             parts.add(card.block() + " block");
+        }
+        if (card.draw() > 0) {
+            parts.add("draw " + card.draw());
+        }
+        if (card.heal() > 0) {
+            parts.add("heal " + card.heal());
