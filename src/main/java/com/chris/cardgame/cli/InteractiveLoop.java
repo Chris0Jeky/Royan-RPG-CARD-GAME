@@ -450,3 +450,9 @@ public class InteractiveLoop {
                     state.addRelic(relic);
                     relicSold = true;
                     out.println("  Bought relic: " + relic.name() + ".");
+                } else {
+                    out.println("  Not enough gold.");
+                }
+            } else if (parts[0].equalsIgnoreCase("card") && parts.length >= 2) {
+                Integer pick = parseInt(parts[1]);
+                if (pick == null || pick < 0 || pick >= stock.size()) {
