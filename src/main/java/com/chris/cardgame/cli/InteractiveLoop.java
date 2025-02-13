@@ -462,3 +462,9 @@ public class InteractiveLoop {
                 } else if (state.spendGold(Shop.price(stock.get(pick)))) {
                     if (state.addCard(stock.remove((int) pick))) {
                         out.println("  Bought card.");
+                    } else {
+                        out.println("  Deck is full.");
+                    }
+                } else {
+                    out.println("  Not enough gold.");
+                }
