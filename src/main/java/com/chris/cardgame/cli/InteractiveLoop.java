@@ -468,3 +468,8 @@ public class InteractiveLoop {
                 } else {
                     out.println("  Not enough gold.");
                 }
+            } else {
+                out.println("Huh? 'card <#>', 'relic', 'heal', 'leave'.");
+            }
+        }
+    }
