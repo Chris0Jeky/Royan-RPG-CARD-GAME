@@ -456,3 +456,9 @@ public class InteractiveLoop {
             } else if (parts[0].equalsIgnoreCase("card") && parts.length >= 2) {
                 Integer pick = parseInt(parts[1]);
                 if (pick == null || pick < 0 || pick >= stock.size()) {
+                    out.println("Huh? 'card <#>' 0-" + (stock.size() - 1) + ".");
+                } else if (state.deck().size() >= LootGen.MAX_DECK) {
+                    out.println("  Deck is full.");
+                } else if (state.spendGold(Shop.price(stock.get(pick)))) {
+                    if (state.addCard(stock.remove((int) pick))) {
+                        out.println("  Bought card.");
