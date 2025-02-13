@@ -444,3 +444,9 @@ public class InteractiveLoop {
                     out.println("  Not enough gold.");
                 }
             } else if (parts[0].equalsIgnoreCase("relic")) {
+                if (relic == null || relicSold) {
+                    out.println("  No relic for sale.");
+                } else if (state.spendGold(Shop.relicPrice(relic))) {
+                    state.addRelic(relic);
+                    relicSold = true;
+                    out.println("  Bought relic: " + relic.name() + ".");
