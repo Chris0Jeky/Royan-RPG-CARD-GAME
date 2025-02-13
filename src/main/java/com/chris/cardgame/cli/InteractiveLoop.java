@@ -426,3 +426,9 @@ public class InteractiveLoop {
         for (int i = 0; i < stock.size(); i++) {
             out.println("  card [" + i + "] " + stock.get(i).name() + " - "
                     + Shop.price(stock.get(i)) + "g");
+        }
+        if (relic != null) {
+            out.println("  relic: " + relic.name() + " - " + Shop.relicPrice(relic) + "g");
+        }
+        out.println("  heal: +" + Shop.HEAL_AMOUNT + " HP - " + Shop.HEAL_COST + "g");
+        boolean relicSold = false;
