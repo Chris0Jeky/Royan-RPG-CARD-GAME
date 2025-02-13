@@ -479,3 +479,9 @@ public class InteractiveLoop {
                 + ", shards " + state.shards() + "). Commands: 'relic', 'remove', 'recruit', 'meal', 'leave'.");
         out.println("  relic: random relic - " + Tavern.RELIC_COST_GOLD + "g + "
                 + Tavern.RELIC_COST_SHARDS + " shard");
+        out.println("  remove: strike a basic - " + Tavern.REMOVE_COST_DUST + " dust");
+        out.println("  recruit: hire a blade (" + state.companions().size() + "/"
+                + RunState.MAX_COMPANIONS + ") - " + Tavern.RECRUIT_COST + "g");
+        out.println("  meal: +50% HP - " + Tavern.HEAL_COST + "g");
+        while (true) {
+            String line = in.readLine("tavern>").trim();
