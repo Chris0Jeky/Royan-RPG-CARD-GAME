@@ -473,3 +473,9 @@ public class InteractiveLoop {
             }
         }
     }
+
+    public void manualTavern(RunState state, Input in, PrintStream out) {
+        out.println("  Tavern (gold " + state.gold() + ", dust " + state.dust()
+                + ", shards " + state.shards() + "). Commands: 'relic', 'remove', 'recruit', 'meal', 'leave'.");
+        out.println("  relic: random relic - " + Tavern.RELIC_COST_GOLD + "g + "
+                + Tavern.RELIC_COST_SHARDS + " shard");
