@@ -432,3 +432,9 @@ public class InteractiveLoop {
         }
         out.println("  heal: +" + Shop.HEAL_AMOUNT + " HP - " + Shop.HEAL_COST + "g");
         boolean relicSold = false;
+        while (true) {
+            String[] parts = in.readLine("shop>").trim().split("\\s+");
+            if (parts[0].equalsIgnoreCase("leave")) {
+                return;
+            } else if (parts[0].equalsIgnoreCase("heal")) {
+                if (state.spendGold(Shop.HEAL_COST)) {
