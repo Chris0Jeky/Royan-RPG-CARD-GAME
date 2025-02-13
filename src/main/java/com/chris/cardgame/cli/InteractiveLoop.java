@@ -438,3 +438,9 @@ public class InteractiveLoop {
                 return;
             } else if (parts[0].equalsIgnoreCase("heal")) {
                 if (state.spendGold(Shop.HEAL_COST)) {
+                    state.hero().heal(Shop.HEAL_AMOUNT);
+                    out.println("  Healed " + Shop.HEAL_AMOUNT + " HP.");
+                } else {
+                    out.println("  Not enough gold.");
+                }
+            } else if (parts[0].equalsIgnoreCase("relic")) {
