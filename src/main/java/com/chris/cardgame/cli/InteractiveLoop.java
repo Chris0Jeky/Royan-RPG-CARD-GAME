@@ -491,3 +491,9 @@ public class InteractiveLoop {
                 if (state.spendGold(Tavern.HEAL_COST)) {
                     int heal = state.hero().maxHp() / 2;
                     state.hero().heal(heal);
+                    out.println("  Hearty meal: +" + heal + " HP.");
+                } else {
+                    out.println("  Not enough gold.");
+                }
+            } else if (line.equalsIgnoreCase("remove")) {
+                if (state.dust() >= Tavern.REMOVE_COST_DUST && state.hasBasic()
