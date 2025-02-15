@@ -503,3 +503,9 @@ public class InteractiveLoop {
                     out.println("  Need " + Tavern.REMOVE_COST_DUST + " dust and a basic card.");
                 }
             } else if (line.equalsIgnoreCase("recruit")) {
+                if (state.companions().size() >= RunState.MAX_COMPANIONS) {
+                    out.println("  War-band is full.");
+                } else if (state.spendGold(Tavern.RECRUIT_COST)) {
+                    Events.recruit(state, companions, out);
+                } else {
+                    out.println("  Not enough gold.");
