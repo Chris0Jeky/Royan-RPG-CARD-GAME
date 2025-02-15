@@ -497,3 +497,9 @@ public class InteractiveLoop {
                 }
             } else if (line.equalsIgnoreCase("remove")) {
                 if (state.dust() >= Tavern.REMOVE_COST_DUST && state.hasBasic()
+                        && state.spendDust(Tavern.REMOVE_COST_DUST) && state.removeBasic()) {
+                    out.println("  Struck a basic card from the deck.");
+                } else {
+                    out.println("  Need " + Tavern.REMOVE_COST_DUST + " dust and a basic card.");
+                }
+            } else if (line.equalsIgnoreCase("recruit")) {
