@@ -485,3 +485,9 @@ public class InteractiveLoop {
         out.println("  meal: +50% HP - " + Tavern.HEAL_COST + "g");
         while (true) {
             String line = in.readLine("tavern>").trim();
+            if (line.equalsIgnoreCase("leave")) {
+                return;
+            } else if (line.equalsIgnoreCase("meal")) {
+                if (state.spendGold(Tavern.HEAL_COST)) {
+                    int heal = state.hero().maxHp() / 2;
+                    state.hero().heal(heal);
