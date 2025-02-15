@@ -515,3 +515,9 @@ public class InteractiveLoop {
                         .map(RelicDef::id).collect(Collectors.toSet());
                 if (state.shards() >= Tavern.RELIC_COST_SHARDS
                         && state.gold() >= Tavern.RELIC_COST_GOLD
+                        && state.spendShards(Tavern.RELIC_COST_SHARDS)
+                        && state.spendGold(Tavern.RELIC_COST_GOLD)) {
+                    relics.offer(owned, true, state.rng()).ifPresentOrElse(
+                            relic -> {
+                                state.addRelic(relic);
+                                out.println("  Traded for relic: " + relic.name() + ".");
