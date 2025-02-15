@@ -521,3 +521,9 @@ public class InteractiveLoop {
                             relic -> {
                                 state.addRelic(relic);
                                 out.println("  Traded for relic: " + relic.name() + ".");
+                            },
+                            () -> out.println("  Relic vaults empty."));
+                } else {
+                    out.println("  Need " + Tavern.RELIC_COST_GOLD + "g + "
+                            + Tavern.RELIC_COST_SHARDS + " shard.");
+                }
