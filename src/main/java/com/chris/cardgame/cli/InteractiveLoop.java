@@ -509,3 +509,9 @@ public class InteractiveLoop {
                     Events.recruit(state, companions, out);
                 } else {
                     out.println("  Not enough gold.");
+                }
+            } else if (line.equalsIgnoreCase("relic")) {
+                Set<String> owned = state.relics().stream()
+                        .map(RelicDef::id).collect(Collectors.toSet());
+                if (state.shards() >= Tavern.RELIC_COST_SHARDS
+                        && state.gold() >= Tavern.RELIC_COST_GOLD
