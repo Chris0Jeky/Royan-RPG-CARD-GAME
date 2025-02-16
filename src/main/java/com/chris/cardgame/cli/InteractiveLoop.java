@@ -527,3 +527,9 @@ public class InteractiveLoop {
                     out.println("  Need " + Tavern.RELIC_COST_GOLD + "g + "
                             + Tavern.RELIC_COST_SHARDS + " shard.");
                 }
+            } else {
+                out.println("Huh? 'relic', 'remove', 'recruit', 'meal', 'leave'.");
+            }
+        }
+    }
+
