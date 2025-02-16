@@ -545,3 +545,4 @@ public class InteractiveLoop {
         Integer value = parseInt(text);
         return value == null ? fallback : value;
     }
+}
