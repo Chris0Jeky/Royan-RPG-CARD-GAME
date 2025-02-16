@@ -539,3 +539,9 @@ public class InteractiveLoop {
         } catch (NumberFormatException e) {
             return null;
         }
+    }
+
+    private int parseIntOr(String text, int fallback) {
+        Integer value = parseInt(text);
+        return value == null ? fallback : value;
+    }
