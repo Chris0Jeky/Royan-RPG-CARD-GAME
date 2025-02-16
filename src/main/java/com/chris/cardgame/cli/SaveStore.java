@@ -8,3 +8,9 @@ import java.nio.file.Path;
 import com.chris.cardgame.run.SaveData;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
+
+public final class SaveStore {
+    public static final int VERSION = 1;
+
+    private SaveStore() {
+    }
