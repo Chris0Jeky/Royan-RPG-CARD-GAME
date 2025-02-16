@@ -14,3 +14,9 @@ public final class SaveStore {
 
     private SaveStore() {
     }
+
+    public static Path defaultPath() {
+        return Path.of(".royan-save", "save.json");
+    }
+
+    public static void save(Path path, SaveData data) {
