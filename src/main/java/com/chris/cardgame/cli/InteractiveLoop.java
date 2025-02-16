@@ -533,3 +533,9 @@ public class InteractiveLoop {
         }
     }
 
+    private Integer parseInt(String text) {
+        try {
+            return Integer.parseInt(text.trim());
+        } catch (NumberFormatException e) {
+            return null;
+        }
