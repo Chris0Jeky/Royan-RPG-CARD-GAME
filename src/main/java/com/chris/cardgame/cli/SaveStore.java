@@ -32,3 +32,9 @@ public final class SaveStore {
     public static SaveData load(Path path) {
         try {
             SaveData data = new ObjectMapper().readValue(path.toFile(), SaveData.class);
+            if (data.version() != VERSION) {
+                throw new IllegalStateException("unsupported save version: " + data.version());
+            }
+            return data;
+        } catch (IOException e) {
+            throw new UncheckedIOException("cannot load " + path, e);
