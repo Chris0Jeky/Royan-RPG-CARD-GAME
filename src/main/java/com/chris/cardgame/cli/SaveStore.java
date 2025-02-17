@@ -38,3 +38,9 @@ public final class SaveStore {
             return data;
         } catch (IOException e) {
             throw new UncheckedIOException("cannot load " + path, e);
+        }
+    }
+
+    public static void delete(Path path) {
+        try {
+            Files.deleteIfExists(path);
