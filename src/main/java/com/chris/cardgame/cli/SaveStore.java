@@ -44,3 +44,8 @@ public final class SaveStore {
     public static void delete(Path path) {
         try {
             Files.deleteIfExists(path);
+        } catch (IOException e) {
+            throw new UncheckedIOException("cannot delete " + path, e);
+        }
+    }
+}
