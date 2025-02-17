@@ -20,3 +20,9 @@ public final class SaveStore {
     }
 
     public static void save(Path path, SaveData data) {
+        try {
+            Files.createDirectories(path.getParent());
+            ObjectMapper mapper = new ObjectMapper().enable(SerializationFeature.INDENT_OUTPUT);
+            mapper.writeValue(path.toFile(), data);
+        } catch (IOException e) {
+            throw new UncheckedIOException("cannot save to " + path, e);
