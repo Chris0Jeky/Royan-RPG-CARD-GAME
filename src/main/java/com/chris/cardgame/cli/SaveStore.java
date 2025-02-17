@@ -26,3 +26,9 @@ public final class SaveStore {
             mapper.writeValue(path.toFile(), data);
         } catch (IOException e) {
             throw new UncheckedIOException("cannot save to " + path, e);
+        }
+    }
+
+    public static SaveData load(Path path) {
+        try {
+            SaveData data = new ObjectMapper().readValue(path.toFile(), SaveData.class);
