@@ -13,3 +13,9 @@ public class ScriptedInput implements Input {
     }
 
     public static ScriptedInput fuzz(int cycles) {
+        List<String> cycle = List.of("0", "play 0 0", "end", "leave");
+        ArrayDeque<String> lines = new ArrayDeque<>();
+        for (int i = 0; i < cycles; i++) {
+            lines.addAll(cycle);
+        }
+        return new ScriptedInput(List.copyOf(lines));
