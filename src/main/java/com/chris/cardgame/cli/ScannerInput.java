@@ -9,3 +9,9 @@ public class ScannerInput implements Input {
     private final PrintStream out;
 
     public ScannerInput(InputStream in, PrintStream out) {
+        this.scanner = new Scanner(in);
+        this.out = out;
+    }
+
+    @Override
+    public String readLine(String prompt) {
