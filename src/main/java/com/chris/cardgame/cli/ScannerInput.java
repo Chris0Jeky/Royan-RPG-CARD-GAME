@@ -21,3 +21,5 @@ public class ScannerInput implements Input {
             return "quit";
         }
         return scanner.nextLine().trim();
+    }
+}
