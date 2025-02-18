@@ -25,3 +25,9 @@ public class ScriptedInput implements Input {
     public String readLine(String prompt) {
         if (lines.isEmpty()) {
             throw new NoSuchElementException("script exhausted at: " + prompt);
+        }
+        return lines.removeFirst();
+    }
+
+    public int remaining() {
+        return lines.size();
