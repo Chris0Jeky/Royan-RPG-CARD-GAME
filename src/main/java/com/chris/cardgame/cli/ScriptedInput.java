@@ -19,3 +19,9 @@ public class ScriptedInput implements Input {
             lines.addAll(cycle);
         }
         return new ScriptedInput(List.copyOf(lines));
+    }
+
+    @Override
+    public String readLine(String prompt) {
+        if (lines.isEmpty()) {
+            throw new NoSuchElementException("script exhausted at: " + prompt);
