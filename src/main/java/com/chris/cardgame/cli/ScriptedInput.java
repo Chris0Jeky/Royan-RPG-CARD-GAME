@@ -7,3 +7,9 @@ import java.util.NoSuchElementException;
 
 public class ScriptedInput implements Input {
     private final Deque<String> lines;
+
+    public ScriptedInput(List<String> lines) {
+        this.lines = new ArrayDeque<>(lines);
+    }
+
+    public static ScriptedInput fuzz(int cycles) {
