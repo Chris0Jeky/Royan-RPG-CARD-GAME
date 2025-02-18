@@ -15,3 +15,9 @@ public class ScannerInput implements Input {
 
     @Override
     public String readLine(String prompt) {
+        out.print(prompt + " ");
+        out.flush();
+        if (!scanner.hasNextLine()) {
+            return "quit";
+        }
+        return scanner.nextLine().trim();
