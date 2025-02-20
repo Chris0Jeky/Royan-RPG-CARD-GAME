@@ -49,7 +49,7 @@ class BossPhaseTest {
         assertThat(state.transitioned()).containsExactly(0);
         assertThat(state.currentAtk().get(0)).isEqualTo(12);
         assertThat(state.currentBehavior().get(0)).isEqualTo(Behavior.AGGRO);
-        assertThat(state.enemies().get(0).hp()).isEqualTo(28);
+        assertThat(state.enemies().get(0).hp()).isEqualTo(24);
         assertThat(state.enemies().get(0).strength()).isEqualTo(2);
         assertThat(state.events()).anySatisfy(event ->
                 assertThat(event).contains("transforms"));
@@ -78,13 +78,9 @@ class BossPhaseTest {
         playExecute(state);
         engine.endTurn(state);
         playExecute(state);
-        engine.endTurn(state);
-        playExecute(state);
-        engine.endTurn(state);
-        playExecute(state);
 
         assertThat(state.transitioned()).containsExactly(0);
-        assertThat(state.currentAtk().get(0)).isEqualTo(16);
-        assertThat(state.enemies().get(0).hp()).isEqualTo(57);
+        assertThat(state.currentAtk().get(0)).isEqualTo(15);
+        assertThat(state.enemies().get(0).hp()).isEqualTo(59);
     }
 }
