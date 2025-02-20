@@ -31,3 +31,5 @@ public class ScriptedInput implements Input {
 
     public int remaining() {
         return lines.size();
+    }
+}
