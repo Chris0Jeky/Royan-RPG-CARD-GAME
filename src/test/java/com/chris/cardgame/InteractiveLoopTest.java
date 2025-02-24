@@ -12,3 +12,5 @@ import java.util.List;
 import com.chris.cardgame.cli.InteractiveLoop;
 import com.chris.cardgame.cli.ScriptedInput;
 import com.chris.cardgame.data.CardLoader;
+import com.chris.cardgame.data.EnemyLoader;
+import com.chris.cardgame.model.HeroClass;
