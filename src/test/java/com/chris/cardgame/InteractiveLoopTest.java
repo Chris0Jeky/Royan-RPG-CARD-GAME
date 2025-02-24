@@ -20,3 +20,9 @@ import org.junit.jupiter.api.io.TempDir;
 
 class InteractiveLoopTest {
     private final PrintStream silent = new PrintStream(OutputStream.nullOutputStream());
+    private final CardLoader cards = CardLoader.load();
+    private final EnemyLoader enemies = EnemyLoader.load();
+
+    private RunState state(HeroClass heroClass, long seed) {
+        return new RunState("Captain", heroClass, cards.starterDeck(heroClass), seed);
+    }
