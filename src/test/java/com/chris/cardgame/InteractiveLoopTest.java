@@ -32,3 +32,9 @@ class InteractiveLoopTest {
         for (int i = 0; i < turns; i++) {
             lines.add("play 0 0");
             lines.add("play 0 0");
+            lines.add("play 0 0");
+            lines.add("play 0 0");
+            lines.add("end");
+        }
+        return new ScriptedInput(lines);
+    }
