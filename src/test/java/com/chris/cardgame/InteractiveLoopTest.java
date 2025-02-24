@@ -10,3 +10,4 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.chris.cardgame.cli.InteractiveLoop;
+import com.chris.cardgame.cli.ScriptedInput;
