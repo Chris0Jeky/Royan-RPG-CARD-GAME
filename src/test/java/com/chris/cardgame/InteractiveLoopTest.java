@@ -26,3 +26,9 @@ class InteractiveLoopTest {
     private RunState state(HeroClass heroClass, long seed) {
         return new RunState("Captain", heroClass, cards.starterDeck(heroClass), seed);
     }
+
+    private ScriptedInput battleScript(int turns) {
+        List<String> lines = new ArrayList<>();
+        for (int i = 0; i < turns; i++) {
+            lines.add("play 0 0");
+            lines.add("play 0 0");
