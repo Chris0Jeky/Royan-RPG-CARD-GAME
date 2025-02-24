@@ -14,3 +14,9 @@ import com.chris.cardgame.cli.ScriptedInput;
 import com.chris.cardgame.data.CardLoader;
 import com.chris.cardgame.data.EnemyLoader;
 import com.chris.cardgame.model.HeroClass;
+import com.chris.cardgame.run.RunState;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.io.TempDir;
+
+class InteractiveLoopTest {
+    private final PrintStream silent = new PrintStream(OutputStream.nullOutputStream());
