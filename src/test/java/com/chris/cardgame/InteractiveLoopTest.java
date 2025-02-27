@@ -74,3 +74,9 @@ class InteractiveLoopTest {
     }
 
     @Test
+    void manualTavernRecruitRemoveMeal() {
+        RunState state = state(HeroClass.KNIGHT, 14L);
+        state.addGold(500);
+        state.addDust(200);
+        state.hero().takeDamage(40);
+        int before = state.hero().hp();
