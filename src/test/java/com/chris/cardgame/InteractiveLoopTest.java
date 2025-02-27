@@ -50,3 +50,9 @@ class InteractiveLoopTest {
         assertThat(state.hero().hp()).isPositive();
     }
 
+    @Test
+    void scriptedBattleDefeat() {
+        RunState state = state(HeroClass.KNIGHT, 12L);
+        state.hero().takeDamage(state.hero().maxHp() - 1);
+
+        boolean victory = new InteractiveLoop().manualBattle(state,
