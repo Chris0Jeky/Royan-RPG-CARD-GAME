@@ -80,3 +80,9 @@ class InteractiveLoopTest {
         state.addDust(200);
         state.hero().takeDamage(40);
         int before = state.hero().hp();
+        ScriptedInput in = new ScriptedInput(List.of("recruit", "remove", "meal", "leave"));
+
+        new InteractiveLoop().manualTavern(state, in, silent);
+
+        assertThat(state.companions()).hasSize(1);
+        assertThat(state.deck()).hasSize(11);
