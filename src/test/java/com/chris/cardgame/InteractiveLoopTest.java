@@ -44,3 +44,9 @@ class InteractiveLoopTest {
         RunState state = state(HeroClass.KNIGHT, 11L);
 
         boolean victory = new InteractiveLoop().manualBattle(state,
+                List.of(enemies.get("rat")), battleScript(8), silent);
+
+        assertThat(victory).isTrue();
+        assertThat(state.hero().hp()).isPositive();
+    }
+
