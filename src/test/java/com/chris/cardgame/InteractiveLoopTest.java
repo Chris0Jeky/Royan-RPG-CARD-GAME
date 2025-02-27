@@ -86,3 +86,9 @@ class InteractiveLoopTest {
 
         assertThat(state.companions()).hasSize(1);
         assertThat(state.deck()).hasSize(11);
+        assertThat(state.hero().hp()).isGreaterThan(before);
+    }
+
+    @Test
+    void fullScriptedCampaignTerminates(@TempDir Path temp) {
+        Path save = temp.resolve("save.json");
