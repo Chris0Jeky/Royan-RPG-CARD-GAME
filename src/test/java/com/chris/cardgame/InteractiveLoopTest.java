@@ -62,3 +62,9 @@ class InteractiveLoopTest {
     }
 
     @Test
+    void manualShopBuysAndLeaves() {
+        RunState state = state(HeroClass.KNIGHT, 13L);
+        state.addGold(500);
+        ScriptedInput in = new ScriptedInput(List.of("card 0", "heal", "leave"));
+
+        new InteractiveLoop().manualShop(state, in, silent);
