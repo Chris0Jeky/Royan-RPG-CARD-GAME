@@ -56,3 +56,9 @@ class InteractiveLoopTest {
         state.hero().takeDamage(state.hero().maxHp() - 1);
 
         boolean victory = new InteractiveLoop().manualBattle(state,
+                List.of(enemies.get("golem")), battleScript(12), silent);
+
+        assertThat(victory).isFalse();
+    }
+
+    @Test
