@@ -38,3 +38,9 @@ class InteractiveLoopTest {
         }
         return new ScriptedInput(lines);
     }
+
+    @Test
+    void scriptedShortBattleVictory(@TempDir Path temp) {
+        RunState state = state(HeroClass.KNIGHT, 11L);
+
+        boolean victory = new InteractiveLoop().manualBattle(state,
