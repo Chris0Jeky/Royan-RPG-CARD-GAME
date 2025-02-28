@@ -103,3 +103,9 @@ class InteractiveLoopTest {
 
     @Test
     void quitSavesAndResumeWorks(@TempDir Path temp) {
+        Path save = temp.resolve("save.json");
+        InteractiveLoop loop = new InteractiveLoop();
+
+        InteractiveLoop.Result abandoned = loop.runCampaign(
+                HeroClass.RANGER, 9L, new ScriptedInput(List.of("quit")), silent, save);
+
