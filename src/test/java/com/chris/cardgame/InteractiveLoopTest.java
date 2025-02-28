@@ -115,3 +115,8 @@ class InteractiveLoopTest {
         InteractiveLoop.Result resumed =
                 loop.continueCampaign(ScriptedInput.fuzz(600), silent, save);
 
+        assertThat(resumed.abandoned()).isFalse();
+        assertThat(resumed.actsCleared()).isBetween(0, 3);
+        assertThat(Files.exists(save)).isFalse();
+    }
+}
