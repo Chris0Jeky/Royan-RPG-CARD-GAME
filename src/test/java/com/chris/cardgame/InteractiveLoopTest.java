@@ -97,3 +97,9 @@ class InteractiveLoopTest {
                 HeroClass.KNIGHT, 4L, ScriptedInput.fuzz(600), silent, save);
 
         assertThat(result.abandoned()).isFalse();
+        assertThat(result.actsCleared()).isBetween(0, 3);
+        assertThat(Files.exists(save)).isFalse();
+    }
+
+    @Test
+    void quitSavesAndResumeWorks(@TempDir Path temp) {
