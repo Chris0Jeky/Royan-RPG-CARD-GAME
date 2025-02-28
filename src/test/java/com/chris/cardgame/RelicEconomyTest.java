@@ -118,6 +118,20 @@ class RelicEconomyTest {
     }
 
     @Test
+    void fullDeckShopKeepsGold() {
+        RunEngine engine = engine();
+        RunState state = state(50L);
+        state.addGold(500);
+        cards.all().stream().limit(18).forEach(card -> state.deck().add(card));
+        relics.all().forEach(state::addRelic);
+
+        engine.resolve(state, new MapNode("shop", 1, 2, NodeType.SHOP, List.of()), silent);
+
+        assertThat(state.deck()).hasSize(30);
+        assertThat(state.gold()).isEqualTo(550);
+    }
+
+    @Test
     void honedDeckSalvagesDraftForDust() {
         RunEngine engine = engine();
         boolean won = false;
