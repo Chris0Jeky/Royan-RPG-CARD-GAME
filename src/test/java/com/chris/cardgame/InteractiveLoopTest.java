@@ -109,3 +109,9 @@ class InteractiveLoopTest {
         InteractiveLoop.Result abandoned = loop.runCampaign(
                 HeroClass.RANGER, 9L, new ScriptedInput(List.of("quit")), silent, save);
 
+        assertThat(abandoned.abandoned()).isTrue();
+        assertThat(Files.exists(save)).isTrue();
+
+        InteractiveLoop.Result resumed =
+                loop.continueCampaign(ScriptedInput.fuzz(600), silent, save);
+
