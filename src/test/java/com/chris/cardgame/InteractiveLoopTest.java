@@ -92,3 +92,8 @@ class InteractiveLoopTest {
     @Test
     void fullScriptedCampaignTerminates(@TempDir Path temp) {
         Path save = temp.resolve("save.json");
+
+        InteractiveLoop.Result result = new InteractiveLoop().runCampaign(
+                HeroClass.KNIGHT, 4L, ScriptedInput.fuzz(600), silent, save);
+
+        assertThat(result.abandoned()).isFalse();
