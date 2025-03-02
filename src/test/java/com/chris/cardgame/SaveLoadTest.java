@@ -26,3 +26,9 @@ class SaveLoadTest {
     @Test
     void roundtripPreservesEverything(@TempDir Path temp) {
         RunState state = new RunState("Captain", HeroClass.RUNEMAGE,
+                cards.starterDeck(HeroClass.RUNEMAGE), 77L);
+        state.setAct(2);
+        state.addGold(120);
+        state.addDust(35);
+        state.addShards(2);
+        state.addXp(100);
