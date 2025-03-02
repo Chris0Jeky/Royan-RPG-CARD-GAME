@@ -14,3 +14,9 @@ import com.chris.cardgame.data.RelicLoader;
 import com.chris.cardgame.model.HeroClass;
 import com.chris.cardgame.run.Companion;
 import com.chris.cardgame.run.RunState;
+import com.chris.cardgame.run.SaveData;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.io.TempDir;
+
+class SaveLoadTest {
+    private final CardLoader cards = CardLoader.load();
