@@ -20,3 +20,9 @@ import org.junit.jupiter.api.io.TempDir;
 
 class SaveLoadTest {
     private final CardLoader cards = CardLoader.load();
+    private final RelicLoader relics = RelicLoader.load();
+    private final CompanionLoader companions = CompanionLoader.load();
+
+    @Test
+    void roundtripPreservesEverything(@TempDir Path temp) {
+        RunState state = new RunState("Captain", HeroClass.RUNEMAGE,
