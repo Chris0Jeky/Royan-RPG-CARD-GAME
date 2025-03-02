@@ -32,3 +32,9 @@ class SaveLoadTest {
         state.addDust(35);
         state.addShards(2);
         state.addXp(100);
+        state.addRelic(relics.get("whetstone"));
+        state.addRelic(relics.get("plank-shield"));
+        Companion pip = new Companion(companions.get("pip"));
+        pip.setHp(17);
+        state.recruit(pip);
+        state.hero().takeDamage(20);
