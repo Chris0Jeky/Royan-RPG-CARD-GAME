@@ -56,3 +56,9 @@ class SaveLoadTest {
     void corruptSaveFails(@TempDir Path temp) throws Exception {
         Path save = temp.resolve("save.json");
         Files.writeString(save, "not json {{{");
+
+        assertThatThrownBy(() -> SaveStore.load(save))
+                .isInstanceOf(UncheckedIOException.class);
+    }
+
+    @Test
