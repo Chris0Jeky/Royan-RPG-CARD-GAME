@@ -44,3 +44,9 @@ class SaveLoadTest {
         SaveStore.save(save, state.toSave("a2-L3-1"));
         assertThat(Files.exists(save)).isTrue();
 
+        SaveData loaded = SaveStore.load(save);
+        RunState restored = RunState.fromSave(loaded, cards, relics, companions);
+
+        assertThat(restored.toSave("a2-L3-1")).isEqualTo(state.toSave("a2-L3-1"));
+        assertThat(restored.companions()).hasSize(1);
+        assertThat(restored.companions().get(0).hp()).isEqualTo(17);
