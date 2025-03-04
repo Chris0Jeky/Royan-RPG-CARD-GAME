@@ -66,3 +66,4 @@ class SaveLoadTest {
         assertThatThrownBy(() -> SaveStore.load(temp.resolve("nope.json")))
                 .isInstanceOf(UncheckedIOException.class);
     }
+}
