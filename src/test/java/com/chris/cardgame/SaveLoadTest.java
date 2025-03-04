@@ -38,3 +38,9 @@ class SaveLoadTest {
         pip.setHp(17);
         state.recruit(pip);
         state.hero().takeDamage(20);
+        state.seenEvents().add("cache");
+        Path save = temp.resolve("save.json");
+
+        SaveStore.save(save, state.toSave("a2-L3-1"));
+        assertThat(Files.exists(save)).isTrue();
+
