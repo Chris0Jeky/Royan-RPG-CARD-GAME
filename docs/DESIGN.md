@@ -26,9 +26,9 @@ boss) → combat → pick-1-of-3 loot + XP → repeat → boss → next act.
 - Hero aspect = class aspect (Knight MIGHT / Ranger GUILE / Runemage FOCUS).
 - Victory: all enemies dead. Defeat: hero HP 0. Companions (M4): hero + 0–2 vs 1–3 enemies.
 
-## Heroes & decks (M1: Knight only; M3/M5: all three)
-- Knight (MIGHT): bruiser, block + heavy hits. Ranger (GUILE): cheap strikes, draw, weak.
-  Runemage (FOCUS): burst, vulnerable, powers.
+## Heroes & decks (M5 — all three playable)
+- Knight (MIGHT, 90 HP): bruiser, block + heavy hits. Ranger (GUILE, 80 HP): cheap strikes, draw, weak.
+  Runemage (FOCUS, 72 HP): burst, vulnerable, powers.
 - Deck: start 12, max 30, max 3 copies. Starter Knight: 3 Strike, 4 Guard, 2 Heavy Blow,
   1 Rally, 1 Quick Cut, 1 Bulwark.
 
@@ -41,7 +41,14 @@ boss) → combat → pick-1-of-3 loot + XP → repeat → boss → next act.
 - 4 behaviors: AGGRO (attacks relentlessly), TURTLE (block + buffs), BURST (2 attacks then BUFF cycle),
   TRICKSTER (attacks + DEBUFF weakens). Intents telegraphed every turn.
 - Bosses (Mara / Rust King / Vex) have 2 phases: at 50% HP they cleanse, heal, gain strength,
-  and switch attack/behavior. Enemies focus the hero; companions support from the back line.
+  and switch attack/behavior/ASPECT (Mara MIGHT→GUILE, Rust King FOCUS→MIGHT, Vex GUILE→FOCUS),
+  so every hero meets one favored and one hated phase per boss.
+  Enemies focus the hero; companions support from the back line.
+
+## Playing the game (M5 — implemented)
+- `play [CLASS] [seed]`: interactive campaign (validated prompts everywhere; `quit` saves).
+- `continue`: resume the autosave (`.royan-save/save.json`, deleted on victory/defeat).
+- `auto [seed] [CLASS]`: scripted demo campaign (also the balance probe + QA oracle).
 
 ## Events & companions (M4 — implemented)
 - 24 narrative events with costed choices (gold/dust/shards/HP gates); no repeats within an act;
@@ -52,6 +59,8 @@ boss) → combat → pick-1-of-3 loot + XP → repeat → boss → next act.
 
 ## Balance log
 - 2024-07-?? (M1): multipliers locked — advantage 1.5, disadvantage/cover/weak 0.75, vulnerable 1.25.
+- 2025-01-?? (M5): per-class HP (K90/R80/M72); bosses aspect-shift; duelist+assassin added; pools rebalanced.
+  Final auto-win rates K 11/30, R 22/30, M 8/30 (greedy pilot; humans do better). Ranger easy, Mage hard — accepted.
 - 2024-11-?? (M4): 10 enemies (4 behaviors) + 3 two-phase bosses, 24 events, 5 companions.
   Auto-win rates K 2/30, R 6/30, M 27/30 — Knight suffers vs FOCUS-heavy pools; Mage overperforms. M5 must rebalance.
 - 2024-10-?? (M3): 90 cards (24/class + 18 neutral), card aspect drives advantage, AoE/multi-hit/energy arts;
