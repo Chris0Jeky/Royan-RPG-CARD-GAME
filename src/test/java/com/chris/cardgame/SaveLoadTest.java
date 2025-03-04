@@ -50,3 +50,9 @@ class SaveLoadTest {
         assertThat(restored.toSave("a2-L3-1")).isEqualTo(state.toSave("a2-L3-1"));
         assertThat(restored.companions()).hasSize(1);
         assertThat(restored.companions().get(0).hp()).isEqualTo(17);
+    }
+
+    @Test
+    void corruptSaveFails(@TempDir Path temp) throws Exception {
+        Path save = temp.resolve("save.json");
+        Files.writeString(save, "not json {{{");
