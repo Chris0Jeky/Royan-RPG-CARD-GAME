@@ -62,3 +62,7 @@ class SaveLoadTest {
     }
 
     @Test
+    void missingSaveFails(@TempDir Path temp) {
+        assertThatThrownBy(() -> SaveStore.load(temp.resolve("nope.json")))
+                .isInstanceOf(UncheckedIOException.class);
+    }
