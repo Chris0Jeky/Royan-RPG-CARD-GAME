@@ -23,3 +23,9 @@ mvn -q compile exec:java -Dexec.mainClass=com.chris.cardgame.Main -Dexec.args="p
 `mvn -q compile exec:java --% "-Dexec.mainClass=com.chris.cardgame.Main" "-Dexec.args=play"`.)
 
 Then pick a captain and type commands (`play <card> [foe]`, `end`, `quit` saves).
+Other modes:
+
+```sh
+... -Dexec.args="play ranger"              # hero + random seed
+... -Dexec.args="play knight 42"           # hero + fixed seed (reproducible)
+... -Dexec.args="continue"                 # resume .royan-save/save.json
