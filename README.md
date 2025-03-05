@@ -17,3 +17,9 @@ the first Maven pull).
 ```sh
 mvn test                                   # build + 88 tests
 mvn -q compile exec:java -Dexec.mainClass=com.chris.cardgame.Main -Dexec.args="play"
+```
+
+(PowerShell: insert `--%` before the `-D` flags, e.g.
+`mvn -q compile exec:java --% "-Dexec.mainClass=com.chris.cardgame.Main" "-Dexec.args=play"`.)
+
+Then pick a captain and type commands (`play <card> [foe]`, `end`, `quit` saves).
