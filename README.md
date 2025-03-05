@@ -29,3 +29,9 @@ Other modes:
 ... -Dexec.args="play ranger"              # hero + random seed
 ... -Dexec.args="play knight 42"           # hero + fixed seed (reproducible)
 ... -Dexec.args="continue"                 # resume .royan-save/save.json
+... -Dexec.args="auto 42 KNIGHT"           # scripted demo campaign
+```
+
+No JDK handy? A portable Temurin 17 + Maven install works — see
+[ORCHESTRATION.md](ORCHESTRATION.md#toolchain-portable-outside-repo--onedrive-safe).
+
