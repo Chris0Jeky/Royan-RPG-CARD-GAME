@@ -11,3 +11,9 @@ three two-phase bosses with aspect-shifting second forms.
 
 ## Quickstart
 
+Requires Java 17+ and Maven 3.9+. No other runtime dependencies (offline-safe after
+the first Maven pull).
+
+```sh
+mvn test                                   # build + 88 tests
+mvn -q compile exec:java -Dexec.mainClass=com.chris.cardgame.Main -Dexec.args="play"
