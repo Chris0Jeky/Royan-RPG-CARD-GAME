@@ -8,3 +8,9 @@ facing rules live in [docs/RULES.md](docs/RULES.md) and must agree with it.
 
 - Java 17 + Maven 3.9 (`mvn test`, `mvn -q compile`). Portable installs documented in
   ORCHESTRATION.md. Set `JAVA_HOME` + `PATH` per shell — env does not persist.
+- Python 3.13 (stdlib only) for `tools/history/`.
+
+## Build / test / run
+
+```sh
+mvn test                                                              # gate: all green
