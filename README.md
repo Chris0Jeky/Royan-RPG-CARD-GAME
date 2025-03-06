@@ -53,3 +53,4 @@ src/main/resources/data/{cards,enemies,relics,events,companions}.json
 src/test/java/...            # JUnit 5 + AssertJ suites
 tools/history/               # backdated-commit schedule / replay / verify scripts
 .agents/skills/royan-*/      # evolved project skills (design, qa, history)
+```
