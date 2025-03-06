@@ -35,3 +35,9 @@ Other modes:
 No JDK handy? A portable Temurin 17 + Maven install works — see
 [ORCHESTRATION.md](ORCHESTRATION.md#toolchain-portable-outside-repo--onedrive-safe).
 
+## Docs
+
+- [docs/RULES.md](docs/RULES.md) — how to play (players start here)
+- [docs/DESIGN.md](docs/DESIGN.md) — locked rules authority + balance log
+- [docs/QA.md](docs/QA.md) — test gates, balance oracle, release checklist
+- [docs/DEVLOG.md](docs/DEVLOG.md) — milestone journal
