@@ -14,3 +14,9 @@ facing rules live in [docs/RULES.md](docs/RULES.md) and must agree with it.
 
 ```sh
 mvn test                                                              # gate: all green
+mvn -q compile exec:java -Dexec.mainClass=com.chris.cardgame.Main -Dexec.args="auto 42 KNIGHT"
+```
+
+## Conventions
+
+- Engine packages (`model`, `data`, `combat`, `ai`, `map`, `loot`, `run`) never import
