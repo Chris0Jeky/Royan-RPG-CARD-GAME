@@ -41,3 +41,9 @@ No JDK handy? A portable Temurin 17 + Maven install works — see
 - [docs/DESIGN.md](docs/DESIGN.md) — locked rules authority + balance log
 - [docs/QA.md](docs/QA.md) — test gates, balance oracle, release checklist
 - [docs/DEVLOG.md](docs/DEVLOG.md) — milestone journal
+- [CHANGELOG.md](CHANGELOG.md) — per-release changes
+- [ARCHITECTURE.md](ARCHITECTURE.md), [PLAN.md](PLAN.md), [ORCHESTRATION.md](ORCHESTRATION.md) — live build trackers
+- [AGENTS.md](AGENTS.md) — contributor/agent runbook
+
+## Project shape
+
