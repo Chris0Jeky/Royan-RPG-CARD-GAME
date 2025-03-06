@@ -20,3 +20,9 @@ mvn -q compile exec:java -Dexec.mainClass=com.chris.cardgame.Main -Dexec.args="a
 ## Conventions
 
 - Engine packages (`model`, `data`, `combat`, `ai`, `map`, `loot`, `run`) never import
+  `cli`. UI code may import engines, never the reverse.
+- All content is data: cards/enemies/relics/events/companions live in
+  `src/main/resources/data/*.json` and load via Jackson. Code changes for content
+  changes are a smell — extend the data fields instead.
+- Seeded RNG everywhere (`SplittableRandom`). New randomness must take the run/battle
+  RNG, never `new Random()` — determinism is tested.
