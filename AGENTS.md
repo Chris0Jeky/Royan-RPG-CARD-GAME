@@ -26,3 +26,9 @@ mvn -q compile exec:java -Dexec.mainClass=com.chris.cardgame.Main -Dexec.args="a
   changes are a smell — extend the data fields instead.
 - Seeded RNG everywhere (`SplittableRandom`). New randomness must take the run/battle
   RNG, never `new Random()` — determinism is tested.
+- Numbers live in one place: multipliers in `DamageCalc`, economy in the JSON/run
+  classes, balance history in DESIGN.md. Update all three together.
+- Payments validate BEFORE spending (gold/dust/shards/deck-space). Regression-test
+  every new transaction.
+- Tests are JUnit 5 + AssertJ, colocated in `src/test/java/com/chris/cardgame/`.
+  Pin exact numbers for combat math; pin collection sizes for content.
