@@ -15,3 +15,9 @@
 ## v0.3 — Collection & economy (M3)
 - Full 90-card collection, relics, dust/shards, tavern.
 
+## v0.2 — Run loop (M2)
+- 3-act maps, loot drafts, XP/boons, node types.
+
+## v0.1 — Combat slice (M1)
+- Turn engine, aspects, rows, JSON cards, first demo battle.
+
