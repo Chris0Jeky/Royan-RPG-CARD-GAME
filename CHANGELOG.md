@@ -9,3 +9,9 @@
 - Class HP split, aspect-shifting bosses, encounter retune.
 - InteractiveLoop, SaveStore, ScriptedInput fuzz coverage.
 
+## v0.4 — Enemies & content (M4)
+- 4 AI behaviors, boss phases, narrative events, companions.
+
+## v0.3 — Collection & economy (M3)
+- Full 90-card collection, relics, dust/shards, tavern.
+
