@@ -32,3 +32,9 @@ mvn -q compile exec:java -Dexec.mainClass=com.chris.cardgame.Main -Dexec.args="a
   every new transaction.
 - Tests are JUnit 5 + AssertJ, colocated in `src/test/java/com/chris/cardgame/`.
   Pin exact numbers for combat math; pin collection sizes for content.
+
+## Skills
+
+Follow `.agents/skills/royan-*/SKILL.md` for the area you touch:
+`royan-design` (content/balance), `royan-qa` (gates before commit),
+`royan-history` (backdated-commit runbook).
