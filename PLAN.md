@@ -17,7 +17,7 @@ Sky-isles mercenary Guild Captain. Hub → 3-act branching map → lane combat (
 | M3 | Collection/economy: 90 cards, gold/dust/shards, 20 relics, shrines, tavern | done (dev, 56/56 green; K 11/20, R 20/20, M 19/20 — tune at M5) |
 | M4 | Enemies/content: AI intents (4 behaviors), 2-phase bosses, 24 events, companions | done (dev, 78/78 green; K 2/30, R 6/30, M 27/30 — rebalance at M5) |
 | M5 | Campaign balance: 8-min/45-min pacing, 3 starter heroes, save/persistence | done (dev, 88/88 green; K 11/30, R 22/30, M 8/30; interactive CLI + autosave) |
-| M6 | Docs + evolved system: README, RULES, DEVLOG, QA, AGENTS.md, `.agents/skills/royan-*` | pending |
+| M6 | Docs + evolved system: README, RULES, DEVLOG, QA, AGENTS.md, `.agents/skills/royan-*` | done (dev, 88/88 green; schedule 3504 slots verified; exec path verified) |
 | M7 | History replay: schedule Jul-2024→present ~30/wk on `history-replay`, verify histogram + monotonicity + tests at HEAD + spot mid-history, merge to main, tag v0.1..v1.0 | pending |
 | M8 | Final QA pass + handoff | pending |
 

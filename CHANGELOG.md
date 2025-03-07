@@ -21,3 +21,5 @@
 ## v0.1 — Combat slice (M1)
 - Turn engine, aspects, rows, JSON cards, first demo battle.
 
+## v0.0 — Green build (M0)
+- Maven build, prototype fixes, smoke tests.
