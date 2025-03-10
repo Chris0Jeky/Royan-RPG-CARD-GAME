@@ -7,3 +7,9 @@
   ScriptedInput drives the same loop in tests, including a full fuzz campaign.
 - Fixed payment bugs: shop/tavern validate before spending (regression-tested).
 
+## M4 — Enemies & content (Nov 2024)
+- 4 AI behaviors (Aggro/Turtle/Burst/Trickster), 10 enemies, 3 two-phase bosses.
+- 24 narrative events with costed choices; 5 companions (Striker/Guardian/Medic).
+
+## M3 — Collection & economy (Oct 2024)
+- 90 cards (24/class + 18 neutral), 20 relics, AoE/multi-hit/energy arts.
