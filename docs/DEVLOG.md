@@ -13,3 +13,9 @@
 
 ## M3 — Collection & economy (Oct 2024)
 - 90 cards (24/class + 18 neutral), 20 relics, AoE/multi-hit/energy arts.
+- Card-aspect advantage; gold/dust/shards; tavern node; shrine events; shop relics.
+
+## M2 — Run loop (Aug 2024)
+- 3-act branching maps, pick-1-of-3 loot, XP/boons, rest/shop/event/boss nodes.
+- First winnable campaign; enemy HP pools cut for 3–5 turn fights.
+
