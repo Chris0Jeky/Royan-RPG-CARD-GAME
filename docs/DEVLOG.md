@@ -19,3 +19,9 @@
 - 3-act branching maps, pick-1-of-3 loot, XP/boons, rest/shop/event/boss nodes.
 - First winnable campaign; enemy HP pools cut for 3–5 turn fights.
 
+## M1 — Combat slice (Jul 2024)
+- Energy/draw/intents, rows + cover, aspect triangle, 18 cards, 4 enemies.
+- JSON content loading; scripted battle demo.
+
+## M0 — Green build (Jul 2024)
+- Maven + Java 17 + JUnit5; fixed the 2024 prototype; first smoke tests.
