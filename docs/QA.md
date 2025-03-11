@@ -9,3 +9,9 @@ mvn test          # must be green: 88 tests across 17 suites (M5)
 - Engine suites (`combat`, `BattleArts`, `BossPhase`, `EnemyAi`) pin exact numbers —
   multipliers, cover, phases, AI tables. Touching combat math means updating these first.
 - Content suites (`DataLoader`, `LootXp`, `RelicEconomy`, `NarrativeEvent`) pin collection
+  sizes: 90 cards (24/24/24/18), 12 enemies (3 bosses), 20 relics, 24 events, 5 companions.
+- Run suites (`RunEngine`, `BattlePlaythrough`, `CampaignPlaythrough`, `InteractiveLoop`,
+  `SaveLoad`) pin the loop: drafts, shops, taverns, events, scripted + fuzz campaigns,
+  save round-trips, quit/resume.
+- Pinned victories: Knight seed 4, Ranger seed 3, Runemage seed 1. If a balance change
+  breaks a pin, re-probe (below) and move the pin deliberately — never delete it.
