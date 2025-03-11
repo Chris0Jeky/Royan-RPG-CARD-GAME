@@ -33,3 +33,9 @@ mvn test          # must be green: 88 tests across 17 suites (M5)
 `InteractiveLoopTest.fullScriptedCampaignTerminates` runs a 2400-prompt fuzz campaign
 through every interactive path (including invalid-input recovery). If it fails with
 "script exhausted", some prompt loops without consuming progress — fix the loop,
+not the script length.
+
+## Manual QA (release)
+
+1. `play` each hero for ≥1 act: prompts render, invalid input re-prompts, `quit` saves.
+2. `continue` resumes mid-act with deck/gold/companions intact.
