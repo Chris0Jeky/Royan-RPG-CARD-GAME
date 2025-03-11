@@ -21,3 +21,9 @@ mvn test          # must be green: 88 tests across 17 suites (M5)
 ```sh
 # 30 seeds per hero via the auto demo; expect roughly K 11/30, R 22/30, M 8/30 (M5 lock)
 ```
+
+- Every hero must win ≥3/30 (winnable) and ≤28/30 (not trivial) on seeds 1–30.
+- Investigate before tuning: find WHERE deaths happen (act/boss/fight), not just counts.
+- Data changes reshuffle RNG streams, so seed-by-seed before/after comparisons are
+  confounded — compare distributions, and prefer structural fixes (aspect coverage,
+  HP pools, fight length) over number nudges. See DESIGN.md balance log.
