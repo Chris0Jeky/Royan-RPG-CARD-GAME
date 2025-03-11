@@ -27,3 +27,9 @@ mvn test          # must be green: 88 tests across 17 suites (M5)
 - Data changes reshuffle RNG streams, so seed-by-seed before/after comparisons are
   confounded — compare distributions, and prefer structural fixes (aspect coverage,
   HP pools, fight length) over number nudges. See DESIGN.md balance log.
+
+## Fuzz oracle (after loop changes)
+
+`InteractiveLoopTest.fullScriptedCampaignTerminates` runs a 2400-prompt fuzz campaign
+through every interactive path (including invalid-input recovery). If it fails with
+"script exhausted", some prompt loops without consuming progress — fix the loop,
