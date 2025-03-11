@@ -39,3 +39,9 @@ not the script length.
 
 1. `play` each hero for ≥1 act: prompts render, invalid input re-prompts, `quit` saves.
 2. `continue` resumes mid-act with deck/gold/companions intact.
+3. `auto` demo completes and prints a Result line.
+4. Save file is valid JSON, deleted after victory/defeat.
+
+## Release checklist
+
+- [ ] `mvn test` green
