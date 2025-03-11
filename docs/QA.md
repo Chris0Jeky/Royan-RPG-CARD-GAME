@@ -45,3 +45,7 @@ not the script length.
 ## Release checklist
 
 - [ ] `mvn test` green
+- [ ] Balance oracle within bands, pins current
+- [ ] README/RULES/DESIGN agree on numbers (costs, heals, multipliers)
+- [ ] CHANGELOG + DEVLOG entries for the release
+- [ ] Milestone tag on green main (`v0.1` … `v1.0`)
