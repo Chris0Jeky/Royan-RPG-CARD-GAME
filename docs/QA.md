@@ -15,3 +15,9 @@ mvn test          # must be green: 88 tests across 17 suites (M5)
   save round-trips, quit/resume.
 - Pinned victories: Knight seed 4, Ranger seed 3, Runemage seed 1. If a balance change
   breaks a pin, re-probe (below) and move the pin deliberately — never delete it.
+
+## Balance oracle (after content/balance changes)
+
+```sh
+# 30 seeds per hero via the auto demo; expect roughly K 11/30, R 22/30, M 8/30 (M5 lock)
+```
