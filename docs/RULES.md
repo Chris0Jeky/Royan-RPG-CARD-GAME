@@ -41,3 +41,8 @@ Turn structure: gain 3 energy, draw 4 cards, see enemy intents, play cards, end 
 - After each victory, draft from 3 options (elites/bosses: pick 2). Skip a draft for +10 dust.
 - Levels 1–10: each level offers a pick of 3 boons (max HP, healing, gold, strength).
 - Currencies: gold (shops/tavern), dust (strike basics at taverns/forges), shards
+  (elite/boss loot for relic trades). 20 relics grant passive powers.
+- Basics can be removed (tavern, forge event) to thin your deck. Curses can sneak in
+  via dark bargains — spenders beware.
+
+## Heroes
