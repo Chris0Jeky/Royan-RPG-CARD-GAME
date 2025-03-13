@@ -46,3 +46,9 @@ Turn structure: gain 3 energy, draw 4 cards, see enemy intents, play cards, end 
   via dark bargains — spenders beware.
 
 ## Heroes
+
+- Knight (90 HP, MIGHT): block, heavy hits, honest work. Easy to learn.
+- Ranger (80 HP, GUILE): cheap multi-hit strikes, card draw, debuffs. Strong and fast.
+- Runemage (72 HP, FOCUS): burst damage, energy tricks, big powers. Fragile, explosive.
+
+## Commands (interactive mode)
