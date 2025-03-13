@@ -35,3 +35,9 @@ Turn structure: gain 3 energy, draw 4 cards, see enemy intents, play cards, end 
 - Companions (up to 2, recruited) act before enemies: Strikers hit, Guardians block
   for you, Medics heal the most-hurt ally. Enemies focus you.
 
+## Deck & progression
+
+- Start with 12 cards (max 30, max 3 copies each; starters may repeat basics).
+- After each victory, draft from 3 options (elites/bosses: pick 2). Skip a draft for +10 dust.
+- Levels 1–10: each level offers a pick of 3 boons (max HP, healing, gold, strength).
+- Currencies: gold (shops/tavern), dust (strike basics at taverns/forges), shards
