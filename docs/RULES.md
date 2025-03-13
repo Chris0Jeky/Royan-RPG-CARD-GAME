@@ -17,3 +17,9 @@ boss is always a rest stop.
 - EVENT — one of 24 narrative encounters with costed choices. No repeats within an act.
 - BOSS — a two-phase captain fight. Victory clears the act (+40% HP) or wins the run.
 
+## Combat
+
+Turn structure: gain 3 energy, draw 4 cards, see enemy intents, play cards, end turn
+(your hand discards). Your draw pile reshuffles from discard when empty.
+
+- Card types: Strike (damage), Guard (block), Trick (damage/debuffs/utility),
