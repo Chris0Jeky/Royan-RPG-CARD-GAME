@@ -23,3 +23,9 @@ Turn structure: gain 3 energy, draw 4 cards, see enemy intents, play cards, end 
 (your hand discards). Your draw pile reshuffles from discard when empty.
 
 - Card types: Strike (damage), Guard (block), Trick (damage/debuffs/utility),
+  Power (combat buffs), Curse (unplayable — it clogs your hand).
+- Aspects: MIGHT beats GUILE beats FOCUS beats MIGHT. Advantage deals ×1.5,
+  disadvantage ×0.75. Card aspect counts for your attacks; enemies use their own.
+- Rows: back-row foes take ×0.75 damage while any front-row foe stands. Kill the front first.
+- Weak (dealt by you): foe deals ×0.75. Vulnerable: foe takes ×1.25.
+- Block absorbs damage, then HP. Your block clears at the start of your next turn.
