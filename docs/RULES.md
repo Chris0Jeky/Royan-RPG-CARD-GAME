@@ -29,3 +29,9 @@ Turn structure: gain 3 energy, draw 4 cards, see enemy intents, play cards, end 
 - Rows: back-row foes take ×0.75 damage while any front-row foe stands. Kill the front first.
 - Weak (dealt by you): foe deals ×0.75. Vulnerable: foe takes ×1.25.
 - Block absorbs damage, then HP. Your block clears at the start of your next turn.
+- Enemy intents are telegraphed: ATTACK (~damage), DEFEND, BUFF, DEBUFF (weakens you).
+- Bosses transform at 50% HP: new attack, new behavior, new aspect, plus healing.
+  Read the herald line — the second phase plays differently.
+- Companions (up to 2, recruited) act before enemies: Strikers hit, Guardians block
+  for you, Medics heal the most-hurt ally. Enemies focus you.
+
