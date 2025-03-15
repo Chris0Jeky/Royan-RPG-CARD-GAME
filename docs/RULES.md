@@ -52,3 +52,9 @@ Turn structure: gain 3 energy, draw 4 cards, see enemy intents, play cards, end 
 - Runemage (72 HP, FOCUS): burst damage, energy tricks, big powers. Fragile, explosive.
 
 ## Commands (interactive mode)
+
+```
+play <card> [foe]    play a card from hand (foe index for single-target cards)
+end                  end turn (foes + allies act)
+0-9 / card # / etc   numbered prompts at map, draft, shop, tavern, events
+quit                 save and abandon run (at map prompts; resume with 'continue')
