@@ -58,3 +58,4 @@ play <card> [foe]    play a card from hand (foe index for single-target cards)
 end                  end turn (foes + allies act)
 0-9 / card # / etc   numbered prompts at map, draft, shop, tavern, events
 quit                 save and abandon run (at map prompts; resume with 'continue')
+```
