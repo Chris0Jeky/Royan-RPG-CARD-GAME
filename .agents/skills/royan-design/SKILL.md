@@ -26,3 +26,5 @@ Use when adding or tuning cards, enemies, relics, events, companions, or pools.
 1. Edit JSON data (never hardcode content).
 2. Update the pinning tests (sizes, exact numbers) in the same change.
 3. Run `mvn test`, then the 30-seed balance oracle per hero (see docs/QA.md).
+4. Bands: every hero wins 3–28/30. Move victory pins deliberately with disclosure.
+5. Log the change + resulting rates in DESIGN.md balance log.
