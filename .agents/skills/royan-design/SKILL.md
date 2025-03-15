@@ -20,3 +20,9 @@ Use when adding or tuning cards, enemies, relics, events, companions, or pools.
 
 - Normals 3–5 turns, elites 5–8, bosses 8–12 (greedy auto-pilot).
 - Incoming damage per fight should cost ≤40% HP with basic blocking.
+
+## Procedure
+
+1. Edit JSON data (never hardcode content).
+2. Update the pinning tests (sizes, exact numbers) in the same change.
+3. Run `mvn test`, then the 30-seed balance oracle per hero (see docs/QA.md).
