@@ -14,3 +14,9 @@ Use when adding or tuning cards, enemies, relics, events, companions, or pools.
 - Pools must mix all three aspects every act; no hero may face >60% hated-aspect
   fights in an act. Bosses shift aspect in phase 2 (M→G, F→M, G→F rotation).
 - Every class needs ≥2 playable answers to its hated aspect (off-aspect damage,
+  vuln/weak, or block to stall). Knight→GUILE, Ranger→FOCUS, Mage→MIGHT.
+
+## Fight-length targets
+
+- Normals 3–5 turns, elites 5–8, bosses 8–12 (greedy auto-pilot).
+- Incoming damage per fight should cost ≤40% HP with basic blocking.
