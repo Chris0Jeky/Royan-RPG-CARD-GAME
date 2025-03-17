@@ -13,3 +13,9 @@ Use before marking any milestone or release done.
 5. Balance-affecting changes: 30-seed oracle per hero within 3–28 wins; pins current.
 6. Docs agree: DESIGN (authority) ↔ RULES (players) ↔ QA ↔ skill budgets.
 
+## Fuzz oracle
+
+`InteractiveLoopTest.fullScriptedCampaignTerminates` (2400 prompts) must pass —
+it covers every interactive path including invalid-input recovery. "Script exhausted"
+means a prompt loop regressed; fix the loop.
+
