@@ -19,3 +19,9 @@ Use for the July-2024 incremental history (M7). Read bundled:git first if availa
   exact source-commit trees (green by construction).
 - `verify.py` — histogram (days/week, commits/week), monotonicity, tag checks
   (`mvn test` at each tag), final-tree equality.
+
+## Procedure
+
+1. `python tools/history/schedule.py` → inspect bands.
+2. `python tools/history/replay.py --source dev --dest history-replay` (slow: ~3500 commits).
+3. `python tools/history/verify.py --branch history-replay` → all checks pass.
