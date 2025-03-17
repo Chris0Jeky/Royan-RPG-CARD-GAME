@@ -13,3 +13,9 @@ Use for the July-2024 incremental history (M7). Read bundled:git first if availa
 
 - `schedule.py` — seeded slot generator. Verifies its own output (counts, bands,
   monotonicity) and writes `schedule.json`.
+- `replay.py` — partitions the source diff into one chunk per slot (dependency order:
+  scaffold → model → data → engine → content → tests → docs), applies each chunk on
+  `history-replay` from `main`, commits with the slot's dates. Milestone tags land on
+  exact source-commit trees (green by construction).
+- `verify.py` — histogram (days/week, commits/week), monotonicity, tag checks
+  (`mvn test` at each tag), final-tree equality.
