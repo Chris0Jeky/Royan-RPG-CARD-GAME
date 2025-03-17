@@ -25,3 +25,5 @@ Use for the July-2024 incremental history (M7). Read bundled:git first if availa
 1. `python tools/history/schedule.py` → inspect bands.
 2. `python tools/history/replay.py --source dev --dest history-replay` (slow: ~3500 commits).
 3. `python tools/history/verify.py --branch history-replay` → all checks pass.
+4. Fast-forward `main`, tag `v0.0`…`v1.0`, re-verify on `main`.
+5. NEVER `push --force`. Push only when asked.
