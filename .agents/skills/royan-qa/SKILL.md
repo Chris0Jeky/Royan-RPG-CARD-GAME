@@ -19,3 +19,7 @@ Use before marking any milestone or release done.
 it covers every interactive path including invalid-input recovery. "Script exhausted"
 means a prompt loop regressed; fix the loop.
 
+## Manual spot checks (release only)
+
+Play one act per hero, `quit`→`continue` round-trip, `auto` demo completes.
+See docs/QA.md release checklist.
