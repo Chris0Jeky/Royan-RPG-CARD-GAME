@@ -14,3 +14,9 @@ import argparse
 import datetime as dt
 import json
 import random
+import sys
+from pathlib import Path
+
+START = dt.date(2024, 7, 1)  # a Monday
+END = dt.date(2026, 9, 26)
+SEED = 20240701
