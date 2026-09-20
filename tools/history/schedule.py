@@ -8,3 +8,9 @@ to the Monday of END week: ~4 random days/week, ~30 commits/week, random times
 Usage: python tools/history/schedule.py [--seed N] [--out FILE]
 Writes schedule.json (list of {"slot": i, "date": ISO8601}) next to this file
 by default, after self-verifying bands and monotonicity.
+"""
+
+import argparse
+import datetime as dt
+import json
+import random
