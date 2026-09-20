@@ -26,3 +26,9 @@ DAY_START_MIN = 9 * 60
 DAY_END_MIN = 23 * 60 + 30
 
 
+def monday_weeks(start: dt.date, end: dt.date):
+    weeks = []
+    day = start
+    while day <= end:
+        weeks.append(day)
+        day += dt.timedelta(days=7)
