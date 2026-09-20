@@ -32,3 +32,9 @@ def monday_weeks(start: dt.date, end: dt.date):
     while day <= end:
         weeks.append(day)
         day += dt.timedelta(days=7)
+    return weeks
+
+
+def generate(seed: int = SEED) -> list:
+    rng = random.Random(seed)
+    slots: list[dt.datetime] = []
