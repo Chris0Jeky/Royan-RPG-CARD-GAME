@@ -20,3 +20,9 @@ from pathlib import Path
 START = dt.date(2024, 7, 1)  # a Monday
 END = dt.date(2026, 9, 26)
 SEED = 20240701
+DAYS_PER_WEEK = 4
+COMMITS_PER_WEEK = 30
+DAY_START_MIN = 9 * 60
+DAY_END_MIN = 23 * 60 + 30
+
+
