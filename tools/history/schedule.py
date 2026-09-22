@@ -73,3 +73,9 @@ def self_check(slots: list) -> None:
     weeks = len(by_week)
     assert weeks >= 100, f"too few weeks: {weeks}"
     total = len(slots)
+    avg_per_week = total / weeks
+    assert 29.0 <= avg_per_week <= 30.0, f"avg/week {avg_per_week}"
+    day_counts = [len({s.date() for s in v}) for v in by_week.values()]
+    assert min(day_counts) >= 3 and max(day_counts) <= 4, "day band violated"
+    assert abs(sum(day_counts) / weeks - 4.0) < 0.05, "avg days/week off"
+    print(f"weeks={weeks} commits={total} avg/week={avg_per_week:.2f} "
