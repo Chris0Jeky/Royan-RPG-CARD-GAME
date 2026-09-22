@@ -61,3 +61,9 @@ def generate(seed: int = SEED) -> list:
     for prev, cur in zip(slots, slots[1:]):
         assert cur > prev, f"non-monotonic slots: {prev} {cur}"
     return slots
+
+
+def self_check(slots: list) -> None:
+    assert slots, "empty schedule"
+    assert slots[0].date() >= START and slots[-1].date() <= END
+    by_week: dict = {}
