@@ -55,3 +55,9 @@ def generate(seed: int = SEED) -> list:
                 continue
             minutes = sorted(rng.sample(range(DAY_START_MIN, DAY_END_MIN), count))
             for minute in minutes:
+                slots.append(dt.datetime.combine(day, dt.time(minute // 60, minute % 60)))
+    slots.sort()
+    # enforce strict increase (sample() is unique per day; sort keeps global order)
+    for prev, cur in zip(slots, slots[1:]):
+        assert cur > prev, f"non-monotonic slots: {prev} {cur}"
+    return slots
