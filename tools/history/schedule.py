@@ -38,3 +38,9 @@ def monday_weeks(start: dt.date, end: dt.date):
 def generate(seed: int = SEED) -> list:
     rng = random.Random(seed)
     slots: list[dt.datetime] = []
+    for monday in monday_weeks(START, END):
+        days = sorted(rng.sample(range(7), DAYS_PER_WEEK))
+        counts = [COMMITS_PER_WEEK // DAYS_PER_WEEK] * DAYS_PER_WEEK
+        for i in rng.sample(range(DAYS_PER_WEEK), COMMITS_PER_WEEK % DAYS_PER_WEEK):
+            counts[i] += 1
+        # jitter +-1 while keeping the weekly total at 30
