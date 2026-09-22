@@ -50,3 +50,8 @@ def generate(seed: int = SEED) -> list:
                 counts[a] -= 1
                 counts[b] += 1
         for day_offset, count in zip(days, counts):
+            day = monday + dt.timedelta(days=int(day_offset))
+            if day > END:
+                continue
+            minutes = sorted(rng.sample(range(DAY_START_MIN, DAY_END_MIN), count))
+            for minute in minutes:
