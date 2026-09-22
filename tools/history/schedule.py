@@ -67,3 +67,9 @@ def self_check(slots: list) -> None:
     assert slots, "empty schedule"
     assert slots[0].date() >= START and slots[-1].date() <= END
     by_week: dict = {}
+    for slot in slots:
+        monday = slot.date() - dt.timedelta(days=slot.date().weekday())
+        by_week.setdefault(monday, []).append(slot)
+    weeks = len(by_week)
+    assert weeks >= 100, f"too few weeks: {weeks}"
+    total = len(slots)
