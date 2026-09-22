@@ -79,3 +79,9 @@ def self_check(slots: list) -> None:
     assert min(day_counts) >= 3 and max(day_counts) <= 4, "day band violated"
     assert abs(sum(day_counts) / weeks - 4.0) < 0.05, "avg days/week off"
     print(f"weeks={weeks} commits={total} avg/week={avg_per_week:.2f} "
+          f"avg-days/week={sum(day_counts) / weeks:.2f} "
+          f"first={slots[0]} last={slots[-1]}")
+
+
+def main() -> None:
+    parser = argparse.ArgumentParser()
