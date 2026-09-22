@@ -91,3 +91,9 @@ def main() -> None:
     slots = generate(args.seed)
     self_check(slots)
     payload = [{"slot": i, "date": s.isoformat(timespec="minutes")} for i, s in enumerate(slots)]
+    args.out.write_text(json.dumps(payload, indent=1) + "\n", encoding="utf-8")
+    print(f"wrote {args.out} ({len(payload)} slots)")
+
+
+if __name__ == "__main__":
+    sys.exit(main())
