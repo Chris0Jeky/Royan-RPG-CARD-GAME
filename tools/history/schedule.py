@@ -44,3 +44,9 @@ def generate(seed: int = SEED) -> list:
         for i in rng.sample(range(DAYS_PER_WEEK), COMMITS_PER_WEEK % DAYS_PER_WEEK):
             counts[i] += 1
         # jitter +-1 while keeping the weekly total at 30
+        for _ in range(2):
+            a, b = rng.sample(range(DAYS_PER_WEEK), 2)
+            if counts[a] > 5:
+                counts[a] -= 1
+                counts[b] += 1
+        for day_offset, count in zip(days, counts):
