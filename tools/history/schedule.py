@@ -85,3 +85,9 @@ def self_check(slots: list) -> None:
 
 def main() -> None:
     parser = argparse.ArgumentParser()
+    parser.add_argument("--seed", type=int, default=SEED)
+    parser.add_argument("--out", type=Path, default=Path(__file__).with_name("schedule.json"))
+    args = parser.parse_args()
+    slots = generate(args.seed)
+    self_check(slots)
+    payload = [{"slot": i, "date": s.isoformat(timespec="minutes")} for i, s in enumerate(slots)]
