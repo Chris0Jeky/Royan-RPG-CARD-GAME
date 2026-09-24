@@ -33,3 +33,9 @@ def main() -> None:
     parser.add_argument("--schedule", type=Path,
                         default=Path(__file__).with_name("schedule.json"))
     parser.add_argument("--tags", nargs="*", default=["v0.0", "v0.1", "v0.2", "v0.3",
+                                                      "v0.4", "v0.5", "v1.0"])
+    args = parser.parse_args()
+
+    schedule = json.loads(args.schedule.read_text(encoding="utf-8"))
+    log = git("log", args.branch, "--format=%aI", "--reverse",
+              "--since", START.isoformat())
