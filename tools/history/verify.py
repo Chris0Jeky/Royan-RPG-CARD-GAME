@@ -27,3 +27,9 @@ def git(*args: str) -> str:
 
 
 def main() -> None:
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--branch", required=True)
+    parser.add_argument("--source", required=True)
+    parser.add_argument("--schedule", type=Path,
+                        default=Path(__file__).with_name("schedule.json"))
+    parser.add_argument("--tags", nargs="*", default=["v0.0", "v0.1", "v0.2", "v0.3",
