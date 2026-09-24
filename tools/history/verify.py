@@ -21,3 +21,9 @@ from pathlib import Path
 START = dt.date(2024, 7, 1)
 
 
+def git(*args: str) -> str:
+    out = subprocess.run(["git", *args], capture_output=True, text=True, check=True)
+    return out.stdout.strip()
+
+
+def main() -> None:
