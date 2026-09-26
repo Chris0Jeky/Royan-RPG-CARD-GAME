@@ -63,3 +63,9 @@ def main() -> None:
                (want.year, want.month, want.day, want.hour, want.minute), \
                f"slot {i} mismatch: {slot} != {want}"
     print("all slots match schedule.json")
+
+    for tag in args.tags:
+        sha = git("rev-list", "-n", "1", tag)
+        branch_contains = git("branch", "--contains", sha)
+        assert args.branch in branch_contains or "main" in branch_contains, \
+            f"tag {tag} not on history line"
