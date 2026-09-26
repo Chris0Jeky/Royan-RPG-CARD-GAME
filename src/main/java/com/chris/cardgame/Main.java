@@ -9,6 +9,8 @@ import com.chris.cardgame.cli.InteractiveLoop;
 import com.chris.cardgame.cli.SaveStore;
 import com.chris.cardgame.cli.ScannerInput;
 import com.chris.cardgame.model.HeroClass;
+import com.chris.cardgame.web.GameSession;
+import com.chris.cardgame.web.WebServer;
 
 public class Main {
     public static void main(String[] args) {
@@ -52,7 +54,12 @@ public class Main {
                         heroClass, seed, in, System.out, SaveStore.defaultPath());
                 printResult(result);
             }
-            default -> System.out.println("Usage: play [CLASS] [seed] | continue | auto [seed] [CLASS]");
+            case "serve" -> {
+                int port = args.length > 1 ? Integer.parseInt(args[1]) : 8080;
+                runServe(port);
+            }
+            default -> System.out.println(
+                    "Usage: play [CLASS] [seed] | continue | auto [seed] [CLASS] | serve [port]");
         }
     }
 
@@ -82,6 +89,18 @@ public class Main {
                 + ", deck=" + result.deckSize()
                 + ", gold=" + result.gold()
                 + ", nodes=" + result.nodesVisited());
+    }
+
+    private static void runServe(int port) {
+        try {
+            WebServer server = new WebServer(port, new GameSession());
+            server.start();
+            System.out.println("Royan web UI at http://localhost:" + server.port() + "/");
+            System.out.println("Open that address in a browser. Ctrl+C to stop.");
+            new java.util.concurrent.CountDownLatch(1).await();
+        } catch (Exception e) {
+            System.out.println("Could not start web server: " + e.getMessage());
+        }
     }
 
     private static void printResult(InteractiveLoop.Result result) {
