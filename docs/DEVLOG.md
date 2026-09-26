@@ -1,5 +1,15 @@
 # DEVLOG — Milestone journal
 
+## M7/M8 — Backdated history + release (Sep 2026)
+- 3504-commit replay (Jul-2024 to Sep-2026, 29.95/wk, 3.99d/wk), tags v0.0..v1.0
+  on exact milestone trees, ff-merged to main. Frozen source: dev@b38f1e8.
+- Release QA: 88/88 at v1.0, 78/78 v0.4 spot, pinned auto-victories
+  (Ranger s3, Runemage s1) via real CLI, quit/save/continue round-trip green.
+
+## M6 — Docs + evolved system (Mar 2025 - Sep 2026 span in replay)
+- README/RULES/QA/DEVLOG/CHANGELOG/AGENTS.md, royan-{design,qa,history} skills,
+  exec-maven-plugin, schedule.py + schedule.json + verify.py.
+
 ## M5 — Balance lock, interactive CLI, autosave (Jan 2025)
 - Per-class HP (Knight 90 / Ranger 80 / Runemage 72); bosses shift aspect in phase 2;
   added duelist + assassin; pools retuned. Final auto-rates: K 11/30, R 22/30, M 8/30.
