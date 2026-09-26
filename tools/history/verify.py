@@ -39,3 +39,9 @@ def main() -> None:
     schedule = json.loads(args.schedule.read_text(encoding="utf-8"))
     log = git("log", args.branch, "--format=%aI", "--reverse",
               "--since", START.isoformat())
+    dates = [dt.datetime.fromisoformat(line) for line in log.splitlines() if line]
+    print(f"branch={args.branch} backdated-commits={len(dates)} scheduled={len(schedule)}")
+    assert len(dates) == len(schedule), "commit count != schedule"
+    assert all(b > a for a, b in zip(dates, dates[1:])), "dates not strictly increasing"
+    assert dates[0].date() >= START, "history starts before 2024-07-01"
+
