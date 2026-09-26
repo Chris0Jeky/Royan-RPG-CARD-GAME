@@ -1,5 +1,7 @@
 package com.chris.cardgame.web;
 
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -7,9 +9,9 @@ import java.util.Map;
 import java.util.Random;
 import java.util.SplittableRandom;
 
+import com.chris.cardgame.cli.SaveStore;
 import com.chris.cardgame.combat.CombatEngine;
 import com.chris.cardgame.combat.CombatState;
-import com.chris.cardgame.combat.Intent;
 import com.chris.cardgame.data.CardLoader;
 import com.chris.cardgame.data.EnemyLoader;
 import com.chris.cardgame.loot.EncounterGen;
@@ -19,9 +21,9 @@ import com.chris.cardgame.model.EnemyDef;
 import com.chris.cardgame.model.HeroClass;
 
 /**
- * One browser session's battle state. W1 scope: a single Act 1 skirmish
- * (hero + starter deck vs a generated encounter). All methods are
- * synchronized: the embedded server handles requests on a small pool.
+ * One browser session's game state: either a quick skirmish battle or a full
+ * campaign run. All methods are synchronized: the embedded server handles
+ * requests on a small pool.
  */
 public class GameSession {
     public static final String HERO_NAME = "Captain Royan";
@@ -36,40 +38,64 @@ public class GameSession {
     private final CombatEngine engine = new CombatEngine();
     private final CardLoader cards = CardLoader.load();
     private final EncounterGen encounters = new EncounterGen(EnemyLoader.load());
+    private final Path saveFile;
 
     private HeroClass heroClass;
     private long seed;
     private CombatState battle;
+    private WebRun run;
     private final List<String> log = new ArrayList<>();
+
+    public GameSession() {
+        this(SaveStore.defaultPath());
+    }
+
+    public GameSession(Path saveFile) {
+        this.saveFile = saveFile;
+    }
 
     public synchronized boolean hasBattle() {
         return battle != null;
     }
 
+    public synchronized boolean hasSave() {
+        return Files.exists(saveFile);
+    }
+
     public synchronized Map<String, Object> newBattle(String heroClassName, Long seedOrNull) {
-        HeroClass choice;
-        try {
-            choice = HeroClass.valueOf(heroClassName.trim().toUpperCase());
-        } catch (IllegalArgumentException | NullPointerException e) {
-            throw new IllegalArgumentException("unknown hero: " + heroClassName);
-        }
-        if (choice == HeroClass.NEUTRAL) {
-            throw new IllegalArgumentException("unknown hero: " + heroClassName);
-        }
+        HeroClass choice = parseHero(heroClassName);
         this.heroClass = choice;
         this.seed = seedOrNull != null ? seedOrNull : new Random().nextLong();
         this.log.clear();
+        this.run = null;
         Combatant hero = Combatant.hero(HERO_NAME, choice, choice.startingHp());
         List<CardDef> deck = cards.starterDeck(choice);
         List<EnemyDef> foes = encounters.combat(1, new SplittableRandom(seed));
         this.battle = engine.newBattle(hero, List.of(), deck, foes, seed * 31 + 1);
-        log.add(HERO_NAME + " (" + displayName(choice) + ") sails into the Act 1 sky-lanes.");
+        log.add(HERO_NAME + " (" + Snapshots.displayName(choice) + ") sails into a sky skirmish.");
         log.add("Foes block the way: " + foeNames(foes) + ".");
         drainEvents();
         return snapshot();
     }
 
+    public synchronized Map<String, Object> newRun(String heroClassName, Long seedOrNull) {
+        this.battle = null;
+        this.log.clear();
+        this.run = WebRun.start(heroClassName, seedOrNull, saveFile);
+        return snapshot();
+    }
+
+    public synchronized Map<String, Object> continueRun() {
+        this.battle = null;
+        this.log.clear();
+        this.run = WebRun.resume(saveFile);
+        return snapshot();
+    }
+
     public synchronized Map<String, Object> play(int handIndex, int target) {
+        if (run != null && run.inBattle()) {
+            return run.play(handIndex, target);
+        }
         requireBattle();
         String name = handIndex >= 0 && handIndex < battle.hand().size()
                 ? battle.hand().get(handIndex).name() : "card";
@@ -81,6 +107,9 @@ public class GameSession {
     }
 
     public synchronized Map<String, Object> endTurn() {
+        if (run != null && run.inBattle()) {
+            return run.endTurn();
+        }
         requireBattle();
         engine.endTurn(battle);
         log.add("You brace. The foes close in.");
@@ -89,30 +118,72 @@ public class GameSession {
         return snapshot();
     }
 
+    public synchronized Map<String, Object> chooseNode(String id) {
+        return requireRun().chooseNode(id);
+    }
+
+    public synchronized Map<String, Object> chooseBoon(int index) {
+        return requireRun().chooseBoon(index);
+    }
+
+    public synchronized Map<String, Object> chooseDraft(Integer index, boolean skip) {
+        return requireRun().chooseDraft(index, skip);
+    }
+
+    public synchronized Map<String, Object> shopBuy(String kind, Integer index) {
+        return requireRun().shopBuy(kind, index);
+    }
+
+    public synchronized Map<String, Object> shopLeave() {
+        return requireRun().shopLeave();
+    }
+
+    public synchronized Map<String, Object> tavern(String action) {
+        return requireRun().tavern(action);
+    }
+
+    public synchronized Map<String, Object> tavernLeave() {
+        return requireRun().tavernLeave();
+    }
+
+    public synchronized Map<String, Object> eventChoose(int index) {
+        return requireRun().eventChoose(index);
+    }
+
+    public synchronized Map<String, Object> abandon() {
+        return requireRun().abandon();
+    }
+
     public synchronized Map<String, Object> snapshot() {
+        if (run != null) {
+            return run.snapshot();
+        }
         if (battle == null) {
             Map<String, Object> select = new LinkedHashMap<>();
             select.put("phase", "select");
             select.put("heroes", heroOptions());
+            select.put("hasSave", hasSave());
             return select;
         }
         Map<String, Object> snap = new LinkedHashMap<>();
+        snap.put("mode", "skirmish");
         snap.put("phase", battle.over() ? "over" : "battle");
-        snap.put("label", "Act 1 — Sky-Lane Skirmish");
+        snap.put("label", "Sky Skirmish");
         snap.put("heroClass", heroClass.name());
         snap.put("heroName", HERO_NAME);
         snap.put("seed", seed);
         snap.put("turn", battle.turn());
         snap.put("energy", battle.energy());
-        snap.put("hero", fighter(battle.hero()));
+        snap.put("hero", Snapshots.fighter(battle.hero()));
         List<Map<String, Object>> hand = new ArrayList<>();
         for (int i = 0; i < battle.hand().size(); i++) {
-            hand.add(card(battle.hand().get(i), i, battle.energy(), battle.over()));
+            hand.add(Snapshots.card(battle.hand().get(i), i, battle.energy(), battle.over()));
         }
         snap.put("hand", hand);
         List<Map<String, Object>> foes = new ArrayList<>();
         for (int i = 0; i < battle.enemies().size(); i++) {
-            foes.add(foe(battle.enemies().get(i), foeDef(i), battle.intents().get(i), i));
+            EnemyDef def = i < battle.enemyDefs().size() ? battle.enemyDefs().get(i) : null;
+            foes.add(Snapshots.foe(battle.enemies().get(i), def, battle.intents().get(i), i));
         }
         snap.put("enemies", foes);
         snap.put("companions", List.of());
@@ -122,6 +193,13 @@ public class GameSession {
         snap.put("victory", battle.victory());
         snap.put("log", logTail());
         return snap;
+    }
+
+    private WebRun requireRun() {
+        if (run == null) {
+            throw new IllegalStateException("No campaign started.");
+        }
+        return run;
     }
 
     private void requireBattle() {
@@ -150,29 +228,30 @@ public class GameSession {
     private void checkOutcome() {
         if (battle.over()) {
             if (battle.victory()) {
-                log.add("VICTORY in " + battle.turn() + " turns. The sky-lane is yours."
-                        + " (Full campaign map sails in W2.)");
+                log.add("VICTORY in " + battle.turn() + " turns. The sky-lane is yours.");
             } else {
                 log.add("DEFEAT. The Guild will sing of " + HERO_NAME + ". Sail again.");
             }
         }
     }
 
-    private EnemyDef foeDef(int index) {
-        if (index < battle.enemyDefs().size()) {
-            return battle.enemyDefs().get(index);
+    private static HeroClass parseHero(String heroClassName) {
+        try {
+            HeroClass choice = HeroClass.valueOf(heroClassName.trim().toUpperCase());
+            if (choice == HeroClass.NEUTRAL) {
+                throw new IllegalArgumentException("unknown hero: " + heroClassName);
+            }
+            return choice;
+        } catch (IllegalArgumentException e) {
+            throw new IllegalArgumentException("unknown hero: " + heroClassName);
+        } catch (NullPointerException e) {
+            throw new IllegalArgumentException("unknown hero: " + heroClassName);
         }
-        return null;
     }
 
     private static String foeNames(List<EnemyDef> foes) {
         List<String> names = foes.stream().map(EnemyDef::name).toList();
         return String.join(", ", names);
-    }
-
-    private static String displayName(HeroClass heroClass) {
-        String lower = heroClass.name().toLowerCase();
-        return Character.toUpperCase(lower.charAt(0)) + lower.substring(1);
     }
 
     private static List<Map<String, Object>> heroOptions() {
@@ -183,97 +262,12 @@ public class GameSession {
             }
             Map<String, Object> option = new LinkedHashMap<>();
             option.put("id", heroClass.name());
-            option.put("name", displayName(heroClass));
+            option.put("name", Snapshots.displayName(heroClass));
             option.put("hp", heroClass.startingHp());
             option.put("aspect", heroClass.aspect().name());
             option.put("blurb", BLURBS.get(heroClass));
             options.add(option);
         }
         return options;
-    }
-
-    private static Map<String, Object> fighter(Combatant fighter) {
-        Map<String, Object> json = new LinkedHashMap<>();
-        json.put("name", fighter.name());
-        json.put("hp", fighter.hp());
-        json.put("maxHp", fighter.maxHp());
-        json.put("block", fighter.block());
-        json.put("strength", fighter.strength());
-        json.put("weak", fighter.weak());
-        json.put("vulnerable", fighter.vulnerable());
-        json.put("aspect", fighter.aspect().name());
-        json.put("alive", fighter.alive());
-        return json;
-    }
-
-    private static Map<String, Object> foe(Combatant foe, EnemyDef def, Intent intent, int index) {
-        Map<String, Object> json = fighter(foe);
-        json.put("index", index);
-        json.put("row", foe.row().name());
-        Map<String, Object> intentJson = new LinkedHashMap<>();
-        intentJson.put("kind", intent.kind().name());
-        intentJson.put("preview", intent.preview());
-        json.put("intent", intentJson);
-        if (def != null) {
-            json.put("foeId", def.id());
-            json.put("boss", def.boss());
-            json.put("flavor", def.flavor());
-        }
-        return json;
-    }
-
-    private static Map<String, Object> card(CardDef card, int index, int energy, boolean over) {
-        Map<String, Object> json = new LinkedHashMap<>();
-        json.put("index", index);
-        json.put("id", card.id());
-        json.put("name", card.name());
-        json.put("cost", card.cost());
-        json.put("type", card.type().name());
-        json.put("aspect", card.aspect().name());
-        json.put("text", rulesText(card));
-        json.put("flavor", card.flavor());
-        json.put("unplayable", card.unplayable());
-        json.put("needsTarget", card.targetsEnemy() && !card.aoe());
-        json.put("playable", !over && !card.unplayable() && card.cost() <= energy);
-        return json;
-    }
-
-    static String rulesText(CardDef card) {
-        if (card.unplayable()) {
-            return "Unplayable. It clogs your hand.";
-        }
-        List<String> parts = new ArrayList<>();
-        if (card.damage() > 0) {
-            String hit = "Deal " + card.damage();
-            if (card.hits() > 1) {
-                hit += " x" + card.hits();
-            }
-            if (card.aoe()) {
-                hit += " to ALL enemies";
-            }
-            parts.add(hit + ".");
-        }
-        if (card.block() > 0) {
-            parts.add("Gain " + card.block() + " Block.");
-        }
-        if (card.heal() > 0) {
-            parts.add("Heal " + card.heal() + ".");
-        }
-        if (card.draw() > 0) {
-            parts.add("Draw " + card.draw() + ".");
-        }
-        if (card.energy() > 0) {
-            parts.add("Gain " + card.energy() + " Energy.");
-        }
-        if (card.strength() > 0) {
-            parts.add("Gain " + card.strength() + " Strength.");
-        }
-        if (card.weak() > 0) {
-            parts.add("Apply " + card.weak() + " Weak.");
-        }
-        if (card.vulnerable() > 0) {
-            parts.add("Apply " + card.vulnerable() + " Vulnerable.");
-        }
-        return parts.isEmpty() ? card.type().name() + "." : String.join(" ", parts);
     }
 }

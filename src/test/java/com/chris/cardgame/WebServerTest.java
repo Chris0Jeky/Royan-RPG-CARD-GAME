@@ -9,6 +9,8 @@ import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
+import java.util.HashMap;
+import java.util.Map;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.time.Duration;
@@ -22,6 +24,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.io.TempDir;
 
 class WebServerTest {
     private static final ObjectMapper JSON = new ObjectMapper();
@@ -133,6 +136,232 @@ class WebServerTest {
                 }
             }
         }
+    }
+
+    @Test
+    void fullRunOverHttp(@TempDir Path temp) throws Exception {
+        Path save = temp.resolve("save.json");
+        restartWithSave(save);
+        JsonNode snap = post("/api/new-run", "{\"heroClass\":\"KNIGHT\",\"seed\":11}");
+        assertThat(snap.get("phase").asText()).isEqualTo("run");
+        assertThat(snap.get("screen").asText()).isEqualTo("map");
+        int actions = 0;
+        while (!snap.get("over").asBoolean() && actions < 900) {
+            snap = stepRun(snap);
+            actions++;
+        }
+        assertThat(snap.get("over").asBoolean()).isTrue();
+        assertThat(snap.get("phase").asText()).isEqualTo("over");
+        assertThat(snap.has("victory")).isTrue();
+        assertThat(snap.get("log").size()).isGreaterThan(0);
+        assertThat(Files.exists(save)).isFalse();
+    }
+
+    @Test
+    void shopValidatesBeforeSpending(@TempDir Path temp) throws Exception {
+        Path save = temp.resolve("save.json");
+        restartWithSave(save);
+        JsonNode snap = null;
+        for (int seed = 23; seed < 40
+                && (snap == null || !snap.get("screen").asText().equals("shop")); seed++) {
+            snap = post("/api/new-run", "{\"heroClass\":\"RANGER\",\"seed\":" + seed + "}");
+            int actions = 0;
+            while (!snap.get("screen").asText().equals("shop")
+                    && !snap.get("over").asBoolean() && actions < 400) {
+                snap = stepRun(snap);
+                actions++;
+            }
+        }
+        assertThat(snap.get("screen").asText()).isEqualTo("shop");
+        JsonNode shop = snap;
+        for (int i = 0; i < 25; i++) {
+            int gold = shop.get("run").get("gold").asInt();
+            JsonNode stock = shop.get("shop").get("stock");
+            int deckSize = shop.get("run").get("deckSize").asInt();
+            if (stock.size() > 0 && gold >= stock.get(0).get("price").asInt()
+                    && deckSize < 30 && copiesOf(shop, cardId(stock.get(0))) < 3) {
+                shop = post("/api/shop-buy", "{\"kind\":\"card\",\"index\":0}");
+            } else if (!shop.get("shop").get("relic").isNull()
+                    && gold >= shop.get("shop").get("relic").get("price").asInt()) {
+                shop = post("/api/shop-buy", "{\"kind\":\"relic\"}");
+            } else if (gold >= shop.get("shop").get("healCost").asInt()) {
+                shop = post("/api/shop-buy", "{\"kind\":\"heal\"}");
+            } else {
+                break;
+            }
+        }
+        int goldBefore = shop.get("run").get("gold").asInt();
+        int deckBefore = shop.get("run").get("deckSize").asInt();
+        String attempt;
+        if (shop.get("shop").get("stock").size() > 0) {
+            attempt = "{\"kind\":\"card\",\"index\":0}";
+        } else if (!shop.get("shop").get("relic").isNull()) {
+            attempt = "{\"kind\":\"relic\"}";
+        } else {
+            attempt = "{\"kind\":\"heal\"}";
+        }
+        HttpResponse<String> denied = postRaw("/api/shop-buy", attempt);
+        assertThat(denied.statusCode()).isEqualTo(400);
+        JsonNode after = JSON.readTree(denied.body());
+        assertThat(after.get("error").asText()).isNotEmpty();
+        assertThat(after.get("run").get("gold").asInt()).isEqualTo(goldBefore);
+        assertThat(after.get("run").get("deckSize").asInt()).isEqualTo(deckBefore);
+    }
+
+    @Test
+    void saveResumeRoundTrip(@TempDir Path temp) throws Exception {
+        Path save = temp.resolve("save.json");
+        restartWithSave(save);
+        assertThat(getJson("/api/state").get("hasSave").asBoolean()).isFalse();
+        JsonNode snap = post("/api/new-run", "{\"heroClass\":\"KNIGHT\",\"seed\":5}");
+        int actions = 0;
+        while (!snap.get("over").asBoolean() && actions < 150
+                && !(snap.get("screen").asText().equals("map")
+                        && !snap.get("map").get("currentId").isNull())) {
+            snap = stepRun(snap);
+            actions++;
+        }
+        assertThat(snap.get("over").asBoolean()).isFalse();
+        String node = snap.get("map").get("currentId").asText();
+        int gold = snap.get("run").get("gold").asInt();
+        int level = snap.get("run").get("level").asInt();
+        JsonNode bye = post("/api/abandon", "{}");
+        assertThat(bye.get("abandoned").asBoolean()).isTrue();
+        assertThat(Files.exists(save)).isTrue();
+        restartWithSave(save);
+        assertThat(getJson("/api/state").get("hasSave").asBoolean()).isTrue();
+        JsonNode back = post("/api/continue", "{}");
+        assertThat(back.get("screen").asText()).isEqualTo("map");
+        assertThat(back.get("map").get("currentId").asText()).isEqualTo(node);
+        assertThat(back.get("run").get("gold").asInt()).isEqualTo(gold);
+        assertThat(back.get("run").get("level").asInt()).isEqualTo(level);
+        JsonNode next = post("/api/choose-node",
+                "{\"id\":\"" + back.get("map").get("options").get(0).asText() + "\"}");
+        assertThat(next.get("over").asBoolean()).isFalse();
+    }
+
+    @Test
+    void continueWithoutSaveFails(@TempDir Path temp) throws Exception {
+        restartWithSave(temp.resolve("save.json"));
+        HttpResponse<String> missing = postRaw("/api/continue", "{}");
+        assertThat(missing.statusCode()).isEqualTo(400);
+        assertThat(JSON.readTree(missing.body()).get("error").asText())
+                .contains("No saved campaign");
+    }
+
+    @Test
+    void offCourseNodeIsRejected(@TempDir Path temp) throws Exception {
+        restartWithSave(temp.resolve("save.json"));
+        post("/api/new-run", "{\"heroClass\":\"KNIGHT\",\"seed\":5}");
+        HttpResponse<String> bad = postRaw("/api/choose-node", "{\"id\":\"a9-L9-9\"}");
+        assertThat(bad.statusCode()).isEqualTo(400);
+        assertThat(JSON.readTree(bad.body()).get("error").asText()).isNotEmpty();
+    }
+
+    private void restartWithSave(Path saveFile) throws Exception {
+        server.stop();
+        server = new WebServer(0, new GameSession(saveFile));
+        server.start();
+        base = "http://127.0.0.1:" + server.port();
+    }
+
+    private JsonNode stepRun(JsonNode snap) throws Exception {
+        return switch (snap.get("screen").asText()) {
+            case "map" -> choosePreferred(snap);
+            case "battle" -> stepBattle(snap);
+            case "levelup" -> post("/api/choose-boon", "{\"index\":0}");
+            case "draft" -> post("/api/choose-draft", "{\"index\":0}");
+            case "shop" -> stepShop(snap);
+            case "tavern" -> stepTavern(snap);
+            case "event" -> stepEvent(snap);
+            default -> throw new IllegalStateException("bad screen: " + snap);
+        };
+    }
+
+    private JsonNode choosePreferred(JsonNode snap) throws Exception {
+        Map<String, String> typeById = new HashMap<>();
+        for (JsonNode node : snap.get("map").get("nodes")) {
+            typeById.put(node.get("id").asText(), node.get("type").asText());
+        }
+        List<String> order = List.of("SHOP", "TAVERN", "EVENT", "REST", "COMBAT", "ELITE", "BOSS");
+        String pick = null;
+        for (String want : order) {
+            for (JsonNode option : snap.get("map").get("options")) {
+                if (want.equals(typeById.get(option.asText()))) {
+                    pick = option.asText();
+                    break;
+                }
+            }
+            if (pick != null) {
+                break;
+            }
+        }
+        assertThat(pick).as("map offers a course").isNotNull();
+        return post("/api/choose-node", "{\"id\":\"" + pick + "\"}");
+    }
+
+    private JsonNode stepShop(JsonNode snap) throws Exception {
+        int gold = snap.get("run").get("gold").asInt();
+        JsonNode shop = snap.get("shop");
+        if (shop.get("stock").size() > 0 && gold >= shop.get("stock").get(0).get("price").asInt()
+                && snap.get("run").get("deckSize").asInt() < 30
+                && copiesOf(snap, cardId(shop.get("stock").get(0))) < 3) {
+            return post("/api/shop-buy", "{\"kind\":\"card\",\"index\":0}");
+        }
+        if (!shop.get("relic").isNull() && gold >= shop.get("relic").get("price").asInt()) {
+            return post("/api/shop-buy", "{\"kind\":\"relic\"}");
+        }
+        int hurt = snap.get("hero").get("maxHp").asInt() - snap.get("hero").get("hp").asInt();
+        if (hurt > 0 && gold >= shop.get("healCost").asInt()) {
+            return post("/api/shop-buy", "{\"kind\":\"heal\"}");
+        }
+        return post("/api/shop-leave", "{}");
+    }
+
+    private JsonNode stepTavern(JsonNode snap) throws Exception {
+        int gold = snap.get("run").get("gold").asInt();
+        int hurt = snap.get("hero").get("maxHp").asInt() - snap.get("hero").get("hp").asInt();
+        JsonNode tavern = snap.get("tavern");
+        int companions = snap.get("run").get("companions").size();
+        if (hurt > 0 && gold >= tavern.get("mealCost").asInt()) {
+            return post("/api/tavern", "{\"action\":\"meal\"}");
+        }
+        if (companions < snap.get("run").get("maxCompanions").asInt()
+                && gold >= tavern.get("recruitCost").asInt()) {
+            return post("/api/tavern", "{\"action\":\"recruit\"}");
+        }
+        if (tavern.get("canRemove").asBoolean()) {
+            return post("/api/tavern", "{\"action\":\"remove\"}");
+        }
+        if (gold >= tavern.get("relicGold").asInt()
+                && snap.get("run").get("shards").asInt() >= tavern.get("relicShards").asInt()) {
+            return post("/api/tavern", "{\"action\":\"relic\"}");
+        }
+        return post("/api/tavern-leave", "{}");
+    }
+
+    private JsonNode stepEvent(JsonNode snap) throws Exception {
+        for (JsonNode choice : snap.get("event").get("choices")) {
+            if (choice.get("affordable").asBoolean()) {
+                return post("/api/event-choose",
+                        "{\"index\":" + choice.get("index").asInt() + "}");
+            }
+        }
+        throw new IllegalStateException("event offers no affordable choice");
+    }
+
+    private int copiesOf(JsonNode snap, String cardId) {
+        int copies = 0;
+        for (JsonNode entry : snap.get("run").get("deck")) {
+            if (cardId.equals(entry.get("id").asText())) {
+                copies++;
+            }
+        }
+        return copies;
+    }
+
+    private String cardId(JsonNode stockEntry) {
+        return stockEntry.get("card").get("id").asText();
     }
 
     private JsonNode stepBattle(JsonNode snap) throws Exception {

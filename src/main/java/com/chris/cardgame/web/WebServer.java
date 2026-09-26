@@ -18,7 +18,7 @@ import com.sun.net.httpserver.HttpServer;
 
 /**
  * Embedded HTTP server for the browser UI. Serves dependency-free static
- * files from classpath {@code /web/} plus a small JSON battle API.
+ * files from classpath {@code /web/} plus a small JSON game API.
  * Zero new dependencies: JDK HttpServer + the Jackson already on board.
  */
 public class WebServer {
@@ -29,6 +29,11 @@ public class WebServer {
             ".json", "application/json; charset=utf-8",
             ".svg", "image/svg+xml",
             ".png", "image/png");
+
+    @FunctionalInterface
+    private interface ApiCall {
+        Map<String, Object> call(JsonNode body);
+    }
 
     private final HttpServer server;
     private final ExecutorService pool;
@@ -43,10 +48,47 @@ public class WebServer {
     public WebServer(int port, GameSession session) throws IOException {
         this.session = session;
         server = HttpServer.create(new InetSocketAddress("127.0.0.1", port), 0);
-        server.createContext("/api/state", this::handleState);
-        server.createContext("/api/new-battle", this::handleNewBattle);
-        server.createContext("/api/play", this::handlePlay);
-        server.createContext("/api/end-turn", this::handleEndTurn);
+        server.createContext("/api/state",
+                exchange -> handleApi(exchange, "GET", body -> session.snapshot()));
+        server.createContext("/api/new-battle",
+                exchange -> handleApi(exchange, "POST", body -> session.newBattle(
+                        optText(body, "heroClass", "KNIGHT"), optSeed(body))));
+        server.createContext("/api/new-run",
+                exchange -> handleApi(exchange, "POST", body -> session.newRun(
+                        optText(body, "heroClass", "KNIGHT"), optSeed(body))));
+        server.createContext("/api/continue",
+                exchange -> handleApi(exchange, "POST", body -> session.continueRun()));
+        server.createContext("/api/play",
+                exchange -> handleApi(exchange, "POST", body -> session.play(
+                        optInt(body, "hand", -1), optInt(body, "target", -1))));
+        server.createContext("/api/end-turn",
+                exchange -> handleApi(exchange, "POST", body -> session.endTurn()));
+        server.createContext("/api/choose-node",
+                exchange -> handleApi(exchange, "POST",
+                        body -> session.chooseNode(reqText(body, "id"))));
+        server.createContext("/api/choose-boon",
+                exchange -> handleApi(exchange, "POST",
+                        body -> session.chooseBoon(optInt(body, "index", -1))));
+        server.createContext("/api/choose-draft",
+                exchange -> handleApi(exchange, "POST", body -> session.chooseDraft(
+                        body.has("index") ? body.get("index").asInt() : null,
+                        body.has("skip") && body.get("skip").asBoolean())));
+        server.createContext("/api/shop-buy",
+                exchange -> handleApi(exchange, "POST", body -> session.shopBuy(
+                        reqText(body, "kind"),
+                        body.has("index") ? body.get("index").asInt() : null)));
+        server.createContext("/api/shop-leave",
+                exchange -> handleApi(exchange, "POST", body -> session.shopLeave()));
+        server.createContext("/api/tavern",
+                exchange -> handleApi(exchange, "POST",
+                        body -> session.tavern(reqText(body, "action"))));
+        server.createContext("/api/tavern-leave",
+                exchange -> handleApi(exchange, "POST", body -> session.tavernLeave()));
+        server.createContext("/api/event-choose",
+                exchange -> handleApi(exchange, "POST",
+                        body -> session.eventChoose(optInt(body, "index", -1))));
+        server.createContext("/api/abandon",
+                exchange -> handleApi(exchange, "POST", body -> session.abandon()));
         server.createContext("/", this::handleStatic);
         pool = Executors.newFixedThreadPool(4, daemonFactory());
         server.setExecutor(pool);
@@ -65,53 +107,13 @@ public class WebServer {
         return server.getAddress().getPort();
     }
 
-    private void handleState(HttpExchange exchange) throws IOException {
-        if (!"GET".equalsIgnoreCase(exchange.getRequestMethod())) {
-            send(exchange, 405, Map.of("error", "method not allowed"));
-            return;
-        }
-        send(exchange, 200, session.snapshot());
-    }
-
-    private void handleNewBattle(HttpExchange exchange) throws IOException {
-        if (!"POST".equalsIgnoreCase(exchange.getRequestMethod())) {
+    private void handleApi(HttpExchange exchange, String method, ApiCall call) throws IOException {
+        if (!method.equalsIgnoreCase(exchange.getRequestMethod())) {
             send(exchange, 405, Map.of("error", "method not allowed"));
             return;
         }
         try {
-            JsonNode body = readBody(exchange);
-            String heroClass = body.has("heroClass") ? body.get("heroClass").asText() : "KNIGHT";
-            Long seed = body.has("seed") && body.get("seed").isNumber()
-                    ? body.get("seed").asLong() : null;
-            send(exchange, 200, session.newBattle(heroClass, seed));
-        } catch (IllegalArgumentException e) {
-            send(exchange, 400, error(e));
-        }
-    }
-
-    private void handlePlay(HttpExchange exchange) throws IOException {
-        if (!"POST".equalsIgnoreCase(exchange.getRequestMethod())) {
-            send(exchange, 405, Map.of("error", "method not allowed"));
-            return;
-        }
-        try {
-            JsonNode body = readBody(exchange);
-            int hand = body.has("hand") ? body.get("hand").asInt() : -1;
-            int target = body.has("target") ? body.get("target").asInt() : -1;
-            send(exchange, 200, session.play(hand, target));
-        } catch (IllegalArgumentException | IllegalStateException e) {
-            send(exchange, 400, error(e));
-        }
-    }
-
-    private void handleEndTurn(HttpExchange exchange) throws IOException {
-        if (!"POST".equalsIgnoreCase(exchange.getRequestMethod())) {
-            send(exchange, 405, Map.of("error", "method not allowed"));
-            return;
-        }
-        try {
-            readBody(exchange);
-            send(exchange, 200, session.endTurn());
+            send(exchange, 200, call.call(readBody(exchange)));
         } catch (IllegalArgumentException | IllegalStateException e) {
             send(exchange, 400, error(e));
         }
@@ -134,6 +136,26 @@ public class WebServer {
         try (OutputStream out = exchange.getResponseBody()) {
             out.write(file);
         }
+    }
+
+    private static String optText(JsonNode body, String field, String fallback) {
+        return body.has(field) ? body.get(field).asText() : fallback;
+    }
+
+    private static String reqText(JsonNode body, String field) {
+        if (!body.has(field)) {
+            throw new IllegalArgumentException("Missing '" + field + "'.");
+        }
+        return body.get(field).asText();
+    }
+
+    private static int optInt(JsonNode body, String field, int fallback) {
+        return body.has(field) ? body.get(field).asInt() : fallback;
+    }
+
+    private static Long optSeed(JsonNode body) {
+        return body.has("seed") && body.get("seed").isNumber()
+                ? body.get("seed").asLong() : null;
     }
 
     private Map<String, Object> error(RuntimeException e) {
@@ -190,5 +212,4 @@ public class WebServer {
             return thread;
         };
     }
-
 }
