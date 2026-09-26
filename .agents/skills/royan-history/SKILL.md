@@ -22,8 +22,14 @@ Use for the July-2024 incremental history (M7). Read bundled:git first if availa
 
 ## Procedure
 
-1. `python tools/history/schedule.py` → inspect bands.
-2. `python tools/history/replay.py --source dev --dest history-replay` (slow: ~3500 commits).
-3. `python tools/history/verify.py --branch history-replay` → all checks pass.
-4. Fast-forward `main`, tag `v0.0`…`v1.0`, re-verify on `main`.
-5. NEVER `push --force`. Push only when asked.
+1. `python tools/history/schedule.py` → inspect bands in `schedule.json`.
+2. Freeze the source: note the milestone-tip SHA (`git rev-parse dev`).
+3. `python tools/history/replay.py --plan --source <sha>` → inspect per-milestone counts.
+4. `git worktree add .replay-wt main`, then
+   `python tools/history/replay.py --repo .replay-wt --source <sha>`
+   (slow: ~3500 commits; tags `v0.0`…`v1.0` land during the run).
+5. `python tools/history/verify.py --branch history-replay --source <sha> --base main`
+   → all checks pass. `mvn test` at HEAD; spot-check one tag in a spare worktree.
+6. Fast-forward `main` to `history-replay`, remove the scratch worktree,
+   re-verify pinned at the tag: `--branch v1.0 --source <sha> --base main`.
+7. NEVER `push --force`. Push only when asked.

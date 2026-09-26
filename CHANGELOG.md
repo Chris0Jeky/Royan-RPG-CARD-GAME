@@ -1,5 +1,11 @@
 # Changelog
 
+## Unreleased
+- History tooling: `replay.py` (frozen-source micro-commit replay), `verify.py`
+  `--base` scoping + merge-base tag checks, corrected history-skill runbook.
+- `main` carries the full backdated history (3504 commits, Jul-2024 to Sep-2026,
+  tags `v0.0` to `v1.0`); post-merge work uses real dates.
+
 ## v1.0 — First playable campaign
 - 3 heroes, 90 cards, 12 enemies, 3 two-phase bosses, 20 relics, 24 events, 5 companions.
 - Interactive terminal play with autosave/resume; scripted demo mode.

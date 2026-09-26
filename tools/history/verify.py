@@ -8,6 +8,9 @@ Checks:
   4. final tree equals the source branch tree
   5. milestone tags exist (tag green-checks run separately via mvn)
 
+Post-merge canonical run: --branch v1.0 --source <milestone-tip-sha>
+(tag pins the replay tip; main continues past it with real-date work).
+
 Usage: python tools/history/verify.py --branch history-replay --source dev
 """
 
@@ -30,6 +33,8 @@ def main() -> None:
     parser = argparse.ArgumentParser()
     parser.add_argument("--branch", required=True)
     parser.add_argument("--source", required=True)
+    parser.add_argument("--base", required=True,
+                        help="replay start point; only --base..--branch is checked")
     parser.add_argument("--schedule", type=Path,
                         default=Path(__file__).with_name("schedule.json"))
     parser.add_argument("--tags", nargs="*", default=["v0.0", "v0.1", "v0.2", "v0.3",
@@ -37,8 +42,7 @@ def main() -> None:
     args = parser.parse_args()
 
     schedule = json.loads(args.schedule.read_text(encoding="utf-8"))
-    log = git("log", args.branch, "--format=%aI", "--reverse",
-              "--since", START.isoformat())
+    log = git("log", f"{args.base}..{args.branch}", "--format=%aI", "--reverse")
     dates = [dt.datetime.fromisoformat(line) for line in log.splitlines() if line]
     print(f"branch={args.branch} backdated-commits={len(dates)} scheduled={len(schedule)}")
     assert len(dates) == len(schedule), "commit count != schedule"
@@ -66,10 +70,9 @@ def main() -> None:
 
     for tag in args.tags:
         sha = git("rev-list", "-n", "1", tag)
-        branch_contains = git("branch", "--contains", sha)
-        assert args.branch in branch_contains or "main" in branch_contains, \
-            f"tag {tag} not on history line"
-    print(f"tags present: {', '.join(args.tags)}")
+        subprocess.run(["git", "merge-base", "--is-ancestor", sha, args.branch],
+                       capture_output=True, check=True)
+    print(f"tags present on history line: {', '.join(args.tags)}")
 
     diff = git("diff", f"{args.source}", args.branch, "--stat")
     assert diff == "", f"tree differs from {args.source}:\n{diff}"
