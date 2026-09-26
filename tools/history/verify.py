@@ -51,3 +51,9 @@ def main() -> None:
         by_week.setdefault(monday, []).append(slot)
     weeks = len(by_week)
     avg = len(dates) / weeks
+    day_counts = [len({s.date() for s in v}) for v in by_week.values()]
+    print(f"weeks={weeks} avg/week={avg:.2f} avg-days/week="
+          f"{sum(day_counts) / weeks:.2f}")
+    assert 29.0 <= avg <= 30.0, "commits/week band violated"
+    assert abs(sum(day_counts) / weeks - 4.0) < 0.1, "days/week band violated"
+
