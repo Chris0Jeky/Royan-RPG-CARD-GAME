@@ -6,7 +6,6 @@ import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-import com.chris.cardgame.cli.GameLoop;
 import com.chris.cardgame.data.CardLoader;
 import com.chris.cardgame.data.CompanionLoader;
 import com.chris.cardgame.data.EnemyLoader;
@@ -95,7 +94,7 @@ public class RunEngine {
             com.chris.cardgame.map.NodeType kind, PrintStream out) {
         boolean elite = kind == com.chris.cardgame.map.NodeType.ELITE
                 || kind == com.chris.cardgame.map.NodeType.BOSS;
-        GameLoop.BattleResult result = new GameLoop().runAutoBattle(
+        AutoBattle.Result result = AutoBattle.run(
                 state.hero(), state.companions(), state.deck(), foes,
                 state.rng().nextLong(), 60, out);
         if (!result.victory()) {

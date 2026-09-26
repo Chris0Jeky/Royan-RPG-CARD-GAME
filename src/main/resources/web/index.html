@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Royan — Sky-Isles Campaign</title>
+<link rel="stylesheet" href="/style.css">
+</head>
+<body>
+<header class="topbar">
+  <div class="brand">
+    <span class="brand-mark" aria-hidden="true">R</span>
+    <div>
+      <div class="brand-title">Royan</div>
+      <div class="brand-sub">Guild Captain's Campaign</div>
+    </div>
+  </div>
+  <div class="battle-label" id="battle-label">Sky-Isles</div>
+  <div class="top-actions">
+    <span class="seed-chip" id="seed-chip" hidden></span>
+    <button id="btn-new" class="btn ghost" type="button">New battle</button>
+  </div>
+</header>
+
+<main class="layout">
+  <section class="table" id="table" hidden>
+    <div class="target-banner" id="target-banner" hidden></div>
+    <div class="foes" id="foes"></div>
+    <div class="midrow">
+      <div class="hero" id="hero"></div>
+      <div class="turnbox" id="turnbox"></div>
+    </div>
+    <div class="hand-label">Your hand <span class="hint">— click a card, then a foe if it asks</span></div>
+    <div class="hand" id="hand"></div>
+  </section>
+  <aside class="logpanel" id="logpanel" hidden>
+    <div class="log-title">Captain's log</div>
+    <div class="log" id="log"></div>
+  </aside>
+</main>
+
+<div class="overlay" id="select-screen" hidden>
+  <div class="panel select-panel">
+    <div class="panel-eyebrow">The Guild offers three commissions</div>
+    <h1>Choose your captain</h1>
+    <p class="panel-lede">Cross the sky-lanes, build your deck, and bring down the
+      Sky-Tyrant's captains. Death ends the run — glory remembers it.</p>
+    <div class="heroes" id="heroes"></div>
+    <label class="seed-row">Voyage seed (blank = uncharted waters)
+      <input id="seed-input" inputmode="numeric" placeholder="e.g. 7" autocomplete="off">
+    </label>
+  </div>
+</div>
+
+<div class="overlay" id="end-screen" hidden>
+  <div class="panel end-panel">
+    <div class="panel-eyebrow" id="end-eyebrow"></div>
+    <h1 id="end-title"></h1>
+    <p class="panel-lede" id="end-text"></p>
+    <div class="end-actions">
+      <button id="btn-again" class="btn brass" type="button">Sail again</button>
+      <button id="btn-review" class="btn ghost" type="button">Survey the field</button>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast" hidden></div>
+
+<script src="/app.js"></script>
+</body>
+</html>
