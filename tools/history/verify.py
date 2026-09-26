@@ -45,3 +45,9 @@ def main() -> None:
     assert all(b > a for a, b in zip(dates, dates[1:])), "dates not strictly increasing"
     assert dates[0].date() >= START, "history starts before 2024-07-01"
 
+    by_week: dict = {}
+    for slot in dates:
+        monday = slot.date() - dt.timedelta(days=slot.date().weekday())
+        by_week.setdefault(monday, []).append(slot)
+    weeks = len(by_week)
+    avg = len(dates) / weeks
