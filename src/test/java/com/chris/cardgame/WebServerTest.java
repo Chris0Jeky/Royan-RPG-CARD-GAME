@@ -117,7 +117,7 @@ class WebServerTest {
     }
 
     @Test
-    void enginePackagesNeverImportWeb() throws Exception {
+    void enginePackagesNeverImportUi() throws Exception {
         Path base = Paths.get("src/main/java/com/chris/cardgame");
         if (!Files.isDirectory(base)) {
             fail("expected repo root as working directory, missing " + base);
@@ -128,8 +128,8 @@ class WebServerTest {
                 for (Path file : files.filter(p -> p.toString().endsWith(".java")).toList()) {
                     String source = Files.readString(file, StandardCharsets.UTF_8);
                     assertThat(source)
-                            .as("engine file must not reference web UI: " + file)
-                            .doesNotContain("cardgame.web");
+                            .as("engine file must not reference UI packages: " + file)
+                            .doesNotContain("cardgame.web").doesNotContain("cardgame.cli");
                 }
             }
         }
