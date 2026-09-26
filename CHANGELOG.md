@@ -3,6 +3,8 @@
 ## Unreleased
 - Web UI (W1): `serve` mode with embedded server + browser combat screen
   (hero select, click-to-play cards, intents, combat log); CLI unchanged.
+- Web UI (W2): full campaign in browser — act map, loot drafts, shop, tavern,
+  events, level boons, suspend/continue; quick-skirmish mode kept.
 
 ## Unreleased (history)
 - History tooling: `replay.py` (frozen-source micro-commit replay), `verify.py`

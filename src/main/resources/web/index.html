@@ -22,10 +22,15 @@
   </div>
 </header>
 
+<div class="runbar" id="runbar" hidden></div>
+<div class="arrival" id="arrival" hidden></div>
+
 <main class="layout">
+  <section class="stage" id="stage" hidden><div id="stage-body"></div></section>
   <section class="table" id="table" hidden>
     <div class="target-banner" id="target-banner" hidden></div>
     <div class="foes" id="foes"></div>
+    <div class="allies" id="allies"></div>
     <div class="midrow">
       <div class="hero" id="hero"></div>
       <div class="turnbox" id="turnbox"></div>
@@ -39,16 +44,25 @@
   </aside>
 </main>
 
+<div class="drawer" id="warband" hidden></div>
+
 <div class="overlay" id="select-screen" hidden>
   <div class="panel select-panel">
     <div class="panel-eyebrow">The Guild offers three commissions</div>
     <h1>Choose your captain</h1>
     <p class="panel-lede">Cross the sky-lanes, build your deck, and bring down the
       Sky-Tyrant's captains. Death ends the run — glory remembers it.</p>
+    <div class="modetoggle" id="modetoggle">
+      <button class="modebtn on" type="button" data-mode="run">Campaign — 3 acts</button>
+      <button class="modebtn" type="button" data-mode="skirmish">Quick skirmish</button>
+    </div>
     <div class="heroes" id="heroes"></div>
     <label class="seed-row">Voyage seed (blank = uncharted waters)
       <input id="seed-input" inputmode="numeric" placeholder="e.g. 7" autocomplete="off">
     </label>
+    <div class="continue-row" id="continue-row" hidden>
+      <button id="btn-continue" class="btn brass" type="button">Continue suspended campaign</button>
+    </div>
   </div>
 </div>
 
