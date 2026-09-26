@@ -25,6 +25,21 @@ Sky-isles mercenary Guild Captain. Hub → 3-act branching map → lane combat (
 - `mvn -q test` green; CLI boots and can complete a scripted playthrough (`cli-smoke`).
 - No engine→CLI imports (ArchUnit-style package check or grep gate in CI script).
 
+## Phase 2 — Web UX overhaul (goal 2026-09-27; real dates, feature branches)
+Stack decision (evidence: engine/UI split, zero new deps via JDK HttpServer +
+Jackson): embedded Java web server + dependency-free browser frontend (vanilla
+JS/CSS, inline SVG, WebAudio). CLI stays fully working.
+| # | Milestone | Status |
+|---|-----------|--------|
+| W1 | Web foundation: `serve` mode, combat JSON API, playable browser combat screen (hero select → battle → play/end → victory), WebServerTest headless | in progress (`feature/web-ui-foundation`) |
+| W2 | Full run in browser: map, drafts, shop/tavern/event, level boons, save/resume | pending |
+| W3 | Feel pass: animations, damage numbers, screen shake (reduced-motion safe), WebAudio SFX + music, card/enemy art | pending |
+| W4 | RPG depth: hero stories, companion banter, event chains, run chronicle, bestiary/deck codex | pending |
+| W5 | Polish + rebalance for the new UX, visual QA suite, docs refresh, release v2.0 | pending |
+
+W-gates: all M-gates plus `WebServerTest` green, browser smoke (serve + play
+one battle over HTTP), no engine→`cli`/`web` imports.
+
 ## History verify (M7)
 - `python tools/history/verify.py`: slots from 2024-07-01, ≈4 days/wk, ≈30 commits/wk, strictly increasing, author dates match slots.
 

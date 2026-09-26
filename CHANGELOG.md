@@ -1,6 +1,10 @@
 # Changelog
 
 ## Unreleased
+- Web UI (W1): `serve` mode with embedded server + browser combat screen
+  (hero select, click-to-play cards, intents, combat log); CLI unchanged.
+
+## Unreleased (history)
 - History tooling: `replay.py` (frozen-source micro-commit replay), `verify.py`
   `--base` scoping + merge-base tag checks, corrected history-skill runbook.
 - `main` carries the full backdated history (3504 commits, Jul-2024 to Sep-2026,
