@@ -57,3 +57,9 @@ def main() -> None:
     assert 29.0 <= avg <= 30.0, "commits/week band violated"
     assert abs(sum(day_counts) / weeks - 4.0) < 0.1, "days/week band violated"
 
+    for i, slot in enumerate(dates):
+        want = dt.datetime.fromisoformat(schedule[i]["date"])
+        assert (slot.year, slot.month, slot.day, slot.hour, slot.minute) == \
+               (want.year, want.month, want.day, want.hour, want.minute), \
+               f"slot {i} mismatch: {slot} != {want}"
+    print("all slots match schedule.json")
