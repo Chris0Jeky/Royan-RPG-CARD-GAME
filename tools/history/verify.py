@@ -69,3 +69,9 @@ def main() -> None:
         branch_contains = git("branch", "--contains", sha)
         assert args.branch in branch_contains or "main" in branch_contains, \
             f"tag {tag} not on history line"
+    print(f"tags present: {', '.join(args.tags)}")
+
+    diff = git("diff", f"{args.source}", args.branch, "--stat")
+    assert diff == "", f"tree differs from {args.source}:\n{diff}"
+    print(f"tree equals {args.source} exactly")
+    print("VERIFY OK")
