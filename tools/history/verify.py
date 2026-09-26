@@ -75,3 +75,7 @@ def main() -> None:
     assert diff == "", f"tree differs from {args.source}:\n{diff}"
     print(f"tree equals {args.source} exactly")
     print("VERIFY OK")
+
+
+if __name__ == "__main__":
+    sys.exit(main())
