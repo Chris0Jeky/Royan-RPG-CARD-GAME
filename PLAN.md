@@ -31,7 +31,7 @@ Jackson): embedded Java web server + dependency-free browser frontend (vanilla
 JS/CSS, inline SVG, WebAudio). CLI stays fully working.
 | # | Milestone | Status |
 |---|-----------|--------|
-| W1 | Web foundation: `serve` mode, combat JSON API, playable browser combat screen (hero select → battle → play/end → victory), WebServerTest headless | in progress (`feature/web-ui-foundation`) |
+| W1 | Web foundation: `serve` mode, combat JSON API, playable browser combat screen (hero select → battle → play/end → victory), WebServerTest headless | done (96/96 green, serve smoke OK, auto K42 unchanged; merged to main) |
 | W2 | Full run in browser: map, drafts, shop/tavern/event, level boons, save/resume | pending |
 | W3 | Feel pass: animations, damage numbers, screen shake (reduced-motion safe), WebAudio SFX + music, card/enemy art | pending |
 | W4 | RPG depth: hero stories, companion banter, event chains, run chronicle, bestiary/deck codex | pending |
