@@ -28,4 +28,6 @@ replay_pid*
 target/
 out/
 dist/
+__pycache__/
+*.pyc
 .royan-save/
