@@ -1,5 +1,7 @@
 package com.chris.cardgame;
 
+import java.io.IOException;
+import java.net.BindException;
 import java.nio.file.Path;
 import java.util.Random;
 
@@ -13,6 +15,9 @@ import com.chris.cardgame.web.GameSession;
 import com.chris.cardgame.web.WebServer;
 
 public class Main {
+    /** How many successor ports to try when the requested serve port is busy. */
+    static final int PORT_FALLBACK_TRIES = 20;
+
     public static void main(String[] args) {
         String mode = args.length > 0 ? args[0].toLowerCase() : "play";
         try {
@@ -63,6 +68,45 @@ public class Main {
         }
     }
 
+    /**
+     * Binds the web UI, falling back to successor ports when the requested
+     * port is busy. Port 0 binds any free port (no fallback needed).
+     */
+    static WebServer bindWithFallback(int requestedPort, GameSession session) throws IOException {
+        if (requestedPort == 0) {
+            return new WebServer(0, session);
+        }
+        BindException lastBusy = null;
+        for (int port = requestedPort; port < requestedPort + PORT_FALLBACK_TRIES; port++) {
+            try {
+                return new WebServer(port, session);
+            } catch (BindException busy) {
+                lastBusy = busy;
+            }
+        }
+        throw lastBusy;
+    }
+
+    /**
+     * Opens the game URL in the default browser. Headless-safe: returns false
+     * (and never throws) when no browser integration is available.
+     */
+    static boolean openBrowser(String url) {
+        try {
+            if (!java.awt.Desktop.isDesktopSupported()) {
+                return false;
+            }
+            java.awt.Desktop desktop = java.awt.Desktop.getDesktop();
+            if (!desktop.isSupported(java.awt.Desktop.Action.BROWSE)) {
+                return false;
+            }
+            desktop.browse(new java.net.URI(url));
+            return true;
+        } catch (Exception e) {
+            return false;
+        }
+    }
+
     private static HeroClass promptClass(Input in) {
         while (true) {
             String line = in.readLine("Choose your captain [knight/ranger/runemage]:");
@@ -93,10 +137,19 @@ public class Main {
 
     private static void runServe(int port) {
         try {
-            WebServer server = new WebServer(port, new GameSession());
+            WebServer server = bindWithFallback(port, new GameSession());
             server.start();
-            System.out.println("Royan web UI at http://localhost:" + server.port() + "/");
-            System.out.println("Open that address in a browser. Ctrl+C to stop.");
+            String url = "http://localhost:" + server.port() + "/";
+            if (port != 0 && server.port() != port) {
+                System.out.println("Port " + port + " was busy; using port "
+                        + server.port() + " instead.");
+            }
+            System.out.println("Royan web UI at " + url);
+            if (openBrowser(url)) {
+                System.out.println("Opened in your default browser. Ctrl+C to stop.");
+            } else {
+                System.out.println("Open that address in a browser. Ctrl+C to stop.");
+            }
             new java.util.concurrent.CountDownLatch(1).await();
         } catch (Exception e) {
             System.out.println("Could not start web server: " + e.getMessage());
