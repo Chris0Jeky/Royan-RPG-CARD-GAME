@@ -65,6 +65,7 @@ boss) → combat → pick-1-of-3 loot + XP → repeat → boss → next act.
   Auto-win rates K 2/30, R 6/30, M 27/30 — Knight suffers vs FOCUS-heavy pools; Mage overperforms. M5 must rebalance.
 - 2026-09-27 (W4): +4 chained events (28 total; requiresSeen gating, base pool untouched — pinned seeds bit-identical); chain payoffs slightly above curve for double-gated rarity. Hero stories, companion banter (web only); no engine-number changes.
 - 2026-09-27 (W5): 90-campaign re-probe K 11/30, R 22/30, M 8/30 — M5 lock bit-identical; no tuning. Browser QA green.
+- 2026-09-27 (V3 content): +4 chained events (32 total) as chains 3+4, rooted at chain finales (ledger-heir/ledger-settled after tollkeepers-price; kid-captain/kid-flag after stowaway-farewell) via requiresSeen — triple-gated, base pool untouched, pinned auto seeds bit-identical. Payoffs slightly above curve for triple-gated rarity (relic/companion/draft options behind gold+HP gates).
 - 2024-10-?? (M3): 90 cards (24/class + 18 neutral), card aspect drives advantage, AoE/multi-hit/energy arts;
   20 relics, dust (draft salvage/shrines, card removal) + shards (elites/boss, tavern relics);
   auto-win rates KNIGHT 11/20, RANGER 20/20, RUNEMAGE 19/20 — Ranger/Mage overtuned, revisit at M5.

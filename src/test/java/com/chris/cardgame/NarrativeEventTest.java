@@ -35,8 +35,8 @@ class NarrativeEventTest {
     }
 
     @Test
-    void twentyEightEventsLoadWithChoices() {
-        assertThat(events.all()).hasSize(28);
+    void thirtyTwoEventsLoadWithChoices() {
+        assertThat(events.all()).hasSize(32);
         assertThat(events.all()).allSatisfy(event -> {
             assertThat(event.title()).isNotBlank();
             assertThat(event.choices().size()).isGreaterThanOrEqualTo(2);
@@ -50,10 +50,10 @@ class NarrativeEventTest {
         Events engine = engine();
         RunState state = state(1L);
 
-        for (int i = 0; i < 28; i++) {
+        for (int i = 0; i < 32; i++) {
             engine.pick(state);
         }
-        assertThat(state.seenEvents()).hasSize(28);
+        assertThat(state.seenEvents()).hasSize(32);
         engine.pick(state);
         assertThat(state.seenEvents()).hasSize(1);
     }
