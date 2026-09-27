@@ -1,0 +1,19 @@
+{
+  "heroes": [
+    {"id": "KNIGHT", "title": "The Oathbound Blade",
+     "origin": "Ser Royan held the Westreach Gate alone for a night and a day — then broke oath to save the squire beside them, and was stripped of rank for it. The Guild asks no questions about pasts. Only about results.",
+     "motive": "Earn a name the bards cannot take back.",
+     "triumph": "The Guild struck a medal: a gate, held. Royan hung it on the squire's wall and never spoke of it again.",
+     "epitaph": "They held. That was always enough."},
+    {"id": "RANGER", "title": "The Skyline Runner",
+     "origin": "Royan ran contraband through the uncharted currents for six years and never lost a cargo — until the night the cargo was people, and the Guild navy was waiting. The commission is the price of the pardon.",
+     "motive": "Map the last blank stretch of sky, then disappear into it.",
+     "triumph": "The charts Royan drew that voyage are still standard issue. The margins say: here there be friends.",
+     "epitaph": "Gone where the maps end. Send no rescue."},
+    {"id": "RUNEMAGE", "title": "The Cinder Scholar",
+     "origin": "Expelled from the Academy for proving — loudly, twice — that the forbidden theorems work. The explosion took the west wing and three eyebrows. The Guild cares about results, and Royan's results are spectacular.",
+     "motive": "Prove the equations right in front of everyone.",
+     "triumph": "The Academy now teaches the Royan Theorems in the rebuilt west wing. Attendance is mandatory. Eyebrows optional.",
+     "epitaph": "The math was right. The math was right. The math—"}
+  ]
+}

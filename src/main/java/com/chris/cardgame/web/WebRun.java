@@ -21,6 +21,7 @@ import com.chris.cardgame.data.CardLoader;
 import com.chris.cardgame.data.CompanionLoader;
 import com.chris.cardgame.data.EnemyLoader;
 import com.chris.cardgame.data.EventLoader;
+import com.chris.cardgame.data.HeroLoader;
 import com.chris.cardgame.data.RelicLoader;
 import com.chris.cardgame.loot.Boon;
 import com.chris.cardgame.loot.EncounterGen;
@@ -36,6 +37,7 @@ import com.chris.cardgame.model.EnemyDef;
 import com.chris.cardgame.model.EventDef;
 import com.chris.cardgame.model.EventDef.EventChoice;
 import com.chris.cardgame.model.HeroClass;
+import com.chris.cardgame.model.HeroDef;
 import com.chris.cardgame.model.RelicDef;
 import com.chris.cardgame.run.Companion;
 import com.chris.cardgame.run.Events;
@@ -76,9 +78,12 @@ public class WebRun {
     private final LootGen loot = new LootGen(cards);
     private final Events events = new Events(eventDefs, cards, relics, companions);
     private final MapGen maps = new MapGen();
+    private final HeroLoader heroes = HeroLoader.load();
     private final Path saveFile;
     private final List<String> log = new ArrayList<>();
 
+    private final List<Map<String, Object>> chronicle = new ArrayList<>();
+    private Map<String, Object> banter;
     private RunState state;
     private ActMap map;
     private String nodeId;
@@ -121,6 +126,11 @@ public class WebRun {
         run.screen = MAP;
         run.log("Captain Royan (" + Snapshots.displayName(choice)
                 + ") takes the Guild commission. Three acts. No way back but through.");
+        HeroDef story = run.heroes.get(choice);
+        run.log(story.origin());
+        run.arrival = banner("The Commission", story.motive());
+        run.chronicle("commission", "Captain Royan (" + Snapshots.displayName(choice)
+                + ") takes the Guild commission.");
         return run;
     }
 
@@ -140,6 +150,7 @@ public class WebRun {
         run.over = false;
         run.log("Campaign resumed: " + save.heroClass() + ", Act " + save.act()
                 + ", level " + run.state.level() + ".");
+        run.chronicle("resume", "The saga continues in Act " + save.act() + ".");
         return run;
     }
 
@@ -162,6 +173,9 @@ public class WebRun {
         snap.put("victory", victory);
         snap.put("abandoned", abandoned);
         snap.put("log", logTail());
+        snap.put("chronicle", List.copyOf(chronicle));
+        snap.put("banter", banter);
+        banter = null;
         switch (screen) {
             case MAP -> snap.put("map", mapView());
             case BATTLE -> snap.putAll(battleView());
@@ -189,7 +203,12 @@ public class WebRun {
         switch (node.type()) {
             case COMBAT -> startBattle(encounters.combat(state.act(), state.rng()), false);
             case ELITE -> startBattle(encounters.elite(state.act(), state.rng()), true);
-            case BOSS -> startBattle(encounters.boss(state.act()), true);
+            case BOSS -> {
+                List<EnemyDef> boss = encounters.boss(state.act());
+                startBattle(boss, true);
+                arrival = banner(boss.get(0).name(), boss.get(0).flavor());
+                banterFromCompany();
+            }
             case REST -> {
                 int heal = Math.max(1, state.hero().maxHp() * 35 / 100);
                 state.hero().heal(heal);
@@ -311,6 +330,7 @@ public class WebRun {
                 state.addRelic(shopRelic);
                 shopRelicSold = true;
                 log("Bought relic: " + shopRelic.name() + ".");
+                chronicle("relic", "Bought relic: " + shopRelic.name() + ".");
             }
             case "card" -> {
                 if (index == null || index < 0 || index >= shopStock.size()) {
@@ -367,7 +387,13 @@ public class WebRun {
                 if (!state.spendGold(Tavern.RECRUIT_COST)) {
                     throw new IllegalStateException("Not enough gold.");
                 }
+                int warband = state.companions().size();
                 capture(out -> Events.recruit(state, companions, out));
+                if (state.companions().size() > warband) {
+                    Companion recruit = state.companions().get(state.companions().size() - 1);
+                    chronicle("recruit", recruit.def().name() + " joined the war-band.");
+                    banterFrom(recruit);
+                }
             }
             case "relic" -> {
                 if (state.shards() < Tavern.RELIC_COST_SHARDS
@@ -381,6 +407,7 @@ public class WebRun {
                         relic -> {
                             state.addRelic(relic);
                             log("Traded for relic: " + relic.name() + ".");
+                            chronicle("relic", "Traded for relic: " + relic.name() + ".");
                         },
                         () -> log("Relic vaults empty."));
             }
@@ -406,7 +433,14 @@ public class WebRun {
             throw new IllegalStateException("You cannot afford that choice.");
         }
         log("Chose: " + choice.text());
+        chronicle("event", "At " + event.title() + ": " + choice.text());
+        int warband = state.companions().size();
         capture(out -> events.apply(state, choice, out));
+        if (state.companions().size() > warband) {
+            Companion recruit = state.companions().get(state.companions().size() - 1);
+            chronicle("recruit", recruit.def().name() + " joined the war-band.");
+            banterFrom(recruit);
+        }
         if (!state.hero().alive()) {
             return defeat("The event proved fatal.");
         }
@@ -425,6 +459,7 @@ public class WebRun {
         over = true;
         abandoned = true;
         log("Campaign suspended. The Guild holds your charts.");
+        chronicle("suspend", "Campaign suspended in Act " + state.act() + ".");
         return snapshot();
     }
 
@@ -445,12 +480,22 @@ public class WebRun {
 
     private void finishBattle() {
         List<Integer> companionHp = battle.companions().stream().map(Combatant::hp).toList();
+        List<String> warbandBefore = state.companions().stream()
+                .map(companion -> companion.def().name()).toList();
         capture(out -> RunEngine.syncCompanions(state, companionHp, out));
+        List<String> warbandAfter = state.companions().stream()
+                .map(companion -> companion.def().name()).toList();
+        warbandBefore.stream().filter(name -> !warbandAfter.contains(name))
+                .forEach(name -> chronicle("loss", name + " fell in battle."));
         if (!battle.victory()) {
             defeat("The Captain falls in Act " + state.act() + ".");
             return;
         }
         log("VICTORY in " + battle.turn() + " turns.");
+        String foeNames = battle.enemyDefs().stream().map(EnemyDef::name)
+                .collect(Collectors.joining(", "));
+        chronicle(battleElite ? "elite" : "battle", "Won at " + nodeId + " — slew " + foeNames + ".");
+        banterFromCompany();
         int patchUp = state.healAfterCombat();
         if (patchUp > 0) {
             state.hero().heal(patchUp);
@@ -476,6 +521,7 @@ public class WebRun {
                     relic -> {
                         state.addRelic(relic);
                         log("Relic claimed: " + relic.name() + ".");
+                        chronicle("relic", "Claimed relic: " + relic.name() + ".");
                         spoils.append(", relic: ").append(relic.name());
                     },
                     () -> {
@@ -489,6 +535,7 @@ public class WebRun {
         boonOffers.addAll(state.levelUp(xp));
         if (!boonOffers.isEmpty()) {
             log("Level " + state.level() + "! Choose a boon.");
+            chronicle("level", "Reached level " + state.level() + ".");
             screen = LEVELUP;
         } else {
             startDrafts();
@@ -518,11 +565,13 @@ public class WebRun {
         int heal = state.hero().maxHp() * 2 / 5;
         state.hero().heal(heal);
         log("Act " + state.act() + " cleared! +" + heal + " HP.");
+        chronicle("act", "Cleared Act " + state.act() + ".");
         if (state.act() >= 3) {
             over = true;
             victory = true;
             SaveStore.delete(saveFile);
             log("CAMPAIGN VICTORY: the Sky-Tyrant falls!");
+            chronicle("victory", "The Sky-Tyrant falls. Legend.");
             arrival = banner("The Sky-Tyrant falls",
                     "Three acts, one legend. The Guild drinks to " + GameSession.HERO_NAME + ".");
             return;
@@ -541,6 +590,7 @@ public class WebRun {
         victory = false;
         SaveStore.delete(saveFile);
         log(line);
+        chronicle("defeat", line);
         arrival = banner("Defeat", line);
         return snapshot();
     }
@@ -604,6 +654,38 @@ public class WebRun {
         }
     }
 
+    private void chronicle(String kind, String text) {
+        Map<String, Object> entry = new LinkedHashMap<>();
+        entry.put("act", state.act());
+        entry.put("kind", kind);
+        entry.put("text", text);
+        chronicle.add(entry);
+        while (chronicle.size() > 60) {
+            chronicle.remove(0);
+        }
+    }
+
+    private void banterFrom(Companion companion) {
+        List<String> lines = companion.def().banter();
+        if (lines == null || lines.isEmpty()) {
+            return;
+        }
+        String text = lines.get(state.rng().nextInt(lines.size()));
+        Map<String, Object> bubble = new LinkedHashMap<>();
+        bubble.put("speaker", companion.def().name());
+        bubble.put("role", companion.def().role().name());
+        bubble.put("text", text);
+        banter = bubble;
+        log(companion.def().name() + ": \"" + text + "\"");
+    }
+
+    private void banterFromCompany() {
+        if (state.companions().isEmpty()) {
+            return;
+        }
+        banterFrom(state.companions().get(state.rng().nextInt(state.companions().size())));
+    }
+
     private void log(String line) {
         log.add(line);
         while (log.size() > LOG_CAP) {
@@ -626,6 +708,14 @@ public class WebRun {
         Map<String, Object> run = new LinkedHashMap<>();
         run.put("heroClass", state.heroClass().name());
         run.put("heroName", GameSession.HERO_NAME);
+        HeroDef story = heroes.get(state.heroClass());
+        Map<String, Object> storyView = new LinkedHashMap<>();
+        storyView.put("title", story.title());
+        storyView.put("origin", story.origin());
+        storyView.put("motive", story.motive());
+        storyView.put("triumph", story.triumph());
+        storyView.put("epitaph", story.epitaph());
+        run.put("story", storyView);
         run.put("act", state.act());
         run.put("gold", state.gold());
         run.put("dust", state.dust());

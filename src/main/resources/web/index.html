@@ -18,6 +18,7 @@
   <div class="battle-label" id="battle-label">Sky-Isles</div>
   <div class="top-actions">
     <span class="seed-chip" id="seed-chip" hidden></span>
+    <button id="btn-codex" class="btn ghost" type="button">Codex</button>
     <button id="btn-mute" class="btn ghost" type="button">Sound: on</button>
     <button id="btn-new" class="btn ghost" type="button">New battle</button>
   </div>
@@ -25,6 +26,7 @@
 
 <div class="runbar" id="runbar" hidden></div>
 <div class="arrival" id="arrival" hidden></div>
+<div class="banter" id="banter" hidden></div>
 
 <main class="layout">
   <section class="stage" id="stage" hidden><div id="stage-body"></div></section>
@@ -77,6 +79,34 @@
       <button id="btn-again" class="btn brass" type="button">Sail again</button>
       <button id="btn-review" class="btn ghost" type="button">Survey the field</button>
     </div>
+  </div>
+</div>
+
+<div class="overlay" id="codex-screen" hidden>
+  <div class="panel codex-panel">
+    <div class="codex-head">
+      <h1>Codex of the Skies</h1>
+      <button id="btn-codex-close" class="btn ghost" type="button">Close</button>
+    </div>
+    <div class="codex-tabs" id="codex-tabs">
+      <button class="modebtn on" type="button" data-ctab="heroes">Heroes</button>
+      <button class="modebtn" type="button" data-ctab="foes">Foes</button>
+      <button class="modebtn" type="button" data-ctab="cards">Cards</button>
+      <button class="modebtn" type="button" data-ctab="relics">Relics</button>
+      <button class="modebtn" type="button" data-ctab="allies">Allies</button>
+    </div>
+    <div class="codex-filter" id="codex-filter" hidden>
+      <label>Class
+        <select id="codex-class">
+          <option value="">All classes</option>
+          <option value="KNIGHT">Knight</option>
+          <option value="RANGER">Ranger</option>
+          <option value="RUNEMAGE">Runemage</option>
+          <option value="NEUTRAL">Neutral</option>
+        </select>
+      </label>
+    </div>
+    <div class="codex-body" id="codex-body"></div>
   </div>
 </div>
 

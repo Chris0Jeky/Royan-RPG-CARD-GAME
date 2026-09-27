@@ -72,6 +72,19 @@
       {"id": "smash", "text": "Smash it.", "effects": {"damage": 6, "dust": 35}}]},
     {"id": "feast", "title": "Feast Hall", "text": "Long tables, longer toasts.", "choices": [
       {"id": "feast", "text": "Feast.", "requires": {"gold": 35}, "effects": {"heal": 20}},
-      {"id": "work", "text": "Work the kitchens.", "effects": {"heal": 8, "gold": 15}}]}
+      {"id": "work", "text": "Work the kitchens.", "effects": {"heal": 8, "gold": 15}}]},
+    {"id": "stowaway-returns", "title": "The Stowaway Returns", "text": "The biscuit thief, taller, with a bigger knife and a bigger grin.", "requiresSeen": "stowaway", "choices": [
+      {"id": "harbor", "text": "Hear them out.", "effects": {"draft": true}},
+      {"id": "gift", "text": "Buy the 'gift'.", "requires": {"gold": 60}, "effects": {"relic": true}},
+      {"id": "turnaway", "text": "Send them off.", "effects": {"gold": 15}}]},
+    {"id": "stowaway-farewell", "title": "Fair Winds, Kid", "text": "One last job together before they captain their own skiff.", "requiresSeen": "stowaway-returns", "choices": [
+      {"id": "job", "text": "Run the blockade.", "requires": {"hp": 20}, "effects": {"damage": 10, "gold": 90, "shards": 1}},
+      {"id": "bless", "text": "Give your blessing.", "effects": {"maxHp": 5, "heal": 10}}]},
+    {"id": "tollkeepers-ledger", "title": "The Tollkeeper's Ledger", "text": "The bored troll from the chain bridge. It kept receipts. On everyone.", "requiresSeen": "toll", "choices": [
+      {"id": "buy", "text": "Buy the ledger.", "requires": {"gold": 50}, "effects": {"dust": 40, "draft": true}},
+      {"id": "burn", "text": "Burn it.", "effects": {"damage": 4, "strength": 1}}]},
+    {"id": "tollkeepers-price", "title": "The Tollkeeper's Price", "text": "Someone in the ledger wants it back. Someone with a fleet.", "requiresSeen": "tollkeepers-ledger", "choices": [
+      {"id": "sell", "text": "Sell it back.", "effects": {"gold": 100}},
+      {"id": "keep", "text": "Keep it.", "requires": {"shards": 1}, "effects": {"relic": true}}]}
   ]
 }

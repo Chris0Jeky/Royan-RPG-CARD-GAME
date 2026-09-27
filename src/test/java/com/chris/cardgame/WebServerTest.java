@@ -276,6 +276,55 @@ class WebServerTest {
         assertThat(JSON.readTree(bad.body()).get("error").asText()).isNotEmpty();
     }
 
+    @Test
+    void codexPinsCollectionSizes() throws Exception {
+        JsonNode codex = getJson("/api/codex");
+        assertThat(codex.get("heroes").size()).isEqualTo(3);
+        assertThat(codex.get("enemies").size()).isEqualTo(12);
+        assertThat(codex.get("cards").size()).isEqualTo(90);
+        assertThat(codex.get("relics").size()).isEqualTo(20);
+        assertThat(codex.get("companions").size()).isEqualTo(5);
+        assertThat(codex.get("heroes").get(0).get("origin").asText()).isNotBlank();
+        assertThat(codex.get("enemies").get(0).get("behavior").asText()).isNotBlank();
+    }
+
+    @Test
+    void chronicleRecordsBeats(@TempDir Path temp) throws Exception {
+        restartWithSave(temp.resolve("save.json"));
+        JsonNode snap = post("/api/new-run", "{\"heroClass\":\"KNIGHT\",\"seed\":5}");
+        assertThat(snap.get("chronicle").size()).isEqualTo(1);
+        assertThat(snap.get("chronicle").get(0).get("kind").asText()).isEqualTo("commission");
+        assertThat(snap.get("run").get("story").get("motive").asText()).isNotBlank();
+        JsonNode next = post("/api/choose-node",
+                "{\"id\":\"" + snap.get("map").get("options").get(0).asText() + "\"}");
+        assertThat(next.get("chronicle").size()).isGreaterThanOrEqualTo(1);
+    }
+
+    @Test
+    void banterFollowsRecruit(@TempDir Path temp) throws Exception {
+        Path save = temp.resolve("save.json");
+        restartWithSave(save);
+        JsonNode seen = null;
+        for (int seed = 30; seed < 55 && seen == null; seed++) {
+            JsonNode snap = post("/api/new-run", "{\"heroClass\":\"KNIGHT\",\"seed\":" + seed + "}");
+            int actions = 0;
+            while (!snap.get("over").asBoolean() && actions < 150) {
+                if (snap.hasNonNull("banter")) {
+                    seen = snap.get("banter");
+                    break;
+                }
+                snap = stepRun(snap);
+                actions++;
+            }
+            if (seen == null && snap.hasNonNull("banter")) {
+                seen = snap.get("banter");
+            }
+        }
+        assertThat(seen).as("a companion quips within reach").isNotNull();
+        assertThat(seen.get("speaker").asText()).isNotBlank();
+        assertThat(seen.get("text").asText()).isNotBlank();
+    }
+
     private void restartWithSave(Path saveFile) throws Exception {
         server.stop();
         server = new WebServer(0, new GameSession(saveFile));

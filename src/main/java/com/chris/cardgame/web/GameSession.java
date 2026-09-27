@@ -13,12 +13,17 @@ import com.chris.cardgame.cli.SaveStore;
 import com.chris.cardgame.combat.CombatEngine;
 import com.chris.cardgame.combat.CombatState;
 import com.chris.cardgame.data.CardLoader;
+import com.chris.cardgame.data.CompanionLoader;
 import com.chris.cardgame.data.EnemyLoader;
+import com.chris.cardgame.data.HeroLoader;
+import com.chris.cardgame.data.RelicLoader;
 import com.chris.cardgame.loot.EncounterGen;
 import com.chris.cardgame.model.CardDef;
 import com.chris.cardgame.model.Combatant;
 import com.chris.cardgame.model.EnemyDef;
+import com.chris.cardgame.model.CompanionDef;
 import com.chris.cardgame.model.HeroClass;
+import com.chris.cardgame.model.HeroDef;
 
 /**
  * One browser session's game state: either a quick skirmish battle or a full
@@ -38,6 +43,10 @@ public class GameSession {
     private final CombatEngine engine = new CombatEngine();
     private final CardLoader cards = CardLoader.load();
     private final EncounterGen encounters = new EncounterGen(EnemyLoader.load());
+    private final EnemyLoader foes = EnemyLoader.load();
+    private final RelicLoader relics = RelicLoader.load();
+    private final CompanionLoader allies = CompanionLoader.load();
+    private final HeroLoader heroes = HeroLoader.load();
     private final Path saveFile;
 
     private HeroClass heroClass;
@@ -154,6 +163,45 @@ public class GameSession {
         return requireRun().abandon();
     }
 
+    public synchronized Map<String, Object> codex() {
+        Map<String, Object> codex = new LinkedHashMap<>();
+        List<Map<String, Object>> heroList = new ArrayList<>();
+        for (HeroClass heroClass : HeroClass.values()) {
+            if (heroClass == HeroClass.NEUTRAL) {
+                continue;
+            }
+            HeroDef story = heroes.get(heroClass);
+            Map<String, Object> hero = new LinkedHashMap<>();
+            hero.put("id", heroClass.name());
+            hero.put("name", Snapshots.displayName(heroClass));
+            hero.put("hp", heroClass.startingHp());
+            hero.put("aspect", heroClass.aspect().name());
+            hero.put("title", story.title());
+            hero.put("origin", story.origin());
+            hero.put("motive", story.motive());
+            heroList.add(hero);
+        }
+        codex.put("heroes", heroList);
+        codex.put("enemies", foes.all().stream().map(Snapshots::enemyView).toList());
+        codex.put("cards",
+                cards.all().stream().map(card -> Snapshots.card(card, 0, 0, true)).toList());
+        codex.put("relics", relics.all().stream().map(Snapshots::relicView).toList());
+        List<Map<String, Object>> buddies = new ArrayList<>();
+        for (CompanionDef def : allies.all()) {
+            Map<String, Object> ally = new LinkedHashMap<>();
+            ally.put("id", def.id());
+            ally.put("name", def.name());
+            ally.put("role", def.role().name());
+            ally.put("aspect", def.aspect().name());
+            ally.put("hp", def.hp());
+            ally.put("power", def.power());
+            ally.put("flavor", def.flavor());
+            buddies.add(ally);
+        }
+        codex.put("companions", buddies);
+        return codex;
+    }
+
     public synchronized Map<String, Object> snapshot() {
         if (run != null) {
             return run.snapshot();
@@ -254,7 +302,7 @@ public class GameSession {
         return String.join(", ", names);
     }
 
-    private static List<Map<String, Object>> heroOptions() {
+    private List<Map<String, Object>> heroOptions() {
         List<Map<String, Object>> options = new ArrayList<>();
         for (HeroClass heroClass : HeroClass.values()) {
             if (heroClass == HeroClass.NEUTRAL) {
@@ -266,6 +314,10 @@ public class GameSession {
             option.put("hp", heroClass.startingHp());
             option.put("aspect", heroClass.aspect().name());
             option.put("blurb", BLURBS.get(heroClass));
+            HeroDef story = heroes.get(heroClass);
+            option.put("title", story.title());
+            option.put("origin", story.origin());
+            option.put("motive", story.motive());
             options.add(option);
         }
         return options;

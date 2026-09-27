@@ -1,5 +1,5 @@
 "use strict";
-/* Royan browser client (W3): campaign + skirmish, art, animation, sound. */
+/* Royan browser client (W4): campaign + skirmish, art, sound, saga, codex. */
 
 const el = (id) => document.getElementById(id);
 const table = el("table");
@@ -21,6 +21,10 @@ let mode = "run";
 let knownSave = false;
 let shakeTimer = null;
 let bannerTimer = null;
+let banterTimer = null;
+let wbTab = "band";
+let codexCache = null;
+let codexTab = "heroes";
 
 const NODE_ART = {
   COMBAT: "type-strike", ELITE: "type-power", BOSS: "crown", REST: "heart",
@@ -220,19 +224,52 @@ function renderArrival(s) {
   }
 }
 
-function renderWarband() {
+function renderBanter(s) {
+  const box = el("banter");
+  clearTimeout(banterTimer);
+  if (!s.banter) {
+    box.hidden = true;
+    return;
+  }
+  const roleArt = "role-" + String(s.banter.role).toLowerCase();
+  box.innerHTML = `<div class="bhead">${art(roleArt, "")}<div><div class="speaker">${escapeHtml(s.banter.speaker)}</div><div class="brole">${escapeHtml(s.banter.role)}</div></div></div><div class="btext">&ldquo;${escapeHtml(s.banter.text)}&rdquo;</div>`;
+  box.hidden = false;
+  banterTimer = setTimeout(() => { box.hidden = true; }, 6000);
+}
+
+function bandHtml() {
   const r = snap.run;
-  warband.innerHTML = `
-    <button class="btn ghost closebtn" id="btn-closewb" type="button">Close</button>
-    <h2>War-band</h2>
+  return `
     <h3>Deck (${r.deckSize})</h3>
     <ul>${r.deck.map((c) => `<li>${art("type-" + c.type.toLowerCase(), "")}${c.cost} — ${escapeHtml(c.name)} <em>${escapeHtml(c.type)}</em></li>`).join("")}</ul>
     <h3>Relics (${r.relics.length})</h3>
     <ul>${r.relics.length ? r.relics.map((x) => `<li>${art("relic", "")}<strong>${escapeHtml(x.name)}</strong> (${escapeHtml(x.effect)} ${x.value})<br><em>${escapeHtml(x.flavor || "")}</em></li>`).join("") : "<li><em>No relics yet.</em></li>"}</ul>
     <h3>Companions (${r.companions.length})</h3>
     <ul>${r.companions.length ? r.companions.map((c) => `<li>${art("role-" + c.role.toLowerCase(), "")}<strong>${escapeHtml(c.name)}</strong> — ${escapeHtml(c.role)} (${c.hp}/${c.maxHp})</li>`).join("") : "<li><em>None yet. Taverns hire blades.</em></li>"}</ul>`;
+}
+
+function sagaHtml() {
+  const entries = snap.chronicle || [];
+  if (!entries.length) return "<p><em>The saga has yet to be written.</em></p>";
+  return `<div class="chron">` + entries.map((e) =>
+    `<div class="chron-entry"><span class="chron-act">A${e.act}</span><span class="chron-kind k-${e.kind}">${escapeHtml(e.kind)}</span><span>${escapeHtml(e.text)}</span></div>`
+  ).join("") + `</div>`;
+}
+
+function renderWarband() {
+  warband.innerHTML = `
+    <button class="btn ghost closebtn" id="btn-closewb" type="button">Close</button>
+    <h2>War-band</h2>
+    <div class="wbtabs">
+      <button class="modebtn ${wbTab === "band" ? "on" : ""}" type="button" data-wtab="band">War-band</button>
+      <button class="modebtn ${wbTab === "saga" ? "on" : ""}" type="button" data-wtab="saga">Saga</button>
+    </div>
+    ${wbTab === "band" ? bandHtml() : sagaHtml()}`;
   warband.hidden = false;
   el("btn-closewb").addEventListener("click", () => { warband.hidden = true; });
+  warband.querySelectorAll("[data-wtab]").forEach((btn) => {
+    btn.addEventListener("click", () => { wbTab = btn.dataset.wtab; renderWarband(); });
+  });
 }
 
 /* ---------- stage screens ---------- */
@@ -347,6 +384,61 @@ function renderStage(s) {
   stage.hidden = false;
 }
 
+/* ---------- codex ---------- */
+
+async function openCodex() {
+  el("codex-screen").hidden = false;
+  if (!codexCache) {
+    el("codex-body").innerHTML = "<p>Unfurling scrolls…</p>";
+    try {
+      codexCache = await (await fetch("/api/codex")).json();
+    } catch (e) {
+      el("codex-body").innerHTML = "<p>Could not reach the archives.</p>";
+      return;
+    }
+  }
+  renderCodex();
+}
+
+function closeCodex() {
+  el("codex-screen").hidden = true;
+}
+
+function renderCodex() {
+  document.querySelectorAll("#codex-tabs [data-ctab]").forEach((b) => {
+    b.classList.toggle("on", b.dataset.ctab === codexTab);
+  });
+  el("codex-filter").hidden = codexTab !== "cards";
+  const body = el("codex-body");
+  if (codexTab === "heroes") {
+    body.innerHTML = codexCache.heroes.map((h) => `
+      <div class="codex-hero"><h3>${art("hero-" + h.id.toLowerCase(), "")}${escapeHtml(h.name)} — ${escapeHtml(h.title)}</h3>
+        <p><strong>${h.hp} HP &middot; ${escapeHtml(h.aspect)}</strong></p>
+        <p>${escapeHtml(h.origin)}</p>
+        <p><em>${escapeHtml(h.motive)}</em></p></div>`).join("");
+  } else if (codexTab === "foes") {
+    body.innerHTML = `<div class="codex-grid">` + codexCache.enemies.map((f) => `
+      <div class="codex-foe${f.boss ? " boss" : ""}"><h4>${art(f.id, "")}${escapeHtml(f.name)}</h4>
+        <div class="stats">${f.hp} HP &middot; ${f.atk} ATK &middot; ${escapeHtml(f.aspect)}</div>
+        <p>${escapeHtml(f.behavior)} &middot; ${escapeHtml(f.row)} &middot; ${f.xp} XP${f.boss ? " &middot; BOSS" : ""}</p>
+        <p><em>${escapeHtml(f.flavor || "")}</em></p></div>`).join("") + `</div>`;
+  } else if (codexTab === "cards") {
+    const want = el("codex-class").value;
+    const cards = codexCache.cards.filter((c) => !want || c.heroClass === want);
+    body.innerHTML = `<div class="codex-grid">` + cards.map((c) => cardHtml(c, "", "")).join("") + `</div>`;
+  } else if (codexTab === "relics") {
+    body.innerHTML = `<div class="codex-grid">` + codexCache.relics.map((x) => `
+      <div class="codex-foe"><h4>${art("relic", "")}${escapeHtml(x.name)}</h4>
+        <div class="stats">${escapeHtml(x.effect)} ${x.value} &middot; ${escapeHtml(x.rarity)}</div>
+        <p><em>${escapeHtml(x.flavor || "")}</em></p></div>`).join("") + `</div>`;
+  } else {
+    body.innerHTML = `<div class="codex-grid">` + codexCache.companions.map((c) => `
+      <div class="codex-foe"><h4>${art("role-" + c.role.toLowerCase(), "")}${escapeHtml(c.name)}</h4>
+        <div class="stats">${escapeHtml(c.role)} &middot; ${c.hp} HP &middot; power ${c.power}</div>
+        <p><em>${escapeHtml(c.flavor || "")}</em></p></div>`).join("") + `</div>`;
+  }
+}
+
 /* ---------- select + chrome ---------- */
 
 function renderSelect(s) {
@@ -356,7 +448,10 @@ function renderSelect(s) {
     <button class="hero-pick" type="button" data-hero="${h.id}">
       ${art("hero-" + h.id.toLowerCase(), "pickart")}
       <h2>${escapeHtml(h.name)}</h2>
+      <div class="hero-title-line">${escapeHtml(h.title || "")}</div>
       <span class="hp">${h.hp} HP &middot; ${escapeHtml(h.aspect)}</span>
+      <p class="origin">${escapeHtml(h.origin || "")}</p>
+      <p class="motive">&ldquo;${escapeHtml(h.motive || "")}&rdquo;</p>
       <p>${escapeHtml(h.blurb)}</p>
       <span class="sail">Set sail &rarr;</span>
     </button>`).join("");
@@ -478,31 +573,41 @@ function updateChrome(s) {
 function showEnd(s) {
   const r = s.run;
   let icon = "skull";
+  let eyebrow = "";
+  let title = "";
+  let main = "";
+  let quote = "";
   if (s.mode === "run" && s.abandoned) {
     icon = "sail";
-    el("end-eyebrow").textContent = "Charts held by the Guild";
-    el("end-title").textContent = "Campaign Suspended";
-    el("end-text").textContent = `Act ${r.act}, level ${r.level}. Resume any time with Continue.`;
+    eyebrow = "Charts held by the Guild";
+    title = "Campaign Suspended";
+    main = `Act ${r.act}, level ${r.level}. Resume any time with Continue.`;
   } else if (s.mode === "run" && s.victory) {
     icon = "crown";
-    el("end-eyebrow").textContent = "The sky-lanes are yours";
-    el("end-title").textContent = "Campaign Victory";
-    el("end-text").textContent = `${r.heroName}, level ${r.level}: ${r.deckSize} cards, ${r.relics.length} relics, ${r.companions.length} sworn blades. Sung for a hundred years.`;
+    eyebrow = "The sky-lanes are yours";
+    title = "Campaign Victory";
+    main = `${r.heroName}, level ${r.level}: ${r.deckSize} cards, ${r.relics.length} relics, ${r.companions.length} sworn blades. Sung for a hundred years.`;
+    quote = r.story ? r.story.triumph : "";
   } else if (s.mode === "run") {
-    el("end-eyebrow").textContent = "The sea claims another";
-    el("end-title").textContent = "Defeat";
-    el("end-text").textContent = `${r.heroName} fell in Act ${r.act} at level ${r.level}. The Guild funds the next voyage.`;
+    eyebrow = "The sea claims another";
+    title = "Defeat";
+    main = `${r.heroName} fell in Act ${r.act} at level ${r.level}. The Guild funds the next voyage.`;
+    quote = r.story ? r.story.epitaph : "";
   } else if (s.victory) {
     icon = "crown";
-    el("end-eyebrow").textContent = "The sky-lane is yours";
-    el("end-title").textContent = "Victory";
-    el("end-text").textContent = `The Guild toasts ${s.heroName}: ${s.enemies.length} foes broken in ${s.turn} turns. Try the full campaign from the menu.`;
+    eyebrow = "The sky-lane is yours";
+    title = "Victory";
+    main = `The Guild toasts ${s.heroName}: ${s.enemies.length} foes broken in ${s.turn} turns. Try the full campaign from the menu.`;
   } else {
-    el("end-eyebrow").textContent = "The sea claims another";
-    el("end-title").textContent = "Defeat";
-    el("end-text").textContent = `${s.heroName} fell on turn ${s.turn}. The Guild will sing of this voyage — and fund the next one.`;
+    eyebrow = "The sea claims another";
+    title = "Defeat";
+    main = `${s.heroName} fell on turn ${s.turn}. The Guild will sing of this voyage — and fund the next one.`;
   }
+  el("end-eyebrow").textContent = eyebrow;
+  el("end-title").textContent = title;
   el("end-title").insertAdjacentHTML("afterbegin", art(icon, "endart") + " ");
+  el("end-text").innerHTML = escapeHtml(main)
+    + (quote ? `<span class="endstory">&ldquo;${escapeHtml(quote)}&rdquo;</span>` : "");
   endScreen.hidden = false;
 }
 
@@ -518,6 +623,7 @@ function render(s) {
     runbar.hidden = true;
     arrivalBox.hidden = true;
     endScreen.hidden = true;
+    el("banter").hidden = true;
     selectScreen.hidden = false;
     renderSelect(s);
     updateChrome(s);
@@ -528,6 +634,7 @@ function render(s) {
   renderLog(s);
   updateChrome(s);
   sfx(old, s);
+  renderBanter(s);
   if (s.mode === "run") {
     renderRunbar(s);
     renderArrival(s);
@@ -771,6 +878,19 @@ el("btn-mute").addEventListener("click", () => {
   RoyanAudio.setMuted(!RoyanAudio.isMuted());
   syncMute();
 });
+el("btn-codex").addEventListener("click", openCodex);
+el("btn-codex-close").addEventListener("click", closeCodex);
+el("codex-tabs").addEventListener("click", (e) => {
+  const btn = e.target.closest("[data-ctab]");
+  if (!btn) return;
+  codexTab = btn.dataset.ctab;
+  renderCodex();
+});
+el("codex-class").addEventListener("change", renderCodex);
+el("banter").addEventListener("click", () => {
+  clearTimeout(banterTimer);
+  el("banter").hidden = true;
+});
 el("modetoggle").addEventListener("click", (e) => {
   const btn = e.target.closest("[data-mode]");
   if (!btn) return;
@@ -782,6 +902,10 @@ el("modetoggle").addEventListener("click", (e) => {
 document.addEventListener("keydown", (e) => {
   unlockAudio();
   if (e.key === "Escape") {
+    if (!el("codex-screen").hidden) {
+      closeCodex();
+      return;
+    }
     if (!warband.hidden) {
       warband.hidden = true;
       return;

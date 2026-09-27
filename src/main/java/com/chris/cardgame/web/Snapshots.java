@@ -72,6 +72,7 @@ public final class Snapshots {
         json.put("type", card.type().name());
         json.put("aspect", card.aspect().name());
         json.put("rarity", card.rarity().name());
+        json.put("heroClass", card.heroClass().name());
         json.put("text", rulesText(card));
         json.put("flavor", card.flavor());
         json.put("unplayable", card.unplayable());
@@ -203,6 +204,21 @@ public final class Snapshots {
             parts.add("hp>" + cost.hp());
         }
         return parts.isEmpty() ? "" : "needs " + String.join(", ", parts);
+    }
+
+    public static Map<String, Object> enemyView(EnemyDef def) {
+        Map<String, Object> json = new LinkedHashMap<>();
+        json.put("id", def.id());
+        json.put("name", def.name());
+        json.put("hp", def.hp());
+        json.put("atk", def.atk());
+        json.put("aspect", def.aspect().name());
+        json.put("row", def.row().name());
+        json.put("behavior", def.behavior().name());
+        json.put("xp", def.xp());
+        json.put("boss", def.boss());
+        json.put("flavor", def.flavor());
+        return json;
     }
 
     static String rulesText(CardDef card) {

@@ -1,9 +1,9 @@
 {
   "companions": [
-    {"id": "pip", "name": "Pip the Squire", "aspect": "MIGHT", "hp": 30, "power": 5, "role": "STRIKER", "flavor": "Eager. Loud. Accurate."},
-    {"id": "wren", "name": "Hedge-Witch Wren", "aspect": "FOCUS", "hp": 22, "power": 6, "role": "MEDIC", "flavor": "Moss, muttering, miracles."},
-    {"id": "bruma", "name": "Shieldbearer Bruma", "aspect": "MIGHT", "hp": 40, "power": 6, "role": "GUARDIAN", "flavor": "A door that walks."},
-    {"id": "tess", "name": "Knives Tess", "aspect": "GUILE", "hp": 24, "power": 7, "role": "STRIKER", "flavor": "Collects knives and debts."},
-    {"id": "ode", "name": "Chaplain Ode", "aspect": "GUILE", "hp": 26, "power": 4, "role": "MEDIC", "flavor": "Sermons at swordpoint."}
+    {"id": "pip", "name": "Pip the Squire", "aspect": "MIGHT", "hp": 30, "power": 5, "role": "STRIKER", "flavor": "Eager. Loud. Accurate.", "banter": ["Did you SEE that?! ...Sorry. Sorry!", "Left flank! No — right! I mean — got it!", "One day they'll sing about this. Me. Us!", "My sword arm's tired. My other sword arm isn't."]},
+    {"id": "wren", "name": "Hedge-Witch Wren", "aspect": "FOCUS", "hp": 22, "power": 6, "role": "MEDIC", "flavor": "Moss, muttering, miracles.", "banter": ["Moss and patience, Captain. Mostly moss.", "That wound says rude things. Hold still.", "The clouds favor the stubborn today.", "Drink this. Don't ask. Drink."]},
+    {"id": "bruma", "name": "Shieldbearer Bruma", "aspect": "MIGHT", "hp": 40, "power": 6, "role": "GUARDIAN", "flavor": "A door that walks.", "banter": ["Behind me.", "They break on me or not at all.", "Hm.", "Still standing. You're welcome."]},
+    {"id": "tess", "name": "Knives Tess", "aspect": "GUILE", "hp": 24, "power": 7, "role": "STRIKER", "flavor": "Collects knives and debts.", "banter": ["You owe me for that one.", "Seventh knife today. I'm counting.", "Try to bleed somewhere I can see.", "Debts paid in steel. Always."]},
+    {"id": "ode", "name": "Chaplain Ode", "aspect": "GUILE", "hp": 26, "power": 4, "role": "MEDIC", "flavor": "Sermons at swordpoint.", "banter": ["Rise. The sermon isn't finished.", "Blessed are the heavily armored.", "Your suffering has been noted. And healed.", "Kneel for triage. Stand for war."]}
   ]
 }

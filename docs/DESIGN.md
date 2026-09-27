@@ -35,7 +35,7 @@ boss) → combat → pick-1-of-3 loot + XP → repeat → boss → next act.
 ## Progression (M2/M3)
 - Levels 1–10, pick-1-of-3 boons on level-up. XP from combat + events.
 - Economy: gold (shops/shrines), dust (card upgrades, 3:1), shards (relic rerolls). No premium.
-- 20 relics, 24 narrative events, tavern (heal / recruit / upgrade), shrines (card surgery).
+- 20 relics, 28 narrative events (incl. two 2-part chains), tavern (heal / recruit / upgrade), shrines (card surgery).
 
 ## Enemy AI (M4 — implemented)
 - 4 behaviors: AGGRO (attacks relentlessly), TURTLE (block + buffs), BURST (2 attacks then BUFF cycle),
@@ -51,7 +51,7 @@ boss) → combat → pick-1-of-3 loot + XP → repeat → boss → next act.
 - `auto [seed] [CLASS]`: scripted demo campaign (also the balance probe + QA oracle).
 
 ## Events & companions (M4 — implemented)
-- 24 narrative events with costed choices (gold/dust/shards/HP gates); no repeats within an act;
+- 28 narrative events with costed choices (gold/dust/shards/HP gates); chained sequels unlock via requiresSeen; no repeats within an act;
   auto-policy avoids lethal choices. Effects: currencies, heal/damage, boons, drafts, relics,
   curses, deck-thinning, companion recruits.
 - 5 companions (Striker/Guardian/Medic), max 2 per run, recruited via tavern/events/guild desk;
@@ -63,6 +63,7 @@ boss) → combat → pick-1-of-3 loot + XP → repeat → boss → next act.
   Final auto-win rates K 11/30, R 22/30, M 8/30 (greedy pilot; humans do better). Ranger easy, Mage hard — accepted.
 - 2024-11-?? (M4): 10 enemies (4 behaviors) + 3 two-phase bosses, 24 events, 5 companions.
   Auto-win rates K 2/30, R 6/30, M 27/30 — Knight suffers vs FOCUS-heavy pools; Mage overperforms. M5 must rebalance.
+- 2026-09-27 (W4): +4 chained events (28 total; requiresSeen gating, base pool untouched — pinned seeds bit-identical); chain payoffs slightly above curve for double-gated rarity. Hero stories, companion banter (web only); no engine-number changes.
 - 2024-10-?? (M3): 90 cards (24/class + 18 neutral), card aspect drives advantage, AoE/multi-hit/energy arts;
   20 relics, dust (draft salvage/shrines, card removal) + shards (elites/boss, tavern relics);
   auto-win rates KNIGHT 11/20, RANGER 20/20, RUNEMAGE 19/20 — Ranger/Mage overtuned, revisit at M5.

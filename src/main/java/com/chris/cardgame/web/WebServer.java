@@ -91,6 +91,8 @@ public class WebServer {
                         body -> session.eventChoose(optInt(body, "index", -1))));
         server.createContext("/api/abandon",
                 exchange -> handleApi(exchange, "POST", body -> session.abandon()));
+        server.createContext("/api/codex",
+                exchange -> handleApi(exchange, "GET", body -> session.codex()));
         server.createContext("/", this::handleStatic);
         pool = Executors.newFixedThreadPool(4, daemonFactory());
         server.setExecutor(pool);

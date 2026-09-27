@@ -14,7 +14,7 @@ boss is always a rest stop.
 - REST — heal 35% of max HP. SHOP — buy cards, a relic, healing with gold.
 - TAVERN — hearty meal (50% heal), strike a basic card (dust), trade for a relic
   (gold + shard), recruit a companion (gold, max 2 per run).
-- EVENT — one of 24 narrative encounters with costed choices. No repeats within an act.
+- EVENT — one of 28 narrative encounters with costed choices (24 standalone + 4 chained sequels that unlock after earlier events). No repeats within an act.
 - BOSS — a two-phase captain fight. Victory clears the act (+40% HP) or wins the run.
 
 ## Combat
