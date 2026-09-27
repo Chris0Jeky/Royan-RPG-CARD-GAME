@@ -40,6 +40,21 @@ JS/CSS, inline SVG, WebAudio). CLI stays fully working.
 W-gates: all M-gates plus `WebServerTest` green, browser smoke (serve + play
 one battle over HTTP), no engine→`cli`/`web` imports.
 
+## Phase 3 — v3.0 "Pick up and play" (goal 2026-09-27; real dates, feature branches)
+Prime directive: one download + double-click plays the full game in ~30s on a
+fresh machine — no JDK/Maven/Node, no port-picking, no README spelunking.
+| # | Milestone | Status |
+|---|-----------|--------|
+| P1 | Packaging: shaded fat jar, free-port + browser auto-open `serve`, jpackage app-image bundle + zip, `play.bat`/`play.sh` | done (115 green, fat-jar smoke OK; merged to main) |
+| P2 | Onboarding: tutorial overlay, tooltips + guide, per-screen help, persisted settings, save recovery, offline audit | done (119 green, Edge 0 errors; merged to main) |
+| P3 | Content: chains 3+4 (32 events), 5 skirmish tiers, daily seed; re-probe K 11/30, R 22/30, M 8/30 | done (129 green, pins bit-identical; merged to main) |
+| P4 | Automation: CI (suite + smoke), `tools/qa` harness (smoke, browser QA, playtest bot, `release.py`) | done (RELEASE READY; merged to main) |
+| P5 | Threading: daily voyage + skirmish tiers reach the UI (API flags, badges, picker) | done (137 green, browser 0 errors; merged to main) |
+| P6 | Release: README pitch + screenshots, docs refresh, bundle build, fresh-machine test, v3.0 tag + GitHub Release | in progress |
+
+P-gates: all W-gates plus `release.py` RELEASE READY (suite, artifact smoke,
+browser QA floor, full-campaign playtest bot) and a booted-bundle check.
+
 ## History verify (M7)
 - `python tools/history/verify.py`: slots from 2024-07-01, ≈4 days/wk, ≈30 commits/wk, strictly increasing, author dates match slots.
 
