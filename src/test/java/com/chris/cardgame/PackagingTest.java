@@ -109,6 +109,7 @@ class PackagingTest {
             return jars.filter(p -> p.getFileName().toString().startsWith("royan-"))
                     .filter(p -> p.getFileName().toString().endsWith(".jar"))
                     .filter(p -> !p.getFileName().toString().endsWith("-sources.jar"))
+                    .filter(p -> !p.getFileName().toString().endsWith("-shaded.jar"))
                     .sorted()
                     .findFirst()
                     .orElse(null);

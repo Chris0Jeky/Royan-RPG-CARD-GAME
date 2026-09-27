@@ -31,7 +31,7 @@ Write-Host "[royan] mvn $($mvnArgs -join ' ')"
 if ($LASTEXITCODE -ne 0) { throw "mvn package failed with exit $LASTEXITCODE" }
 
 $jar = Get-ChildItem (Join-Path $root "target") -Filter "royan-*.jar" |
-  Where-Object { $_.Name -notlike "*-sources.jar" -and $_.Name -notlike "*-javadoc.jar" } |
+  Where-Object { $_.Name -notlike "*-sources.jar" -and $_.Name -notlike "*-javadoc.jar" -and $_.Name -notlike "*-shaded.jar" } |
   Sort-Object Name |
   Select-Object -First 1
 if (-not $jar) { throw "no fat jar found in target/ after mvn package" }

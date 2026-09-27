@@ -18,7 +18,7 @@ fi
 # shellcheck disable=SC2086
 mvn $MVN_ARGS
 
-JAR="$(ls target/royan-*.jar 2>/dev/null | grep -v -- '-sources\.jar' | grep -v -- '-javadoc\.jar' | sort | head -n 1 || true)"
+JAR="$(ls target/royan-*.jar 2>/dev/null | grep -v -- '-sources\.jar' | grep -v -- '-javadoc\.jar' | grep -v -- '-shaded\.jar' | sort | head -n 1 || true)"
 if [ -z "${JAR:-}" ]; then
   echo "[royan] no fat jar found in target/ after mvn package" >&2
   exit 1
