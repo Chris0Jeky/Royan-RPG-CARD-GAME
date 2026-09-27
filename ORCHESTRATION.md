@@ -21,6 +21,8 @@
 
 - 2026-09-27: Phase 2 W1 DONE on `feature/web-ui-foundation`: embedded web UI (web/GameSession+WebServer, `serve` mode, browser combat screen: hero select/cards/intents/log), WebServerTest 8/8 headless, 96/96 green, live serve smoke OK (state/new-battle/end-turn), plus RunEngine→cli decouple (new run/AutoBattle, GameLoop adapter, engine/UI import gate). Auto K42 oracle unchanged (Act3 defeat). Swarm synthesis reconciled (confirms JVM-native UI; history-risk item carried). PS `-Dexec.*` args mangle — java -cp recipe in AGENTS.md. Next: merge W1, then W2 full run in browser.
 
+- 2026-09-27: Phase 2 W2 DONE on `feature/web-run-flow`: campaign run machine (WebRun: map/battle/levelup/draft/shop/tavern/event + suspend/continue, 15 endpoints) + browser campaign screens (map/boons/drafts/shop/tavern/event/war-band/runbar) + 5 headless run tests (full run, shop-tx, save round-trip). 101/101 green, live serve smoke OK (new-run/map/battle). Next: merge W2, then W3 feel pass (animations/audio/art).
+
 ## Toolchain (portable, outside repo — OneDrive-safe)
 - Root: `$env:TEMP\royan-tools` (local disk, survives sessions; re-download if missing).
 - `jdk17/` from `https://api.adoptium.net/v3/binary/latest/17/ga/windows/x64/jdk/hotspot/normal/eclipse`

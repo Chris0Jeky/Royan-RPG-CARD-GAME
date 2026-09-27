@@ -284,3 +284,108 @@ body {
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { animation: none !important; transition: none !important; }
 }
+
+/* Campaign run bar */
+.runbar { display:flex; flex-wrap:wrap; gap:.4rem 1rem; align-items:center;
+  max-width:1200px; margin:.6rem auto 0; padding:.5rem 1rem;
+  background:var(--night-2); border:1px solid var(--brass-deep); border-radius:8px;
+  font-size:.82rem; }
+.runbar .coin { color:var(--brass); font-weight:700; }
+.runbar button.linklike { background:none; border:none; color:var(--parchment);
+  text-decoration:underline; cursor:pointer; font-size:.82rem; padding:0; }
+.xpbar { width:7rem; height:.5rem; background:#0d0a06; border:1px solid #5a4a30;
+  border-radius:3px; overflow:hidden; display:inline-block; vertical-align:middle; }
+.xpbar > div { height:100%; background:var(--tide); }
+.runbar .spacer { flex:1; }
+
+/* Arrival banner */
+.arrival { max-width:1200px; margin:.6rem auto 0; padding:.55rem 1rem;
+  background:#241a08; border:1px solid var(--brass); border-radius:8px; }
+.arrival h3 { font-family:var(--display); margin:0 0 .15rem; color:var(--brass);
+  font-size:1.05rem; }
+.arrival p { margin:0; font-size:.85rem; color:var(--parchment); }
+
+/* Stage screens */
+.stage { display:flex; flex-direction:column; gap:.8rem; }
+.stage h2 { font-family:var(--display); margin:0; font-size:1.4rem; }
+.stage .lede { color:var(--parchment-dim); margin:0; font-size:.88rem; line-height:1.5; }
+.picknum { display:inline-grid; place-items:center; min-width:1.3rem; height:1.3rem;
+  border-radius:50%; background:var(--ink); color:var(--parchment);
+  font-size:.72rem; font-weight:800; margin-right:.4rem; }
+
+/* Map */
+.mapcols { display:flex; gap:.5rem; overflow-x:auto; padding-bottom:.4rem; }
+.maplayer { display:flex; flex-direction:column; gap:.45rem; min-width:9.5rem; }
+.maplayer .layertitle { font-size:.68rem; letter-spacing:.12em; color:var(--parchment-dim); }
+.node { text-align:left; background:var(--night-2); color:var(--parchment-dim);
+  border:1px solid #5a4a30; border-radius:6px; padding:.45rem .55rem; font-size:.78rem; }
+.node .ntype { display:block; font-weight:800; letter-spacing:.06em; font-size:.72rem; }
+.node .nid { font-size:.7rem; opacity:.8; }
+.node.opt { color:var(--parchment); border-color:var(--brass); cursor:pointer;
+  background:#2a2110; font-family:var(--body); }
+.node.opt:hover { border-color:#e3c878; }
+.node.here { border-color:var(--moss); }
+.ntype-COMBAT { color:#e08a76; } .ntype-ELITE { color:#f0a297; }
+.ntype-BOSS { color:#f0a297; } .ntype-REST { color:#a9c47e; }
+.ntype-SHOP { color:#e3c878; } .ntype-TAVERN { color:#d9a45e; }
+.ntype-EVENT { color:#8fbcd4; }
+
+/* Boons / drafts */
+.boons, .drafts { display:flex; flex-wrap:wrap; gap:.6rem; }
+.boon { width:200px; background:var(--parchment); color:var(--ink);
+  border:2px solid var(--brass-deep); border-radius:6px; padding:.7rem .8rem;
+  cursor:pointer; text-align:left; }
+.boon:hover { border-color:var(--blood); }
+.boon h3 { font-family:var(--display); margin:0 0 .25rem; font-size:1.05rem; }
+.boon p { margin:0; font-size:.8rem; line-height:1.4; }
+.draft-actions { display:flex; gap:.6rem; align-items:center; }
+
+/* Shop / tavern */
+.shopgrid { display:flex; flex-wrap:wrap; gap:.6rem; }
+.shopitem { display:flex; flex-direction:column; gap:.3rem; }
+.buybtn { font-family:var(--display); background:var(--brass); color:var(--night);
+  border:1px solid var(--brass-deep); border-radius:6px; padding:.3rem .6rem; cursor:pointer; }
+.buybtn:hover { background:#d4ab4a; }
+.shopside { display:flex; flex-wrap:wrap; gap:.6rem; margin-top:.7rem; }
+.sidecard { flex:1 1 200px; background:var(--night-2); border:1px solid #5a4a30;
+  border-radius:8px; padding:.6rem .8rem; }
+.sidecard h3 { font-family:var(--display); margin:0 0 .2rem; font-size:1rem; color:var(--brass); }
+.sidecard p { margin:.1rem 0 .5rem; font-size:.8rem; color:var(--parchment-dim); }
+.sidecard .price { font-weight:700; color:var(--parchment); }
+.taverngrid { display:grid; grid-template-columns:repeat(auto-fit,minmax(220px,1fr)); gap:.6rem; }
+
+/* Event */
+.eventtext { font-size:.95rem; line-height:1.6; background:var(--night-2);
+  border:1px solid #5a4a30; border-left:4px solid var(--tide);
+  border-radius:6px; padding:.7rem .9rem; }
+.choices { display:flex; flex-direction:column; gap:.5rem; }
+.choice { text-align:left; background:var(--parchment); color:var(--ink);
+  border:2px solid var(--brass-deep); border-radius:6px; padding:.55rem .75rem; cursor:pointer; }
+.choice:hover { border-color:var(--blood); }
+.choice .ctext { font-weight:700; }
+.choice .cmeta { display:block; font-size:.75rem; color:var(--ink-soft); margin-top:.15rem; }
+.choice.poor { opacity:.55; cursor:default; }
+
+/* Allies in battle */
+.allies { display:flex; flex-wrap:wrap; gap:.6rem; }
+.allies:empty { display:none; }
+.ally { flex:1 1 160px; max-width:240px; background:var(--night-2);
+  border:1px solid #5a4a30; border-left:4px solid var(--moss);
+  border-radius:6px; padding:.45rem .6rem; font-size:.8rem; }
+.ally .aname { font-family:var(--display); }
+
+/* War-band drawer */
+.drawer { position:fixed; top:0; right:0; bottom:0; width:min(24rem,92vw);
+  background:var(--night-2); border-left:2px solid var(--brass-deep); z-index:15;
+  overflow-y:auto; padding:1rem 1.1rem; }
+.drawer h2 { font-family:var(--display); margin-top:0; }
+.drawer h3 { font-family:var(--display); color:var(--brass); margin:1rem 0 .4rem; font-size:1rem; }
+.drawer ul { margin:.2rem 0; padding-left:1.1rem; font-size:.82rem; line-height:1.6; }
+.drawer .closebtn { float:right; }
+
+/* Mode toggle + continue */
+.modetoggle { display:flex; gap:.5rem; justify-content:center; margin-bottom:1rem; }
+.modebtn { font-family:var(--display); background:transparent; color:var(--parchment-dim);
+  border:1px solid #5a4a30; border-radius:6px; padding:.4rem .9rem; cursor:pointer; }
+.modebtn.on { color:var(--night); background:var(--brass); border-color:var(--brass-deep); }
+.continue-row { margin-top:1rem; }
