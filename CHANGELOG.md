@@ -7,6 +7,8 @@
   events, level boons, suspend/continue; quick-skirmish mode kept.
 - Web UI (W3): feel pass — 34 game-icons portraits (CC-BY), damage numbers,
   hit flashes, screen shake, turn banners, synthesized SFX + ambient music.
+- Web UI (W4): RPG depth — hero backstories, companion banter, 2 event chains
+  (28 events), run chronicle/saga, bestiary + deck codex.
 
 ## Unreleased (history)
 - History tooling: `replay.py` (frozen-source micro-commit replay), `verify.py`
