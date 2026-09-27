@@ -496,3 +496,22 @@ body.shake-md main { animation:shake-md .35s ease; }
 .hero-pick .motive { font-size:.78rem; font-style:italic; margin:.2rem 0 .5rem; }
 .select-panel { max-height:92vh; overflow-y:auto; }
 .endstory { display:block; margin-top:.6rem; font-style:italic; color:var(--brass); }
+
+/* V3 onboarding: tutorial, guide, save-error */
+.select-links { display:flex; gap:.5rem; justify-content:center; flex-wrap:wrap; margin-top:1rem; }
+.save-error { margin-top:.9rem; background:#3a1410; border:1px solid var(--blood);
+  border-radius:6px; padding:.6rem .8rem; font-size:.85rem; line-height:1.5;
+  display:flex; gap:.7rem; align-items:center; justify-content:space-between; text-align:left; }
+.tutorial-panel { max-width:620px; max-height:92vh; overflow-y:auto; text-align:left; }
+.tutorial-panel h1 { text-align:center; }
+.tutorial-panel .panel-eyebrow { display:block; text-align:center; }
+.howto ol { margin:.6rem 0; padding-left:1.3rem; font-size:.87rem; line-height:1.6;
+  color:var(--parchment); display:flex; flex-direction:column; gap:.45rem; }
+.howto strong { color:var(--brass); }
+.dontshow { display:flex; gap:.45rem; align-items:center; font-size:.82rem;
+  color:var(--parchment-dim); margin-top:.4rem; cursor:pointer; }
+.dontshow input { accent-color:var(--brass); }
+.guide-entry { background:var(--night); border:1px solid #5a4a30; border-radius:8px;
+  padding:.55rem .75rem; }
+.guide-term { font-family:var(--display); font-weight:700; color:var(--brass); }
+.guide-entry p { margin:.2rem 0 0; font-size:.83rem; line-height:1.5; color:var(--parchment-dim); }

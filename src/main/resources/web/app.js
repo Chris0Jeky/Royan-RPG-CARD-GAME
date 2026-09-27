@@ -31,6 +31,16 @@ const NODE_ART = {
   SHOP: "coin", TAVERN: "tankard", EVENT: "scroll",
 };
 
+const NODE_TIPS = {
+  COMBAT: "Fight: a standard battle. Victory drafts new cards.",
+  ELITE: "Elite: a hard fight with bonus gold, shards, a relic chance, and 2 drafts.",
+  BOSS: "Boss: a two-phase captain. Victory clears the act and heals 40%.",
+  REST: "Rest: heal 35% of max HP.",
+  SHOP: "Shop: buy cards, a relic, and healing with gold.",
+  TAVERN: "Tavern: meals, recruits, deck-thinning, and relic trades.",
+  EVENT: "Event: a narrative encounter with costed choices.",
+};
+
 function escapeHtml(text) {
   return String(text).replace(/[&<>"']/g, (c) => ({
     "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;",
@@ -81,6 +91,26 @@ function intentLabel(intent) {
   }
 }
 
+function intentTip(intent) {
+  if (!intent) return "";
+  switch (intent.kind) {
+    case "ATTACK": return "Attack: this foe strikes for about " + intent.preview + " next turn.";
+    case "DEFEND": return "Defend: this foe gains block instead of attacking.";
+    case "BUFF": return "Empower: this foe strengthens itself.";
+    case "DEBUFF": return "Hex: this foe weakens you (Weak lowers your damage).";
+    default: return String(intent.kind).toLowerCase();
+  }
+}
+
+function aspectTip(aspect) {
+  switch (aspect) {
+    case "MIGHT": return "Might aspect: beats Guile, loses to Focus (x1.5 / x0.75).";
+    case "GUILE": return "Guile aspect: beats Focus, loses to Might (x1.5 / x0.75).";
+    case "FOCUS": return "Focus aspect: beats Might, loses to Guile (x1.5 / x0.75).";
+    default: return "Aspect: " + aspect;
+  }
+}
+
 function statusLine(f) {
   const bits = [];
   if (f.strength > 0) bits.push("STR " + f.strength);
@@ -128,11 +158,11 @@ function renderFoes(s) {
       <div class="foe-top">${art(f.foeId || "skull", `portrait aspect-${f.aspect}${f.boss ? " big" : ""}`)}
       <div class="foe-head"><span class="foe-name">${escapeHtml(f.name)}</span>
         <span class="foe-badges">
-          <span class="badge aspect-${f.aspect}">${escapeHtml(f.aspect)}</span>
-          <span class="badge row-badge">${f.row === "BACK" ? "BACK" : "FRONT"}</span>
+          <span class="badge aspect-${f.aspect}" title="${escapeHtml(aspectTip(f.aspect))}">${escapeHtml(f.aspect)}</span>
+          <span class="badge row-badge" title="${f.row === "BACK" ? "Back row: takes less damage while any front-row foe stands." : "Front row: kill these first to expose the back row."}">${f.row === "BACK" ? "BACK" : "FRONT"}</span>
         </span></div></div>
       ${fighterHpHtml(f)}
-      ${f.alive ? `<span class="intent intent-${f.intent.kind}">${escapeHtml(intentLabel(f.intent))}</span>` : `<span class="intent">DOWN</span>`}
+      ${f.alive ? `<span class="intent intent-${f.intent.kind}" title="${escapeHtml(intentTip(f.intent))}">${escapeHtml(intentLabel(f.intent))}</span>` : `<span class="intent" title="This foe is down.">DOWN</span>`}
       ${f.flavor ? `<div class="foe-flavor">${escapeHtml(f.flavor)}</div>` : ""}
     </div>`;
   }).join("");
@@ -172,13 +202,13 @@ function renderHero(s) {
     <div class="hero-top">${art("hero-" + cls.toLowerCase(), `portrait big aspect-${h.aspect}`)}
     <div class="hero-title">
     <div class="foe-head"><span class="hero-name">${escapeHtml(h.name)}</span>
-      <span class="foe-badges"><span class="badge aspect-${h.aspect}">${escapeHtml(h.aspect)}</span></span></div>
+      <span class="foe-badges"><span class="badge aspect-${h.aspect}" title="${escapeHtml(aspectTip(h.aspect))}">${escapeHtml(h.aspect)}</span></span></div>
     <div class="hero-sub">${escapeHtml(titleCase(cls))} &middot; Turn ${s.turn}</div>
     </div></div>
     <div data-hpkey="hero">${fighterHpHtml(h)}</div>`;
   el("turnbox").innerHTML = `
-    <div class="energy">${art("energy", "")}${s.energy} energy</div>
-    <div class="piles">Draw ${s.drawCount} &middot; Discard ${s.discardCount}</div>
+    <div class="energy" title="Energy refills to 3 each turn; cards cost energy to play.">${art("energy", "")}${s.energy} energy</div>
+    <div class="piles" title="You draw 4 cards each turn; the draw pile reshuffles from discard when empty.">Draw ${s.drawCount} &middot; Discard ${s.discardCount}</div>
     <button id="btn-end" class="btn brass" type="button" ${s.over ? "disabled" : ""}>End turn</button>`;
   el("btn-end").addEventListener("click", onEndTurn);
 }
@@ -203,9 +233,9 @@ function renderRunbar(s) {
   runbar.innerHTML = `
     <span><strong>Act ${r.act}</strong> &middot; Lv ${r.level}</span>
     <span class="xpbar" title="${r.xp} / ${r.xpNext} XP"><div style="width:${pct}%"></div></span>
-    <span class="coin">${art("coin", "")}${r.gold}g</span>
-    <span>${art("dust", "")}${r.dust} dust</span>
-    <span>${art("shard", "")}${r.shards} shards</span>
+    <span class="coin" title="Gold: spend in shops and taverns on cards, relics, healing, and recruits.">${art("coin", "")}${r.gold}g</span>
+    <span title="Dust: strike basic cards from your deck at taverns and forges; skipped drafts salvage to dust.">${art("dust", "")}${r.dust} dust</span>
+    <span title="Shards: elite and boss loot for back-room relic trades.">${art("shard", "")}${r.shards} shards</span>
     <button class="linklike" id="btn-warband" type="button">War-band (${r.deckSize} cards, ${r.relics.length} relics, ${r.companions.length} allies)</button>
     <span class="spacer"></span>
     ${s.screen === "map" && !s.over ? `<button class="btn ghost" id="btn-abandon" type="button">Suspend</button>` : ""}`;
@@ -291,10 +321,10 @@ function stageMap(s) {
       const cls = `node${isOpt ? " opt" : ""}${isHere ? " here" : ""}`;
       const glyph = art(NODE_ART[n.type] || "sail", "");
       if (!isOpt) {
-        return `<div class="${cls}"><span class="ntype ntype-${n.type}">${glyph}${n.type}</span><span class="nid">${escapeHtml(n.id)}${isHere ? " — here" : ""}</span></div>`;
+        return `<div class="${cls}" title="${escapeHtml(NODE_TIPS[n.type] || n.type)}"><span class="ntype ntype-${n.type}">${glyph}${n.type}</span><span class="nid">${escapeHtml(n.id)}${isHere ? " — here" : ""}</span></div>`;
       }
       pickNo++;
-      return `<button class="${cls}" type="button" data-node="${escapeHtml(n.id)}" data-pick="${pickNo}"><span class="ntype ntype-${n.type}">${glyph}<span class="picknum">${pickNo}</span>${n.type}</span><span class="nid">${escapeHtml(n.id)}</span></button>`;
+      return `<button class="${cls}" type="button" data-node="${escapeHtml(n.id)}" data-pick="${pickNo}" title="${escapeHtml(NODE_TIPS[n.type] || n.type)}"><span class="ntype ntype-${n.type}">${glyph}<span class="picknum">${pickNo}</span>${n.type}</span><span class="nid">${escapeHtml(n.id)}</span></button>`;
     }).join("")}</div>`).join("");
   return `<h2>Act ${s.run.act} — Chart your course</h2>
     <p class="lede">${m.currentId ? "Choose the next isle. The boss waits at the sky's end." : "Choose your landing isle."}</p>
@@ -384,10 +414,30 @@ function renderStage(s) {
   stage.hidden = false;
 }
 
+const GUIDE = [
+  { term: "Energy", text: "You gain 3 energy each turn; every card costs energy to play. Unspent energy is lost." },
+  { term: "Draw and discard", text: "Draw 4 cards each turn. Your hand discards at end of turn; an empty draw pile reshuffles from discard." },
+  { term: "Card types", text: "Strikes deal damage; Guards grant block; Tricks mix damage, debuffs and utility; Powers buff you for the fight; Curses are unplayable and clog your hand." },
+  { term: "Intents", text: "Foes telegraph their next move: ATK with incoming damage, DEFEND for block, EMPOWER for buffs, HEX to weaken you." },
+  { term: "Aspects", text: "Might beats Guile beats Focus beats Might. Advantage deals x1.5, disadvantage x0.75. Your card aspect counts on attacks." },
+  { term: "Rows", text: "Back-row foes take x0.75 damage while any front-row foe stands. Kill the front first." },
+  { term: "Block", text: "Block absorbs damage before HP. Your block clears at the start of your next turn." },
+  { term: "Weak and Vulnerable", text: "Weak fighters deal x0.75 damage. Vulnerable fighters take x1.25 damage." },
+  { term: "Strength", text: "Each point of Strength adds to attack damage." },
+  { term: "Bosses", text: "Bosses transform at 50% HP: new attack, new behavior, new aspect, plus healing. Read the herald line." },
+  { term: "Gold, dust, shards", text: "Gold buys cards, relics, healing and recruits. Dust strikes basic cards from your deck. Shards buy back-room relics." },
+  { term: "Drafts and boons", text: "After victories take 1 of 3 cards (2 from elites and bosses) or salvage +10 dust. Each level offers 1 of 3 boons." },
+  { term: "Companions", text: "Up to 2 hired blades fight beside you and act before foes: Strikers hit, Guardians block for you, Medics heal the most-hurt ally." },
+];
+
 /* ---------- codex ---------- */
 
 async function openCodex() {
   el("codex-screen").hidden = false;
+  if (codexTab === "guide") {
+    renderCodex();
+    return;
+  }
   if (!codexCache) {
     el("codex-body").innerHTML = "<p>Unfurling scrolls…</p>";
     try {
@@ -410,6 +460,11 @@ function renderCodex() {
   });
   el("codex-filter").hidden = codexTab !== "cards";
   const body = el("codex-body");
+  if (codexTab === "guide") {
+    body.innerHTML = GUIDE.map((g) => `
+      <div class="guide-entry"><span class="guide-term">${escapeHtml(g.term)}</span><p>${escapeHtml(g.text)}</p></div>`).join("");
+    return;
+  }
   if (codexTab === "heroes") {
     body.innerHTML = codexCache.heroes.map((h) => `
       <div class="codex-hero"><h3>${art("hero-" + h.id.toLowerCase(), "")}${escapeHtml(h.name)} — ${escapeHtml(h.title)}</h3>
@@ -439,10 +494,44 @@ function renderCodex() {
   }
 }
 
+const TUT_HIDE_KEY = "royan-hide-tutorial";
+
+function openTutorial() {
+  el("tutorial-hide").checked = false;
+  el("tutorial-screen").hidden = false;
+}
+
+function closeTutorial() {
+  try {
+    if (el("tutorial-hide").checked) localStorage.setItem(TUT_HIDE_KEY, "1");
+  } catch (e) {
+    /* private mode: show again next visit */
+  }
+  el("tutorial-screen").hidden = true;
+}
+
+function maybeShowTutorial() {
+  let hide = false;
+  try {
+    hide = localStorage.getItem(TUT_HIDE_KEY) === "1";
+  } catch (e) {
+    hide = false;
+  }
+  if (!hide) openTutorial();
+}
+
 /* ---------- select + chrome ---------- */
 
 function renderSelect(s) {
   knownSave = !!s.hasSave;
+  const saveErr = el("save-error");
+  if (s.canStartFresh && s.error) {
+    saveErr.innerHTML = `<span>${escapeHtml(s.error)}</span><button class="btn ghost" id="btn-saveerr-ok" type="button">Understood</button>`;
+    saveErr.hidden = false;
+    el("btn-saveerr-ok").addEventListener("click", () => { saveErr.hidden = true; });
+  } else {
+    saveErr.hidden = true;
+  }
   const host = el("heroes");
   host.innerHTML = s.heroes.map((h) => `
     <button class="hero-pick" type="button" data-hero="${h.id}">
@@ -614,7 +703,7 @@ function showEnd(s) {
 function render(s) {
   const old = snap;
   snap = s;
-  if (s.error) toast(s.error);
+  if (s.error && !s.canStartFresh) toast(s.error);
   warband.hidden = true;
   if (s.phase === "select") {
     table.hidden = true;
@@ -879,6 +968,9 @@ el("btn-mute").addEventListener("click", () => {
   syncMute();
 });
 el("btn-codex").addEventListener("click", openCodex);
+el("btn-codex2").addEventListener("click", openCodex);
+el("btn-howto").addEventListener("click", openTutorial);
+el("btn-tutorial-close").addEventListener("click", closeTutorial);
 el("btn-codex-close").addEventListener("click", closeCodex);
 el("codex-tabs").addEventListener("click", (e) => {
   const btn = e.target.closest("[data-ctab]");
@@ -902,6 +994,10 @@ el("modetoggle").addEventListener("click", (e) => {
 document.addEventListener("keydown", (e) => {
   unlockAudio();
   if (e.key === "Escape") {
+    if (!el("tutorial-screen").hidden) {
+      closeTutorial();
+      return;
+    }
     if (!el("codex-screen").hidden) {
       closeCodex();
       return;
@@ -939,6 +1035,7 @@ document.addEventListener("keydown", (e) => {
 document.addEventListener("pointerdown", unlockAudio);
 
 syncMute();
+maybeShowTutorial();
 fetch("/api/state").then((r) => r.json()).then(render).catch((e) => {
   selectScreen.hidden = false;
   toast("Could not reach the helm: " + e.message);
