@@ -115,7 +115,10 @@ def boot_server(argv, timeout=30.0):
             at = line.find(marker)
             if at >= 0:
                 url = line[at:].split()[0].rstrip("/")
-                return proc, url
+                # Localhost resolves to ::1 first on Windows while the game
+                # server binds IPv4 127.0.0.1, so each new connection stalls
+                # ~2s on fallback. Pin IPv4: same server, no per-hit stall.
+                return proc, url.replace("http://localhost:", "http://127.0.0.1:")
         raise QAFail("server did not print its URL within %ds:\n%s"
                      % (timeout, "".join(seen[-20:])))
     except Exception:
