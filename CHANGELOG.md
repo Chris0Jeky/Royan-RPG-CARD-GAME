@@ -1,6 +1,7 @@
 # Changelog
 
-## Unreleased
+## v2.0 - Graphical web UI + RPG depth (Sep 2026)
+- 109 tests green; full campaign playable in browser and terminal.
 - Web UI (W1): `serve` mode with embedded server + browser combat screen
   (hero select, click-to-play cards, intents, combat log); CLI unchanged.
 - Web UI (W2): full campaign in browser — act map, loot drafts, shop, tavern,
@@ -9,6 +10,8 @@
   hit flashes, screen shake, turn banners, synthesized SFX + ambient music.
 - Web UI (W4): RPG depth — hero backstories, companion banter, 2 event chains
   (28 events), run chronicle/saga, bestiary + deck codex.
+- Web UI (W5): balance re-probe (K 11/30, R 22/30, M 8/30 — M5 lock holds),
+  Edge headless browser QA (select/map/battle, zero console errors), docs refresh.
 
 ## Unreleased (history)
 - History tooling: `replay.py` (frozen-source micro-commit replay), `verify.py`

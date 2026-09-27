@@ -7,7 +7,9 @@ three two-phase bosses with aspect-shifting second forms.
 - 3 heroes (Knight / Ranger / Runemage), 90 cards, 12 enemies, 20 relics, 28 events, 5 companions
 - Lane combat with front/back rows, telegraphed intents, and an aspect triangle
 - Full RPG layer: XP levels 1–10, boons, gold/dust/shards economy, shops, taverns, shrines
-- Playable in the terminal: `play` (interactive), `continue` (autosave resume), `auto` (demo)
+- Playable in the browser: `serve` mode with illustrated combat, act maps, shops,
+  taverns, events, codex, and synthesized music/SFX — or in the terminal:
+  `play` (interactive), `continue` (autosave resume), `auto` (demo)
 
 ## Quickstart
 
@@ -15,14 +17,17 @@ Requires Java 17+ and Maven 3.9+. No other runtime dependencies (offline-safe af
 the first Maven pull).
 
 ```sh
-mvn test                                   # build + 88 tests
-mvn -q compile exec:java -Dexec.mainClass=com.chris.cardgame.Main -Dexec.args="play"
+mvn test                                   # build + 109 tests
+mvn -q compile exec:java -Dexec.mainClass=com.chris.cardgame.Main -Dexec.args="serve 8080"
 ```
 
 (PowerShell: insert `--%` before the `-D` flags, e.g.
-`mvn -q compile exec:java --% "-Dexec.mainClass=com.chris.cardgame.Main" "-Dexec.args=play"`.)
+`mvn -q compile exec:java --% "-Dexec.mainClass=com.chris.cardgame.Main" "-Dexec.args=serve 8080"`.)
 
-Then pick a captain and type commands (`play <card> [foe]`, `end`, `quit` saves).
+Then open http://localhost:8080/ and pick a captain — the full 3-act campaign
+runs in the browser (quick skirmish optional). Terminal instead: swap
+`serve 8080` for `play`, then type commands (`play <card> [foe]`, `end`,
+`quit` saves).
 Other modes:
 
 ```sh
@@ -48,8 +53,9 @@ No JDK handy? A portable Temurin 17 + Maven install works — see
 ## Project shape
 
 ```
-src/main/java/com/chris/cardgame/{model,data,combat,ai,map,loot,run,cli}/
-src/main/resources/data/{cards,enemies,relics,events,companions}.json
+src/main/java/com/chris/cardgame/{model,data,combat,ai,map,loot,run,cli,web}/
+src/main/resources/data/{cards,enemies,relics,events,companions,heroes}.json
+src/main/resources/web/                 # browser app: index.html, app.js, audio.js, style.css, art/
 src/test/java/...            # JUnit 5 + AssertJ suites
 tools/history/               # backdated-commit schedule / replay / verify scripts
 .agents/skills/royan-*/      # evolved project skills (design, qa, history)

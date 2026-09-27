@@ -3,18 +3,32 @@
 ## Test gates (every change)
 
 ```sh
-mvn test          # must be green: 88 tests across 17 suites (M5)
+mvn test          # must be green: 109 tests across 18 suites (W5)
 ```
 
 - Engine suites (`combat`, `BattleArts`, `BossPhase`, `EnemyAi`) pin exact numbers —
   multipliers, cover, phases, AI tables. Touching combat math means updating these first.
 - Content suites (`DataLoader`, `LootXp`, `RelicEconomy`, `NarrativeEvent`) pin collection
-  sizes: 90 cards (24/24/24/18), 12 enemies (3 bosses), 20 relics, 24 events, 5 companions.
+  sizes: 90 cards (24/24/24/18), 12 enemies (3 bosses), 20 relics, 28 events, 5 companions,
+  3 heroes.
 - Run suites (`RunEngine`, `BattlePlaythrough`, `CampaignPlaythrough`, `InteractiveLoop`,
   `SaveLoad`) pin the loop: drafts, shops, taverns, events, scripted + fuzz campaigns,
   save round-trips, quit/resume.
 - Pinned victories: Knight seed 4, Ranger seed 3, Runemage seed 1. If a balance change
   breaks a pin, re-probe (below) and move the pin deliberately — never delete it.
+- Web suites (`WebServerTest`, 18 tests): all run endpoints headless, shop/tavern
+  transactions, save round-trip, codex sizes, art content-types.
+
+## Web QA (after frontend changes)
+
+1. `node --check` on `src/main/resources/web/app.js` and `audio.js`.
+2. `WebServerTest` green (headless endpoint coverage).
+3. Live serve smoke: `serve` on a scratch port, drive state via the API
+   (`new-run`, `choose-node`), then Edge/Chrome headless `--dump-dom` with
+   `--virtual-time-budget=6000 --enable-logging=stderr` and assert zero
+   `ERROR:CONSOLE`/`Uncaught` lines plus real content markers per screen
+   (heroes on select, node types on map, hand + foes + End Turn in battle).
+   W5 reference: select/map/battle all rendered, 0 console errors.
 
 ## Balance oracle (after content/balance changes)
 
@@ -48,4 +62,4 @@ not the script length.
 - [ ] Balance oracle within bands, pins current
 - [ ] README/RULES/DESIGN agree on numbers (costs, heals, multipliers)
 - [ ] CHANGELOG + DEVLOG entries for the release
-- [ ] Milestone tag on green main (`v0.1` … `v1.0`)
+- [ ] Milestone tag on green main (`v2.0`; never move `v0.0`..`v1.0`)
