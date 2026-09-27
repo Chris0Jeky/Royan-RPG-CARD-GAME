@@ -63,3 +63,16 @@ not the script length.
 - [ ] README/RULES/DESIGN agree on numbers (costs, heals, multipliers)
 - [ ] CHANGELOG + DEVLOG entries for the release
 - [ ] Milestone tag on green main (`v2.0`; never move `v0.0`..`v1.0`)
+
+## Automation gates (V3 lane; `python tools/qa/release.py` runs all four)
+
+- [ ] `mvn test` green (gate 1, also CI `test` job on push/PR)
+- [ ] `tools/qa/artifact-smoke.py` PASS — fat jar boots headless, skirmish
+      completes, codex sizes sane (also CI `artifact-smoke` job after
+      `mvn -q package` with tests)
+- [ ] `tools/qa/browser-qa.py` PASS — `/` markers + headless Edge/Chrome
+      `--dump-dom` select screen (Knight/Ranger/Runemage, codex, tutorial,
+      settings, how-to) with 0 console errors; honest SKIP when no browser
+- [ ] `tools/qa/playtest-bot.py` PASS — full seeded API campaign terminates
+      with victory or defeat inside 600 actions (KNIGHT seed 4 reference)
+- [ ] `RELEASE READY` stamp from `release.py` (never tags by itself)
