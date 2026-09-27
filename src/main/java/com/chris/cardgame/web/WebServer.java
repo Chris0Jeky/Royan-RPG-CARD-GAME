@@ -54,10 +54,12 @@ public class WebServer {
                 exchange -> handleApi(exchange, "GET", body -> session.snapshot()));
         server.createContext("/api/new-battle",
                 exchange -> handleApi(exchange, "POST", body -> session.newBattle(
-                        optText(body, "heroClass", "KNIGHT"), optSeed(body))));
+                        optText(body, "heroClass", "KNIGHT"), optSeed(body),
+                        body.has("tier") ? body.get("tier").asInt() : null)));
         server.createContext("/api/new-run",
                 exchange -> handleApi(exchange, "POST", body -> session.newRun(
-                        optText(body, "heroClass", "KNIGHT"), optSeed(body))));
+                        optText(body, "heroClass", "KNIGHT"), optSeed(body),
+                        body.has("daily") && body.get("daily").asBoolean())));
         server.createContext("/api/continue",
                 exchange -> handleApi(exchange, "POST", body -> session.continueRun()));
         server.createContext("/api/play",

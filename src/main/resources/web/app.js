@@ -18,6 +18,7 @@ let prevBlock = new Map();
 let selected = null;
 let busy = false;
 let mode = "run";
+let skirmishTier = null;
 let knownSave = false;
 let shakeTimer = null;
 let bannerTimer = null;
@@ -249,6 +250,7 @@ function renderRunbar(s) {
   const pct = r.xpNext > 0 ? Math.min(100, Math.round((100 * r.xp) / r.xpNext)) : 0;
   runbar.innerHTML = `
     <span><strong>Act ${r.act}</strong> &middot; Lv ${r.level}</span>
+    ${s.daily ? `<span title="Everyone sailing today shares this seed.">Daily voyage</span>` : ""}
     <span class="xpbar" title="${r.xp} / ${r.xpNext} XP"><div style="width:${pct}%"></div></span>
     <span class="coin" title="Gold: spend in shops and taverns on cards, relics, healing, and recruits.">${art("coin", "")}${r.gold}g</span>
     <span title="Dust: strike basic cards from your deck at taverns and forges; skipped drafts salvage to dust.">${art("dust", "")}${r.dust} dust</span>
@@ -666,7 +668,8 @@ function sfx(prev, s) {
 }
 
 function updateChrome(s) {
-  el("battle-label").textContent = s.label || "Sky-Isles";
+  el("battle-label").textContent = (s.label || "Sky-Isles")
+    + (s.tier ? " — Tier " + ["I", "II", "III", "IV", "V"][s.tier - 1] : "");
   const chip = el("seed-chip");
   if (s.seed !== undefined) {
     chip.textContent = "seed " + s.seed;
@@ -805,11 +808,21 @@ async function guarded(work) {
 function seedBody(heroId) {
   const raw = el("seed-input").value.trim();
   const body = { heroClass: heroId };
+  if (mode === "run" && el("daily-check").checked) {
+    body.daily = true;
+    return body;
+  }
+  if (mode === "skirmish" && skirmishTier !== null) body.tier = skirmishTier;
   if (raw !== "") {
     const seed = Number(raw);
     if (Number.isFinite(seed)) body.seed = Math.trunc(seed);
   }
   return body;
+}
+
+function syncModeRows() {
+  el("daily-row").hidden = mode !== "run";
+  el("tier-row").hidden = mode !== "skirmish";
 }
 
 async function onSail(heroId) {
@@ -1044,10 +1057,21 @@ el("modetoggle").addEventListener("click", (e) => {
   const btn = e.target.closest("[data-mode]");
   if (!btn) return;
   mode = btn.dataset.mode;
+  syncModeRows();
   document.querySelectorAll("#modetoggle .modebtn").forEach((b) => {
     b.classList.toggle("on", b === btn);
   });
 });
+el("tier-row").addEventListener("click", (e) => {
+  const btn = e.target.closest("[data-tier]");
+  if (!btn) return;
+  const tier = Number(btn.dataset.tier);
+  skirmishTier = skirmishTier === tier ? null : tier;
+  document.querySelectorAll("#tier-row .modebtn").forEach((b) => {
+    b.classList.toggle("on", Number(b.dataset.tier) === skirmishTier);
+  });
+});
+syncModeRows();
 document.addEventListener("keydown", (e) => {
   unlockAudio();
   if (e.key === "Escape") {

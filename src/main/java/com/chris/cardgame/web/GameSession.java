@@ -24,6 +24,8 @@ import com.chris.cardgame.model.EnemyDef;
 import com.chris.cardgame.model.CompanionDef;
 import com.chris.cardgame.model.HeroClass;
 import com.chris.cardgame.model.HeroDef;
+import com.chris.cardgame.run.DailySeed;
+import com.chris.cardgame.run.Skirmish;
 
 /**
  * One browser session's game state: either a quick skirmish battle or a full
@@ -47,12 +49,15 @@ public class GameSession {
     private final RelicLoader relics = RelicLoader.load();
     private final CompanionLoader allies = CompanionLoader.load();
     private final HeroLoader heroes = HeroLoader.load();
+    private final Skirmish skirmish = Skirmish.load();
     private final Path saveFile;
 
     private HeroClass heroClass;
     private long seed;
     private CombatState battle;
     private WebRun run;
+    private boolean dailyRun;
+    private Integer skirmishTier;
     private final List<String> log = new ArrayList<>();
 
     public GameSession() {
@@ -79,7 +84,23 @@ public class GameSession {
         this.run = null;
         Combatant hero = Combatant.hero(HERO_NAME, choice, choice.startingHp());
         List<CardDef> deck = cards.starterDeck(choice);
-        List<EnemyDef> foes = encounters.combat(1, new SplittableRandom(seed));
+        return newBattle(heroClassName, seedOrNull, null);
+    }
+
+    public synchronized Map<String, Object> newBattle(String heroClassName, Long seedOrNull, Integer tier) {
+        HeroClass choice = parseHero(heroClassName);
+        this.heroClass = choice;
+        this.seed = seedOrNull != null ? seedOrNull : new Random().nextLong();
+        this.log.clear();
+        this.run = null;
+        this.dailyRun = false;
+        Combatant hero = Combatant.hero(HERO_NAME, choice, choice.startingHp());
+        List<CardDef> deck = cards.starterDeck(choice);
+        SplittableRandom foeRng = new SplittableRandom(seed);
+        List<EnemyDef> foes = tier == null
+                ? encounters.combat(1, foeRng)
+                : skirmish.encounterFor(tier, this.foes, foeRng);
+        this.skirmishTier = tier;
         this.battle = engine.newBattle(hero, List.of(), deck, foes, seed * 31 + 1);
         log.add(HERO_NAME + " (" + Snapshots.displayName(choice) + ") sails into a sky skirmish.");
         log.add("Foes block the way: " + foeNames(foes) + ".");
@@ -90,13 +111,27 @@ public class GameSession {
     public synchronized Map<String, Object> newRun(String heroClassName, Long seedOrNull) {
         this.battle = null;
         this.log.clear();
-        this.run = WebRun.start(heroClassName, seedOrNull, saveFile);
+        return newRun(heroClassName, seedOrNull, false);
+    }
+
+    public synchronized Map<String, Object> newRun(String heroClassName, Long seedOrNull, boolean daily) {
+        this.battle = null;
+        this.log.clear();
+        this.dailyRun = daily && seedOrNull == null;
+        this.skirmishTier = null;
+        Long seed = seedOrNull;
+        if (daily && seed == null) {
+            seed = DailySeed.today();
+        }
+        this.run = WebRun.start(heroClassName, seed, saveFile);
         return snapshot();
     }
 
     public synchronized Map<String, Object> continueRun() {
         this.battle = null;
         this.log.clear();
+        this.dailyRun = false;
+        this.skirmishTier = null;
         if (!Files.exists(saveFile)) {
             // No save at all: preserve the long-standing contract and let
             // WebRun throw IllegalStateException ("No saved campaign"),
@@ -224,7 +259,11 @@ public class GameSession {
 
     public synchronized Map<String, Object> snapshot() {
         if (run != null) {
-            return run.snapshot();
+            Map<String, Object> runSnap = run.snapshot();
+            if (dailyRun) {
+                runSnap.put("daily", true);
+            }
+            return runSnap;
         }
         if (battle == null) {
             Map<String, Object> select = new LinkedHashMap<>();
@@ -237,6 +276,9 @@ public class GameSession {
         snap.put("mode", "skirmish");
         snap.put("phase", battle.over() ? "over" : "battle");
         snap.put("label", "Sky Skirmish");
+        if (skirmishTier != null) {
+            snap.put("tier", skirmishTier);
+        }
         snap.put("heroClass", heroClass.name());
         snap.put("heroName", HERO_NAME);
         snap.put("seed", seed);
