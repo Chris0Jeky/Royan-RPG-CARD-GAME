@@ -1,5 +1,17 @@
 # Changelog
 
+## v3.0 — Pick up and play (Sep 2026)
+- 137 tests green; one download + double-click plays the full game, zero installs.
+- Packaging: shaded fat jar, `serve` free-port fallback + browser auto-open,
+  jpackage app-image bundle (`RoyanRPG-win.zip`), `play.bat`/`play.sh` curated command.
+- Onboarding: first-run tutorial overlay, keyword/intent/aspect/economy tooltips,
+  help on every screen, persisted settings (volume/mute, music, reduced motion),
+  corrupted-save recovery with a human message, offline audit test.
+- Content: event chains 3+4 (32 events, triple-gated), 5-tier quick skirmishes,
+  daily voyage (shared UTC-day seed); balance re-probe K 11/30, R 22/30, M 8/30.
+- Automation: GitHub Actions CI (suite + artifact smoke), `tools/qa` harness
+  (smoke, headless browser QA, full-campaign playtest bot, all-gates `release.py`).
+
 ## v2.0 - Graphical web UI + RPG depth (Sep 2026)
 - 109 tests green; full campaign playable in browser and terminal.
 - Web UI (W1): `serve` mode with embedded server + browser combat screen
