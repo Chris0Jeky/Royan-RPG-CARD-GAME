@@ -18,6 +18,7 @@
   <div class="battle-label" id="battle-label">Sky-Isles</div>
   <div class="top-actions">
     <span class="seed-chip" id="seed-chip" hidden></span>
+    <button id="btn-mute" class="btn ghost" type="button">Sound: on</button>
     <button id="btn-new" class="btn ghost" type="button">New battle</button>
   </div>
 </header>
@@ -29,6 +30,7 @@
   <section class="stage" id="stage" hidden><div id="stage-body"></div></section>
   <section class="table" id="table" hidden>
     <div class="target-banner" id="target-banner" hidden></div>
+    <div class="turnbanner" id="turnbanner" hidden></div>
     <div class="foes" id="foes"></div>
     <div class="allies" id="allies"></div>
     <div class="midrow">
@@ -79,7 +81,9 @@
 </div>
 
 <div class="toast" id="toast" hidden></div>
+<footer class="foot">Royan &middot; a Guild Captain's tale &middot; icons <a href="https://game-icons.net">game-icons.net</a> (CC BY 3.0)</footer>
 
+<script src="/audio.js"></script>
 <script src="/app.js"></script>
 </body>
 </html>

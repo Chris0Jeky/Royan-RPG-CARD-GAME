@@ -39,3 +39,5 @@ Local files are renamed and normalized (recolorable via `currentColor`).
 | relic.svg | lorc/rune-stone.svg | Lorc |
 | crown.svg | delapouite/imperial-crown.svg | Delapouite |
 | sail.svg | delapouite/sail.svg | Delapouite |
+| tankard.svg | lorc/beer-stein.svg | Lorc |
+| scroll.svg | lorc/scroll-unfurled.svg | Lorc |
