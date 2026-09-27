@@ -49,6 +49,7 @@ echo "[royan] jpackage app-image $APP_VERSION"
   --input "$ROOT/dist/.jpackage-input" --main-jar "$(basename "$JAR")" \
   --main-class com.chris.cardgame.Main --dest "$ROOT/dist" \
   --description "Royan RPG Card Game" --vendor "Royan" \
+  --arguments serve --arguments 0 \
   --java-options "-Dfile.encoding=UTF-8"
 rm -rf dist/.jpackage-input
 
