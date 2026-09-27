@@ -43,7 +43,9 @@ public class WebServer {
             "/", resource("/web/index.html"),
             "/index.html", resource("/web/index.html"),
             "/app.js", resource("/web/app.js"),
+            "/audio.js", resource("/web/audio.js"),
             "/style.css", resource("/web/style.css"));
+    private final Map<String, byte[]> artCache = new java.util.concurrent.ConcurrentHashMap<>();
 
     public WebServer(int port, GameSession session) throws IOException {
         this.session = session;
@@ -126,11 +128,19 @@ public class WebServer {
         }
         String path = exchange.getRequestURI().getPath();
         byte[] file = staticFiles.get(path);
+        String type = file != null ? contentType(path) : null;
+        if (file == null && path.startsWith("/art/")) {
+            String name = path.substring("/art/".length());
+            if (name.matches("[A-Za-z0-9-]+\\.svg")) {
+                file = artCache.computeIfAbsent(name, this::loadArt);
+                type = "image/svg+xml";
+            }
+        }
         if (file == null) {
             send(exchange, 404, Map.of("error", "not found: " + path));
             return;
         }
-        exchange.getResponseHeaders().set("Content-Type", contentType(path));
+        exchange.getResponseHeaders().set("Content-Type", type);
         exchange.getResponseHeaders().set("Cache-Control", "no-store");
         exchange.sendResponseHeaders(200, file.length);
         try (OutputStream out = exchange.getResponseBody()) {
@@ -181,6 +191,14 @@ public class WebServer {
         exchange.sendResponseHeaders(status, bytes.length);
         try (OutputStream out = exchange.getResponseBody()) {
             out.write(bytes);
+        }
+    }
+
+    private byte[] loadArt(String name) {
+        try (InputStream in = WebServer.class.getResourceAsStream("/web/art/" + name)) {
+            return in == null ? null : in.readAllBytes();
+        } catch (IOException e) {
+            return null;
         }
     }
 
