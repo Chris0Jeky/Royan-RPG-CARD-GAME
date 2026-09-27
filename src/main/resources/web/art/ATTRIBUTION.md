@@ -1,8 +1,7 @@
 # Art attribution
 
 Combatant, hero, card, and UI icons are white-on-transparent glyphs from
-[game-icons.net](https://game-icons.net), used under
-[CC BY 3.0](https://creativecommons.org/licenses/by/3.0/).
+game-icons.net, used under CC BY 3.0.
 Local files are renamed and normalized (recolorable via `currentColor`).
 
 | File | Upstream path | Artist |
