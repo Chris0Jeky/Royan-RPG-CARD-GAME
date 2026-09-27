@@ -64,7 +64,7 @@ Write-Host "[royan] jpackage app-image $appVersion"
 & $jpackage --type app-image --name RoyanRPG --app-version $appVersion `
   --input $stage --main-jar $jar.Name `
   --main-class com.chris.cardgame.Main --dest $dist `
-  --description "Royan RPG Card Game" --vendor "Royan" `
+  --description "Royan RPG Card Game" --vendor "Royan" --win-console --arguments serve --arguments 0 `
   --java-options "-Dfile.encoding=UTF-8"
 $jpackageExit = $LASTEXITCODE
 Remove-Item -Recurse -Force $stage

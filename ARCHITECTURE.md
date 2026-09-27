@@ -27,17 +27,21 @@ src/main/java/com/chris/cardgame/
   map/          MapGen, ActMap, MapNode, NodeType (layered DAG, 15/18/22 nodes)
   loot/         EncounterGen, LootGen (pick-1-of-3), XpCurve, Boon
   run/          RunState (gold/dust/shards/relics/deck-thinning, companions, seen-events), RunEngine,
-              Events (28 narrative + recruit, 2 chains), Shop (cards + relics),
+              Events (32 narrative + recruit, 4 chains), Shop (cards + relics), DailySeed, Skirmish,
               Tavern (heal/removal/relic trade/recruit), Companion (persistent ally)
   web/          WebServer (static + JSON API: run endpoints + codex + art), GameSession
-              (quick-skirmish + campaign run machine), WebRun (run flow), Snapshots (DTOs)
+              (quick-skirmish + campaign run machine), WebRun (run flow), Snapshots (DTOs),
+              daily-voyage + skirmish-tier API flags, free-port serve, browser auto-open
   cli/          Main (play/continue/auto), GameLoop (auto demo), InteractiveLoop (human play),
               Input/ScannerInput/ScriptedInput, SaveStore + run/SaveData (JSON autosave)
-src/main/resources/data/  cards/enemies/relics/events/companions/heroes.json
+src/main/resources/data/  cards/enemies/relics/events/companions/heroes/skirmish.json
 src/main/resources/web/   index.html, app.js, audio.js, style.css, art/ (no build step)
 src/test/java/...         engine/combat/loot/ai/cli-smoke suites
 docs/           DESIGN.md, RULES.md, DEVLOG.md, QA.md
 tools/history/  schedule.py + schedule.json (3504 slots, verified), replay.py (M7), verify.py
+tools/qa/         artifact-smoke/browser-qa/playtest-bot/release.py (stdlib, V3)
+tools/packaging/  build-bundle.ps1/.sh (fat jar + jpackage app-image + zip, V3)
+play.bat/play.sh  curated dev command: build if stale, serve, open browser (V3)
 .agents/skills/ royan-design, royan-qa, royan-history (M6)
 src-legacy/     original 7-file prototype (moved at M0, reference only)
 ```
@@ -47,7 +51,7 @@ src-legacy/     original 7-file prototype (moved at M0, reference only)
 - Deck: start 12, max 30, max 3 copies; draw 4/turn, 3 energy/turn.
 - Hero/Player: `{name, class, hp, maxHp, xp, level(1-10, pick-1-of-3 boons), gold, dust, shards, deck, relics[], quests[], nodeId}`.
 - Enemy: `{id, name, hp, atk, def, behavior, intents[], lootTable, xp}`; lane combat hero+0–2 companions vs 1–3, front/back rows, telegraphed intents.
-- Encounters: hub → 3-act map (rest/shop/event/boss nodes) → combat → loot/XP → deck+tavern → 2-phase boss. ~8-min runs, ~45-min campaign. 20 relics, 28 narrative events (2 chains).
+- Encounters: hub → 3-act map (rest/shop/event/boss nodes) → combat → loot/XP → deck+tavern → 2-phase boss. ~8-min runs, ~45-min campaign. 20 relics, 32 narrative events (4 chains).
 - Advantage triangle: Might→Guile→Focus→Might.
 - Save: versioned JSON file under `~/.royan/` (or CWD `.royan-save/` for tests); seeded RNG (SplittableRandom) for reproducible playthroughs.
 

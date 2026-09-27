@@ -62,7 +62,7 @@ not the script length.
 - [ ] Balance oracle within bands, pins current
 - [ ] README/RULES/DESIGN agree on numbers (costs, heals, multipliers)
 - [ ] CHANGELOG + DEVLOG entries for the release
-- [ ] Milestone tag on green main (`v2.0`; never move `v0.0`..`v1.0`)
+- [ ] Milestone tag on green main (`v3.0`; never move `v0.0`..`v2.0`)
 
 ## Automation gates (V3 lane; `python tools/qa/release.py` runs all four)
 
@@ -76,3 +76,14 @@ not the script length.
 - [ ] `tools/qa/playtest-bot.py` PASS — full seeded API campaign terminates
       with victory or defeat inside 600 actions (KNIGHT seed 4 reference)
 - [ ] `RELEASE READY` stamp from `release.py` (never tags by itself)
+
+## Packaged-artifact checklist (V3 release)
+
+- [ ] `tools/packaging/build-bundle.ps1` produces `dist/RoyanRPG-win.zip`
+- [ ] Fresh-extracted bundle boots headless: `RoyanRPG.exe` (or the jar with
+      `-Djava.awt.headless=true`) prints its URL and serves `/api/state`
+- [ ] Fresh-machine approximation documented: what was tested (clean user env?
+      bare PATH?) vs approximated (same machine?) in the release notes/DEVLOG
+- [ ] GitHub Release `v3.0` carries the zip; README download link resolves
+- [ ] Balance probe within bands after any content change (K/R/M each 3..28);
+      pins K4/R3/M1 bit-identical unless deliberately moved in DESIGN.md

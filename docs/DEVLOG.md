@@ -1,5 +1,16 @@
 # DEVLOG — Milestone journal
 
+## V3 - Pick up and play (Sep 2026)
+- Prime directive delivered: `RoyanRPG-win.zip` (jpackage app-image + own runtime)
+  plays the full game from one double-click; fat jar, free-port `serve`,
+  browser auto-open, `play.bat`/`play.sh` curated command.
+- Onboarding: tutorial overlay, tooltips + guide glossary, per-screen help,
+  persisted settings, friendly save recovery; offline audit test.
+- Content: chains 3+4 (32 events), 5 skirmish tiers, daily voyage; re-probe
+  K 11/30, R 22/30, M 8/30; pins bit-identical. 137/137 green.
+- Automation: CI (suite + smoke), `tools/qa` harness; localhost→::1 stall found
+  and fixed (QA pins 127.0.0.1). Merged to main; tagged v3.0.
+
 ## W5 - Polish + v2.0 release (Sep 2026)
 - 90-campaign re-probe: K 11/30, R 22/30, M 8/30 (M5 lock bit-identical).
 - Edge headless QA: hero-select, map, battle screens render with zero JS errors.

@@ -14,7 +14,7 @@ boss is always a rest stop.
 - REST — heal 35% of max HP. SHOP — buy cards, a relic, healing with gold.
 - TAVERN — hearty meal (50% heal), strike a basic card (dust), trade for a relic
   (gold + shard), recruit a companion (gold, max 2 per run).
-- EVENT — one of 28 narrative encounters with costed choices (24 standalone + 4 chained sequels that unlock after earlier events). No repeats within an act.
+- EVENT — one of 32 narrative encounters with costed choices (24 standalone + 8 chained sequels in 4 two-part chains that unlock after earlier events). No repeats within an act.
 - BOSS — a two-phase captain fight. Victory clears the act (+40% HP) or wins the run.
 
 ## Combat
@@ -44,6 +44,14 @@ Turn structure: gain 3 energy, draw 4 cards, see enemy intents, play cards, end 
   (elite/boss loot for relic trades). 20 relics grant passive powers.
 - Basics can be removed (tavern, forge event) to thin your deck. Curses can sneak in
   via dark bargains — spenders beware.
+
+## Ways to sail
+
+- Campaign — the full 3-act voyage from the map above. Suspend any time; resume later.
+- Daily voyage — everyone who sails today shares one seed (fresh every UTC day).
+  Same waters, same luck: compare captains' tales.
+- Quick skirmish — one battle, no map. Pick a ferocity tier (I–V) for stronger
+  foes and larger packs, or leave it unpicked for an uncharted brawl.
 
 ## Heroes
 
