@@ -61,7 +61,8 @@ def ensure_compiled():
     if not mvn:
         raise QAFail("target/classes missing and no mvn on PATH to build it")
     print("target/classes missing; running mvn -q compile ...", flush=True)
-    proc = subprocess.run([mvn, "-q", "compile"], cwd=ROOT)
+    proc = subprocess.run([mvn, "-q", "compile"], cwd=ROOT,
+                          shell=(os.name == "nt"))
     if proc.returncode != 0:
         raise QAFail("mvn -q compile failed (exit %d)" % proc.returncode)
     return classes
