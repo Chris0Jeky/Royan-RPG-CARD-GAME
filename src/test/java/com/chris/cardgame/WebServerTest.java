@@ -68,6 +68,24 @@ class WebServerTest {
     }
 
     @Test
+    void servesAudioEngine() throws Exception {
+        HttpResponse<String> js = get("/audio.js");
+        assertThat(js.statusCode()).isEqualTo(200);
+        assertThat(js.headers().firstValue("Content-Type").orElse("")).contains("javascript");
+        assertThat(js.body()).contains("RoyanAudio");
+    }
+
+    @Test
+    void servesArtIcons() throws Exception {
+        HttpResponse<String> svg = get("/art/rat.svg");
+        assertThat(svg.statusCode()).isEqualTo(200);
+        assertThat(svg.headers().firstValue("Content-Type").orElse("")).contains("svg");
+        assertThat(svg.body()).contains("<svg");
+        assertThat(get("/art/no-such-icon.svg").statusCode()).isEqualTo(404);
+        assertThat(get("/art/rat.png").statusCode()).isEqualTo(404);
+    }
+
+    @Test
     void unknownPathIsNotFound() throws Exception {
         assertThat(get("/nope").statusCode()).isEqualTo(404);
     }

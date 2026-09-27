@@ -389,3 +389,54 @@ body {
   border:1px solid #5a4a30; border-radius:6px; padding:.4rem .9rem; cursor:pointer; }
 .modebtn.on { color:var(--night); background:var(--brass); border-color:var(--brass-deep); }
 .continue-row { margin-top:1rem; }
+
+/* W3: art + feel */
+.art { display:inline-block; vertical-align:middle; }
+img.art { width:1.1em; height:1.1em; }
+.portrait { width:40px; height:40px; border-radius:8px; background:#0d0a06;
+  border:1px solid #5a4a30; padding:3px; flex:none; }
+.portrait.big { width:56px; height:56px; }
+.foe-top, .hero-top { display:flex; gap:.55rem; align-items:center; }
+.foe-top .foe-head, .hero-top .hero-title { flex:1; min-width:0; }
+.cardart { width:30px; height:30px; margin-left:auto; flex:none; color:var(--ink-soft); }
+.card.aspect-MIGHT { border-top:4px solid #a83c2a; }
+.card.aspect-GUILE { border-top:4px solid #5a7d3c; }
+.card.aspect-FOCUS { border-top:4px solid #3a6f8f; }
+.node .art { width:1em; height:1em; margin-right:.25rem; }
+.sideart { width:34px; height:34px; color:var(--brass); }
+.pickart { width:44px; height:44px; color:var(--ink-soft); float:right; }
+.endart { width:64px; height:64px; color:var(--brass); }
+.runbar .art, .energy .art, .drawer .art { width:1em; height:1em; margin-right:.2rem; }
+
+/* damage numbers */
+.floater.big { font-size:1.7rem; color:#ffd9a8; }
+.floater.blk { color:#9fc3d8; font-size:.95rem; }
+
+/* hit flash + death */
+@keyframes hitflash { 0% { filter:brightness(1.8); } 100% { filter:none; } }
+.hitflash { animation:hitflash .3s ease; }
+@keyframes die { to { opacity:.45; transform:translateY(8px); } }
+.dying { animation:die .6s ease forwards; }
+
+/* screen shake (main only: body transform would trap fixed overlays) */
+@keyframes shake-sm {
+  0%,100% { transform:none; } 25% { transform:translate(2px,-1px); }
+  50% { transform:translate(-2px,1px); } 75% { transform:translate(1px,1px); } }
+@keyframes shake-md {
+  0%,100% { transform:none; } 20% { transform:translate(-5px,2px); }
+  40% { transform:translate(4px,-3px); } 60% { transform:translate(-3px,-2px); }
+  80% { transform:translate(2px,2px); } }
+body.shake-sm main { animation:shake-sm .25s ease; }
+body.shake-md main { animation:shake-md .35s ease; }
+
+/* turn banner */
+.turnbanner { text-align:center; font-family:var(--display); font-size:1.3rem;
+  color:var(--brass); animation:bannerin 1.4s ease forwards; }
+@keyframes bannerin {
+  0% { opacity:0; transform:scale(.92); } 15% { opacity:1; transform:none; }
+  75% { opacity:1; } 100% { opacity:0; } }
+
+/* footer */
+.foot { max-width:1200px; margin:1.2rem auto 2rem; text-align:center;
+  font-size:.75rem; color:var(--parchment-dim); }
+.foot a { color:var(--brass); }
