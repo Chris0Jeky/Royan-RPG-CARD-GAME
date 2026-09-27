@@ -55,13 +55,20 @@ New-Item -ItemType Directory -Force -Path $dist | Out-Null
 $appImage = Join-Path $dist "RoyanRPG"
 if (Test-Path $appImage) { Remove-Item -Recurse -Force $appImage }
 
+$stage = Join-Path $dist ".jpackage-input"
+if (Test-Path $stage) { Remove-Item -Recurse -Force $stage }
+New-Item -ItemType Directory -Force -Path $stage | Out-Null
+Copy-Item $jar.FullName (Join-Path $stage $jar.Name) -Force
+
 Write-Host "[royan] jpackage app-image $appVersion"
 & $jpackage --type app-image --name RoyanRPG --app-version $appVersion `
-  --input (Join-Path $root "target") --main-jar $jar.Name `
+  --input $stage --main-jar $jar.Name `
   --main-class com.chris.cardgame.Main --dest $dist `
   --description "Royan RPG Card Game" --vendor "Royan" `
   --java-options "-Dfile.encoding=UTF-8"
-if ($LASTEXITCODE -ne 0) { throw "jpackage failed with exit $LASTEXITCODE" }
+$jpackageExit = $LASTEXITCODE
+Remove-Item -Recurse -Force $stage
+if ($jpackageExit -ne 0) { throw "jpackage failed with exit $jpackageExit" }
 
 Copy-Item $jar.FullName (Join-Path $dist $jar.Name) -Force
 

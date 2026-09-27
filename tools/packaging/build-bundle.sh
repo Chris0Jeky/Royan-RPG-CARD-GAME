@@ -40,14 +40,17 @@ if [ -z "${JPACKAGE:-}" ]; then
 fi
 
 mkdir -p dist
-rm -rf dist/RoyanRPG
+rm -rf dist/RoyanRPG dist/.jpackage-input
+mkdir -p dist/.jpackage-input
+cp "$JAR" "dist/.jpackage-input/$(basename "$JAR")"
 
 echo "[royan] jpackage app-image $APP_VERSION"
 "$JPACKAGE" --type app-image --name RoyanRPG --app-version "$APP_VERSION" \
-  --input "$ROOT/target" --main-jar "$(basename "$JAR")" \
+  --input "$ROOT/dist/.jpackage-input" --main-jar "$(basename "$JAR")" \
   --main-class com.chris.cardgame.Main --dest "$ROOT/dist" \
   --description "Royan RPG Card Game" --vendor "Royan" \
   --java-options "-Dfile.encoding=UTF-8"
+rm -rf dist/.jpackage-input
 
 cp "$JAR" "dist/$(basename "$JAR")"
 
