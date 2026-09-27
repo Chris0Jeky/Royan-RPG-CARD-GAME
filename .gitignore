@@ -27,5 +27,5 @@ replay_pid*
 
 target/
 out/
+dist/
 .royan-save/
-
