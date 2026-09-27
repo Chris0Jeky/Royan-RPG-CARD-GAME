@@ -72,6 +72,7 @@ public final class Snapshots {
         json.put("type", card.type().name());
         json.put("aspect", card.aspect().name());
         json.put("rarity", card.rarity().name());
+        json.put("heroClass", card.heroClass().name());
         json.put("text", rulesText(card));
         json.put("flavor", card.flavor());
         json.put("unplayable", card.unplayable());
