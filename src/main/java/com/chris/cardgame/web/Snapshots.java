@@ -205,6 +205,21 @@ public final class Snapshots {
         return parts.isEmpty() ? "" : "needs " + String.join(", ", parts);
     }
 
+    public static Map<String, Object> enemyView(EnemyDef def) {
+        Map<String, Object> json = new LinkedHashMap<>();
+        json.put("id", def.id());
+        json.put("name", def.name());
+        json.put("hp", def.hp());
+        json.put("atk", def.atk());
+        json.put("aspect", def.aspect().name());
+        json.put("row", def.row().name());
+        json.put("behavior", def.behavior().name());
+        json.put("xp", def.xp());
+        json.put("boss", def.boss());
+        json.put("flavor", def.flavor());
+        return json;
+    }
+
     static String rulesText(CardDef card) {
         if (card.unplayable()) {
             return "Unplayable. It clogs your hand.";
