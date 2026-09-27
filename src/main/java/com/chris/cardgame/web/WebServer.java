@@ -57,7 +57,8 @@ public class WebServer {
                         optText(body, "heroClass", "KNIGHT"), optSeed(body))));
         server.createContext("/api/new-run",
                 exchange -> handleApi(exchange, "POST", body -> session.newRun(
-                        optText(body, "heroClass", "KNIGHT"), optSeed(body))));
+                        optText(body, "heroClass", "KNIGHT"), optSeed(body),
+                        body.has("daily") && body.get("daily").asBoolean())));
         server.createContext("/api/continue",
                 exchange -> handleApi(exchange, "POST", body -> session.continueRun()));
         server.createContext("/api/play",

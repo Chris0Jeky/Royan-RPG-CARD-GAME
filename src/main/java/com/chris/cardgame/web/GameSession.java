@@ -24,6 +24,7 @@ import com.chris.cardgame.model.EnemyDef;
 import com.chris.cardgame.model.CompanionDef;
 import com.chris.cardgame.model.HeroClass;
 import com.chris.cardgame.model.HeroDef;
+import com.chris.cardgame.run.DailySeed;
 
 /**
  * One browser session's game state: either a quick skirmish battle or a full
@@ -53,6 +54,8 @@ public class GameSession {
     private long seed;
     private CombatState battle;
     private WebRun run;
+    private boolean dailyRun;
+    private Integer skirmishTier;
     private final List<String> log = new ArrayList<>();
 
     public GameSession() {
@@ -90,13 +93,27 @@ public class GameSession {
     public synchronized Map<String, Object> newRun(String heroClassName, Long seedOrNull) {
         this.battle = null;
         this.log.clear();
-        this.run = WebRun.start(heroClassName, seedOrNull, saveFile);
+        return newRun(heroClassName, seedOrNull, false);
+    }
+
+    public synchronized Map<String, Object> newRun(String heroClassName, Long seedOrNull, boolean daily) {
+        this.battle = null;
+        this.log.clear();
+        this.dailyRun = daily && seedOrNull == null;
+        this.skirmishTier = null;
+        Long seed = seedOrNull;
+        if (daily && seed == null) {
+            seed = DailySeed.today();
+        }
+        this.run = WebRun.start(heroClassName, seed, saveFile);
         return snapshot();
     }
 
     public synchronized Map<String, Object> continueRun() {
         this.battle = null;
         this.log.clear();
+        this.dailyRun = false;
+        this.skirmishTier = null;
         if (!Files.exists(saveFile)) {
             // No save at all: preserve the long-standing contract and let
             // WebRun throw IllegalStateException ("No saved campaign"),
@@ -224,7 +241,11 @@ public class GameSession {
 
     public synchronized Map<String, Object> snapshot() {
         if (run != null) {
-            return run.snapshot();
+            Map<String, Object> runSnap = run.snapshot();
+            if (dailyRun) {
+                runSnap.put("daily", true);
+            }
+            return runSnap;
         }
         if (battle == null) {
             Map<String, Object> select = new LinkedHashMap<>();
