@@ -70,6 +70,11 @@ class OnboardingTest {
             files = walk.filter(Files::isRegularFile).sorted().toList();
         }
         for (Path file : files) {
+            if (file.getFileName().toString().endsWith(".md")) {
+                // Docs (e.g. art/ATTRIBUTION.md) are never served and never
+                // fetched by the browser; license links belong there.
+                continue;
+            }
             scanned++;
             List<String> lines = Files.readAllLines(file, StandardCharsets.UTF_8);
             for (int i = 0; i < lines.size(); i++) {
