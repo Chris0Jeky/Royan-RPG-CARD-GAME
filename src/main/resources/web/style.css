@@ -247,6 +247,7 @@ body {
 .hero-pick p { font-size: 0.8rem; line-height: 1.4; margin: 0.4rem 0 0.6rem; }
 .hero-pick .sail { font-family: var(--display); color: var(--blood); font-weight: 700; }
 .seed-row { display: block; margin-top: 1.1rem; font-size: 0.8rem; color: var(--parchment-dim); }
+#daily-row input { display: inline; width: auto; margin: 0.4rem 0 0 0.4rem; vertical-align: middle; }
 .seed-row input {
   display: block; margin: 0.4rem auto 0;
   width: 12rem; text-align: center;

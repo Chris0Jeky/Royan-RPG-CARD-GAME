@@ -65,6 +65,16 @@
     <label class="seed-row">Voyage seed (blank = uncharted waters)
       <input id="seed-input" inputmode="numeric" placeholder="e.g. 7" autocomplete="off">
     </label>
+    <label class="seed-row" id="daily-row" title="Everyone who sails the daily voyage shares one seed, fresh every UTC day.">Daily voyage — today's shared waters
+      <input id="daily-check" type="checkbox" autocomplete="off">
+    </label>
+    <div class="modetoggle" id="tier-row" hidden title="Skirmish ferocity: stronger foes and larger packs. Unpicked = uncharted brawl.">
+      <button class="modebtn" type="button" data-tier="1" title="Dockside Scuffle">I</button>
+      <button class="modebtn" type="button" data-tier="2" title="Sky-Lane Ambush">II</button>
+      <button class="modebtn" type="button" data-tier="3" title="Storm Gauntlet">III</button>
+      <button class="modebtn" type="button" data-tier="4" title="Captain's Trial">IV</button>
+      <button class="modebtn" type="button" data-tier="5" title="Tyrant's Vanguard">V</button>
+    </div>
     <div class="continue-row" id="continue-row" hidden>
       <button id="btn-continue" class="btn brass" type="button">Continue suspended campaign</button>
     </div>
