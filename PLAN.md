@@ -35,7 +35,7 @@ JS/CSS, inline SVG, WebAudio). CLI stays fully working.
 | W2 | Full run in browser: map, drafts, shop/tavern/event, level boons, save/resume | done (101/101 green, serve smoke OK; merged to main) |
 | W3 | Feel pass: animations, damage numbers, screen shake (reduced-motion safe), WebAudio SFX + music, card/enemy art | done (103/103 green, art/audio smoke OK; merged to main) |
 | W4 | RPG depth: hero stories, companion banter, event chains, run chronicle, bestiary/deck codex | done (109/109 green, codex smoke OK; merged to main) |
-| W5 | Polish + rebalance for the new UX, visual QA suite, docs refresh, release v2.0 | pending |
+| W5 | Polish + rebalance for the new UX, visual QA suite, docs refresh, release v2.0 | done (109/109 green, probe = M5 lock, Edge QA 0 errors, docs refreshed; merged to main, tagged v2.0) |
 
 W-gates: all M-gates plus `WebServerTest` green, browser smoke (serve + play
 one battle over HTTP), no engine→`cli`/`web` imports.

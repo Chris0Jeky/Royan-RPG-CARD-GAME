@@ -26,6 +26,7 @@
 - 2026-09-27: Phase 2 W3 DONE on `feature/web-feel`: 34 game-icons portraits (CC-BY, /art serving + test), audio.js SFX + generative music + mute, damage numbers/block pops, hit flashes, death fades, screen shake, turn banners, aspect card frames, node/currency/war-band glyphs. 103/103 green, live smoke OK. Next: merge W3, then W4 RPG depth (stories/banter/chronicle/codex).
 
 - 2026-09-27: Phase 2 W4 DONE on `feature/web-rpg-depth`: hero stories (heroes.json), companion banter (log + bubbles), 2 gated event chains (28 events, pinned seeds intact), run chronicle/saga tab, codex API + overlay (heroes/foes/cards/relics/allies). 109/109 green, live smoke OK. Next: merge W4, then W5 polish (rebalance, visual QA, docs, v2.0).
+- 2026-09-27: Phase 2 W5 DONE on `feature/web-polish`: 90-campaign re-probe (K 11/30, R 22/30, M 8/30 = M5 lock, no tuning needed); node --check + Edge headless DOM QA (select/map/battle render, 0 console errors, codex 3/12/90/20/5); docs refresh (README/CHANGELOG/DEVLOG/PLAN/QA/ARCHITECTURE/DESIGN). 109/109 green. Next: merge W5, tag v2.0, push.
 
 ## Toolchain (portable, outside repo — OneDrive-safe)
 - Root: `$env:TEMP\royan-tools` (local disk, survives sessions; re-download if missing).

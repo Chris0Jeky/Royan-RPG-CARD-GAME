@@ -1,5 +1,26 @@
 # DEVLOG — Milestone journal
 
+## W5 - Polish + v2.0 release (Sep 2026)
+- 90-campaign re-probe: K 11/30, R 22/30, M 8/30 (M5 lock bit-identical).
+- Edge headless QA: hero-select, map, battle screens render with zero JS errors.
+- Docs refresh; merged to main; tagged v2.0. 109/109 green.
+
+## W4 - RPG depth (Sep 2026)
+- Hero backstories (heroes.json), companion banter, 2 gated event chains (28 events).
+- Run chronicle/saga tab, bestiary + deck codex API + overlay.
+
+## W3 - Feel pass (Sep 2026)
+- 34 game-icons portraits (CC-BY), damage numbers, hit flashes, screen shake.
+- Synthesized WebAudio SFX + ambient music, turn banners, aspect card frames.
+
+## W2 - Full run in browser (Sep 2026)
+- Campaign run machine (map/draft/shop/tavern/event/boons/save), 15+ endpoints.
+- All campaign screens in the browser; quick-skirmish mode kept.
+
+## W1 - Web foundation (Sep 2026)
+- Embedded JDK HttpServer + Jackson, zero new deps; `serve` mode.
+- Browser combat screen (hero select, click-to-play, intents, log); CLI untouched.
+
 ## M7/M8 — Backdated history + release (Sep 2026)
 - 3504-commit replay (Jul-2024 to Sep-2026, 29.95/wk, 3.99d/wk), tags v0.0..v1.0
   on exact milestone trees, ff-merged to main. Frozen source: dev@b38f1e8.
