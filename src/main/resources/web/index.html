@@ -20,6 +20,7 @@
     <span class="seed-chip" id="seed-chip" hidden></span>
     <button id="btn-codex" class="btn ghost" type="button">Codex</button>
     <button id="btn-mute" class="btn ghost" type="button">Sound: on</button>
+    <button id="btn-settings" class="btn ghost" type="button">Settings</button>
     <button id="btn-new" class="btn ghost" type="button">New battle</button>
   </div>
 </header>
@@ -67,6 +68,12 @@
     <div class="continue-row" id="continue-row" hidden>
       <button id="btn-continue" class="btn brass" type="button">Continue suspended campaign</button>
     </div>
+    <div class="save-error" id="save-error" hidden></div>
+    <div class="select-links">
+      <button id="btn-howto" class="btn ghost" type="button">How to play</button>
+      <button id="btn-codex2" class="btn ghost" type="button">Codex</button>
+      <button id="btn-settings2" class="btn ghost" type="button">Settings</button>
+    </div>
   </div>
 </div>
 
@@ -94,6 +101,7 @@
       <button class="modebtn" type="button" data-ctab="cards">Cards</button>
       <button class="modebtn" type="button" data-ctab="relics">Relics</button>
       <button class="modebtn" type="button" data-ctab="allies">Allies</button>
+      <button class="modebtn" type="button" data-ctab="guide">Guide</button>
     </div>
     <div class="codex-filter" id="codex-filter" hidden>
       <label>Class
@@ -110,8 +118,47 @@
   </div>
 </div>
 
+<div class="overlay" id="tutorial-screen" hidden>
+  <div class="panel tutorial-panel">
+    <div class="panel-eyebrow">The Guild briefing</div>
+    <h1>How to play</h1>
+    <div class="howto">
+      <ol>
+        <li><strong>Sail three acts</strong> and kill each act boss &mdash; the Sky-Tyrant Vex waits at the end. Death ends the run.</li>
+        <li><strong>Each turn</strong> you gain 3 energy and draw 4 cards. Click a card, then a foe if it asks. End your turn when spent.</li>
+        <li><strong>Read intents.</strong> ATK shows incoming damage; DEFEND, EMPOWER and HEX telegraph the rest.</li>
+        <li><strong>Play the triangle:</strong> Might beats Guile beats Focus beats Might (x1.5 / x0.75). Mind the front row &mdash; it shields the back.</li>
+        <li><strong>Chart your course</strong> across fights, elites, rest stops, shops, taverns and events. Draft 1 of 3 cards after victories, 1 of 3 boons each level.</li>
+        <li><strong>Spend wisely:</strong> gold for shops and taverns, dust to strike basics from your deck, shards for relic trades.</li>
+      </ol>
+    </div>
+    <label class="dontshow"><input type="checkbox" id="tutorial-hide"> Don't show this again</label>
+    <div class="end-actions">
+      <button id="btn-tutorial-close" class="btn brass" type="button">To the skies</button>
+    </div>
+  </div>
+</div>
+
+<div class="overlay" id="settings-screen" hidden>
+  <div class="panel settings-panel">
+    <div class="codex-head">
+      <h1>Settings</h1>
+      <button id="btn-settings-close" class="btn ghost" type="button">Close</button>
+    </div>
+    <div class="setrow"><label for="set-volume">Volume</label>
+      <input type="range" id="set-volume" min="0" max="100" step="5" value="90"></div>
+    <div class="setrow"><label for="set-mute">Mute all sound</label>
+      <input type="checkbox" id="set-mute"></div>
+    <div class="setrow"><label for="set-music">Music</label>
+      <input type="checkbox" id="set-music" checked></div>
+    <div class="setrow"><label for="set-motion">Reduce motion</label>
+      <input type="checkbox" id="set-motion"></div>
+    <p class="setnote">Settings are kept in this browser only. Sound starts after your first click or keypress.</p>
+  </div>
+</div>
+
 <div class="toast" id="toast" hidden></div>
-<footer class="foot">Royan &middot; a Guild Captain's tale &middot; icons <a href="https://game-icons.net">game-icons.net</a> (CC BY 3.0)</footer>
+<footer class="foot">Royan &middot; a Guild Captain's tale &middot; icons by game-icons.net (CC BY 3.0)</footer>
 
 <script src="/audio.js"></script>
 <script src="/app.js"></script>

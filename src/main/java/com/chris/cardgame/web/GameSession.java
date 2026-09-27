@@ -97,7 +97,27 @@ public class GameSession {
     public synchronized Map<String, Object> continueRun() {
         this.battle = null;
         this.log.clear();
-        this.run = WebRun.resume(saveFile);
+        if (!Files.exists(saveFile)) {
+            // No save at all: preserve the long-standing contract and let
+            // WebRun throw IllegalStateException ("No saved campaign"),
+            // which WebServer surfaces as an HTTP 400 error DTO.
+            this.run = WebRun.resume(saveFile);
+            return snapshot();
+        }
+        try {
+            this.run = WebRun.resume(saveFile);
+        } catch (RuntimeException e) {
+            // Unreadable save (truncated JSON, bad version, unknown
+            // content): stay on the select screen with a human message and
+            // a start-fresh path. Never leak a stack trace to the browser.
+            this.run = null;
+            Map<String, Object> select = snapshot();
+            select.put("hasSave", false);
+            select.put("error", "The Guild's charts are water-damaged and could not be read. "
+                    + "Choose a captain below to start a fresh voyage.");
+            select.put("canStartFresh", true);
+            return select;
+        }
         return snapshot();
     }
 
