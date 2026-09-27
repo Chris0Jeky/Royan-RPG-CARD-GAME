@@ -69,8 +69,25 @@ function toast(message) {
   if (window.RoyanAudio) RoyanAudio.play("error");
 }
 
+const MOTION_KEY = "royan-reduce-motion";
+
+function storedMotion() {
+  try {
+    return localStorage.getItem(MOTION_KEY);
+  } catch (e) {
+    return null;
+  }
+}
+
 function reducedMotion() {
+  const stored = storedMotion();
+  if (stored === "1") return true;
+  if (stored === "0") return false;
   return window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+}
+
+function applyMotionClass() {
+  document.body.classList.toggle("reduce-motion", reducedMotion());
 }
 
 function hpClass(hp, maxHp) {
@@ -928,6 +945,41 @@ function unlockAudio() {
   if (window.RoyanAudio) RoyanAudio.unlock();
 }
 
+/* ---------- settings ---------- */
+
+function openSettings() {
+  syncSettingsPanel();
+  el("settings-screen").hidden = false;
+}
+
+function closeSettings() {
+  el("settings-screen").hidden = true;
+}
+
+function syncSettingsPanel() {
+  const A = window.RoyanAudio;
+  el("set-volume").value = A ? Math.round(A.getVolume() * 100) : 90;
+  el("set-mute").checked = A ? A.isMuted() : false;
+  el("set-music").checked = A ? A.isMusicEnabled() : true;
+  el("set-motion").checked = reducedMotion();
+}
+
+function applySettings() {
+  const A = window.RoyanAudio;
+  if (A) {
+    A.setVolume(el("set-volume").value / 100);
+    A.setMuted(el("set-mute").checked);
+    A.setMusicEnabled(el("set-music").checked);
+  }
+  try {
+    localStorage.setItem(MOTION_KEY, el("set-motion").checked ? "1" : "0");
+  } catch (e) {
+    /* private mode: motion still applies for the session */
+  }
+  applyMotionClass();
+  syncMute();
+}
+
 /* ---------- wiring ---------- */
 
 el("hand").addEventListener("click", (e) => {
@@ -967,6 +1019,11 @@ el("btn-mute").addEventListener("click", () => {
   RoyanAudio.setMuted(!RoyanAudio.isMuted());
   syncMute();
 });
+el("btn-settings").addEventListener("click", openSettings);
+el("btn-settings2").addEventListener("click", openSettings);
+el("btn-settings-close").addEventListener("click", closeSettings);
+el("settings-screen").addEventListener("change", applySettings);
+el("settings-screen").addEventListener("input", applySettings);
 el("btn-codex").addEventListener("click", openCodex);
 el("btn-codex2").addEventListener("click", openCodex);
 el("btn-howto").addEventListener("click", openTutorial);
@@ -996,6 +1053,10 @@ document.addEventListener("keydown", (e) => {
   if (e.key === "Escape") {
     if (!el("tutorial-screen").hidden) {
       closeTutorial();
+      return;
+    }
+    if (!el("settings-screen").hidden) {
+      closeSettings();
       return;
     }
     if (!el("codex-screen").hidden) {
@@ -1035,6 +1096,7 @@ document.addEventListener("keydown", (e) => {
 document.addEventListener("pointerdown", unlockAudio);
 
 syncMute();
+applyMotionClass();
 maybeShowTutorial();
 fetch("/api/state").then((r) => r.json()).then(render).catch((e) => {
   selectScreen.hidden = false;

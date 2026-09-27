@@ -11,14 +11,27 @@
   }
 })(typeof self !== "undefined" ? self : this, function () {
   const MUTE_KEY = "royan-muted";
+  const VOLUME_KEY = "royan-volume";
+  const MUSIC_KEY = "royan-music";
+  const MUSIC_BUS_GAIN = 0.14;
   const store = typeof localStorage !== "undefined" ? localStorage : null;
   let ctx = null;
   let master = null;
   let musicBus = null;
   let muted = false;
   let musicOn = false;
+  let dronesStarted = false;
+  let volume = 0.9;
+  let musicEnabled = true;
   try {
     muted = store !== null && store.getItem(MUTE_KEY) === "1";
+    if (store !== null && store.getItem(VOLUME_KEY) !== null) {
+      volume = Math.min(1, Math.max(0, Number(store.getItem(VOLUME_KEY))));
+      if (!Number.isFinite(volume)) volume = 0.9;
+    }
+    if (store !== null && store.getItem(MUSIC_KEY) !== null) {
+      musicEnabled = store.getItem(MUSIC_KEY) !== "0";
+    }
   } catch (e) {
     muted = false;
   }
@@ -33,10 +46,10 @@
     if (!AC) return false;
     ctx = new AC();
     master = ctx.createGain();
-    master.gain.value = muted ? 0 : 0.9;
+    master.gain.value = muted ? 0 : volume;
     master.connect(ctx.destination);
     musicBus = ctx.createGain();
-    musicBus.gain.value = 0.14;
+    musicBus.gain.value = musicEnabled ? MUSIC_BUS_GAIN : 0;
     const delay = ctx.createDelay(1);
     delay.delayTime.value = 0.42;
     const feedback = ctx.createGain();
@@ -126,6 +139,12 @@
   function startMusic() {
     if (musicOn || !ensure()) return;
     musicOn = true;
+    if (musicBus) musicBus.gain.value = MUSIC_BUS_GAIN;
+    if (dronesStarted) {
+      pluck();
+      return;
+    }
+    dronesStarted = true;
     const t = ctx.currentTime;
     [55, 82.41].forEach((freq) => {
       const osc = ctx.createOscillator();
@@ -194,7 +213,11 @@
   }
 
   function unlock() {
-    if (ensure()) startMusic();
+    if (ensure() && musicEnabled) startMusic();
+  }
+
+  function applyVolume() {
+    if (ctx && master) master.gain.value = muted ? 0 : volume;
   }
 
   function setMuted(value) {
@@ -204,12 +227,54 @@
     } catch (e) {
       /* private mode: sound still toggles for the session */
     }
-    if (ctx && master) master.gain.value = muted ? 0 : 0.9;
+    applyVolume();
   }
 
   function isMuted() {
     return muted;
   }
 
-  return { play, unlock, setMuted, isMuted };
+  function setVolume(value) {
+    volume = Math.min(1, Math.max(0, Number(value)));
+    if (!Number.isFinite(volume)) volume = 0.9;
+    try {
+      if (store) store.setItem(VOLUME_KEY, String(volume));
+    } catch (e) {
+      /* private mode: volume still applies for the session */
+    }
+    applyVolume();
+  }
+
+  function getVolume() {
+    return volume;
+  }
+
+  function stopMusic() {
+    musicOn = false;
+    if (musicTimer) {
+      clearTimeout(musicTimer);
+      musicTimer = null;
+    }
+    if (musicBus) musicBus.gain.value = 0;
+  }
+
+  function setMusicEnabled(value) {
+    musicEnabled = !!value;
+    try {
+      if (store) store.setItem(MUSIC_KEY, musicEnabled ? "1" : "0");
+    } catch (e) {
+      /* private mode: music still toggles for the session */
+    }
+    if (musicEnabled) {
+      if (ctx && !musicOn) startMusic();
+    } else {
+      stopMusic();
+    }
+  }
+
+  function isMusicEnabled() {
+    return musicEnabled;
+  }
+
+  return { play, unlock, setMuted, isMuted, setVolume, getVolume, setMusicEnabled, isMusicEnabled };
 });
