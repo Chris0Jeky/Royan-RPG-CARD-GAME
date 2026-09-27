@@ -5,6 +5,8 @@
   (hero select, click-to-play cards, intents, combat log); CLI unchanged.
 - Web UI (W2): full campaign in browser — act map, loot drafts, shop, tavern,
   events, level boons, suspend/continue; quick-skirmish mode kept.
+- Web UI (W3): feel pass — 34 game-icons portraits (CC-BY), damage numbers,
+  hit flashes, screen shake, turn banners, synthesized SFX + ambient music.
 
 ## Unreleased (history)
 - History tooling: `replay.py` (frozen-source micro-commit replay), `verify.py`

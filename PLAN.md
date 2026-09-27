@@ -33,7 +33,7 @@ JS/CSS, inline SVG, WebAudio). CLI stays fully working.
 |---|-----------|--------|
 | W1 | Web foundation: `serve` mode, combat JSON API, playable browser combat screen (hero select → battle → play/end → victory), WebServerTest headless | done (96/96 green, serve smoke OK, auto K42 unchanged; merged to main) |
 | W2 | Full run in browser: map, drafts, shop/tavern/event, level boons, save/resume | done (101/101 green, serve smoke OK; merged to main) |
-| W3 | Feel pass: animations, damage numbers, screen shake (reduced-motion safe), WebAudio SFX + music, card/enemy art | in progress (`feature/web-feel`) |
+| W3 | Feel pass: animations, damage numbers, screen shake (reduced-motion safe), WebAudio SFX + music, card/enemy art | done (103/103 green, art/audio smoke OK; merged to main) |
 | W4 | RPG depth: hero stories, companion banter, event chains, run chronicle, bestiary/deck codex | pending |
 | W5 | Polish + rebalance for the new UX, visual QA suite, docs refresh, release v2.0 | pending |
 

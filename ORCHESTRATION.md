@@ -23,6 +23,8 @@
 
 - 2026-09-27: Phase 2 W2 DONE on `feature/web-run-flow`: campaign run machine (WebRun: map/battle/levelup/draft/shop/tavern/event + suspend/continue, 15 endpoints) + browser campaign screens (map/boons/drafts/shop/tavern/event/war-band/runbar) + 5 headless run tests (full run, shop-tx, save round-trip). 101/101 green, live serve smoke OK (new-run/map/battle). Next: merge W2, then W3 feel pass (animations/audio/art).
 
+- 2026-09-27: Phase 2 W3 DONE on `feature/web-feel`: 34 game-icons portraits (CC-BY, /art serving + test), audio.js SFX + generative music + mute, damage numbers/block pops, hit flashes, death fades, screen shake, turn banners, aspect card frames, node/currency/war-band glyphs. 103/103 green, live smoke OK. Next: merge W3, then W4 RPG depth (stories/banter/chronicle/codex).
+
 ## Toolchain (portable, outside repo — OneDrive-safe)
 - Root: `$env:TEMP\royan-tools` (local disk, survives sessions; re-download if missing).
 - `jdk17/` from `https://api.adoptium.net/v3/binary/latest/17/ga/windows/x64/jdk/hotspot/normal/eclipse`
