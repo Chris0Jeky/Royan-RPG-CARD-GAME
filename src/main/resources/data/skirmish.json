@@ -1,0 +1,9 @@
+{
+  "tiers": [
+    {"tier": 1, "name": "Dockside Scuffle", "pools": [["rat"], ["rat", "imp"], ["cutthroat"], ["imp", "imp"], ["pirate"]]},
+    {"tier": 2, "name": "Sky-Lane Ambush", "pools": [["pirate", "imp"], ["marauder"], ["duelist"], ["cutthroat", "cutthroat"], ["golem"]]},
+    {"tier": 3, "name": "Storm Gauntlet", "pools": [["golem", "imp"], ["marauder", "cutthroat"], ["herald", "imp"], ["assassin", "duelist"]]},
+    {"tier": 4, "name": "Captain's Trial", "pools": [["herald", "herald", "imp"], ["golem", "assassin"], ["marauder", "marauder", "imp"]]},
+    {"tier": 5, "name": "Tyrant's Vanguard", "pools": [["assassin", "herald", "golem"], ["golem", "marauder", "cutthroat"], ["herald", "duelist", "marauder"]]}
+  ]
+}

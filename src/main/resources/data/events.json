@@ -85,6 +85,18 @@
       {"id": "burn", "text": "Burn it.", "effects": {"damage": 4, "strength": 1}}]},
     {"id": "tollkeepers-price", "title": "The Tollkeeper's Price", "text": "Someone in the ledger wants it back. Someone with a fleet.", "requiresSeen": "tollkeepers-ledger", "choices": [
       {"id": "sell", "text": "Sell it back.", "effects": {"gold": 100}},
-      {"id": "keep", "text": "Keep it.", "requires": {"shards": 1}, "effects": {"relic": true}}]}
+      {"id": "keep", "text": "Keep it.", "requires": {"shards": 1}, "effects": {"relic": true}}]},
+    {"id": "ledger-heir", "title": "The Ledger's Heir", "text": "A dock-rat kid with the tollkeeper's underbite waves a torn ledger page. 'This one has my name on it.'", "requiresSeen": "tollkeepers-price", "choices": [
+      {"id": "honor", "text": "Honor the claim.", "requires": {"gold": 60}, "effects": {"draft": true, "maxHp": 4}},
+      {"id": "refuse", "text": "Send the kid packing.", "effects": {"gold": 30}}]},
+    {"id": "ledger-settled", "title": "Debts, Settled", "text": "The troll lumbers out of the fog with a crossed-out page and, impossibly, a smile.", "requiresSeen": "ledger-heir", "choices": [
+      {"id": "witness", "text": "Witness the crossing-out.", "effects": {"maxHp": 5, "heal": 15}},
+      {"id": "celebrate", "text": "Buy the house a round.", "requires": {"gold": 50}, "effects": {"relic": true}}]},
+    {"id": "kid-captain", "title": "The Kid Makes Captain", "text": "A familiar skiff with unfamiliar guns. The biscuit thief, all grown up, offers a partnership.", "requiresSeen": "stowaway-farewell", "choices": [
+      {"id": "partner", "text": "Go in together.", "requires": {"hp": 15}, "effects": {"damage": 8, "gold": 100, "dust": 30}},
+      {"id": "gift", "text": "Press a purse on them.", "requires": {"gold": 50}, "effects": {"companion": true}}]},
+    {"id": "kid-flag", "title": "Flying the Kid's Colors", "text": "Two skiffs, one flag, and a toll fleet that suddenly wants to be elsewhere.", "requiresSeen": "kid-captain", "choices": [
+      {"id": "formation", "text": "Sail in formation.", "effects": {"shards": 1, "maxHp": 4, "heal": 10}},
+      {"id": "raid", "text": "Hit the toll fleet together.", "requires": {"hp": 25}, "effects": {"damage": 12, "gold": 110, "dust": 40}}]}
   ]
 }
