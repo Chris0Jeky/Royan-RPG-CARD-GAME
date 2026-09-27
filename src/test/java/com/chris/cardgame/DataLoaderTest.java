@@ -7,6 +7,7 @@ import java.util.List;
 
 import com.chris.cardgame.data.CardLoader;
 import com.chris.cardgame.data.EnemyLoader;
+import com.chris.cardgame.data.HeroLoader;
 import com.chris.cardgame.model.CardDef;
 import com.chris.cardgame.model.HeroClass;
 import org.junit.jupiter.api.Test;
@@ -59,6 +60,21 @@ class DataLoaderTest {
                 .isInstanceOf(IllegalArgumentException.class);
         assertThatThrownBy(() -> cards.starterDeck(HeroClass.NEUTRAL))
                 .isInstanceOf(IllegalArgumentException.class);
+    }
+
+    @Test
+    void heroesLoadWithStories() {
+        HeroLoader heroes = HeroLoader.load();
+
+        assertThat(heroes.all()).hasSize(3);
+        assertThat(heroes.all()).allSatisfy(hero -> {
+            assertThat(hero.title()).isNotBlank();
+            assertThat(hero.origin()).isNotBlank();
+            assertThat(hero.motive()).isNotBlank();
+            assertThat(hero.triumph()).isNotBlank();
+            assertThat(hero.epitaph()).isNotBlank();
+        });
+        assertThat(heroes.get(HeroClass.KNIGHT).id()).isEqualTo("KNIGHT");
     }
 
     @Test

@@ -101,6 +101,13 @@ class CompanionTest {
     }
 
     @Test
+    void everyCompanionHasBanter() {
+        assertThat(companions.all()).hasSize(5);
+        assertThat(companions.all()).allSatisfy(companion ->
+                assertThat(companion.banter()).hasSize(4));
+    }
+
+    @Test
     void runCapsCompanionsAtTwo() {
         RunState state = new RunState("Captain", HeroClass.KNIGHT,
                 cards.starterDeck(HeroClass.KNIGHT), 21L);

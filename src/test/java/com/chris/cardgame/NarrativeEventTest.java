@@ -35,8 +35,8 @@ class NarrativeEventTest {
     }
 
     @Test
-    void twentyFourEventsLoadWithChoices() {
-        assertThat(events.all()).hasSize(24);
+    void twentyEightEventsLoadWithChoices() {
+        assertThat(events.all()).hasSize(28);
         assertThat(events.all()).allSatisfy(event -> {
             assertThat(event.title()).isNotBlank();
             assertThat(event.choices().size()).isGreaterThanOrEqualTo(2);
@@ -50,12 +50,28 @@ class NarrativeEventTest {
         Events engine = engine();
         RunState state = state(1L);
 
-        for (int i = 0; i < 24; i++) {
+        for (int i = 0; i < 28; i++) {
             engine.pick(state);
         }
-        assertThat(state.seenEvents()).hasSize(24);
+        assertThat(state.seenEvents()).hasSize(28);
         engine.pick(state);
         assertThat(state.seenEvents()).hasSize(1);
+    }
+
+    @Test
+    void chainedEventsUnlockAfterPrerequisite() {
+        Events engine = engine();
+        RunState fresh = state(9L);
+
+        assertThat(engine.pick(fresh).requiresSeen()).isNull();
+
+        RunState primed = state(9L);
+        events.all().stream()
+                .filter(event -> event.requiresSeen() == null)
+                .map(EventDef::id)
+                .forEach(id -> primed.seenEvents().add(id));
+        assertThat(engine.pick(primed).id())
+                .isIn("stowaway-returns", "tollkeepers-ledger");
     }
 
     @Test
@@ -84,7 +100,7 @@ class NarrativeEventTest {
                         new EventChoice("pass", "Decline.",
                                 new EventCost(0, 0, 0, 0),
                                 new EventEffect(0, 0, 0, 5, 0, 0, 0,
-                                        false, false, false, false, false))));
+                                        false, false, false, false, false))), null);
         RunState frail = state(3L);
         frail.hero().takeDamage(50);
 

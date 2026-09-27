@@ -46,10 +46,14 @@ public class Events {
     public EventDef pick(RunState state) {
         List<EventDef> fresh = events.all().stream()
                 .filter(event -> !state.seenEvents().contains(event.id()))
+                .filter(event -> event.requiresSeen() == null
+                        || state.seenEvents().contains(event.requiresSeen()))
                 .toList();
         if (fresh.isEmpty()) {
             state.seenEvents().clear();
-            fresh = events.all();
+            fresh = events.all().stream()
+                    .filter(event -> event.requiresSeen() == null)
+                    .toList();
         }
         EventDef picked = fresh.get(state.rng().nextInt(fresh.size()));
         state.seenEvents().add(picked.id());
