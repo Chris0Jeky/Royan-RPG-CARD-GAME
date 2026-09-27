@@ -4,6 +4,10 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
+import java.time.Clock;
+import java.time.Instant;
+import java.time.LocalDate;
+import java.time.ZoneOffset;
 import java.util.List;
 import java.util.SplittableRandom;
 
@@ -13,6 +17,7 @@ import com.chris.cardgame.data.EnemyLoader;
 import com.chris.cardgame.data.EventLoader;
 import com.chris.cardgame.data.RelicLoader;
 import com.chris.cardgame.model.EnemyDef;
+import com.chris.cardgame.run.DailySeed;
 import com.chris.cardgame.run.Skirmish;
 import com.chris.cardgame.model.EventDef;
 import com.chris.cardgame.model.HeroClass;
@@ -155,5 +160,35 @@ class ContentV3Test {
                 .isInstanceOf(IllegalArgumentException.class);
         assertThatThrownBy(() -> skirmish.encounterFor(6, enemies, new SplittableRandom(1L)))
                 .isInstanceOf(IllegalArgumentException.class);
+    }
+
+    @Test
+    void dailySeedPinsFixedDates() {
+        assertThat(DailySeed.seedFor(LocalDate.of(2026, 9, 27))).isEqualTo(-5824814536188220866L);
+        assertThat(DailySeed.seedFor(LocalDate.of(2026, 9, 28))).isEqualTo(-394180608085932570L);
+        assertThat(DailySeed.seedFor(LocalDate.of(2024, 1, 1))).isEqualTo(2261291354139676112L);
+    }
+
+    @Test
+    void dailySeedFollowsUtcDayBoundary() {
+        Instant justBefore = Instant.parse("2026-09-28T00:00:00Z").minusSeconds(1);
+        Instant midnight = Instant.parse("2026-09-28T00:00:00Z");
+        Instant justAfter = midnight.plusSeconds(1);
+
+        assertThat(DailySeed.seedFor(justBefore))
+                .isEqualTo(DailySeed.seedFor(LocalDate.of(2026, 9, 27)));
+        assertThat(DailySeed.seedFor(midnight))
+                .isEqualTo(DailySeed.seedFor(LocalDate.of(2026, 9, 28)));
+        assertThat(DailySeed.seedFor(justAfter))
+                .isEqualTo(DailySeed.seedFor(LocalDate.of(2026, 9, 28)));
+        assertThat(DailySeed.seedFor(midnight)).isNotEqualTo(DailySeed.seedFor(justBefore));
+    }
+
+    @Test
+    void dailySeedTodayUsesClock() {
+        Clock fixed = Clock.fixed(Instant.parse("2026-09-27T15:30:00Z"), ZoneOffset.UTC);
+
+        assertThat(DailySeed.today(fixed)).isEqualTo(DailySeed.seedFor(LocalDate.of(2026, 9, 27)));
+        assertThat(DailySeed.today(fixed)).isEqualTo(DailySeed.today(fixed));
     }
 }
