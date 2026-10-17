@@ -59,6 +59,7 @@ public class WebServer {
             .streamReadConstraints(StreamReadConstraints.builder().maxNestingDepth(32).build()).build())
             .enable(DeserializationFeature.FAIL_ON_TRAILING_TOKENS);
     private final Semaphore bodyReaders = new Semaphore(2);
+    private final ExecutorService bodyDrainer = Executors.newSingleThreadExecutor(daemonFactory());
     private final String token = UUID.randomUUID().toString();
     private long revision;
     private final Map<String, byte[]> staticFiles = Map.of(
@@ -129,6 +130,7 @@ public class WebServer {
     public void stop() {
         server.stop(0);
         pool.shutdownNow();
+        bodyDrainer.shutdownNow();
     }
 
     public int port() {
@@ -194,11 +196,13 @@ public class WebServer {
             send(exchange, 400, Map.of("error", "invalid JSON body"));
         } catch (IllegalArgumentException | IllegalStateException e) {
             send(exchange, 400, error(e));
+        } catch (IOException | RuntimeException e) {
+            exchange.close();
+            throw e;
         } finally {
             if (reading) {
                 bodyReaders.release();
             }
-            exchange.close();
         }
     }
 
@@ -229,7 +233,6 @@ public class WebServer {
     private void handleStatic(HttpExchange exchange) throws IOException {
         if (!validHost(exchange)) {
             send(exchange, 403, Map.of("error", "untrusted host"));
-            exchange.close();
             return;
         }
         if (!"GET".equalsIgnoreCase(exchange.getRequestMethod())) {
@@ -320,10 +323,7 @@ public class WebServer {
     }
 
     private void rejectUnread(HttpExchange exchange, int status) throws IOException {
-        // Closing an unread request can reset TCP; a bodyless response is complete at its headers.
-        exchange.getResponseHeaders().set("Connection", "close");
-        exchange.getResponseHeaders().set("Cache-Control", "no-store");
-        exchange.sendResponseHeaders(status, -1);
+        send(exchange, status, Map.of());
     }
 
     private void send(HttpExchange exchange, int status, Map<String, ?> body) throws IOException {
@@ -333,9 +333,47 @@ public class WebServer {
         if (status >= 400) {
             exchange.getResponseHeaders().set("Connection", "close");
         }
-        exchange.sendResponseHeaders(status, bytes.length);
-        try (OutputStream out = exchange.getResponseBody()) {
+        if ("HEAD".equalsIgnoreCase(exchange.getRequestMethod())) {
+            exchange.getResponseHeaders().set("Content-Length", Integer.toString(bytes.length));
+            bodyDrainer.execute(() -> {
+                try {
+                    // JDK HEAD headers close the exchange, so drain before sending them.
+                    drainRequest(exchange);
+                    exchange.sendResponseHeaders(status, -1);
+                } catch (IOException ignored) {
+                    // The client or the existing deadline may already have closed the connection.
+                } finally {
+                    exchange.close();
+                }
+            });
+            return;
+        }
+        try {
+            exchange.sendResponseHeaders(status, bytes.length);
+            OutputStream out = exchange.getResponseBody();
             out.write(bytes);
+            out.flush();
+        } finally {
+            if (status >= 400) {
+                // Keep request workers free while bounded drains wait on the JDK read deadline.
+                bodyDrainer.execute(() -> {
+                    try {
+                        drainRequest(exchange);
+                    } finally {
+                        exchange.close();
+                    }
+                });
+            } else {
+                exchange.close();
+            }
+        }
+    }
+
+    private void drainRequest(HttpExchange exchange) {
+        try {
+            exchange.getRequestBody().readNBytes(MAX_BODY + 64 * 1024);
+        } catch (IOException ignored) {
+            // The body was already closed, the client left, or the read deadline expired.
         }
     }
 

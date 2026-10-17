@@ -5,7 +5,6 @@ import static org.assertj.core.api.Assertions.assertThat;
 import java.net.URI;
 import java.net.Socket;
 import java.nio.charset.StandardCharsets;
-import java.io.IOException;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.nio.file.Files;
@@ -42,17 +41,12 @@ class ApiOriginTest extends LocalApiTestSupport {
         for (String action : new String[] {"new-run", "new-battle", "continue", "play", "end-turn",
                 "choose-node", "choose-boon", "choose-draft", "shop-buy", "shop-leave",
                 "tavern", "tavern-leave", "event-choose", "abandon"}) {
-            try {
-                HttpResponse<String> denied = send(HttpRequest.newBuilder(URI.create(base + "/api/" + action))
-                        .header("Origin", "http://127.0.0.1:1")
-                        .header("Sec-Fetch-Site", "cross-site")
-                        .header("Content-Type", "text/plain")
-                        .POST(HttpRequest.BodyPublishers.ofString("{\"heroClass\":\"KNIGHT\"}")));
-                assertThat(denied.statusCode()).as(action).isEqualTo(403);
-            } catch (IOException closed) {
-                // An unread hostile request may be reset when its connection is closed.
-                assertThat(closed).isNotInstanceOf(java.net.http.HttpTimeoutException.class);
-            }
+            HttpResponse<String> denied = send(HttpRequest.newBuilder(URI.create(base + "/api/" + action))
+                    .header("Origin", "http://127.0.0.1:1")
+                    .header("Sec-Fetch-Site", "cross-site")
+                    .header("Content-Type", "text/plain")
+                    .POST(HttpRequest.BodyPublishers.ofString("{\"heroClass\":\"KNIGHT\"}")));
+            assertThat(denied.statusCode()).as(action).isEqualTo(403);
             assertThat(snapshot()).isEqualTo(before);
             assertThat(Files.readAllBytes(temp.resolve("save.json"))).isEqualTo(saved);
         }

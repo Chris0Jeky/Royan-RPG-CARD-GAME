@@ -1,17 +1,81 @@
 package com.chris.cardgame.web;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import java.net.Socket;
 import java.net.SocketException;
+import java.net.SocketTimeoutException;
 import java.net.http.HttpRequest;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.regex.Pattern;
 
 import org.junit.jupiter.api.Test;
 
 class RequestBudgetTest extends LocalApiTestSupport {
+    @Test
+    void headRefusalsDrainBeforeSendingAutomaticallyClosingHeaders() throws Exception {
+        try (Socket socket = new Socket("127.0.0.1", server.port())) {
+            socket.setSoTimeout(200);
+            var out = socket.getOutputStream();
+            out.write(("HEAD /api/state HTTP/1.1\r\nHost: 127.0.0.1:" + server.port()
+                    + "\r\nContent-Length: 2\r\n\r\n").getBytes(StandardCharsets.US_ASCII));
+            out.flush();
+            var in = socket.getInputStream();
+            assertThatThrownBy(in::read).isInstanceOf(SocketTimeoutException.class);
+            out.write("{}".getBytes(StandardCharsets.US_ASCII));
+            out.flush();
+            socket.setSoTimeout(2000);
+            assertThat(new String(in.readAllBytes(), StandardCharsets.US_ASCII))
+                    .startsWith("HTTP/1.1 405")
+                    .containsIgnoringCase("\r\nConnection: close\r\n")
+                    .containsIgnoringCase("\r\nContent-length: ")
+                    .endsWith("\r\n\r\n");
+        }
+        assertThat(state().statusCode()).isEqualTo(200);
+    }
+
+    @Test
+    void refusalsDrainDelayedBodiesBeforeClosing() throws Exception {
+        String token = state().headers().firstValue("X-Royan-Token").orElseThrow();
+        var before = snapshot();
+        int drainBudget = 32 * 1024 + 64 * 1024;
+        for (int length : new int[] {16 * 1024, 32 * 1024 + 1, drainBudget}) {
+            int status = length > 32 * 1024 ? 413 : 403;
+            try (Socket socket = new Socket("127.0.0.1", server.port())) {
+                socket.setSoTimeout(2000);
+                var out = socket.getOutputStream();
+                out.write(("POST /api/new-run HTTP/1.1\r\nHost: 127.0.0.1:" + server.port()
+                        + "\r\nX-Royan-Client: local\r\nX-Royan-Token: " + (status == 413 ? token : "wrong")
+                        + "\r\nContent-Type: application/json\r\nContent-Length: " + length + "\r\n\r\nx")
+                        .getBytes(StandardCharsets.US_ASCII));
+                out.flush();
+                var in = socket.getInputStream();
+                StringBuilder headers = new StringBuilder();
+                while (!headers.toString().endsWith("\r\n\r\n")) {
+                    int next = in.read();
+                    assertThat(next).isNotNegative();
+                    headers.append((char) next);
+                }
+                assertThat(headers.toString()).startsWith("HTTP/1.1 " + status)
+                        .containsIgnoringCase("\r\nConnection: close\r\n");
+                var contentLength = Pattern.compile("(?i)\r\nContent-length: ([0-9]+)\r\n").matcher(headers);
+                assertThat(contentLength.find()).isTrue();
+                int responseLength = Integer.parseInt(contentLength.group(1));
+                assertThat(in.readNBytes(responseLength)).hasSize(responseLength);
+                socket.setSoTimeout(200);
+                assertThatThrownBy(in::read).isInstanceOf(SocketTimeoutException.class);
+                out.write("x".repeat(length - 1).getBytes(StandardCharsets.US_ASCII));
+                out.flush();
+                socket.setSoTimeout(2000);
+                assertThat(in.read()).isEqualTo(-1);
+            }
+            assertThat(snapshot()).isEqualTo(before);
+        }
+    }
+
     @Test
     void bodiesAreBoundedAndStalledClientsLeaveReadCapacity() throws Exception {
         assertThat(post("/api/new-run", "{\"padding\":\"" + "x".repeat(32768) + "\"}").statusCode()).isEqualTo(413);
