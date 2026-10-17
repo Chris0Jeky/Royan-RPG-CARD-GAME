@@ -6,6 +6,8 @@ import java.io.OutputStream;
 import java.net.InetSocketAddress;
 import java.util.LinkedHashMap;
 import java.util.Map;
+import java.util.UUID;
+import java.util.concurrent.Semaphore;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ThreadFactory;
@@ -13,6 +15,10 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.DeserializationFeature;
+import com.fasterxml.jackson.core.StreamReadConstraints;
+import com.fasterxml.jackson.core.JsonFactory;
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpServer;
 
@@ -22,6 +28,19 @@ import com.sun.net.httpserver.HttpServer;
  * Zero new dependencies: JDK HttpServer + the Jackson already on board.
  */
 public class WebServer {
+    static {
+        // JDK HttpServer snapshots these limits when its first server is created.
+        System.setProperty("sun.net.httpserver.maxReqTime", "5");
+        System.setProperty("sun.net.httpserver.maxRspTime", "5");
+        System.setProperty("sun.net.httpserver.timerMillis", "1000");
+        System.setProperty("sun.net.httpserver.maxReqHeaders", "32");
+        System.setProperty("jdk.httpserver.maxConnections", "32");
+        System.setProperty("sun.net.httpserver.drainAmount", "0");
+    }
+
+    private static final int MAX_BODY = 32 * 1024;
+    /** Exchange attribute set once the request body was read to EOF, so the connection can be reused. */
+    private static final String BODY_DONE = "royan.bodyDone";
     private static final Map<String, String> CONTENT_TYPES = Map.of(
             ".html", "text/html; charset=utf-8",
             ".css", "text/css; charset=utf-8",
@@ -38,7 +57,13 @@ public class WebServer {
     private final HttpServer server;
     private final ExecutorService pool;
     private final GameSession session;
-    private final ObjectMapper json = new ObjectMapper();
+    private final ObjectMapper json = new ObjectMapper(JsonFactory.builder()
+            .streamReadConstraints(StreamReadConstraints.builder().maxNestingDepth(32).build()).build())
+            .enable(DeserializationFeature.FAIL_ON_TRAILING_TOKENS);
+    private final Semaphore bodyReaders = new Semaphore(2);
+    private final ExecutorService bodyDrainer = Executors.newSingleThreadExecutor(daemonFactory());
+    private final String token = UUID.randomUUID().toString();
+    private long revision;
     private final Map<String, byte[]> staticFiles = Map.of(
             "/", resource("/web/index.html"),
             "/index.html", resource("/web/index.html"),
@@ -107,6 +132,7 @@ public class WebServer {
     public void stop() {
         server.stop(0);
         pool.shutdownNow();
+        bodyDrainer.shutdownNow();
     }
 
     public int port() {
@@ -114,18 +140,103 @@ public class WebServer {
     }
 
     private void handleApi(HttpExchange exchange, String method, ApiCall call) throws IOException {
-        if (!method.equalsIgnoreCase(exchange.getRequestMethod())) {
-            send(exchange, 405, Map.of("error", "method not allowed"));
-            return;
-        }
+        boolean reading = false;
         try {
-            send(exchange, 200, call.call(readBody(exchange)));
+            if (!validHost(exchange)) {
+                send(exchange, 403, Map.of("error", "untrusted host"));
+                return;
+            }
+            if (!exchange.getHttpContext().getPath().equals(exchange.getRequestURI().getPath())) {
+                send(exchange, 404, Map.of("error", "not found"));
+                return;
+            }
+            if (!method.equalsIgnoreCase(exchange.getRequestMethod())) {
+                send(exchange, 405, Map.of("error", "method not allowed"));
+                return;
+            }
+            boolean trusted = trustedClient(exchange);
+            if (method.equals("POST")) {
+                if (!trusted || !token.equals(singleHeader(exchange, "X-Royan-Token"))) {
+                    send(exchange, 403, Map.of("error", "untrusted request"));
+                    return;
+                }
+                String type = singleHeader(exchange, "Content-Type");
+                if (type == null || !type.split(";", 2)[0].trim().equalsIgnoreCase("application/json")) {
+                    rejectUnread(exchange, 415);
+                    return;
+                }
+                reading = bodyReaders.tryAcquire();
+                if (!reading) {
+                    rejectUnread(exchange, 503);
+                    return;
+                }
+            }
+            JsonNode body = method.equals("POST") ? readBody(exchange) : emptyBody(exchange);
+            synchronized (session) {
+                if (trusted) {
+                    exchange.getResponseHeaders().set("X-Royan-Token", token);
+                    exchange.getResponseHeaders().set("X-Royan-Revision", Long.toString(revision));
+                }
+                String path = exchange.getRequestURI().getPath();
+                if ((path.equals("/api/new-run") || path.equals("/api/new-battle")
+                        || path.equals("/api/continue") || path.equals("/api/abandon"))
+                        && !Long.toString(revision).equals(singleHeader(exchange, "X-Royan-Revision"))) {
+                    send(exchange, 409, error(new IllegalStateException(
+                            "The voyage changed. Review it before replacing it.")));
+                    return;
+                }
+                Map<String, Object> result = call.call(body);
+                if (method.equals("POST")) {
+                    revision++;
+                    exchange.getResponseHeaders().set("X-Royan-Revision", Long.toString(revision));
+                }
+                send(exchange, 200, result);
+            }
+        } catch (RequestRejected e) {
+            rejectUnread(exchange, e.status);
+        } catch (JsonProcessingException e) {
+            send(exchange, 400, Map.of("error", "invalid JSON body"));
         } catch (IllegalArgumentException | IllegalStateException e) {
             send(exchange, 400, error(e));
+        } catch (IOException | RuntimeException e) {
+            exchange.close();
+            throw e;
+        } finally {
+            if (reading) {
+                bodyReaders.release();
+            }
         }
     }
 
+    private boolean validHost(HttpExchange exchange) {
+        String host = singleHeader(exchange, "Host");
+        return ("127.0.0.1:" + port()).equals(host) || ("localhost:" + port()).equals(host);
+    }
+
+    private boolean trustedClient(HttpExchange exchange) {
+        String origin = singleHeader(exchange, "Origin");
+        String site = singleHeader(exchange, "Sec-Fetch-Site");
+        if (exchange.getRequestHeaders().containsKey("Origin")
+                && !("http://" + singleHeader(exchange, "Host")).equals(origin)) {
+            return false;
+        }
+        if (exchange.getRequestHeaders().containsKey("Sec-Fetch-Site") && !"same-origin".equals(site)) {
+            return false;
+        }
+        return origin != null || "same-origin".equals(site)
+                || "local".equals(singleHeader(exchange, "X-Royan-Client"));
+    }
+
+    private static String singleHeader(HttpExchange exchange, String name) {
+        var values = exchange.getRequestHeaders().get(name);
+        return values != null && values.size() == 1 ? values.get(0) : null;
+    }
+
     private void handleStatic(HttpExchange exchange) throws IOException {
+        if (!validHost(exchange)) {
+            send(exchange, 403, Map.of("error", "untrusted host"));
+            return;
+        }
         if (!"GET".equalsIgnoreCase(exchange.getRequestMethod())) {
             send(exchange, 405, Map.of("error", "method not allowed"));
             return;
@@ -143,6 +254,10 @@ public class WebServer {
         if (file == null) {
             send(exchange, 404, Map.of("error", "not found: " + path));
             return;
+        }
+        emptyBody(exchange);
+        if (exchange.getAttribute(BODY_DONE) == null) {
+            exchange.getResponseHeaders().set("Connection", "close");
         }
         exchange.getResponseHeaders().set("Content-Type", type);
         exchange.getResponseHeaders().set("Cache-Control", "no-store");
@@ -179,22 +294,110 @@ public class WebServer {
     }
 
     private JsonNode readBody(HttpExchange exchange) throws IOException {
+        String length = singleHeader(exchange, "Content-Length");
+        if (length == null || !length.matches("[0-9]+")
+                || exchange.getRequestHeaders().containsKey("Transfer-Encoding")) {
+            throw new RequestRejected(411, "one Content-Length required; chunked bodies unsupported");
+        }
+        if (length.length() > 5 || Long.parseLong(length) > MAX_BODY) {
+            throw new RequestRejected(413, "request body exceeds 32 KiB");
+        }
         try (InputStream in = exchange.getRequestBody()) {
-            byte[] bytes = in.readAllBytes();
+            int expected = Integer.parseInt(length);
+            byte[] bytes = in.readNBytes(expected + 1);
+            if (bytes.length != expected) {
+                throw new RequestRejected(400, "incomplete request body");
+            }
+            exchange.setAttribute(BODY_DONE, Boolean.TRUE);
             if (bytes.length == 0) {
                 return json.createObjectNode();
             }
-            return json.readTree(bytes);
+            JsonNode body = json.readTree(bytes);
+            if (body == null || !body.isObject()) {
+                throw new RequestRejected(400, "JSON object required");
+            }
+            return body;
         }
+    }
+
+    /**
+     * Reads a body-less request to EOF. With drainAmount=0 the JDK server closes, without telling the
+     * client, any exchange whose request stream was never read to EOF, so a keep-alive client races
+     * its next request into that close. A request that does declare a body is left unread and the
+     * response says {@code Connection: close} instead.
+     */
+    private JsonNode emptyBody(HttpExchange exchange) throws IOException {
+        String length = singleHeader(exchange, "Content-Length");
+        if (!exchange.getRequestHeaders().containsKey("Transfer-Encoding")
+                && (length == null ? !exchange.getRequestHeaders().containsKey("Content-Length")
+                        : length.equals("0"))) {
+            exchange.getRequestBody().read();
+            exchange.setAttribute(BODY_DONE, Boolean.TRUE);
+        }
+        return json.createObjectNode();
+    }
+
+    private static class RequestRejected extends IOException {
+        final int status;
+
+        RequestRejected(int status, String message) {
+            super(message);
+            this.status = status;
+        }
+    }
+
+    private void rejectUnread(HttpExchange exchange, int status) throws IOException {
+        send(exchange, status, Map.of());
     }
 
     private void send(HttpExchange exchange, int status, Map<String, ?> body) throws IOException {
         byte[] bytes = json.writeValueAsBytes(body);
         exchange.getResponseHeaders().set("Content-Type", "application/json; charset=utf-8");
         exchange.getResponseHeaders().set("Cache-Control", "no-store");
-        exchange.sendResponseHeaders(status, bytes.length);
-        try (OutputStream out = exchange.getResponseBody()) {
+        if (status >= 400 || exchange.getAttribute(BODY_DONE) == null) {
+            exchange.getResponseHeaders().set("Connection", "close");
+        }
+        if ("HEAD".equalsIgnoreCase(exchange.getRequestMethod())) {
+            exchange.getResponseHeaders().set("Content-Length", Integer.toString(bytes.length));
+            bodyDrainer.execute(() -> {
+                try {
+                    // JDK HEAD headers close the exchange, so drain before sending them.
+                    drainRequest(exchange);
+                    exchange.sendResponseHeaders(status, -1);
+                } catch (IOException ignored) {
+                    // The client or the existing deadline may already have closed the connection.
+                } finally {
+                    exchange.close();
+                }
+            });
+            return;
+        }
+        try {
+            exchange.sendResponseHeaders(status, bytes.length);
+            OutputStream out = exchange.getResponseBody();
             out.write(bytes);
+            out.flush();
+        } finally {
+            if (status >= 400) {
+                // Keep request workers free while bounded drains wait on the JDK read deadline.
+                bodyDrainer.execute(() -> {
+                    try {
+                        drainRequest(exchange);
+                    } finally {
+                        exchange.close();
+                    }
+                });
+            } else {
+                exchange.close();
+            }
+        }
+    }
+
+    private void drainRequest(HttpExchange exchange) {
+        try {
+            exchange.getRequestBody().readNBytes(MAX_BODY + 64 * 1024);
+        } catch (IOException ignored) {
+            // The body was already closed, the client left, or the read deadline expired.
         }
     }
 

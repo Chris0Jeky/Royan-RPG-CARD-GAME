@@ -3,7 +3,6 @@ package com.chris.cardgame.web;
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
 import java.nio.charset.StandardCharsets;
-import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
@@ -135,7 +134,7 @@ public class WebRun {
     }
 
     public static WebRun resume(Path saveFile) {
-        if (!Files.exists(saveFile)) {
+        if (!SaveStore.exists(saveFile)) {
             throw new IllegalStateException("No saved campaign.");
         }
         WebRun run = new WebRun(saveFile);
@@ -195,10 +194,11 @@ public class WebRun {
         if (!options.contains(id)) {
             throw new IllegalArgumentException("That isle is off your course.");
         }
+        MapNode node = map.node(id);
+        // Persist before advancing: a failed save must leave the session on the same isle.
+        SaveStore.save(saveFile, state.toSave(id));
         arrival = null;
         nodeId = id;
-        MapNode node = map.node(id);
-        SaveStore.save(saveFile, state.toSave(nodeId));
         log("Sailing to " + id + " [" + node.type() + "].");
         switch (node.type()) {
             case COMBAT -> startBattle(encounters.combat(state.act(), state.rng()), false);
@@ -397,14 +397,14 @@ public class WebRun {
             }
             case "relic" -> {
                 if (state.shards() < Tavern.RELIC_COST_SHARDS
-                        || state.gold() < Tavern.RELIC_COST_GOLD
-                        || !state.spendShards(Tavern.RELIC_COST_SHARDS)
-                        || !state.spendGold(Tavern.RELIC_COST_GOLD)) {
+                        || state.gold() < Tavern.RELIC_COST_GOLD) {
                     throw new IllegalStateException("Need " + Tavern.RELIC_COST_GOLD + "g + "
                             + Tavern.RELIC_COST_SHARDS + " shard.");
                 }
                 relics.offer(ownedRelics(), true, state.rng()).ifPresentOrElse(
                         relic -> {
+                            state.spendShards(Tavern.RELIC_COST_SHARDS);
+                            state.spendGold(Tavern.RELIC_COST_GOLD);
                             state.addRelic(relic);
                             log("Traded for relic: " + relic.name() + ".");
                             chronicle("relic", "Traded for relic: " + relic.name() + ".");

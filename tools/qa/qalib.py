@@ -145,12 +145,17 @@ class Api:
 
     def __init__(self, base):
         self.base = base
+        self.token = None
+        self.revision = None
 
     def _read(self, req):
         try:
             with urllib.request.urlopen(req, timeout=15) as resp:
+                self.token = resp.headers.get("X-Royan-Token", self.token)
+                self.revision = resp.headers.get("X-Royan-Revision", self.revision)
                 return resp.status, json.loads(resp.read().decode("utf-8"))
         except urllib.error.HTTPError as err:
+            self.revision = err.headers.get("X-Royan-Revision", self.revision)
             try:
                 body = json.loads(err.read().decode("utf-8"))
             except Exception:
@@ -160,13 +165,17 @@ class Api:
             raise QAFail("HTTP request failed: %s" % err)
 
     def get(self, path):
-        return self._read(urllib.request.Request(self.base + path, method="GET"))
+        return self._read(urllib.request.Request(self.base + path, method="GET",
+                                                headers={"X-Royan-Client": "local"}))
 
     def post(self, path, body=None):
+        if self.token is None:
+            self.get("/api/state")
         data = json.dumps(body or {}).encode("utf-8")
         req = urllib.request.Request(
             self.base + path, data=data, method="POST",
-            headers={"Content-Type": "application/json"})
+            headers={"Content-Type": "application/json", "X-Royan-Client": "local",
+                     "X-Royan-Token": self.token or "", "X-Royan-Revision": self.revision or ""})
         return self._read(req)
 
 

@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.SplittableRandom;
+import java.util.random.RandomGenerator;
 
 import com.chris.cardgame.data.CardLoader;
 import com.chris.cardgame.model.CardDef;
@@ -23,7 +23,7 @@ public class LootGen {
     }
 
     public List<CardDef> cardOptions(HeroClass heroClass, List<CardDef> deck, boolean elite,
-            SplittableRandom rng) {
+            RandomGenerator rng) {
         Map<String, Integer> counts = new HashMap<>();
         deck.forEach(card -> counts.merge(card.id(), 1, Integer::sum));
         List<CardDef> pool = cards.all().stream()
@@ -41,15 +41,15 @@ public class LootGen {
         return options;
     }
 
-    public int goldReward(List<Integer> enemyGold, SplittableRandom rng) {
+    public int goldReward(List<Integer> enemyGold, RandomGenerator rng) {
         return enemyGold.stream().mapToInt(g -> g).sum();
     }
 
-    public int rollGold(int min, int max, SplittableRandom rng) {
+    public int rollGold(int min, int max, RandomGenerator rng) {
         return min + rng.nextInt(max - min + 1);
     }
 
-    private CardDef weightedPick(List<CardDef> pool, boolean elite, SplittableRandom rng) {
+    private CardDef weightedPick(List<CardDef> pool, boolean elite, RandomGenerator rng) {
         int total = pool.stream().mapToInt(card -> weight(card.rarity(), elite)).sum();
         int roll = rng.nextInt(total);
         for (CardDef card : pool) {

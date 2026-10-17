@@ -26,6 +26,15 @@ let banterTimer = null;
 let wbTab = "band";
 let codexCache = null;
 let codexTab = "heroes";
+let apiToken = "";
+let apiRevision = "";
+let apiReady;
+
+function rememberApiHeaders(res) {
+  apiToken = res.headers.get("X-Royan-Token") || apiToken;
+  apiRevision = res.headers.get("X-Royan-Revision") || apiRevision;
+  return res;
+}
 
 const NODE_ART = {
   COMBAT: "type-strike", ELITE: "type-power", BOSS: "crown", REST: "heart",
@@ -53,12 +62,14 @@ function art(name, cls) {
 }
 
 async function post(path, body) {
+  await apiReady;
   const res = await fetch(path, {
     method: "POST",
-    headers: { "Content-Type": "application/json" },
+    headers: { "Content-Type": "application/json", "X-Royan-Token": apiToken,
+      "X-Royan-Revision": apiRevision },
     body: JSON.stringify(body || {}),
   });
-  return res.json();
+  return rememberApiHeaders(res).json();
 }
 
 function toast(message) {
@@ -1122,7 +1133,7 @@ document.addEventListener("pointerdown", unlockAudio);
 syncMute();
 applyMotionClass();
 maybeShowTutorial();
-fetch("/api/state").then((r) => r.json()).then(render).catch((e) => {
+apiReady = fetch("/api/state").then(rememberApiHeaders).then((r) => r.json()).then(render).catch((e) => {
   selectScreen.hidden = false;
   toast("Could not reach the helm: " + e.message);
 });

@@ -8,7 +8,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
-import java.util.SplittableRandom;
+import java.util.random.RandomGenerator;
 import java.util.stream.Collectors;
 
 import com.chris.cardgame.model.Rarity;
@@ -49,7 +49,7 @@ public class RelicLoader {
         return List.copyOf(relics.values());
     }
 
-    public Optional<RelicDef> offer(Set<String> owned, boolean elite, SplittableRandom rng) {
+    public Optional<RelicDef> offer(Set<String> owned, boolean elite, RandomGenerator rng) {
         List<RelicDef> pool = relics.values().stream()
                 .filter(relic -> !owned.contains(relic.id()))
                 .toList();

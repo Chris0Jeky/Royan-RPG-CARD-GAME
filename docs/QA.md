@@ -21,6 +21,30 @@ mvn test          # must be green: 109 tests across 18 suites (W5)
 
 ## Web QA (after frontend changes)
 
+The local API accepts only `localhost:<bound-port>` and `127.0.0.1:<bound-port>`.
+Browser requests must be same-origin. Explicit local clients send
+`X-Royan-Client: local` on `GET /api/state`, read its `X-Royan-Token` and
+`X-Royan-Revision` response headers, then send both headers on JSON POSTs.
+Refresh the revision from every response. Replacements (`new-run`, `new-battle`,
+`continue`) and suspension (`abandon`) reject stale revisions with HTTP 409.
+POSTs require one Content-Length, at most 32 KiB, and a JSON object of depth at
+most 32; chunked requests are unsupported. `qalib.Api` handles the handshake.
+
+Focused regressions: `ApiOriginTest`, `RequestBudgetTest`,
+`SessionReplacementTest`, `SaveDurabilityTest`, `SaveInterruptionTest`,
+`RunRandomResumeTest`, and `TavernTradeTest`. The optional `BrowserOriginTest`
+launches a separate-origin hostile page when `-Droyan.test.browser` names a
+Chromium/Edge executable; it checks every mutating endpoint and the save bytes.
+It uses a disposable browser profile. It does not establish coverage of every
+browser's private-network policy.
+
+Save schema 2 retains the campaign random state. Schema 1 saves still load,
+but their missing random position cannot be reconstructed. Save replacement
+requires atomic moves; unsupported filesystems fail without truncating the old
+checkpoint. The previous verified checkpoint remains in `save.json.bak` for
+recovery. Files are forced before rename; directory syncing is best effort
+where the OS permits it, so this is not a universal power-loss guarantee.
+
 1. `node --check` on `src/main/resources/web/app.js` and `audio.js`.
 2. `WebServerTest` green (headless endpoint coverage).
 3. Live serve smoke: `serve` on a scratch port, drive state via the API
