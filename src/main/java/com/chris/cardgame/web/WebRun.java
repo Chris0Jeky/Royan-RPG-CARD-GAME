@@ -194,10 +194,11 @@ public class WebRun {
         if (!options.contains(id)) {
             throw new IllegalArgumentException("That isle is off your course.");
         }
+        MapNode node = map.node(id);
+        // Persist before advancing: a failed save must leave the session on the same isle.
+        SaveStore.save(saveFile, state.toSave(id));
         arrival = null;
         nodeId = id;
-        MapNode node = map.node(id);
-        SaveStore.save(saveFile, state.toSave(nodeId));
         log("Sailing to " + id + " [" + node.type() + "].");
         switch (node.type()) {
             case COMBAT -> startBattle(encounters.combat(state.act(), state.rng()), false);
