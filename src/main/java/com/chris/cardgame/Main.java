@@ -41,7 +41,7 @@ public class Main {
             }
             case "continue" -> {
                 Path save = SaveStore.defaultPath();
-                if (!java.nio.file.Files.exists(save)) {
+                if (!SaveStore.exists(save)) {
                     System.out.println("No saved campaign at " + save + ".");
                     break;
                 }

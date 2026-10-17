@@ -2,7 +2,7 @@ package com.chris.cardgame.loot;
 
 import java.util.List;
 import java.util.Map;
-import java.util.SplittableRandom;
+import java.util.random.RandomGenerator;
 
 import com.chris.cardgame.data.EnemyLoader;
 import com.chris.cardgame.model.EnemyDef;
@@ -32,11 +32,11 @@ public class EncounterGen {
         this.enemies = enemies;
     }
 
-    public List<EnemyDef> combat(int act, SplittableRandom rng) {
+    public List<EnemyDef> combat(int act, RandomGenerator rng) {
         return pick(COMBAT.get(act), rng);
     }
 
-    public List<EnemyDef> elite(int act, SplittableRandom rng) {
+    public List<EnemyDef> elite(int act, RandomGenerator rng) {
         return pick(ELITE.get(act), rng);
     }
 
@@ -48,7 +48,7 @@ public class EncounterGen {
         return ids.stream().map(enemies::get).toList();
     }
 
-    private List<EnemyDef> pick(List<List<String>> pool, SplittableRandom rng) {
+    private List<EnemyDef> pick(List<List<String>> pool, RandomGenerator rng) {
         if (pool == null || pool.isEmpty()) {
             throw new IllegalArgumentException("empty encounter pool");
         }

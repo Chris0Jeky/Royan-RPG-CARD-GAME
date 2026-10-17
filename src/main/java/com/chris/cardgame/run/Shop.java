@@ -3,7 +3,7 @@ package com.chris.cardgame.run;
 import java.io.PrintStream;
 import java.util.Comparator;
 import java.util.List;
-import java.util.SplittableRandom;
+import java.util.random.RandomGenerator;
 
 import com.chris.cardgame.data.CardLoader;
 import com.chris.cardgame.data.RelicLoader;
@@ -42,7 +42,7 @@ public class Shop {
     }
 
     public void visit(RunState state, PrintStream out) {
-        SplittableRandom rng = state.rng();
+        RandomGenerator rng = state.rng();
         List<CardDef> stock = loot.cardOptions(state.heroClass(), state.deck(), true, rng);
         out.println("  Shop stock: " + stock.stream()
                 .map(card -> card.name() + " (" + price(card) + "g)")

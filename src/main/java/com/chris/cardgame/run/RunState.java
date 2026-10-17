@@ -2,7 +2,6 @@ package com.chris.cardgame.run;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.SplittableRandom;
 
 import com.chris.cardgame.data.CardLoader;
 import com.chris.cardgame.data.CompanionLoader;
@@ -29,7 +28,7 @@ public class RunState {
     private final List<Companion> companions = new ArrayList<>();
     private final java.util.Set<String> seenEvents = new java.util.HashSet<>();
     private final List<RelicDef> relics = new ArrayList<>();
-    private final SplittableRandom rng;
+    private RunRandom rng;
     private final long seed;
     private int gold;
     private int dust;
@@ -43,7 +42,7 @@ public class RunState {
         this.heroClass = heroClass;
         this.deck = new ArrayList<>(starterDeck);
         this.seed = seed;
-        this.rng = new SplittableRandom(seed);
+        this.rng = new RunRandom(seed);
         this.gold = 50;
         this.xp = 0;
         this.level = 1;
@@ -62,7 +61,7 @@ public class RunState {
         return deck;
     }
 
-    public SplittableRandom rng() {
+    public RunRandom rng() {
         return rng;
     }
 
@@ -150,20 +149,27 @@ public class RunState {
     }
 
     public SaveData toSave(String nodeId) {
-        return new SaveData(1, seed, heroClass, act, nodeId,
+        return new SaveData(2, seed, heroClass, act, nodeId,
                 hero.hp(), hero.maxHp(), hero.strength(), hero.plating(),
                 hero.firstTurnEnergy(), hero.firstTurnDraw(),
                 deck.stream().map(CardDef::id).toList(),
                 relics.stream().map(RelicDef::id).toList(),
                 companions.stream().map(companion -> companion.def().id()).toList(),
                 companions.stream().map(Companion::hp).toList(),
-                gold, dust, shards, xp, level, java.util.Set.copyOf(seenEvents));
+                gold, dust, shards, xp, level, java.util.Set.copyOf(seenEvents), rng.state());
     }
 
     public static RunState fromSave(SaveData save, CardLoader cards, RelicLoader relics,
             CompanionLoader companions) {
         RunState state = new RunState("Captain Royan", save.heroClass(),
                 save.deck().stream().map(cards::get).toList(), save.seed());
+        // Version 1 never stored a position; keep its legacy seed-based continuation.
+        if (save.version() == 2) {
+            if (save.rngState() == null) {
+                throw new IllegalArgumentException("Missing campaign random state.");
+            }
+            state.rng = new RunRandom(save.rngState());
+        }
         state.setAct(save.act());
         state.hero().raiseMaxHp(save.heroMaxHp() - state.hero().maxHp());
         state.hero().takeDamage(state.hero().maxHp());

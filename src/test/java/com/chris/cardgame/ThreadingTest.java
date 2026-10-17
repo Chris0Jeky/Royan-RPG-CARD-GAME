@@ -62,7 +62,7 @@ class ThreadingTest {
         try {
             HttpClient client = HttpClient.newBuilder()
                     .connectTimeout(Duration.ofSeconds(5)).build();
-            HttpRequest request = HttpRequest.newBuilder()
+            HttpRequest request = authorized(client, server)
                     .uri(URI.create("http://127.0.0.1:" + server.port() + "/api/new-run"))
                     .header("Content-Type", "application/json")
                     .POST(HttpRequest.BodyPublishers.ofString(
@@ -122,7 +122,7 @@ class ThreadingTest {
         try {
             HttpClient client = HttpClient.newBuilder()
                     .connectTimeout(Duration.ofSeconds(5)).build();
-            HttpRequest request = HttpRequest.newBuilder()
+            HttpRequest request = authorized(client, server)
                     .uri(URI.create("http://127.0.0.1:" + server.port() + "/api/new-battle"))
                     .header("Content-Type", "application/json")
                     .POST(HttpRequest.BodyPublishers.ofString(
@@ -138,5 +138,13 @@ class ThreadingTest {
         } finally {
             server.stop();
         }
+    }
+    private HttpRequest.Builder authorized(HttpClient client, WebServer server) throws Exception {
+        HttpResponse<String> state = client.send(HttpRequest.newBuilder()
+                .uri(URI.create("http://127.0.0.1:" + server.port() + "/api/state"))
+                .header("X-Royan-Client", "local").GET().build(), HttpResponse.BodyHandlers.ofString());
+        return HttpRequest.newBuilder().header("X-Royan-Client", "local")
+                .header("X-Royan-Token", state.headers().firstValue("X-Royan-Token").orElseThrow())
+                .header("X-Royan-Revision", state.headers().firstValue("X-Royan-Revision").orElseThrow());
     }
 }

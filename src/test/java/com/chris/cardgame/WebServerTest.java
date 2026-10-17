@@ -483,9 +483,14 @@ class WebServerTest {
     }
 
     private HttpResponse<String> postRaw(String path, String json) throws Exception {
+        HttpResponse<String> state = HTTP.send(HttpRequest.newBuilder(URI.create(base + "/api/state"))
+                .header("X-Royan-Client", "local").GET().build(), HttpResponse.BodyHandlers.ofString());
         HttpRequest request = HttpRequest.newBuilder(URI.create(base + path))
                 .timeout(Duration.ofSeconds(5))
                 .header("Content-Type", "application/json")
+                .header("X-Royan-Client", "local")
+                .header("X-Royan-Token", state.headers().firstValue("X-Royan-Token").orElseThrow())
+                .header("X-Royan-Revision", state.headers().firstValue("X-Royan-Revision").orElseThrow())
                 .POST(HttpRequest.BodyPublishers.ofString(json)).build();
         return HTTP.send(request, HttpResponse.BodyHandlers.ofString());
     }

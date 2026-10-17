@@ -1,6 +1,5 @@
 package com.chris.cardgame.web;
 
-import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
@@ -73,35 +72,30 @@ public class GameSession {
     }
 
     public synchronized boolean hasSave() {
-        return Files.exists(saveFile);
+        return SaveStore.exists(saveFile);
     }
 
     public synchronized Map<String, Object> newBattle(String heroClassName, Long seedOrNull) {
-        HeroClass choice = parseHero(heroClassName);
-        this.heroClass = choice;
-        this.seed = seedOrNull != null ? seedOrNull : new Random().nextLong();
-        this.log.clear();
-        this.run = null;
-        Combatant hero = Combatant.hero(HERO_NAME, choice, choice.startingHp());
-        List<CardDef> deck = cards.starterDeck(choice);
         return newBattle(heroClassName, seedOrNull, null);
     }
 
     public synchronized Map<String, Object> newBattle(String heroClassName, Long seedOrNull, Integer tier) {
         HeroClass choice = parseHero(heroClassName);
-        this.heroClass = choice;
-        this.seed = seedOrNull != null ? seedOrNull : new Random().nextLong();
-        this.log.clear();
-        this.run = null;
-        this.dailyRun = false;
+        long seed = seedOrNull != null ? seedOrNull : new Random().nextLong();
         Combatant hero = Combatant.hero(HERO_NAME, choice, choice.startingHp());
         List<CardDef> deck = cards.starterDeck(choice);
         SplittableRandom foeRng = new SplittableRandom(seed);
         List<EnemyDef> foes = tier == null
                 ? encounters.combat(1, foeRng)
                 : skirmish.encounterFor(tier, this.foes, foeRng);
+        CombatState candidate = engine.newBattle(hero, List.of(), deck, foes, seed * 31 + 1);
+        this.heroClass = choice;
+        this.seed = seed;
+        this.log.clear();
+        this.run = null;
+        this.dailyRun = false;
         this.skirmishTier = tier;
-        this.battle = engine.newBattle(hero, List.of(), deck, foes, seed * 31 + 1);
+        this.battle = candidate;
         log.add(HERO_NAME + " (" + Snapshots.displayName(choice) + ") sails into a sky skirmish.");
         log.add("Foes block the way: " + foeNames(foes) + ".");
         drainEvents();
@@ -109,43 +103,34 @@ public class GameSession {
     }
 
     public synchronized Map<String, Object> newRun(String heroClassName, Long seedOrNull) {
-        this.battle = null;
-        this.log.clear();
         return newRun(heroClassName, seedOrNull, false);
     }
 
     public synchronized Map<String, Object> newRun(String heroClassName, Long seedOrNull, boolean daily) {
-        this.battle = null;
-        this.log.clear();
-        this.dailyRun = daily && seedOrNull == null;
-        this.skirmishTier = null;
         Long seed = seedOrNull;
         if (daily && seed == null) {
             seed = DailySeed.today();
         }
-        this.run = WebRun.start(heroClassName, seed, saveFile);
+        WebRun candidate = WebRun.start(heroClassName, seed, saveFile);
+        this.run = candidate;
+        this.battle = null;
+        this.log.clear();
+        this.dailyRun = daily && seedOrNull == null;
+        this.skirmishTier = null;
         return snapshot();
     }
 
     public synchronized Map<String, Object> continueRun() {
-        this.battle = null;
-        this.log.clear();
-        this.dailyRun = false;
-        this.skirmishTier = null;
-        if (!Files.exists(saveFile)) {
-            // No save at all: preserve the long-standing contract and let
-            // WebRun throw IllegalStateException ("No saved campaign"),
-            // which WebServer surfaces as an HTTP 400 error DTO.
-            this.run = WebRun.resume(saveFile);
-            return snapshot();
-        }
+        WebRun candidate;
         try {
-            this.run = WebRun.resume(saveFile);
+            candidate = WebRun.resume(saveFile);
         } catch (RuntimeException e) {
-            // Unreadable save (truncated JSON, bad version, unknown
-            // content): stay on the select screen with a human message and
-            // a start-fresh path. Never leak a stack trace to the browser.
-            this.run = null;
+            if (!hasSave()) {
+                throw e;
+            }
+            if (battle != null || run != null) {
+                throw new IllegalStateException("Could not continue the saved campaign.", e);
+            }
             Map<String, Object> select = snapshot();
             select.put("hasSave", false);
             select.put("error", "The Guild's charts are water-damaged and could not be read. "
@@ -153,6 +138,11 @@ public class GameSession {
             select.put("canStartFresh", true);
             return select;
         }
+        this.run = candidate;
+        this.battle = null;
+        this.log.clear();
+        this.dailyRun = false;
+        this.skirmishTier = null;
         return snapshot();
     }
 
