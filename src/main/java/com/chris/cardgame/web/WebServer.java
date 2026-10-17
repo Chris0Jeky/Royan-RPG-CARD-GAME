@@ -39,6 +39,8 @@ public class WebServer {
     }
 
     private static final int MAX_BODY = 32 * 1024;
+    /** Exchange attribute set once the request body was read to EOF, so the connection can be reused. */
+    private static final String BODY_DONE = "royan.bodyDone";
     private static final Map<String, String> CONTENT_TYPES = Map.of(
             ".html", "text/html; charset=utf-8",
             ".css", "text/css; charset=utf-8",
@@ -169,7 +171,7 @@ public class WebServer {
                     return;
                 }
             }
-            JsonNode body = method.equals("POST") ? readBody(exchange) : json.createObjectNode();
+            JsonNode body = method.equals("POST") ? readBody(exchange) : emptyBody(exchange);
             synchronized (session) {
                 if (trusted) {
                     exchange.getResponseHeaders().set("X-Royan-Token", token);
@@ -253,6 +255,10 @@ public class WebServer {
             send(exchange, 404, Map.of("error", "not found: " + path));
             return;
         }
+        emptyBody(exchange);
+        if (exchange.getAttribute(BODY_DONE) == null) {
+            exchange.getResponseHeaders().set("Connection", "close");
+        }
         exchange.getResponseHeaders().set("Content-Type", type);
         exchange.getResponseHeaders().set("Cache-Control", "no-store");
         exchange.sendResponseHeaders(200, file.length);
@@ -302,6 +308,7 @@ public class WebServer {
             if (bytes.length != expected) {
                 throw new RequestRejected(400, "incomplete request body");
             }
+            exchange.setAttribute(BODY_DONE, Boolean.TRUE);
             if (bytes.length == 0) {
                 return json.createObjectNode();
             }
@@ -311,6 +318,23 @@ public class WebServer {
             }
             return body;
         }
+    }
+
+    /**
+     * Reads a body-less request to EOF. With drainAmount=0 the JDK server closes, without telling the
+     * client, any exchange whose request stream was never read to EOF, so a keep-alive client races
+     * its next request into that close. A request that does declare a body is left unread and the
+     * response says {@code Connection: close} instead.
+     */
+    private JsonNode emptyBody(HttpExchange exchange) throws IOException {
+        String length = singleHeader(exchange, "Content-Length");
+        if (!exchange.getRequestHeaders().containsKey("Transfer-Encoding")
+                && (length == null ? !exchange.getRequestHeaders().containsKey("Content-Length")
+                        : length.equals("0"))) {
+            exchange.getRequestBody().read();
+            exchange.setAttribute(BODY_DONE, Boolean.TRUE);
+        }
+        return json.createObjectNode();
     }
 
     private static class RequestRejected extends IOException {
@@ -330,7 +354,7 @@ public class WebServer {
         byte[] bytes = json.writeValueAsBytes(body);
         exchange.getResponseHeaders().set("Content-Type", "application/json; charset=utf-8");
         exchange.getResponseHeaders().set("Cache-Control", "no-store");
-        if (status >= 400) {
+        if (status >= 400 || exchange.getAttribute(BODY_DONE) == null) {
             exchange.getResponseHeaders().set("Connection", "close");
         }
         if ("HEAD".equalsIgnoreCase(exchange.getRequestMethod())) {

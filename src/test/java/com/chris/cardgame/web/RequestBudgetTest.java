@@ -38,6 +38,40 @@ class RequestBudgetTest extends LocalApiTestSupport {
     }
 
     @Test
+    void bodylessRequestsKeepTheConnectionReusable() throws Exception {
+        // With drainAmount=0 the JDK server closes any exchange whose request stream was never read to
+        // EOF, without telling the client; a keep-alive client then races its next request into the close.
+        try (Socket socket = new Socket("127.0.0.1", server.port())) {
+            socket.setSoTimeout(2000);
+            var out = socket.getOutputStream();
+            var in = socket.getInputStream();
+            for (String path : new String[] {"/api/state", "/", "/api/state", "/art/none.svg", "/api/state"}) {
+                out.write(("GET " + path + " HTTP/1.1\r\nHost: 127.0.0.1:" + server.port()
+                        + "\r\nX-Royan-Client: local\r\n\r\n").getBytes(StandardCharsets.US_ASCII));
+                out.flush();
+                StringBuilder headers = new StringBuilder();
+                while (!headers.toString().endsWith("\r\n\r\n")) {
+                    int next = in.read();
+                    assertThat(next).as("connection closed before response to " + path).isNotNegative();
+                    headers.append((char) next);
+                }
+                var contentLength = Pattern.compile("(?i)\r\nContent-length: ([0-9]+)\r\n").matcher(headers);
+                assertThat(contentLength.find()).isTrue();
+                in.readNBytes(Integer.parseInt(contentLength.group(1)));
+                if (path.endsWith(".svg")) {
+                    // A refusal announces the close; the next loop pass is not expected to reuse it.
+                    assertThat(headers.toString()).startsWith("HTTP/1.1 404")
+                            .containsIgnoringCase("\r\nConnection: close\r\n");
+                    return;
+                }
+                assertThat(headers.toString()).startsWith("HTTP/1.1 200")
+                        .doesNotContainIgnoringCase("\r\nConnection: close\r\n");
+                Thread.sleep(100); // let a wrongly closing server finish closing
+            }
+        }
+    }
+
+    @Test
     void refusalsDrainDelayedBodiesBeforeClosing() throws Exception {
         String token = state().headers().firstValue("X-Royan-Token").orElseThrow();
         var before = snapshot();
